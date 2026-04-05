@@ -9,9 +9,6 @@
    Forest Green + Warm Cream | School Portal
    ============================================================ */
 
-/* ── Google Fonts ────────────────────────────────────────── */
-/* @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap'); */
-
 /* ── CSS Variables (Design Tokens) ──────────────────────── */
 @layer base {
   :root {
@@ -160,19 +157,12 @@
     --sidebar-border:  oklch(1 0 0 / 10%);
     --sidebar-ring:  oklch(0.556 0 0);
   }
-  .theme {
-    --font-heading:  var(--font-sans);
-    --font-sans:  var(--font-sans);
-  }
   * {
     /* @apply border-border outline-ring/50; */
     @apply border-surface-300 outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-sans;
   }
 }
 
@@ -181,10 +171,11 @@
   *, *::before, *::after {
     @apply border-surface-300;
     box-sizing: border-box;
+    font-family: var(--font-sanchez), cursive;
   }
 
   html {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--font-sanchez), cursive;
     font-size: 16px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -196,7 +187,7 @@
   body {
     color: var(--foreground);
     background: var(--background);
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--font-sanchez), cursive;
     min-height: 100dvh;
   }
 
@@ -227,7 +218,8 @@
 
   /* Hero / Page Title */
   .text-display {
-    font-family: 'Playfair Display', Georgia, serif;
+    /* font-family: 'Playfair Display', Georgia, serif; */
+      font-family: var(--font-sanchez), cursive;
     font-size: clamp(2.8rem, 7vw, 5.5rem);
     font-weight: 700;
     line-height: 1.0;
@@ -236,7 +228,6 @@
   }
 
   .text-h1 {
-    font-family: 'Playfair Display', Georgia, serif;
     font-size: clamp(2rem, 4vw, 3.5rem);
     font-weight: 600;
     line-height: 1.1;
@@ -245,7 +236,6 @@
   }
 
   .text-h2 {
-    font-family: 'Playfair Display', Georgia, serif;
     font-size: clamp(1.5rem, 3vw, 2.25rem);
     font-weight: 600;
     line-height: 1.2;
@@ -254,7 +244,6 @@
   }
 
   .text-h3 {
-    font-family: 'DM Sans', sans-serif;
     font-size: clamp(1.1rem, 2vw, 1.35rem);
     font-weight: 600;
     line-height: 1.3;
@@ -263,7 +252,6 @@
   }
 
   .text-body-lg {
-    font-family: 'DM Sans', sans-serif;
     font-size: 1.125rem;
     font-weight: 400;
     line-height: 1.8;
@@ -271,7 +259,6 @@
   }
 
   .text-body {
-    font-family: 'DM Sans', sans-serif;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.75;
@@ -279,14 +266,12 @@
   }
 
   .text-mono {
-    font-family: 'JetBrains Mono', monospace;
     font-size: 0.875rem;
     letter-spacing: 0.01em;
   }
 
   /* For roll numbers, IDs, codes */
   .text-label {
-    font-family: 'JetBrains Mono', monospace;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
@@ -296,7 +281,6 @@
 
   /* For formal school notices / certificates */
   .text-formal {
-    font-family: 'Lora', Georgia, serif;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.9;
@@ -371,7 +355,6 @@
 @layer components {
 
   .section-heading {
-    font-family: 'Playfair Display', serif;
     @apply text-3xl md:text-4xl lg:text-5xl font-bold text-center;
     color: var(--foreground);
     letter-spacing: -0.02em;
@@ -384,14 +367,12 @@
 
   /* Left-aligned variant */
   .section-heading-left {
-    font-family: 'Playfair Display', serif;
     @apply text-3xl md:text-4xl font-bold;
     color: var(--foreground);
     letter-spacing: -0.02em;
   }
 
   .heading {
-    font-family: 'Playfair Display', serif;
     @apply text-2xl md:text-4xl font-semibold;
     color: var(--foreground);
   }
@@ -551,7 +532,6 @@
     background: var(--color-surface-100);
     border-color: var(--color-border);
     color: var(--color-text-primary);
-    font-family: 'DM Sans', sans-serif;
   }
 
   .input-field:hover {
@@ -585,7 +565,6 @@
 
   .btn {
     @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer;
-    font-family: 'DM Sans', sans-serif;
     letter-spacing: 0.01em;
   }
 
@@ -812,7 +791,6 @@
 @layer components {
   .prose-school {
     @apply prose max-w-none;
-    font-family: 'Lora', Georgia, serif;
     --tw-prose-body:        var(--color-text-primary);
     --tw-prose-headings:    var(--color-primary-900);
     --tw-prose-links:       var(--color-primary-600);

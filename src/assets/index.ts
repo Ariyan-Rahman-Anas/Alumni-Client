@@ -1,7 +1,8 @@
 import Anas from "./../../public/Anas.png"
+import BAMHS from "./../../public/bamhs.png"
 
 
-
-export const images = {
+export const staticImages = {
     Anas,
+    bamhsBackground: BAMHS,
 }

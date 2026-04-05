@@ -3,42 +3,35 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StoreProvider from "@/providers/StoreProvider";
-import { Playfair_Display, Lora, JetBrains_Mono } from "next/font/google";
+import { Sanchez, Splash } from "next/font/google";
 import { cn } from "@/lib/utils";
 
 /* ── Fonts ─────────────────────────────────────────────────── */
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-display",
+const sanchez = Sanchez({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-sanchez",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["400"],
   style: ["normal", "italic"],
 });
 
-
-const lora = Lora({
+const splash = Splash({
   subsets: ["latin"],
-  variable: "--font-serif",
+  variable: "--font-splash",
   display: "swap",
-  weight: ["400", "500"],
-  style: ["normal", "italic"],
+  weight: ["400"],
+  style: ["normal"],
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-  weight: ["400", "500"],
-});
 
 /* ── Metadata ──────────────────────────────────────────────── */
 export const metadata: Metadata = {
   title: {
-    default: "BAMHS — Battali Abdul Matin High School",
+    default: "BAMHS — Battali Abdul Matin High School, Nangalkot, Cumilla, Chattogram, Bangladesh",
     template: "%s | BAMHS",
   },
   description:
-    "The Official Website of Battali Abdul Matin High School. Located in Battali Bajar, Nangalkot, Cumilla, Chattogram, Bangladesh.",
+    "The Official Website of Battali Abdul Matin High School's Alumni Association. Located in Battali Bajar, Nangalkot, Cumilla, Chattogram, Bangladesh.",
   keywords: [
     "BAMHS",
     "Battali Abdul Matin High School",
@@ -52,9 +45,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "BAMHS" }],
   openGraph: {
-    title: "BAMHS — Battali Abdul Matin High School",
+    title: "BAMHS — Battali Abdul Matin High School, Nangalkot, Cumilla, Chattogram, Bangladesh",
     description:
-      "The Official Website of Battali Abdul Matin High School, Bangladesh.",
+      "The Official Website of Battali Abdul Matin High School's Alumni Association. Located in Battali Bajar, Nangalkot, Cumilla, Chattogram, Bangladesh.",
     type: "website",
     locale: "en_US",
   },
@@ -67,7 +60,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(playfair.variable, lora.variable, jetbrainsMono.variable, "font-sans")}
+      className={cn(sanchez.variable, splash.variable,)}
     >
       <body
         className="
