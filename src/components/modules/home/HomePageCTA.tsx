@@ -23,7 +23,7 @@ const HomePageCTA = () => {
                             letterSpacing: "-0.025em",
                         }}
                     >
-                        You're always{" "}
+                        You&apos;re always{" "}
                         <span className="font-serif italic" style={{ color: "var(--color-primary-300)" }}>
                             home
                         </span>{" "}

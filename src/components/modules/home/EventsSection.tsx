@@ -37,7 +37,7 @@ const EventsSection = () => {
         <section className="section-warm">
             <div className="three-xl-section-setup">
                 <FadeUpWrapper className="text-center mb-14">
-                    <span className="text-label block mb-3">What's Happening</span>
+                    <span className="text-label block mb-3">What&apos;s Happening</span>
                     <h2 className="section-heading" style={{ color: "var(--color-primary-900)" }}>
                         Events & Initiatives
                     </h2>
