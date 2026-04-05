@@ -7,7 +7,7 @@ import {
     useCreateExperienceMutation,
     useUpdateExperienceMutation,
 } from "@/redux/apis/experiencesApi"
-import { ExperienceI } from "@/types/experiences.types"
+import { ExperienceI } from "@/types/common.components.types"
 
 
 

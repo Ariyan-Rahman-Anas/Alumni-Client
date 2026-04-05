@@ -1,59 +1,10 @@
-// import type { Metadata } from "next";
-// import "./globals.css";
-// import Navbar from "@/components/Navbar";
-// import Footer from "@/components/Footer";
-// import StoreProvider from "@/providers/StoreProvider";
-// import { Sanchez } from "next/font/google";
-
-// const sanchez = Sanchez({
-//   subsets: ["latin", "latin-ext"],
-//   variable: "--font-sanchez",
-//   display: "swap",
-//   weight: ["400"],
-// });
-
-// export const metadata: Metadata = {
-//   title: "BAMHS-Battali Abdul Matin High School",
-//   description: "The Official Website of Battali Abdul Matin High School. Located in Battali Bajar, Nangalkot, Cumilla, Chattogram, Bangladesh.",
-//   keywords: ["BAMHS", "Battali Abdul Matin High School", "BAMHSIAN", "Alumni of BAMHS", "Battali", "Abdul Matin High School", "Bangladesh", "Cumilla", "Chattogram", "Nangalkot", "BAMHS Alumni", "Battali", "Abdul Matin High School", "Cumilla", "Chattogram", "Nangalkot", "BAMHS", "Battali", "Abdul Matin High School", "Bangladesh", "Chattogram", "Nangalkot"],
-//   authors: [{ name: "BAMHS" }],
-// };
-
-// export default function RootLayout({
-//   children,
-// }: Readonly<{ children: React.ReactNode }>) {
-//   return (
-//     <html lang="en">
-//       <body
-//         className={`
-//           ${sanchez.variable}
-
-//           antialiased text-white relative
-//           max-w-[1920px] mx-auto h-full min-h-screen
-//         `}
-//       >
-//         <StoreProvider>
-//           <div className="flex flex-col justify-between min-h-screen">
-//             <Navbar />
-//             <div className="pt-12 md:pt-24 flex-1 flex items-center justify-center">{children}</div>
-//             <Footer />
-//           </div>
-//         </StoreProvider>
-//       </body>
-//     </html>
-//   );
-// }
-
-
-
-
-
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StoreProvider from "@/providers/StoreProvider";
-import { Playfair_Display, DM_Sans, Lora, JetBrains_Mono } from "next/font/google";
+import { Playfair_Display, Lora, JetBrains_Mono } from "next/font/google";
+import { cn } from "@/lib/utils";
 
 /* ── Fonts ─────────────────────────────────────────────────── */
 const playfair = Playfair_Display({
@@ -64,12 +15,6 @@ const playfair = Playfair_Display({
   style: ["normal", "italic"],
 });
 
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-  weight: ["300", "400", "500", "600"],
-});
 
 const lora = Lora({
   subsets: ["latin"],
@@ -122,27 +67,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`
-        ${playfair.variable}
-        ${dmSans.variable}
-        ${lora.variable}
-        ${jetbrainsMono.variable}
-      `}
+      className={cn(playfair.variable, lora.variable, jetbrainsMono.variable, "font-sans")}
     >
       <body
         className="
           font-sans antialiased
-          bg-surface text-neutral-900
-          max-w-[1920px] mx-auto
+          bg-surface
+          max-w-full
           min-h-screen h-full
-        "
-        style={{ background: "var(--background)", color: "var(--foreground)" }}
-      >
+        ">
         <StoreProvider>
           <div className="flex flex-col justify-between min-h-screen">
             <Navbar />
-            {/* pt accounts for fixed navbar height */}
-            <main className="pt-14 md:pt-24 flex-1">
+            <main className="flex-1 pb-24 ">
               {children}
             </main>
             <Footer />

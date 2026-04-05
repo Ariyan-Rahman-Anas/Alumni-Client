@@ -65,7 +65,7 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative mt-16 overflow-hidden"
+    <footer className="relative overflow-hidden"
       style={{
         background: "linear-gradient(180deg, #0A3D2B 0%, #051F15 100%)",
       }}

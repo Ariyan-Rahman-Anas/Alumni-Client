@@ -2,7 +2,7 @@
 
 import { FaTrash } from "react-icons/fa6"
 import { useDeleteExperienceMutation, useGetAllExperiencesQuery } from "@/redux/apis/experiencesApi"
-import { ExperienceI } from "@/types/experiences.types"
+import { ExperienceI } from "@/types/common.components.types"
 import { DateFormatter } from "@/components/shared/DateFormatter"
 import { FaEdit } from "react-icons/fa"
 import Link from "next/link"

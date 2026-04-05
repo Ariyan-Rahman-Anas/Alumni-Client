@@ -1,61 +1,65 @@
-"use client"
-
-import { motion } from "framer-motion";
-import Image from "next/image"
-import Link from "next/link"
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
+import { Button } from "../ui/button";
+import { PrimaryButtonI } from "@/types/common.components.types";
 
 const PrimaryButton = ({
-    buttonType, title, link, isLinked = false,
-    isNewTab = false, icon, imgIcon, disabled, onClickFunc
-}: {
-    buttonType?: "button" | "submit" | "reset"
-    title: string
-    link?: string
-    isLinked?: boolean
-    isNewTab?: boolean
-    icon?: React.ReactNode
-    imgIcon?: string
-    disabled?: boolean
-    onClickFunc?: () => void
-}) => {
-
-    const inner = (
-        <motion.div
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
-            className="relative group p-[1px] rounded-lg bg-gradient-to-r from-brand to-accent shadow-brand-sm hover:shadow-brand-md transition-shadow duration-300"
-        >
-            {/* glow layer behind button */}
-            <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-brand to-accent opacity-0 group-hover:opacity-30 blur-md transition-opacity duration-300 pointer-events-none" />
-
-            <button
-                type={buttonType}
-                disabled={disabled}
-                onClick={!isLinked ? onClickFunc : undefined}
-                className="
-          relative z-10 w-full h-full
-          bg-gradient-to-r from-brand to-accent
-          hover:from-brand-dark hover:to-accent-dark
-          text-white font-semibold text-sm tracking-wide
-          py-2.5 px-7 rounded-lg
-          flex items-center justify-center gap-2.5
-          transition-all duration-300
-          disabled:opacity-40 disabled:cursor-not-allowed
-        "
-            >
-                <span>{title}</span>
-                {icon
-                    ? <span className="text-base">{icon}</span>
-                    : imgIcon
-                        ? <Image src={imgIcon} alt="Icon" width={18} height={18} />
-                        : null}
-            </button>
-        </motion.div>
+    title,
+    type = "button",
+    href,
+    icon,
+    isNewTab = false,
+    variant = "default",
+    isDisabled = false,
+    isFullWidth = false,
+    onClick,
+    isLoading = false,
+    loadingTitle,
+    className = "",
+    iconSide = "left",
+}: PrimaryButtonI) => {
+    const buttonContent = (
+        <>
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {!isLoading && iconSide === "left" && icon}
+            {(title || (isLoading && loadingTitle)) && (
+                <span>{isLoading ? loadingTitle || title : title}</span>
+            )}
+            {!isLoading && iconSide === "right" && icon}
+        </>
     );
 
-    return isLinked
-        ? <Link href={link || ""} target={isNewTab ? "_blank" : "_self"}>{inner}</Link>
-        : inner;
+    const buttonClassName =
+        `${isFullWidth ? "w-full" : ""} ${!title && !loadingTitle ? "p-2" : ""} ${className}`.trim();
+    const isButtonDisabled = isDisabled || isLoading;
+
+    return href && !isLoading ? (
+        <Link
+            href={href}
+            target={isNewTab ? "_blank" : "_self"}
+            rel={isNewTab ? "noopener noreferrer" : undefined}
+            className={isFullWidth ? "w-full block" : "inline-block"}
+        >
+            <Button
+                type={type}
+                variant={variant}
+                disabled={isButtonDisabled}
+                className={buttonClassName}
+            >
+                {buttonContent}
+            </Button>
+        </Link>
+    ) : (
+        <Button
+            type={type}
+            variant={variant}
+            disabled={isButtonDisabled}
+            className={buttonClassName}
+            onClick={!isLoading ? onClick : undefined}
+        >
+            {buttonContent}
+        </Button>
+    );
 };
 
 export default PrimaryButton;

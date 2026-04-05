@@ -1,3 +1,5 @@
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,7 +11,6 @@
 
 /* ── Google Fonts ────────────────────────────────────────── */
 /* @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap'); */
-
 
 /* ── CSS Variables (Design Tokens) ──────────────────────── */
 @layer base {
@@ -37,8 +38,8 @@
     --color-gold-700:  #B45309;
 
     /* Surface — Warm Cream */
-    --background:       #FDFAF2;
-    --foreground:       #141412;
+    --background:  oklch(1 0 0);
+    --foreground:  oklch(0.145 0 0);
     --color-surface:    #FDFAF2;
     --color-surface-100:#F7F3E8;
     --color-surface-200:#EEE9D8;
@@ -74,12 +75,42 @@
     --radius-lg:  0.75rem;
     --radius-xl:  1rem;
     --radius-pill:9999px;
+    --card:  oklch(1 0 0);
+    --card-foreground:  oklch(0.145 0 0);
+    --popover:  oklch(1 0 0);
+    --popover-foreground:  oklch(0.145 0 0);
+    --primary:  oklch(0.205 0 0);
+    --primary-foreground:  oklch(0.985 0 0);
+    --secondary:  oklch(0.97 0 0);
+    --secondary-foreground:  oklch(0.205 0 0);
+    --muted:  oklch(0.97 0 0);
+    --muted-foreground:  oklch(0.556 0 0);
+    --accent:  oklch(0.97 0 0);
+    --accent-foreground:  oklch(0.205 0 0);
+    --destructive:  oklch(0.577 0.245 27.325);
+    --border:  oklch(0.922 0 0);
+    --input:  oklch(0.922 0 0);
+    --ring:  oklch(0.708 0 0);
+    --chart-1:  oklch(0.87 0 0);
+    --chart-2:  oklch(0.556 0 0);
+    --chart-3:  oklch(0.439 0 0);
+    --chart-4:  oklch(0.371 0 0);
+    --chart-5:  oklch(0.269 0 0);
+    --radius:  0.625rem;
+    --sidebar:  oklch(0.985 0 0);
+    --sidebar-foreground:  oklch(0.145 0 0);
+    --sidebar-primary:  oklch(0.205 0 0);
+    --sidebar-primary-foreground:  oklch(0.985 0 0);
+    --sidebar-accent:  oklch(0.97 0 0);
+    --sidebar-accent-foreground:  oklch(0.205 0 0);
+    --sidebar-border:  oklch(0.922 0 0);
+    --sidebar-ring:  oklch(0.708 0 0);
   }
 
   /* ── Dark Mode ─────────────────────────────────────────── */
   .dark {
-    --background:       #0A3D2B;
-    --foreground:       #FDFAF2;
+    --background:  oklch(0.145 0 0);
+    --foreground:  oklch(0.985 0 0);
     --color-surface:    #0F3C24;
     --color-surface-100:#1A5436;
     --color-surface-200:#257048;
@@ -99,9 +130,51 @@
     --shadow-lg:  0 10px 15px -3px rgba(0,0,0,0.40);
     --shadow-xl:  0 20px 25px -5px rgba(0,0,0,0.45);
     --shadow-glow:0 0 24px 6px rgba(46,139,87,0.45);
+    --card:  oklch(0.205 0 0);
+    --card-foreground:  oklch(0.985 0 0);
+    --popover:  oklch(0.205 0 0);
+    --popover-foreground:  oklch(0.985 0 0);
+    --primary:  oklch(0.922 0 0);
+    --primary-foreground:  oklch(0.205 0 0);
+    --secondary:  oklch(0.269 0 0);
+    --secondary-foreground:  oklch(0.985 0 0);
+    --muted:  oklch(0.269 0 0);
+    --muted-foreground:  oklch(0.708 0 0);
+    --accent:  oklch(0.269 0 0);
+    --accent-foreground:  oklch(0.985 0 0);
+    --destructive:  oklch(0.704 0.191 22.216);
+    --border:  oklch(1 0 0 / 10%);
+    --input:  oklch(1 0 0 / 15%);
+    --ring:  oklch(0.556 0 0);
+    --chart-1:  oklch(0.87 0 0);
+    --chart-2:  oklch(0.556 0 0);
+    --chart-3:  oklch(0.439 0 0);
+    --chart-4:  oklch(0.371 0 0);
+    --chart-5:  oklch(0.269 0 0);
+    --sidebar:  oklch(0.205 0 0);
+    --sidebar-foreground:  oklch(0.985 0 0);
+    --sidebar-primary:  oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground:  oklch(0.985 0 0);
+    --sidebar-accent:  oklch(0.269 0 0);
+    --sidebar-accent-foreground:  oklch(0.985 0 0);
+    --sidebar-border:  oklch(1 0 0 / 10%);
+    --sidebar-ring:  oklch(0.556 0 0);
+  }
+  .theme {
+    --font-heading:  var(--font-sans);
+    --font-sans:  var(--font-sans);
+  }
+  * {
+    /* @apply border-border outline-ring/50; */
+    @apply border-surface-300 outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
   }
 }
-
 
 /* ── Base Reset & Defaults ───────────────────────────────── */
 @layer base {
@@ -148,7 +221,6 @@
     color: var(--color-primary-900);
   }
 }
-
 
 /* ── Typography Scale ────────────────────────────────────── */
 @layer components {
@@ -232,7 +304,6 @@
   }
 }
 
-
 /* ── Gradient Text ───────────────────────────────────────── */
 @layer utilities {
   .text-gradient {
@@ -258,9 +329,14 @@
   }
 }
 
-
 /* ── Layout Utilities ────────────────────────────────────── */
 @layer components {
+
+  .three-xl-section-setup{
+    @apply w-full max-w-screen-3xl mx-auto py-24 px-2;
+  }
+
+
 
   /* Main page wrapper */
   .page-setup {
@@ -290,7 +366,6 @@
     @apply py-12 md:py-16;
   }
 }
-
 
 /* ── Section Headings ────────────────────────────────────── */
 @layer components {
@@ -335,7 +410,6 @@
     color: var(--color-text-muted);
   }
 }
-
 
 /* ── Cards ───────────────────────────────────────────────── */
 @layer components {
@@ -385,7 +459,6 @@
     border-color: rgba(46, 139, 87, 0.25);
   }
 }
-
 
 /* ── Badges ──────────────────────────────────────────────── */
 @layer components {
@@ -461,7 +534,6 @@
   }
 }
 
-
 /* ── Form Elements ───────────────────────────────────────── */
 @layer components {
 
@@ -507,7 +579,6 @@
     color: var(--color-danger);
   }
 }
-
 
 /* ── Buttons ─────────────────────────────────────────────── */
 @layer components {
@@ -596,7 +667,6 @@
   .btn-icon{ @apply p-2.5 rounded-lg; }
 }
 
-
 /* ── Section / Page Backgrounds ─────────────────────────── */
 @layer components {
 
@@ -669,7 +739,6 @@
   }
 }
 
-
 /* ── Dividers ────────────────────────────────────────────── */
 @layer utilities {
   .divider {
@@ -687,7 +756,6 @@
     border-color: var(--color-gold-500);
   }
 }
-
 
 /* ── Scrollbar ───────────────────────────────────────────── */
 @layer utilities {
@@ -711,7 +779,6 @@
   }
 }
 
-
 /* ── Skeleton Loader ─────────────────────────────────────── */
 @layer utilities {
   .skeleton {
@@ -727,7 +794,6 @@
   }
 }
 
-
 /* ── Announcement / Marquee ticker ──────────────────────── */
 @layer components {
   .ticker-wrap {
@@ -741,7 +807,6 @@
     animation: marquee 30s linear infinite;
   }
 }
-
 
 /* ── Prose (for notices, articles, blog posts) ───────────── */
 @layer components {
@@ -760,7 +825,6 @@
     --tw-prose-td-borders:  var(--color-border);
   }
 }
-
 
 /* ── Keyframes ───────────────────────────────────────────── */
 @keyframes shimmer {
