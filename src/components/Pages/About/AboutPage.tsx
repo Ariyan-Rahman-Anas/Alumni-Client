@@ -131,8 +131,8 @@ export default function AboutPage() {
                         className="font-sans text-lg leading-relaxed max-w-2xl mx-auto mb-10"
                         style={{ color: "rgba(195,232,206,0.75)" }}
                     >
-                        BAMHS Alumni isn't an organization — it's a feeling. The smell of chalk,
-                        the echo of the morning assembly, the warmth of a teacher's words.
+                        BAMHS Alumni is not an organization — it is a feeling. The smell of chalk,
+                        the echo of the morning assembly, the warmth of a teacher&apos;s words.
                         This portal is our way of keeping that feeling alive, forever.
                     </motion.p>
 
@@ -396,7 +396,7 @@ export default function AboutPage() {
                         </h2>
                         <p className="font-sans text-base mb-8"
                             style={{ color: "rgba(195,232,206,0.70)" }}>
-                            Don't let time create distance. Reconnect with your classmates,
+                            Do not let time create distance. Reconnect with your classmates,
                             share your story, and become part of the living history of BAMHS.
                         </p>
                         <Separator className="mb-8 opacity-20" style={{ background: "var(--color-primary-400)" }} />
@@ -408,7 +408,7 @@ export default function AboutPage() {
                                     boxShadow: "0 0 28px rgba(46,139,87,0.40)",
                                 }}>
                                 <Link href="/login">
-                                    Join Now — It's Free <HiArrowUpRight className="ml-1" />
+                                    Join Now — It is Free <HiArrowUpRight className="ml-1" />
                                 </Link>
                             </Button>
                             <Button asChild variant="outline" size="lg" className="rounded-xl font-medium px-8 py-6"

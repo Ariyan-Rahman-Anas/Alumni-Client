@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import HeroSection from "@/components/pageComponents/aboutPage/HeroSection";
 import StatsSection from "@/components/modules/home/StatsSection";
 import AboutSection from "@/components/modules/home/AboutSection";
 import BatchesSection from "@/components/modules/home/BatchesSection";
@@ -11,6 +10,7 @@ import TestimonialsSection from "@/components/modules/home/TestimonialsSection";
 import GallerySection from "@/components/modules/home/GallerySection";
 import BloodSection from "@/components/modules/home/BloodSection";
 import HomePageCTA from "@/components/modules/home/HomePageCTA";
+import HeroSection from "@/components/modules/home/HeroSection";
 
 /* ── Fade-up wrapper ──────────────────────────────────────── */
 export const FadeUpWrapper = ({
