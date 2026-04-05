@@ -1,154 +1,170 @@
+"use client"
+
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useRef } from "react";
-import { RiArrowRightLine, RiSparkling2Line } from "react-icons/ri";
+import { RiArrowRightLine } from "react-icons/ri";
+import { staticImages } from "@/assets";
 
 const HeroSection = () => {
-
     const heroRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-    const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "28%"]);
-    const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+    const { scrollYProgress } = useScroll({
+        target: heroRef,
+        offset: ["start start", "end start"],
+    });
+
+    const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+    const heroOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
 
     return (
         <section
             ref={heroRef}
-            className="relative min-h-[100dvh] flex flex-col items-center justify-center overflow-hidden"
-            style={{
-                background: "linear-gradient(160deg, #051F15 0%, #0A3D2B 50%, #0F3C24 100%)",
-            }}
+            className="relative h-[100dvh] w-full overflow-hidden"
         >
-            {/* Grid overlay */}
-            <div className="absolute inset-0 pointer-events-none"
+            {/* ── Background Image with parallax ── */}
+            <motion.div style={{ y: heroY }} className="absolute inset-0">
+                <Image
+                    src={staticImages.bamhsBackground}
+                    alt="BAMHS School Ground"
+                    fill
+                    priority
+                    className="object-cover object-[center_30%]"
+                />
+            </motion.div>
+
+            {/* ── Cinematic gradient overlay ── */}
+            <div className="absolute inset-0 bg-gradient-to-b
+        from-[#051F15]/75
+        via-[#0A3D2B]/55
+        to-[#051F15]/80"
+            />
+
+            {/* ── Subtle grid overlay ── */}
+            <div
+                className="absolute inset-0 pointer-events-none"
                 style={{
-                    backgroundImage: "linear-gradient(rgba(46,139,87,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.07) 1px, transparent 1px)",
-                    backgroundSize: "56px 56px",
+                    backgroundImage: `
+            linear-gradient(rgba(46,139,87,0.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(46,139,87,0.06) 1px, transparent 1px)`,
+                    backgroundSize: "52px 52px",
                 }}
             />
-            {/* Radial glows */}
-            <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full blur-3xl opacity-25"
-                style={{ background: "var(--color-primary-500)" }} />
-            <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full blur-3xl opacity-15"
-                style={{ background: "var(--color-accent-500)" }} />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full blur-3xl opacity-8"
-                style={{ background: "rgba(46,139,87,0.12)" }} />
 
-            <motion.div style={{ y: heroY, opacity: heroOpacity }}
-                className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+            {/* ── Ambient glows ── */}
+            <div
+                className="absolute -top-20 -left-20 w-[380px] h-[380px] rounded-full pointer-events-none"
+                style={{ background: "radial-gradient(circle, rgba(46,139,87,0.20) 0%, transparent 65%)" }}
+            />
+            <div
+                className="absolute -bottom-16 -right-12 w-[300px] h-[300px] rounded-full pointer-events-none"
+                style={{ background: "radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 65%)" }}
+            />
 
-                {/* Badge */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.85 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                    className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border mb-8"
-                    style={{
-                        background: "rgba(46,139,87,0.12)",
-                        borderColor: "rgba(46,139,87,0.35)",
-                    }}
-                >
-                    <RiSparkling2Line style={{ color: "var(--color-primary-300)" }} />
-                    <span className="font-mono text-xs tracking-widest uppercase"
-                        style={{ color: "var(--color-primary-300)" }}>
-                        BAMHSians Forever
-                    </span>
-                </motion.div>
-
-                {/* Headline */}
-                <motion.h1
-                    initial={{ opacity: 0, y: 32 }}
+            {/* ── Center content: school name + motto ── */}
+            <motion.div
+                style={{ opacity: heroOpacity }}
+                className="relative z-10 h-full flex flex-col items-center justify-center gap-y-16 text-center px-6"
+            >
+                <motion.p
+                    initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
-                    className="font-display font-bold leading-[1.0] mb-6"
+                    transition={{ delay: 0.15, duration: 0.7 }}
                     style={{
-                        fontSize: "clamp(3rem, 8vw, 6.5rem)",
-                        color: "var(--color-primary-50)",
-                        letterSpacing: "-0.03em",
+                        lineHeight: 1.5,
+                        color: "#FDFAF2",
+                        marginBottom: "0.5rem",
+                        textShadow: "0 2px 16px rgba(0,0,0,0.45)",
                     }}
+                    className="font-splash hidden md:block md:text-7xl font-bold"
                 >
-                    Once a{" "}
-                    <span style={{
-                        background: "linear-gradient(135deg, #72C48C 0%, #F59E0B 100%)",
+                    {`Battali....Abdul....Matin....High....School`}
+                </motion.p>
+
+                <motion.p
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15, duration: 0.7 }}
+                    style={{
+                        lineHeight: 1.5,
+                        color: "#FDFAF2",
+                        marginBottom: "0.5rem",
+                        textShadow: "0 2px 16px rgba(0,0,0,0.45)",
+                    }}
+                    className="font-splash md:hidden text-xl font-bold"
+                >
+                    {`Battali....Abdul....Matin....High....School`}
+                </motion.p>
+
+                <motion.h1
+                    initial={{ opacity: 0, y: 28 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.35, duration: 0.9 }}
+                    style={{
+                        background: "linear-gradient(120deg, #72C48C 0%, #F59E0B 100%)",
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                         backgroundClip: "text",
-                    }}>
-                        BAMHSian
-                    </span>
-                    ,<br />Always a{" "}
-                    <span className="font-serif italic" style={{ color: "var(--color-primary-200)" }}>
-                        BAMHSian
-                    </span>
+                        marginBottom: "1.5rem",
+                        filter: "drop-shadow(0 1px 8px rgba(0,0,0,0.3))",
+                    }}
+                    className="font-extrabold text-4xl"
+                >
+                    Where We Learned to Dream.
+                    <br />
+                    Where We Come Back to Remember.
                 </motion.h1>
+            </motion.div>
 
-                {/* Sub */}
+            {/* ── Bottom content: paragraph + CTAs ── */}
+            <motion.div
+                style={{ opacity: heroOpacity }}
+                className="absolute bottom-6 left-0 right-0 z-10
+                           flex flex-col items-center text-center px-6 gap-6"
+            >
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.7, delay: 0.38 }}
-                    className="font-sans text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
-                    style={{ color: "rgba(195,232,206,0.80)" }}
+                    transition={{ delay: 0.45, duration: 0.8 }}
+                    className="max-w-xl text-base md:text-lg leading-relaxed text-white/80"
                 >
-                    The official alumni community of Battali Abdul Matin High School —
-                    reconnect with classmates, relive memories, and stay connected across generations.
+                    The official alumni network of Battali Abdul Matin High School —
+                    reconnect with your batch, relive cherished memories, and keep the
+                    bond alive across every generation.
                 </motion.p>
 
-                {/* CTAs */}
                 <motion.div
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.52 }}
-                    className="flex flex-col sm:flex-row gap-4 justify-center"
+                    transition={{ delay: 0.55, duration: 0.7 }}
+                    className="flex flex-col sm:flex-row gap-3"
                 >
                     <Button
                         asChild
                         size="lg"
-                        className="font-sans font-medium px-8 py-6 text-base rounded-xl shadow-xl transition-all duration-200 hover:-translate-y-0.5"
-                        style={{
-                            background: "linear-gradient(135deg, #2E8B57 0%, #155A3E 100%)",
-                            color: "#FDFAF2",
-                            boxShadow: "0 0 28px rgba(46,139,87,0.40)",
-                        }}
+                        className="px-8 py-6 text-sm rounded-xl shadow-xl"
                     >
                         <Link href="/login">
-                            Join the Community <RiArrowRightLine className="ml-1" />
+                            Join the Community <RiArrowRightLine className="ml-1.5" />
                         </Link>
                     </Button>
+
                     <Button
                         asChild
                         variant="outline"
                         size="lg"
-                        className="font-sans font-medium px-8 py-6 text-base rounded-xl transition-all duration-200 hover:-translate-y-0.5"
-                        style={{
-                            borderColor: "rgba(46,139,87,0.40)",
-                            color: "var(--color-primary-200)",
-                            background: "rgba(46,139,87,0.06)",
-                        }}
+                        className="px-8 py-6 text-sm rounded-xl border-white/20
+                       text-white bg-white/[0.06] backdrop-blur
+                       hover:bg-white/[0.12]"
                     >
                         <Link href="/batches">Find Your Batch</Link>
                     </Button>
                 </motion.div>
-
-                {/* Scroll hint */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.2 }}
-                    className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-                >
-                    <span className="font-mono text-[10px] tracking-widest uppercase"
-                        style={{ color: "rgba(195,232,206,0.40)" }}>Scroll</span>
-                    <motion.div
-                        animate={{ y: [0, 8, 0] }}
-                        transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-                        className="w-px h-8 rounded-full"
-                        style={{ background: "linear-gradient(to bottom, rgba(46,139,87,0.5), transparent)" }}
-                    />
-                </motion.div>
             </motion.div>
-        </section>
 
-    )
-}
-export default HeroSection
+        </section>
+    );
+};
+
+export default HeroSection;

@@ -464,13 +464,13 @@ const Navbar = () => {
         {/* ══════════════════════════════════════════════
             MOBILE — Bottom Icon Dock
         ══════════════════════════════════════════════ */}
-        <div className="md:hidden fixed bottom-3 left-0 right-0 px-4 pointer-events-auto">
+        <div className="md:hidden fixed bottom-2 left-0 right-0 px-2 pointer-events-auto">
           <motion.div
             initial={{ y: 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 220, damping: 26, delay: 0.18 }}
           >
-            <div className="shim glow relative flex items-center justify-around px-2 py-2 rounded-2xl border"
+            <div className="shim glow relative flex items-center justify-around px-2 py-2 rounded-lg border"
               style={{
                 ...islandBase,
                 boxShadow: "0 -4px 20px rgba(10,61,43,0.10), 0 8px 24px rgba(10,61,43,0.08), 0 1px 0 rgba(255,255,255,0.95) inset",
@@ -480,7 +480,7 @@ const Navbar = () => {
               <div className="absolute bottom-0 left-6 right-6 h-px rounded-full"
                 style={{ background: "rgba(46,139,87,0.18)" }} />
 
-              {navItems.map(({ icon, link, title }, idx) => {
+              {navItems.map(({ icon, link }, idx) => {
                 const active = isActive(link);
                 return (
                   <Link key={idx} href={`/${link}`}
@@ -489,7 +489,7 @@ const Navbar = () => {
                   >
                     {active && (
                       <motion.span layoutId="dockBg"
-                        className="absolute inset-0 rounded-xl border"
+                        className="absolute inset-0 rounded-md border"
                         style={{
                           background: "linear-gradient(135deg,rgba(46,139,87,0.13) 0%,rgba(126,158,37,0.08) 100%)",
                           borderColor: "rgba(46,139,87,0.26)",
@@ -512,7 +512,6 @@ const Navbar = () => {
                           transition={{ duration: 0.22, ease: "easeOut" }}
                           className="relative z-10 font-sans font-semibold overflow-hidden whitespace-nowrap"
                           style={{ fontSize: "9px", letterSpacing: "0.04em", color: "var(--color-primary-700)", marginTop: "2px" }}>
-                          {title}
                         </motion.span>
                       )}
                     </AnimatePresence>
