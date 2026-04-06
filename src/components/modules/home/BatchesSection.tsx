@@ -42,7 +42,7 @@ const BatchesSection = () => {
                                         style={{ background: `radial-gradient(circle at 50% 50%, ${color}20, transparent 70%)` }} />
                                     <p className="font-display font-bold text-3xl mb-1 relative z-10"
                                         style={{ color: "var(--color-primary-100)" }}>{year}</p>
-                                    <p className="font-mono text-xs tracking-widest relative z-10"
+                                    <p className=" text-xs tracking-widest relative z-10"
                                         style={{ color: "var(--color-primary-400)" }}>{count} alumni</p>
                                 </div>
                             </Link>

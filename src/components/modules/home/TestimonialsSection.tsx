@@ -79,11 +79,11 @@
 //                                     style={{ background: "rgba(46,139,87,0.25)", color: "var(--color-primary-200)" }}>
 //                                     {testimonials[tIdx].name.charAt(0)}
 //                                 </div>
-//                                 <p className="font-sans font-semibold text-base"
+//                                 <p className=" font-semibold text-base"
 //                                     style={{ color: "var(--color-primary-100)" }}>
 //                                     {testimonials[tIdx].name}
 //                                 </p>
-//                                 <p className="font-mono text-xs tracking-wider"
+//                                 <p className=" text-xs tracking-wider"
 //                                     style={{ color: "var(--color-primary-400)" }}>
 //                                     {testimonials[tIdx].batch} · {testimonials[tIdx].role}
 //                                 </p>
@@ -238,14 +238,14 @@ const TestimonialsSection = () => {
                                 </div>
 
                                 <p
-                                    className="font-sans font-semibold text-base"
+                                    className=" font-semibold text-base"
                                     style={{ color: "var(--color-primary-100)" }}
                                 >
                                     {testimonials[tIdx].name}
                                 </p>
 
                                 <p
-                                    className="font-mono text-xs tracking-wider"
+                                    className=" text-xs tracking-wider"
                                     style={{ color: "var(--color-primary-400)" }}
                                 >
                                     {testimonials[tIdx].batch} ·{" "}

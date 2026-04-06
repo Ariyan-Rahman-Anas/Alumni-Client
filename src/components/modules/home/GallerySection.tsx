@@ -40,7 +40,7 @@ const GallerySection = () => {
                                     {/* hover overlay */}
                                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-all duration-300" />
                                     <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                                        <p className="font-sans text-sm font-medium text-white">{label}</p>
+                                        <p className=" text-sm font-medium text-white">{label}</p>
                                     </div>
                                     {/* corner arrow */}
                                     <div className="absolute top-3 right-3 w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">

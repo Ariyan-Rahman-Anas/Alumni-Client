@@ -148,7 +148,7 @@ const Navbar = () => {
                   BAMHSian
                 </motion.span>
                 <motion.span
-                  className="font-mono text-[10px] tracking-widest uppercase"
+                  className=" text-[10px] tracking-widest uppercase"
                   animate={{
                     color: scrolled
                       ? "var(--color-primary-500)"
@@ -234,7 +234,7 @@ const Navbar = () => {
                           animate={{ opacity: 1, width: "auto", x: 0 }}
                           exit={{ opacity: 0, width: 0, x: -4 }}
                           transition={{ duration: 0.18, ease: "easeOut" }}
-                          className="font-sans text-xs font-medium tracking-wide overflow-hidden whitespace-nowrap">
+                          className=" text-xs font-medium tracking-wide overflow-hidden whitespace-nowrap">
                           {title}
                         </motion.span>
                       )}
@@ -259,7 +259,7 @@ const Navbar = () => {
             transition={{ type: "spring", stiffness: 220, damping: 24, delay: 0.08 }}
           >
             <Link href="/login"
-              className="shim relative flex items-center gap-2 px-4 py-2 rounded-xl font-sans text-sm font-medium shrink-0 border transition-all duration-200 hover:-translate-y-0.5"
+              className="shim relative flex items-center gap-2 px-4 py-2 rounded-xl  text-sm font-medium shrink-0 border transition-all duration-200 hover:-translate-y-0.5"
               style={{
                 background: "linear-gradient(135deg,#2E8B57 0%,#155A3E 100%)",
                 color: "#FDFAF2",
@@ -371,7 +371,7 @@ const Navbar = () => {
                               <div>
                                 <SheetTitle className="font-display text-base font-semibold leading-tight"
                                   style={{ color: "var(--color-primary-900)" }}>BAMHSian</SheetTitle>
-                                <p className="font-mono text-[10px] tracking-widest uppercase"
+                                <p className=" text-[10px] tracking-widest uppercase"
                                   style={{ color: "var(--color-primary-500)" }}>Unity · Prosperity</p>
                               </div>
                             </div>
@@ -379,7 +379,7 @@ const Navbar = () => {
 
                           {/* Nav links */}
                           <nav className="flex-1 overflow-y-auto px-3 py-4 scrollbar-green">
-                            <p className="font-mono text-[10px] tracking-widest uppercase px-3 mb-3"
+                            <p className=" text-[10px] tracking-widest uppercase px-3 mb-3"
                               style={{ color: "var(--color-text-muted)" }}>Navigation</p>
                             <div className="flex flex-col gap-1">
                               {navItems.map(({ title, link, icon }, idx) => {
@@ -402,7 +402,7 @@ const Navbar = () => {
                                         style={{ color: active ? "var(--color-primary-600)" : "var(--color-text-muted)" }}>
                                         {icon}
                                       </span>
-                                      <span className="font-sans text-sm font-medium">{title}</span>
+                                      <span className=" text-sm font-medium">{title}</span>
                                       {active && (
                                         <motion.span layoutId="sheetDot"
                                           className="ml-auto w-1.5 h-1.5 rounded-full shrink-0"
@@ -420,7 +420,7 @@ const Navbar = () => {
                             style={{ borderColor: "var(--color-border)" }}>
                             <Link href="/login"
                               onClick={() => setSheetOpen(false)}
-                              className="shim relative flex items-center justify-center gap-2 w-full py-3 rounded-xl font-sans text-sm font-medium border transition-all duration-200 active:scale-[0.98]"
+                              className="shim relative flex items-center justify-center gap-2 w-full py-3 rounded-xl  text-sm font-medium border transition-all duration-200 active:scale-[0.98]"
                               style={{
                                 background: "linear-gradient(135deg,#2E8B57 0%,#155A3E 100%)",
                                 color: "#FDFAF2",
@@ -447,7 +447,7 @@ const Navbar = () => {
 
               {/* Right: Login */}
               <Link href="/login"
-                className="shim relative z-10 flex items-center px-3 py-1.5 rounded-xl font-sans text-xs font-medium border transition-all duration-200 active:scale-95"
+                className="shim relative z-10 flex items-center px-3 py-1.5 rounded-xl  text-xs font-medium border transition-all duration-200 active:scale-95"
                 style={{
                   background: "linear-gradient(135deg,#2E8B57 0%,#155A3E 100%)",
                   color: "#FDFAF2",
@@ -510,7 +510,7 @@ const Navbar = () => {
                           animate={{ opacity: 1, height: "auto", y: 0 }}
                           exit={{ opacity: 0, height: 0, y: 4 }}
                           transition={{ duration: 0.22, ease: "easeOut" }}
-                          className="relative z-10 font-sans font-semibold overflow-hidden whitespace-nowrap"
+                          className="relative z-10  font-semibold overflow-hidden whitespace-nowrap"
                           style={{ fontSize: "9px", letterSpacing: "0.04em", color: "var(--color-primary-700)", marginTop: "2px" }}>
                         </motion.span>
                       )}

@@ -25,13 +25,13 @@ const AboutSection = () => {
                             </span>
                             , branching across the world
                         </h2>
-                        <p className="font-sans text-base leading-relaxed mb-4"
+                        <p className=" text-base leading-relaxed mb-4"
                             style={{ color: "var(--color-text-secondary)" }}>
                             Since 1966, Battali Abdul Matin High School has been the place where
                             thousands of dreams took root. From the dusty playgrounds to the chalk-dusted
                             classrooms — BAMHS isn&apos;t just a school. It&apos;s our first home away from home.
                         </p>
-                        <p className="font-sans text-base leading-relaxed mb-8"
+                        <p className=" text-base leading-relaxed mb-8"
                             style={{ color: "var(--color-text-secondary)" }}>
                             This portal is built by BAMHSians, for BAMHSians — to reconnect, remember,
                             and give back to the community that made us.
@@ -56,7 +56,7 @@ const AboutSection = () => {
                             }}
                         >
                             <div className="p-5">
-                                <p className="font-mono text-[10px] uppercase tracking-widest mb-3"
+                                <p className=" text-[10px] uppercase tracking-widest mb-3"
                                     style={{ color: "rgba(195,232,206,0.50)" }}>Est.</p>
                                 <p className="font-display font-bold text-5xl"
                                     style={{ color: "var(--color-primary-100)" }}>1966</p>
@@ -79,7 +79,7 @@ const AboutSection = () => {
                                     style={{ color: "var(--color-primary-900)" }}>
                                     Alumni Community
                                 </p>
-                                <p className="font-sans text-sm" style={{ color: "var(--color-text-secondary)" }}>
+                                <p className=" text-sm" style={{ color: "var(--color-text-secondary)" }}>
                                     3,200+ members across 18+ countries, all sharing one address: BAMHS.
                                 </p>
                             </div>

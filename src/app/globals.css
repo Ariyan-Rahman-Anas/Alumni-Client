@@ -317,7 +317,7 @@
 @layer components {
 
   .three-xl-section-setup{
-    @apply w-full max-w-screen-3xl mx-auto py-24 px-2;
+    @apply w-full max-w-screen-3xl mx-auto py-24 px-4;
   }
 
 

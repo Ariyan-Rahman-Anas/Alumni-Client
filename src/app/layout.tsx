@@ -64,7 +64,7 @@ export default function RootLayout({
     >
       <body
         className="
-          font-sans antialiased
+           antialiased
           bg-surface
           max-w-full
           min-h-screen h-full
