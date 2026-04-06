@@ -35,7 +35,7 @@ const MonoLabel = ({
     text: string
     color: keyof typeof colorMap
 }) => (
-    <span className={`text-xs font-mono tracking-[0.3em] uppercase ${colorMap[color].text}`}>
+    <span className={`text-xs  tracking-[0.3em] uppercase ${colorMap[color].text}`}>
         {"//"} {text}
     </span>
 )
@@ -53,7 +53,7 @@ const PillLabel = ({
     const c = colorMap[color]
     return (
         <span
-            className={`inline-flex items-center gap-2 border ${c.border} ${c.bg} ${c.text} px-4 py-1.5 rounded-full text-xs font-mono tracking-widest uppercase`}
+            className={`inline-flex items-center gap-2 border ${c.border} ${c.bg} ${c.text} px-4 py-1.5 rounded-full text-xs  tracking-widest uppercase`}
         >
             {icon && <span className="text-sm leading-none">{icon}</span>}
             {text}
@@ -139,7 +139,7 @@ const IslandLabel = ({
                     initial={animated ? { opacity: 0, x: -6 } : false}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4, delay: 0.35 }}
-                    className={`text-xs font-mono tracking-[0.25em] uppercase whitespace-nowrap ${c.text}`}
+                    className={`text-xs  tracking-[0.25em] uppercase whitespace-nowrap ${c.text}`}
                 >
                     {text}
                 </motion.span>

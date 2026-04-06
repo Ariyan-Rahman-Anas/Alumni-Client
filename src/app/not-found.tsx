@@ -121,7 +121,7 @@
 //                         borderColor: "rgba(46,139,87,0.30)",
 //                     }}
 //                 >
-//                     <span className="font-mono text-xs tracking-widest uppercase"
+//                     <span className=" text-xs tracking-widest uppercase"
 //                         style={{ color: "var(--color-primary-300)" }}>
 //                         Page Not Found
 //                     </span>
@@ -151,7 +151,7 @@
 //                     initial={{ opacity: 0, y: 12 }}
 //                     animate={{ opacity: 1, y: 0 }}
 //                     transition={{ delay: 0.45, duration: 0.55 }}
-//                     className="font-sans text-base leading-relaxed mb-10 max-w-md mx-auto"
+//                     className=" text-base leading-relaxed mb-10 max-w-md mx-auto"
 //                     style={{ color: "rgba(195,232,206,0.65)" }}
 //                 >
 //                     This page doesn't exist or may have been moved. Don't worry —
@@ -201,7 +201,7 @@
 //                 >
 //                     <button
 //                         onClick={() => window.history.back()}
-//                         className="inline-flex items-center gap-1.5 font-sans text-sm transition-colors duration-200 hover:gap-2.5"
+//                         className="inline-flex items-center gap-1.5  text-sm transition-colors duration-200 hover:gap-2.5"
 //                         style={{ color: "rgba(195,232,206,0.40)" }}
 //                         onMouseEnter={e => (e.currentTarget.style.color = "var(--color-primary-300)")}
 //                         onMouseLeave={e => (e.currentTarget.style.color = "rgba(195,232,206,0.40)")}
@@ -217,7 +217,7 @@
 //                 initial={{ opacity: 0 }}
 //                 animate={{ opacity: 1 }}
 //                 transition={{ delay: 1 }}
-//                 className="absolute bottom-8 font-mono text-[10px] tracking-[0.18em] uppercase"
+//                 className="absolute bottom-8  text-[10px] tracking-[0.18em] uppercase"
 //                 style={{ color: "rgba(195,232,206,0.20)" }}
 //             >
 //                 BAMHS Alumni Portal · Since 1966
@@ -387,7 +387,7 @@ export default function NotFoundPage() {
                     }}
                 >
                     <span
-                        className="font-mono text-xs tracking-widest uppercase"
+                        className=" text-xs tracking-widest uppercase"
                         style={{ color: "var(--color-primary-300)" }}
                     >
                         Page Not Found
@@ -419,7 +419,7 @@ export default function NotFoundPage() {
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.45, duration: 0.55 }}
-                    className="font-sans text-base leading-relaxed mb-10 max-w-md mx-auto"
+                    className=" text-base leading-relaxed mb-10 max-w-md mx-auto"
                     style={{ color: "rgba(195,232,206,0.65)" }}
                 >
                     This page doesn&apos;t exist or may have been moved. Don&apos;t worry —
@@ -469,7 +469,7 @@ export default function NotFoundPage() {
                 >
                     <button
                         onClick={() => window.history.back()}
-                        className="inline-flex items-center gap-1.5 font-sans text-sm transition-all duration-200 hover:gap-2.5"
+                        className="inline-flex items-center gap-1.5  text-sm transition-all duration-200 hover:gap-2.5"
                         style={{ color: "rgba(195,232,206,0.40)" }}
                         onMouseEnter={(e) =>
                             (e.currentTarget.style.color = "var(--color-primary-300)")
@@ -489,7 +489,7 @@ export default function NotFoundPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}
-                className="absolute bottom-8 font-mono text-[10px] tracking-[0.18em] uppercase"
+                className="absolute bottom-8  text-[10px] tracking-[0.18em] uppercase"
                 style={{ color: "rgba(195,232,206,0.20)" }}
             >
                 BAMHS Alumni Portal · Since 1966

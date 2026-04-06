@@ -55,21 +55,21 @@ const EventsSection = () => {
                                 <div className="h-1 w-full" style={{ background: color }} />
                                 <CardContent className="p-6">
                                     <div className="flex items-start justify-between mb-4">
-                                        <Badge className="font-mono text-[10px] tracking-wider uppercase rounded-md px-2 py-0.5"
+                                        <Badge className=" text-[10px] tracking-wider uppercase rounded-md px-2 py-0.5"
                                             style={{ background: `${color}15`, color, border: `1px solid ${color}30` }}>
                                             {type}
                                         </Badge>
-                                        <span className="font-mono text-xs" style={{ color: "var(--color-text-muted)" }}>
+                                        <span className=" text-xs" style={{ color: "var(--color-text-muted)" }}>
                                             {date}
                                         </span>
                                     </div>
                                     <h3 className="font-display font-semibold text-lg mb-2"
                                         style={{ color: "var(--color-primary-800)" }}>{title}</h3>
-                                    <p className="font-sans text-sm leading-relaxed"
+                                    <p className=" text-sm leading-relaxed"
                                         style={{ color: "var(--color-text-secondary)" }}>{desc}</p>
                                     <Separator className="my-4" style={{ background: "var(--color-border)" }} />
                                     <Link href="/events"
-                                        className="inline-flex items-center gap-1 font-sans text-xs font-medium transition-colors hover:gap-2 duration-200"
+                                        className="inline-flex items-center gap-1  text-xs font-medium transition-colors hover:gap-2 duration-200"
                                         style={{ color: color }}>
                                         Learn more <HiArrowUpRight />
                                     </Link>

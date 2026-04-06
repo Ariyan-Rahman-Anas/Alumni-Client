@@ -190,7 +190,7 @@ const Loading = () => {
               style={{ color: "var(--color-primary-50, #E8F5ED)" }}>
               BAMHSian
             </p>
-            <p className="font-mono text-[10px] tracking-[0.18em] uppercase mt-0.5"
+            <p className=" text-[10px] tracking-[0.18em] uppercase mt-0.5"
               style={{ color: "rgba(195,232,206,0.50)" }}>
               Est. 1966 · Alumni Portal
             </p>
@@ -273,7 +273,7 @@ const Loading = () => {
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[10px]"
+            <span className=" text-[10px]"
               style={{ color: "rgba(195,232,206,0.50)" }}>
               {pct}%
             </span>
@@ -288,7 +288,7 @@ const Loading = () => {
                 />
               ))}
             </div>
-            <span className="font-mono text-[10px] tracking-widest uppercase"
+            <span className=" text-[10px] tracking-widest uppercase"
               style={{ color: "rgba(195,232,206,0.35)" }}>
               loading
             </span>
@@ -304,7 +304,7 @@ const Loading = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="font-sans text-xs text-center italic"
+              className=" text-xs text-center italic"
               style={{ color: "rgba(195,232,206,0.55)" }}
             >
               {messages[msgIndex]}
@@ -324,7 +324,7 @@ const Loading = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.8 }}
-        className="absolute bottom-8 font-mono text-[9px] tracking-[0.20em] uppercase"
+        className="absolute bottom-8  text-[9px] tracking-[0.20em] uppercase"
         style={{ color: "rgba(195,232,206,0.18)" }}
       >
         Battali Abdul Matin High School · Since 1966

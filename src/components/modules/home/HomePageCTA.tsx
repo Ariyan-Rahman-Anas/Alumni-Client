@@ -29,7 +29,7 @@ const HomePageCTA = () => {
                         </span>{" "}
                         here
                     </h2>
-                    <p className="font-sans text-lg mb-10" style={{ color: "rgba(195,232,206,0.70)" }}>
+                    <p className=" text-lg mb-10" style={{ color: "rgba(195,232,206,0.70)" }}>
                         Whether you graduated last year or three decades ago — BAMHS remembers you.
                         Join thousands of alumni and stay connected with your roots.
                     </p>

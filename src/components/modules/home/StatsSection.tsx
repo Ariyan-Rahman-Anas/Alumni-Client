@@ -35,7 +35,7 @@ const StatsSection = () => {
                                 style={{ color: "var(--color-primary-800)" }}>
                                 {value}
                             </span>
-                            <span className="font-sans text-sm" style={{ color: "var(--color-text-secondary)" }}>
+                            <span className=" text-sm" style={{ color: "var(--color-text-secondary)" }}>
                                 {label}
                             </span>
                         </div>

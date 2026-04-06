@@ -26,7 +26,7 @@ const BloodSection = () => {
                         <div className="relative z-10 flex-1">
                             <div className="flex items-center gap-3 mb-4">
                                 <RiBookLine className="text-3xl text-red-200" />
-                                <Badge className="font-mono text-[10px] tracking-wider uppercase bg-white/10 text-red-100 border-white/20">
+                                <Badge className=" text-[10px] tracking-wider uppercase bg-white/10 text-red-100 border-white/20">
                                     Community Service
                                 </Badge>
                             </div>
@@ -34,7 +34,7 @@ const BloodSection = () => {
                                 style={{ letterSpacing: "-0.02em" }}>
                                 Blood Bank Initiative
                             </h2>
-                            <p className="font-sans text-base text-red-100/80 leading-relaxed max-w-lg">
+                            <p className=" text-base text-red-100/80 leading-relaxed max-w-lg">
                                 BAMHSians saving lives. Our alumni blood bank connects donors and
                                 recipients across Bangladesh. Register as a donor today.
                             </p>

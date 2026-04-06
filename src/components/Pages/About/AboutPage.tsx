@@ -102,7 +102,7 @@ export default function AboutPage() {
                         style={{ background: "rgba(46,139,87,0.12)", borderColor: "rgba(46,139,87,0.35)" }}
                     >
                         <RiSparkling2Line style={{ color: "var(--color-primary-300)" }} />
-                        <span className="font-mono text-xs tracking-widest uppercase"
+                        <span className=" text-xs tracking-widest uppercase"
                             style={{ color: "var(--color-primary-300)" }}>Our Story</span>
                     </motion.div>
 
@@ -128,7 +128,7 @@ export default function AboutPage() {
                         initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.65, delay: 0.28 }}
-                        className="font-sans text-lg leading-relaxed max-w-2xl mx-auto mb-10"
+                        className=" text-lg leading-relaxed max-w-2xl mx-auto mb-10"
                         style={{ color: "rgba(195,232,206,0.75)" }}
                     >
                         BAMHS Alumni is not an organization — it is a feeling. The smell of chalk,
@@ -151,7 +151,7 @@ export default function AboutPage() {
                                 }}>
                                 <p className="font-display font-bold text-2xl mb-0.5"
                                     style={{ color: "var(--color-primary-100)" }}>{value}</p>
-                                <p className="font-sans text-xs" style={{ color: "rgba(195,232,206,0.60)" }}>{label}</p>
+                                <p className=" text-xs" style={{ color: "rgba(195,232,206,0.60)" }}>{label}</p>
                             </div>
                         ))}
                     </motion.div>
@@ -174,14 +174,14 @@ export default function AboutPage() {
                             >
                                 Built by alumni,<br />for alumni
                             </h2>
-                            <p className="font-sans text-base leading-relaxed mb-4"
+                            <p className=" text-base leading-relaxed mb-4"
                                 style={{ color: "var(--color-text-secondary)" }}>
                                 This platform was created by former students of Battali Abdul Matin High School
                                 who felt the need for a single, warm, digital home — a place to reconnect with
                                 old friends, find classmates from across the world, and give back to the school
                                 that gave us everything.
                             </p>
-                            <p className="font-sans text-base leading-relaxed mb-8"
+                            <p className=" text-base leading-relaxed mb-8"
                                 style={{ color: "var(--color-text-secondary)" }}>
                                 We are not a school management system. We are not affiliated with the school
                                 administration. We are simply BAMHSians — proud, grateful, and nostalgic —
@@ -190,7 +190,7 @@ export default function AboutPage() {
 
                             <div className="flex flex-wrap gap-2 mb-8">
                                 {["Alumni Portal", "Community Driven", "Non-Commercial", "Est. 2024"].map(tag => (
-                                    <Badge key={tag} className="badge-student font-mono text-xs">{tag}</Badge>
+                                    <Badge key={tag} className="badge-student  text-xs">{tag}</Badge>
                                 ))}
                             </div>
 
@@ -219,7 +219,7 @@ export default function AboutPage() {
                                                 style={{ background: "var(--color-primary-50)" }}>
                                                 <span style={{ color: "var(--color-primary-500)", fontSize: "18px" }}>{icon}</span>
                                             </div>
-                                            <p className="font-sans text-base pt-2 leading-snug"
+                                            <p className=" text-base pt-2 leading-snug"
                                                 style={{ color: "var(--color-text-primary)" }}>{text}</p>
                                         </div>
                                     ))}
@@ -271,11 +271,11 @@ export default function AboutPage() {
                                                     background: "rgba(46,139,87,0.08)",
                                                     borderColor: "rgba(46,139,87,0.20)",
                                                 }}>
-                                                <span className="font-mono text-xs tracking-widest uppercase mb-1 block"
+                                                <span className=" text-xs tracking-widest uppercase mb-1 block"
                                                     style={{ color: "var(--color-primary-400)" }}>{year}</span>
                                                 <h3 className="font-display font-semibold text-lg mb-2"
                                                     style={{ color: "var(--color-primary-100)" }}>{title}</h3>
-                                                <p className="font-sans text-sm leading-relaxed"
+                                                <p className=" text-sm leading-relaxed"
                                                     style={{ color: "rgba(195,232,206,0.65)" }}>{desc}</p>
                                             </div>
                                         </div>
@@ -316,7 +316,7 @@ export default function AboutPage() {
                                         </div>
                                         <h3 className="font-display font-semibold text-lg mb-2"
                                             style={{ color: "var(--color-primary-800)" }}>{title}</h3>
-                                        <p className="font-sans text-sm leading-relaxed"
+                                        <p className=" text-sm leading-relaxed"
                                             style={{ color: "var(--color-text-secondary)" }}>{desc}</p>
                                     </CardContent>
                                 </Card>
@@ -358,10 +358,10 @@ export default function AboutPage() {
                                         {name.split(" ").map(n => n[0]).join("").slice(0, 2)}
                                     </div>
                                     <div>
-                                        <p className="font-sans font-semibold text-sm"
+                                        <p className=" font-semibold text-sm"
                                             style={{ color: "var(--color-text-primary)" }}>{name}</p>
-                                        <p className="font-sans text-xs" style={{ color: "var(--color-text-secondary)" }}>{role}</p>
-                                        <span className="font-mono text-[10px] tracking-wider mt-1 block"
+                                        <p className=" text-xs" style={{ color: "var(--color-text-secondary)" }}>{role}</p>
+                                        <span className=" text-[10px] tracking-wider mt-1 block"
                                             style={{ color: "var(--color-primary-500)" }}>{batch}</span>
                                     </div>
                                 </div>
@@ -394,7 +394,7 @@ export default function AboutPage() {
                             }}>
                             Your batch is waiting for you
                         </h2>
-                        <p className="font-sans text-base mb-8"
+                        <p className=" text-base mb-8"
                             style={{ color: "rgba(195,232,206,0.70)" }}>
                             Do not let time create distance. Reconnect with your classmates,
                             share your story, and become part of the living history of BAMHS.
