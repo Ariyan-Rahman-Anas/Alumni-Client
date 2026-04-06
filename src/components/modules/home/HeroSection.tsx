@@ -1,163 +1,3 @@
-// "use client"
-
-// import Image from "next/image";
-// import { Button } from "@/components/ui/button";
-// import { motion, useScroll, useTransform } from "framer-motion";
-// import Link from "next/link";
-// import { useRef } from "react";
-// import { RiArrowRightLine } from "react-icons/ri";
-// import { staticImages } from "@/assets";
-
-// const HeroSection = () => {
-//     const heroRef = useRef<HTMLDivElement>(null);
-//     const { scrollYProgress } = useScroll({
-//         target: heroRef,
-//         offset: ["start start", "end start"],
-//     });
-
-//     const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-//     const heroOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
-
-//     return (
-//         <section
-//             ref={heroRef}
-//             className="relative h-[100dvh] w-full overflow-hidden"
-//         >
-//             {/* ── Background Image with parallax ── */}
-//             <motion.div style={{ y: heroY }} className="absolute inset-0">
-//                 <Image
-//                     src={staticImages.bamhsBackground}
-//                     alt="BAMHS School Ground"
-//                     fill
-//                     priority
-//                     className="object-cover object-[center_30%]"
-//                 />
-//             </motion.div>
-
-//             {/* ── Cinematic gradient overlay ── */}
-//             <div className="absolute inset-0 bg-gradient-to-b
-//         from-[#051F15]/75
-//         via-[#0A3D2B]/55
-//         to-[#051F15]/80"
-//             />
-
-//             {/* ── Subtle grid overlay ── */}
-//             <div
-//                 className="absolute inset-0 pointer-events-none"
-//                 style={{
-//                     backgroundImage: `
-//             linear-gradient(rgba(46,139,87,0.06) 1px, transparent 1px),
-//             linear-gradient(90deg, rgba(46,139,87,0.06) 1px, transparent 1px)`,
-//                     backgroundSize: "52px 52px",
-//                 }}
-//             />
-
-//             {/* ── Ambient glows ── */}
-//             <div
-//                 className="absolute -top-20 -left-20 w-[380px] h-[380px] rounded-full pointer-events-none"
-//                 style={{ background: "radial-gradient(circle, rgba(46,139,87,0.20) 0%, transparent 65%)" }}
-//             />
-//             <div
-//                 className="absolute -bottom-16 -right-12 w-[300px] h-[300px] rounded-full pointer-events-none"
-//                 style={{ background: "radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 65%)" }}
-//             />
-
-//             {/* ── Center content: school name + motto ── */}
-//             <motion.div
-//                 style={{ opacity: heroOpacity }}
-//                 className="relative z-10 h-full flex flex-col-reverse items-center justify-end pt-34 gap-y-0 text-center px-6"
-//             >
-//                 <motion.p
-//                     initial={{ opacity: 0, y: 16 }}
-//                     animate={{ opacity: 1, y: 0 }}
-//                     transition={{ delay: 0.15, duration: 0.7 }}
-//                     style={{
-//                         lineHeight: 1.5,
-//                         color: "#FDFAF2",
-//                         marginBottom: "0.5rem",
-//                     }}
-//                     className="font-sanchez text-4xl md:text-7xl font-extrabold
-//                     text-sky-950 text-shadow-2xs text-shadow-sky-300
-//                     "
-//                 >
-//                     Battali Abdul Matin High School
-//                 </motion.p>
-
-//                 <motion.h1
-//                     initial={{ opacity: 0, y: 28 }}
-//                     animate={{ opacity: 1, y: 0 }}
-//                     transition={{ delay: 0.35, duration: 0.9 }}
-//                     className="text-white/80 font-extrabold text-base md:text-lg"
-//                 >
-//                     Where We Learned to Dream.
-//                     <br />
-//                     Where We Come Back to Remember.
-//                 </motion.h1>
-//             </motion.div>
-
-//             {/* ── Bottom content: paragraph + CTAs ── */}
-//             <motion.div
-//                 style={{ opacity: heroOpacity }}
-//                 className="absolute bottom-6 left-0 right-0 z-10
-//                            flex flex-col items-center text-center px-6 gap-6"
-//             >
-//                 <motion.p
-//                     initial={{ opacity: 0, y: 20 }}
-//                     animate={{ opacity: 1, y: 0 }}
-//                     transition={{ delay: 0.45, duration: 0.8 }}
-//                     className="max-w-xl text-base md:text-lg leading-relaxed text-white/80"
-//                 >
-//                     The official alumni network of Battali Abdul Matin High School —
-//                     reconnect with your batch, relive cherished memories, and keep the
-//                     bond alive across every generation.
-//                 </motion.p>
-
-//                 <motion.div
-//                     initial={{ opacity: 0, y: 16 }}
-//                     animate={{ opacity: 1, y: 0 }}
-//                     transition={{ delay: 0.55, duration: 0.7 }}
-//                     className="flex flex-col sm:flex-row gap-3"
-//                 >
-//                     <Button
-//                         asChild
-//                         size="lg"
-//                         className="px-8 py-6 text-sm rounded-xl shadow-xl"
-//                     >
-//                         <Link href="/login">
-//                             Join the Community <RiArrowRightLine className="ml-1.5" />
-//                         </Link>
-//                     </Button>
-
-//                     <Button
-//                         asChild
-//                         variant="outline"
-//                         size="lg"
-//                         className="px-8 py-6 text-sm rounded-xl border-white/20
-//                        text-white bg-white/[0.06] backdrop-blur
-//                        hover:bg-white/[0.12]"
-//                     >
-//                         <Link href="/batches">Find Your Batch</Link>
-//                     </Button>
-//                 </motion.div>
-//             </motion.div>
-
-//         </section>
-//     );
-// };
-
-// export default HeroSection;
-
-
-
-
-
-
-
-
-
-
-
-
 "use client"
 
 import Image from "next/image";
@@ -196,7 +36,7 @@ const HeroSection = () => {
 
             {/* ── Rich layered cinematic overlay ── */}
             <div className="absolute inset-0 bg-gradient-to-b
-                from-[#020f08]/55
+                from-[#020f08]/60
                 via-[#051F15]/40
                 to-[#020f08]/80"
             />
@@ -248,13 +88,13 @@ const HeroSection = () => {
             />
 
             {/* ── Thin horizontal accent line ── */}
-            <motion.div
+            {/* <motion.div
                 initial={{ scaleX: 0, opacity: 0 }}
                 animate={{ scaleX: 1, opacity: 1 }}
                 transition={{ delay: 0.2, duration: 1.4, ease: "easeOut" }}
                 className="absolute top-[38%] left-1/2 -translate-x-1/2 w-[1px] h-0 pointer-events-none"
                 style={{ transformOrigin: "center" }}
-            />
+            >Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum officiis minima consequuntur soluta amet vel. </motion.div> */}
 
             {/* ── Center content: school name + motto ── */}
             <motion.div
