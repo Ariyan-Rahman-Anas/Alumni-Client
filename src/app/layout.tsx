@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StoreProvider from "@/providers/StoreProvider";
+import { Toaster } from "sonner";
 import { Sanchez, Splash } from "next/font/google";
 import { cn } from "@/lib/utils";
 
@@ -27,7 +28,7 @@ const splash = Splash({
 /* ── Metadata ──────────────────────────────────────────────── */
 export const metadata: Metadata = {
   title: {
-    default: "BAMHS — Battali Abdul Matin High School, Nangalkot, Cumilla, Chattogram, Bangladesh",
+    default: "Alumni Association | BAMHS — Battali Abdul Matin High School, Nangalkot, Cumilla, Chattogram, Bangladesh",
     template: "%s | BAMHS",
   },
   description:
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "BAMHS" }],
   openGraph: {
-    title: "BAMHS — Battali Abdul Matin High School, Nangalkot, Cumilla, Chattogram, Bangladesh",
+    title: "Alumni Association | BAMHS — Battali Abdul Matin High School, Nangalkot, Cumilla, Chattogram, Bangladesh",
     description:
       "The Official Website of Battali Abdul Matin High School's Alumni Association. Located in Battali Bajar, Nangalkot, Cumilla, Chattogram, Bangladesh.",
     type: "website",
@@ -72,11 +73,12 @@ export default function RootLayout({
         <StoreProvider>
           <div className="flex flex-col justify-between min-h-screen">
             <Navbar />
-            <main className="flex-1 pb-24 ">
+            <main className="flex-1">
               {children}
             </main>
             <Footer />
           </div>
+          <Toaster richColors position="top-right" />
         </StoreProvider>
       </body>
     </html>

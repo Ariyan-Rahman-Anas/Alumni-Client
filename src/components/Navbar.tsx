@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "./ui/sheet";
 import { Menu, X } from "lucide-react";
+import PrimaryButton from "./shared/PrimaryButton";
 
 /* ─────────────────────────────────────────────────────────
    NAV ITEMS
@@ -258,16 +259,7 @@ const Navbar = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 220, damping: 24, delay: 0.08 }}
           >
-            <Link href="/login"
-              className="shim relative flex items-center gap-2 px-4 py-2 rounded-xl  text-sm font-medium shrink-0 border transition-all duration-200 hover:-translate-y-0.5"
-              style={{
-                background: "linear-gradient(135deg,#2E8B57 0%,#155A3E 100%)",
-                color: "#FDFAF2",
-                borderColor: "rgba(46,139,87,0.50)",
-                boxShadow: "0 2px 12px rgba(46,139,87,0.35), 0 1px 0 rgba(255,255,255,0.15) inset",
-              }}>
-              Portal Login
-            </Link>
+            <PrimaryButton type="button" title="Sign In" href="/login" />
           </motion.div>
         </div>
 
@@ -418,17 +410,7 @@ const Navbar = () => {
                           {/* Footer CTA */}
                           <div className="px-4 py-4 border-t shrink-0"
                             style={{ borderColor: "var(--color-border)" }}>
-                            <Link href="/login"
-                              onClick={() => setSheetOpen(false)}
-                              className="shim relative flex items-center justify-center gap-2 w-full py-3 rounded-xl  text-sm font-medium border transition-all duration-200 active:scale-[0.98]"
-                              style={{
-                                background: "linear-gradient(135deg,#2E8B57 0%,#155A3E 100%)",
-                                color: "#FDFAF2",
-                                borderColor: "rgba(46,139,87,0.40)",
-                                boxShadow: "0 2px 12px rgba(46,139,87,0.28)",
-                              }}>
-                              Portal Login
-                            </Link>
+                            <PrimaryButton type="button" title="Sign In" href="/login" isFullWidth={true} />
                           </div>
                         </motion.div>
                       )}
@@ -446,16 +428,7 @@ const Navbar = () => {
               </div>
 
               {/* Right: Login */}
-              <Link href="/login"
-                className="shim relative z-10 flex items-center px-3 py-1.5 rounded-xl  text-xs font-medium border transition-all duration-200 active:scale-95"
-                style={{
-                  background: "linear-gradient(135deg,#2E8B57 0%,#155A3E 100%)",
-                  color: "#FDFAF2",
-                  borderColor: "rgba(46,139,87,0.40)",
-                  boxShadow: "0 2px 10px rgba(46,139,87,0.28)",
-                }}>
-                Login
-              </Link>
+              <PrimaryButton type="button" title="Sign In" href="/login" />
             </div>
           </motion.div>
         </div>

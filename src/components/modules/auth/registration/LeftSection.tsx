@@ -42,14 +42,14 @@ const LeftSection = () => {
                 </h1>
 
                 <p className="max-w-md text-base leading-relaxed sm:text-lg" style={{ color: "rgba(220,252,231,0.76)" }}>
-                    Register once and stay connected with your batch mates, school updates, and alumni activities.
+                    Submit your alumni details once, verify your email, and join the network after admin approval.
                 </p>
 
                 <div className="mt-8 space-y-3">
                     {[
-                        "Get connected with your own batch instantly",
-                        "Receive reunion and official alumni notices",
-                        "Build a trusted profile for mentorship opportunities",
+                        "Share the profile details required by the alumni office",
+                        "Get approved and verified before accessing member features",
+                        "Build a trusted record for directory and mentorship use",
                     ].map((point) => (
                         <div key={point} className="flex items-center gap-3">
                             <span className="h-2.5 w-2.5 rounded-full" style={{ background: "var(--color-primary-300)" }} />
