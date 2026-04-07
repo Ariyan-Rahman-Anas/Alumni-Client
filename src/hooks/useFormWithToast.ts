@@ -36,6 +36,8 @@ export const useFormWithToast = <T extends FieldValues>(
         if (first.message) {
             toast.error(first.message);
         }
+    // form.formState intentionally omitted — we only want to re-run on submitCount/errors changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [form.formState.submitCount, form.formState.errors, fieldOrder]);
 
     return form;

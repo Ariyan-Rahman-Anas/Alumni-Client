@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, ReactNode } from "react";
+import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
 
 export interface PrimaryButtonI {
   type: "button" | "submit";
@@ -61,6 +61,13 @@ export interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string;
     icon?: ReactNode;
     iconRight?: ReactNode;
+    error?: string;
+    helperText?: string;
+    containerClassName?: string;
+}
+
+export interface TextAreaBoxProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+    label?: string;
     error?: string;
     helperText?: string;
     containerClassName?: string;

@@ -1,14 +1,8 @@
 import { forwardRef } from "react";
-import type { TextareaHTMLAttributes } from "react";
 import { RiMapPin2Line } from "react-icons/ri";
 import { cn } from "@/lib/utils";
+import { TextAreaBoxProps } from "@/types/common.components.types";
 
-interface TextAreaBoxProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-    label?: string;
-    error?: string;
-    helperText?: string;
-    containerClassName?: string;
-}
 
 const TextAreaBox = forwardRef<HTMLTextAreaElement, TextAreaBoxProps>(
     (
