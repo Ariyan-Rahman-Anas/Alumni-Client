@@ -23,7 +23,7 @@ const RightSection = () => {
                     Create your account
                 </h2>
                 <p className="mt-2 text-sm" style={{ color: "var(--color-text-secondary)" }}>
-                    Enter your details to register as a BAMHS alumni member.
+                    Enter the details required for admin review and account verification.
                 </p>
 
                 <RegistrationForm />

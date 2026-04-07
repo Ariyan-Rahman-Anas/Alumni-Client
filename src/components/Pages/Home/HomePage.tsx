@@ -40,7 +40,7 @@ export const FadeUpWrapper = ({
 
 const HomePage = () => {
     return (
-        <div className="overflow-x-hidden space-y-24">
+        <div className="overflow-x-hidden space-y-24 pb-24">
             {/* ══ 1. HERO ══════════════════════════════════════════ */}
             <HeroSection />
 

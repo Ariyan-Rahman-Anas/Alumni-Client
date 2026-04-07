@@ -3,7 +3,7 @@ const ResumeUrl = process.env.NEXT_PUBLIC_RESUME_URL;
 const FormUrl = process.env.NEXT_PUBLIC_FORM_URL;
 
 export const API_CONFIG = {
-    base_url: ServerUrl,
+    base_url: `${ServerUrl}/api/v1`,
     resume_url: ResumeUrl,
     form_url: FormUrl,
 };
