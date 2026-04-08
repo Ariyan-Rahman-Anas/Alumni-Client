@@ -98,7 +98,7 @@ const IslandLabel = ({
 
             {/* Body */}
             <div
-                className={`relative flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#060d1f]/90 backdrop-blur-xl border ${c.border} overflow-hidden`}
+                className={`relative flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary2-500 [#060d1f]/90 backdrop-blur-xl border ${c.border} overflow-hidden`}
             >
                 {/* Shimmer sweep */}
                 <motion.div
@@ -126,7 +126,7 @@ const IslandLabel = ({
                 {/* Icon */}
                 {icon && (
                     <motion.span
-                        className={`text-sm leading-none ${c.text} shrink-0`}
+                        className={`text-sm text-white leading-none ${c.text} shrink-0`}
                         animate={{ rotate: [0, 8, -4, 0], scale: [1, 1.15, 1] }}
                         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                     >
@@ -139,7 +139,7 @@ const IslandLabel = ({
                     initial={animated ? { opacity: 0, x: -6 } : false}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.4, delay: 0.35 }}
-                    className={`text-xs  tracking-[0.25em] uppercase whitespace-nowrap ${c.text}`}
+                    className={`text-xs text-white tracking-[0.25em] uppercase whitespace-nowrap ${c.text}`}
                 >
                     {text}
                 </motion.span>
