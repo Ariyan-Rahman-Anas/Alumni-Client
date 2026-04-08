@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { format, isValid, parseISO } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 
@@ -29,6 +29,14 @@ const DatePickerSingle = ({
         const parsed = parseISO(value);
         return isValid(parsed) ? parsed : undefined;
     }, [value]);
+
+    const [visibleMonth, setVisibleMonth] = useState<Date>(selectedDate ?? new Date());
+
+    useEffect(() => {
+        if (open) {
+            setVisibleMonth(selectedDate ?? new Date());
+        }
+    }, [open, selectedDate]);
 
     return (
         <div className="flex flex-col gap-1.5">
@@ -64,13 +72,16 @@ const DatePickerSingle = ({
                     <Calendar
                         mode="single"
                         selected={selectedDate}
+                        month={visibleMonth}
+                        onMonthChange={setVisibleMonth}
                         onSelect={(date) => {
                             onChange?.(date ? format(date, "yyyy-MM-dd") : "");
                             setOpen(false);
                         }}
+                        captionLayout="dropdown"
                         initialFocus
-                        fromYear={1930}
-                        toYear={new Date().getFullYear()}
+                        startMonth={new Date(1930, 0)}
+                        endMonth={new Date()}
                     />
                 </PopoverContent>
             </Popover>
