@@ -1,4 +1,5 @@
 import { baseApi } from "./baseApi";
+import type { AuthUser } from "../authSlice";
 
 interface RegisterResponse {
     success: boolean;
@@ -42,18 +43,13 @@ export interface RegisterPayload {
 interface LoginResponse {
     success: boolean;
     message: string;
-    data: {
-        accessToken: string;
-        refreshToken: string;
-        user: {
-            _id: string;
-            name: string;
-            email: string;
-            role: string;
-            approvalStatus: string;
-            isVerified: boolean;
-        };
-    };
+    data: { user: AuthUser };
+}
+
+interface GetMeResponse {
+    success: boolean;
+    message: string;
+    data: AuthUser;
 }
 
 export interface LoginPayload {
@@ -104,6 +100,17 @@ export const authApi = baseApi.injectEndpoints({
                 body,
             }),
         }),
+
+        logoutUser: builder.mutation<{ success: boolean; message: string }, void>({
+            query: () => ({
+                url: "/auth/logout",
+                method: "POST",
+            }),
+        }),
+
+        getMe: builder.query<GetMeResponse, void>({
+            query: () => ({ url: "/auth/me", method: "GET" }),
+        }),
     }),
 });
 
@@ -112,4 +119,7 @@ export const {
     useVerifyOtpMutation,
     useResendOtpMutation,
     useLoginUserMutation,
+    useLogoutUserMutation,
+    useGetMeQuery,
 } = authApi;
+

@@ -95,7 +95,7 @@ const LeftSection = () => {
                             &quot;Finding my &apos;99 batch here felt like going home after 25 years.&quot;
                         </p>
                         <p className="mt-1 text-[11px] font-medium text-primary2-300">
-                            Rafiqul Karim � Batch 1999
+                            Rafiqul Karim - Batch 1999
                         </p>
                     </div>
                     <RiShieldCheckLine className="ml-auto shrink-0 text-lg text-primary2-300/30" />

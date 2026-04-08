@@ -20,7 +20,7 @@ const RightSection = () => {
                         Register as BAMHS Alumni
                     </h2>
                     <p className="mt-2 text-sm leading-relaxed text-neutral-500">
-                        Submit your details once � your profile goes live after email
+                        Submit your details once, your profile goes live after email
                         verification and admin approval.
                     </p>
                 </div>

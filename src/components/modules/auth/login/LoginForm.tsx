@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -12,6 +13,8 @@ import { RiArrowRightLine, RiEyeLine, RiEyeOffLine, RiLock2Line, RiMailLine } fr
 import InputField from "@/components/shared/InputField";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import { LoginPayload, useLoginUserMutation } from "@/redux/apis/authApi";
+import { setUser } from "@/redux/authSlice";
+import type { AppDispatch } from "@/redux/store";
 
 const loginSchema = z.object({
     email: z.string().trim().email("Please enter a valid email address"),
@@ -22,6 +25,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 const LoginForm = () => {
     const router = useRouter();
+    const dispatch = useDispatch<AppDispatch>();
     const [showPassword, setShowPassword] = useState(false);
     const [loginUser, { isLoading }] = useLoginUserMutation();
 
@@ -36,29 +40,15 @@ const LoginForm = () => {
     const onSubmit = async (data: LoginFormValues) => {
         try {
             const payload: LoginPayload = { email: data.email, password: data.password };
-            await loginUser(payload).unwrap();
-            toast.success("Welcome back! Redirecting to your dashboard...");
+            const result = await loginUser(payload).unwrap();
+            dispatch(setUser(result.data.user));
+            toast.success(result.message);
             router.push("/");
         } catch (err: unknown) {
             const message =
-                (err as { data?: { message?: string } })?.data?.message || "";
-
-            if (
-                message.toLowerCase().includes("pending") ||
-                message.toLowerCase().includes("approval")
-            ) {
-                toast.error(
-                    "Your account is pending admin approval. Please wait or contact the alumni admin to expedite the process.",
-                    { duration: 6000 }
-                );
-            } else if (message.toLowerCase().includes("verify")) {
-                toast.error(
-                    "Please verify your email before logging in. Check your inbox for the verification code.",
-                    { duration: 5000 }
-                );
-            } else {
-                toast.error(message || "Login failed. Please check your credentials.");
-            }
+                (err as { data?: { message?: string } })?.data?.message ||
+                "Login failed. Please check your credentials.";
+            toast.error(message);
         }
     };
 
