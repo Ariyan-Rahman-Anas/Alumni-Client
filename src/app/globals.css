@@ -313,6 +313,20 @@
   }
 }
 
+/* ── Masonry Grid ────────────────────────────────────────── */
+.masonry-grid {
+  display: flex;
+  margin-left: -16px;
+  width: auto;
+}
+.masonry-grid_column {
+  padding-left: 16px;
+  background-clip: padding-box;
+}
+.masonry-grid_column > * {
+  margin-bottom: 16px;
+}
+
 /* ── Layout Utilities ────────────────────────────────────── */
 @layer components {
 
