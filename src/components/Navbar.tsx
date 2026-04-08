@@ -28,7 +28,7 @@ const baseNavItems = [
   { title: "Announcements", link: "announcements", icon: <MdOutlineCampaign /> },
   { title: "Batches", link: "batches", icon: <RiGroupLine /> },
   { title: "Blood Bank", link: "bloodbank", icon: <MdOutlineBloodtype /> },
-  { title: "Alumni Request", link: "request", icon: <HiOutlineHandRaised /> },
+  { title: "Request To Admin", link: "request", icon: <HiOutlineHandRaised /> },
 ];
 const devNavItems = [
   { title: "Dash", link: "arapdash/dashboard", icon: <MdDashboard /> },
