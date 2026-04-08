@@ -11,7 +11,7 @@ export const registrationSchema = z.object({
         .refine((val) => !isNaN(Date.parse(val)), "Please enter a valid date of birth"),
     phone: z
         .string()
-        .regex(/^\+?[0-9]{11,14}$/, "Phone must be 11–14 digits including country code"),
+        .regex(/^\+?[0-9]{11,16}$/, "Phone must be 11–16 digits including country code"),
     currentAddress: z
         .string()
         .trim()

@@ -9,16 +9,22 @@ interface Batch {
 interface BatchListResponse {
     success: boolean;
     message: string;
-    // data: {
-        meta: {
-            page: number;
-            limit: number;
-            total: number;
-            totalPage: number;
-        };
-        data: Batch[];
-    // };
+    meta: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPage: number;
+    };
+    data: Batch[];
 }
+
+interface BatchResponse {
+    success: boolean;
+    message: string;
+    data: Batch;
+}
+
+export type { Batch };
 
 export const batchApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -30,8 +36,44 @@ export const batchApi = baseApi.injectEndpoints({
             }),
             providesTags: ["batches"],
         }),
+
+        getAllBatches: builder.query<BatchListResponse, { page?: number; limit?: number }>({
+            query: ({ page = 1, limit = 10 } = {}) => ({
+                url: "/batches/list",
+                method: "GET",
+                params: { page, limit, sort: "-year" },
+            }),
+            providesTags: ["batches"],
+        }),
+
+        createBatch: builder.mutation<BatchResponse, { year: number; isActive?: boolean }>({
+            query: (body) => ({ url: "/batches/create", method: "POST", body }),
+            invalidatesTags: ["batches"],
+        }),
+
+        updateBatch: builder.mutation<BatchResponse, { id: string; year?: number; isActive?: boolean }>({
+            query: ({ id, ...body }) => ({ url: `/batches/${id}`, method: "PATCH", body }),
+            invalidatesTags: ["batches"],
+        }),
+
+        deleteBatch: builder.mutation<{ success: boolean; message: string }, string>({
+            query: (id) => ({ url: `/batches/${id}`, method: "DELETE" }),
+            invalidatesTags: ["batches"],
+        }),
+
+        toggleBatchActive: builder.mutation<BatchResponse, string>({
+            query: (id) => ({ url: `/batches/${id}/toggle`, method: "PATCH" }),
+            invalidatesTags: ["batches"],
+        }),
     }),
     overrideExisting: false,
 });
 
-export const { useGetActiveBatchesQuery } = batchApi;
+export const {
+    useGetActiveBatchesQuery,
+    useGetAllBatchesQuery,
+    useCreateBatchMutation,
+    useUpdateBatchMutation,
+    useDeleteBatchMutation,
+    useToggleBatchActiveMutation,
+} = batchApi;

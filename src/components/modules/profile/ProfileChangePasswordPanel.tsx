@@ -1,26 +1,50 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { RiLockPasswordLine, RiShieldCheckLine } from "react-icons/ri";
+import { RiCheckboxCircleLine, RiLockPasswordLine, RiShieldCheckLine } from "react-icons/ri";
+import { toast } from "sonner";
 
 import PasswordField from "@/components/shared/PasswordField";
 import PrimaryButton from "@/components/shared/PrimaryButton";
+import { useChangePasswordMutation } from "@/redux/apis/authApi";
 
 const ProfileChangePasswordPanel = () => {
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const [changePassword, { isLoading }] = useChangePasswordMutation();
+
     const isMismatch = confirmPassword.length > 0 && confirmPassword !== newPassword;
-    const isValidLength = newPassword.length >= 8;
+    const isValidLength = newPassword.length >= 6;
 
     const isSubmitDisabled =
         !currentPassword ||
         !newPassword ||
         !confirmPassword ||
         isMismatch ||
-        !isValidLength;
+        !isValidLength ||
+        isLoading;
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (isSubmitDisabled) return;
+
+        try {
+            await changePassword({ currentPassword, newPassword }).unwrap();
+            toast.success("Password changed successfully!");
+            setCurrentPassword("");
+            setNewPassword("");
+            setConfirmPassword("");
+        } catch (err: unknown) {
+            const msg =
+                (err as { data?: { message?: string } })?.data?.message ??
+                "Failed to change password. Please try again.";
+            toast.error(msg);
+        }
+    };
 
     return (
         <motion.div
@@ -42,51 +66,57 @@ const ProfileChangePasswordPanel = () => {
                 </span>
             </div>
 
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <PasswordField
-                    label="Current Password"
-                    placeholder="Enter current password"
-                    value={currentPassword}
-                    onChange={setCurrentPassword}
-                    required
-                />
-
-                <PasswordField
-                    label="New Password"
-                    placeholder="At least 8 characters"
-                    value={newPassword}
-                    onChange={setNewPassword}
-                    helperText="Use 8+ characters with letters, numbers, and symbols."
-                    required
-                />
-
-                <div className="sm:col-span-2">
+            <form onSubmit={handleSubmit} className="mt-6">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <PasswordField
-                        label="Confirm New Password"
-                        placeholder="Re-enter new password"
-                        value={confirmPassword}
-                        onChange={setConfirmPassword}
-                        error={isMismatch ? "Passwords do not match" : undefined}
+                        label="Current Password"
+                        placeholder="Enter current password"
+                        value={currentPassword}
+                        onChange={setCurrentPassword}
                         required
                     />
+
+                    <PasswordField
+                        label="New Password"
+                        placeholder="At least 6 characters"
+                        value={newPassword}
+                        onChange={setNewPassword}
+                        helperText="Use 6+ characters with letters, numbers, and symbols."
+                        required
+                    />
+
+                    <div className="sm:col-span-2">
+                        <PasswordField
+                            label="Confirm New Password"
+                            placeholder="Re-enter new password"
+                            value={confirmPassword}
+                            onChange={setConfirmPassword}
+                            error={isMismatch ? "Passwords do not match" : undefined}
+                            required
+                        />
+                    </div>
                 </div>
-            </div>
 
-            <div className="mt-5 rounded-2xl border border-primary2-200 bg-primary2-50/60 px-4 py-3">
-                <p className="flex items-start gap-2 text-sm text-primary2-800">
-                    <RiShieldCheckLine className="mt-0.5 shrink-0 text-base" />
-                    Password update UI is now ready. Connect this form with your password API endpoint to make it fully functional.
-                </p>
-            </div>
+                <div className="mt-5 rounded-2xl border border-primary2-200 bg-primary2-50/60 px-4 py-3">
+                    <p className="flex items-start gap-2 text-sm text-primary2-800">
+                        <RiShieldCheckLine className="mt-0.5 shrink-0 text-base" />
+                        Choose a strong password you haven&apos;t used before. You&apos;ll stay logged in on this device.
+                    </p>
+                </div>
 
-            <div className="mt-6 flex justify-end">
-                <PrimaryButton
-                    title="Update Password"
-                    type="button"
-                    isDisabled={isSubmitDisabled}
-                    className="min-w-40"
-                />
-            </div>
+                <div className="mt-6 flex justify-end">
+                    <PrimaryButton
+                        title="Update Password"
+                        loadingTitle="Updatingâ€¦"
+                        type="submit"
+                        icon={<RiCheckboxCircleLine />}
+                        iconSide="right"
+                        isLoading={isLoading}
+                        isDisabled={isSubmitDisabled}
+                        className="min-w-40"
+                    />
+                </div>
+            </form>
         </motion.div>
     );
 };

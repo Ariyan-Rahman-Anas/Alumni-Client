@@ -1,5 +1,5 @@
+import { AuthUser } from "../slice/authSlice";
 import { baseApi } from "./baseApi";
-import type { AuthUser } from "../authSlice";
 
 interface RegisterResponse {
     success: boolean;
@@ -61,19 +61,17 @@ export const authApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         registerUser: builder.mutation<
             RegisterResponse,
-            { payload: RegisterPayload; image?: File | null }
+            { payload: RegisterPayload; image?: File | null; alumniProof?: File | null }
         >({
-            query: ({ payload, image }) => {
-                if (image) {
-                    const formData = new FormData();
-                    (Object.keys(payload) as (keyof RegisterPayload)[]).forEach((key) => {
-                        const val = payload[key];
-                        if (val != null) formData.append(key, String(val));
-                    });
-                    formData.append("image", image);
-                    return { url: "/auth/register", method: "POST", body: formData };
-                }
-                return { url: "/auth/register", method: "POST", body: payload };
+            query: ({ payload, image, alumniProof }) => {
+                const formData = new FormData();
+                (Object.keys(payload) as (keyof RegisterPayload)[]).forEach((key) => {
+                    const val = payload[key];
+                    if (val != null) formData.append(key, String(val));
+                });
+                if (image) formData.append("image", image);
+                if (alumniProof) formData.append("alumniProof", alumniProof);
+                return { url: "/auth/register", method: "POST", body: formData };
             },
         }),
 
@@ -111,6 +109,17 @@ export const authApi = baseApi.injectEndpoints({
         getMe: builder.query<GetMeResponse, void>({
             query: () => ({ url: "/auth/me", method: "GET" }),
         }),
+
+        changePassword: builder.mutation<
+            { success: boolean; message: string },
+            { currentPassword: string; newPassword: string }
+        >({
+            query: (body) => ({
+                url: "/auth/change-password",
+                method: "PATCH",
+                body,
+            }),
+        }),
     }),
 });
 
@@ -121,5 +130,6 @@ export const {
     useLoginUserMutation,
     useLogoutUserMutation,
     useGetMeQuery,
+    useChangePasswordMutation,
 } = authApi;
 

@@ -13,8 +13,8 @@ import { RiArrowRightLine, RiEyeLine, RiEyeOffLine, RiLock2Line, RiMailLine } fr
 import InputField from "@/components/shared/InputField";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import { LoginPayload, useLoginUserMutation } from "@/redux/apis/authApi";
-import { setUser } from "@/redux/authSlice";
 import type { AppDispatch } from "@/redux/store";
+import { setUser } from "@/redux/slice/authSlice";
 
 const loginSchema = z.object({
     email: z.string().trim().email("Please enter a valid email address"),

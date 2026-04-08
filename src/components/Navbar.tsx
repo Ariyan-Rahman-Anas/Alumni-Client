@@ -15,7 +15,7 @@ import { Menu, X } from "lucide-react";
 import { useSelector } from "react-redux";
 import PrimaryButton from "./shared/PrimaryButton";
 import UserMenu from "./shared/UserMenu";
-import { selectIsLoggedIn } from "@/redux/authSlice";
+import { selectIsLoggedIn } from "@/redux/slice/authSlice";
 
 /* ─────────────────────────────────────────────────────────
    NAV ITEMS

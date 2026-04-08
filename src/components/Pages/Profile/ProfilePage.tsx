@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-import { selectCurrentUser } from "@/redux/authSlice";
 import { useGetUserProfileQuery } from "@/redux/apis/userApi";
 import ProfileHero from "@/components/modules/profile/ProfileHero";
 import ProfileForm from "@/components/modules/profile/ProfileForm";
 import ProfileSidebar, { type ProfileSectionKey } from "@/components/modules/profile/ProfileSidebar";
 import ProfileTransactionsPanel from "@/components/modules/profile/ProfileTransactionsPanel";
 import ProfileChangePasswordPanel from "@/components/modules/profile/ProfileChangePasswordPanel";
+import { selectCurrentUser } from "@/redux/slice/authSlice";
 
 const ProfileSkeleton = () => (
     <div className="flex flex-col gap-5 animate-pulse">
