@@ -16,10 +16,10 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLogoutUserMutation } from "@/redux/apis/authApi";
-import { clearUser, selectCurrentUser } from "@/redux/authSlice";
 import type { AppDispatch } from "@/redux/store";
 import type { UserMenuProps } from "@/types/common.components.types";
 import { useSelector } from "react-redux";
+import { clearUser, selectCurrentUser } from "@/redux/slice/authSlice";
 
 
 const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {

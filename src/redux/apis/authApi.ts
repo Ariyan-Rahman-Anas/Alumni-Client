@@ -1,5 +1,5 @@
+import { AuthUser } from "../slice/authSlice";
 import { baseApi } from "./baseApi";
-import type { AuthUser } from "../authSlice";
 
 interface RegisterResponse {
     success: boolean;
@@ -111,6 +111,17 @@ export const authApi = baseApi.injectEndpoints({
         getMe: builder.query<GetMeResponse, void>({
             query: () => ({ url: "/auth/me", method: "GET" }),
         }),
+
+        changePassword: builder.mutation<
+            { success: boolean; message: string },
+            { currentPassword: string; newPassword: string }
+        >({
+            query: (body) => ({
+                url: "/auth/change-password",
+                method: "PATCH",
+                body,
+            }),
+        }),
     }),
 });
 
@@ -121,5 +132,6 @@ export const {
     useLoginUserMutation,
     useLogoutUserMutation,
     useGetMeQuery,
+    useChangePasswordMutation,
 } = authApi;
 

@@ -3,8 +3,8 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useGetMeQuery } from "@/redux/apis/authApi";
-import { setUser, clearUser } from "@/redux/authSlice";
 import type { AppDispatch } from "@/redux/store";
+import { clearUser, setUser } from "@/redux/slice/authSlice";
 
 /**
  * Runs silently at app root. On every page load/refresh it calls GET /auth/me

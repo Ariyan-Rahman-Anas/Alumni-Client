@@ -23,7 +23,7 @@ import type { UserProfile, UpdateUserPayload } from "@/redux/apis/userApi";
 import { useUpdateUserMutation } from "@/redux/apis/userApi";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
-import { setUser } from "@/redux/authSlice";
+import { setUser } from "@/redux/slice/authSlice";
 
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"] as const;
 

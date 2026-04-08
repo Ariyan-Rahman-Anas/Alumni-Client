@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery, type BaseQueryFn, type FetchArgs, type FetchBaseQueryError } from "@reduxjs/toolkit/query/react"
-import { clearUser } from "../authSlice";
 import { API_CONFIG } from "@/lib/config";
+import { clearUser } from "../slice/authSlice";
 
 const rawBaseQuery = fetchBaseQuery({
     baseUrl: API_CONFIG.base_url,
