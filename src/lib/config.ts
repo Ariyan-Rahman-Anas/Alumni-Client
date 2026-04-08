@@ -1,9 +1,9 @@
 const ServerUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-const ResumeUrl = process.env.NEXT_PUBLIC_RESUME_URL;
-const FormUrl = process.env.NEXT_PUBLIC_FORM_URL;
+
+if (!ServerUrl) {
+    throw new Error("Missing env: NEXT_PUBLIC_API_BASE_URL is not defined.");
+}
 
 export const API_CONFIG = {
     base_url: `${ServerUrl}/api/v1`,
-    resume_url: ResumeUrl,
-    form_url: FormUrl,
 };

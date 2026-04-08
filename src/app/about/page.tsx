@@ -2,7 +2,7 @@ import AboutPage from "@/components/Pages/About/AboutPage"
 
 const About = () => {
   return (
-    <div className="pagesetup">
+    <div>
       <AboutPage />
     </div>
   )
