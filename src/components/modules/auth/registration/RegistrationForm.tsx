@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Controller, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -21,29 +22,23 @@ import SingleSelect from "@/components/shared/SingleSelect";
 import TextAreaBox from "@/components/shared/TextAreaBox";
 import { useFormWithToast } from "@/hooks/useFormWithToast";
 import { RegisterPayload, useRegisterUserMutation } from "@/redux/apis/authApi";
+import { useGetActiveBatchesQuery } from "@/redux/apis/batchApi";
 import {
     REGISTRATION_FIELD_ORDER,
     RegistrationFormValues,
     registrationSchema,
 } from "./registrationSchema";
+import { constantsData } from "@/constants";
 
-const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
-
-const COUNTRY_CODES = [
-    { label: "Bangladesh (+880)", value: "+880", description: "Recommended" },
-    { label: "India (+91)", value: "+91" },
-    { label: "Saudi Arabia (+966)", value: "+966" },
-    { label: "UAE (+971)", value: "+971" },
-    { label: "United Kingdom (+44)", value: "+44" },
-    { label: "United States (+1)", value: "+1" },
-];
 
 const RegistrationForm = () => {
+    const router = useRouter();
     const [countryCode, setCountryCode] = useState("+880");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [imageFile, setImageFile] = useState<File | null>(null);
 
     const [registerUser, { isLoading }] = useRegisterUserMutation();
+    const { data: batchData, isFetching: batchesLoading } = useGetActiveBatchesQuery();
 
     const methods = useFormWithToast<RegistrationFormValues>(
         {
@@ -78,16 +73,15 @@ const RegistrationForm = () => {
     const normalizedPhone = phoneNumber.replace(/\D/g, "");
     const combinedPhone = `${countryCode}${normalizedPhone}`;
 
-    const batchOptions = useMemo(() => {
-        const currentYear = new Date().getFullYear();
-        return Array.from({ length: currentYear - 1964 }, (_, i) => {
-            const year = String(currentYear - i);
-            return { label: year, value: year, description: `${year} batch` };
-        });
-    }, []);
+    console.log({ batchData })
+
+    const batchOptions = (batchData?.data ?? []).map((b) => ({
+        label: String(b.year),
+        value: String(b.year),
+    }));
 
     const bloodGroupOptions = useMemo(
-        () => BLOOD_GROUPS.map((group) => ({ label: group, value: group })),
+        () => constantsData.BLOOD_GROUPS.map((group) => ({ label: group, value: group })),
         []
     );
 
@@ -108,11 +102,12 @@ const RegistrationForm = () => {
 
         try {
             const result = await registerUser({ payload, image: imageFile }).unwrap();
-            toast.success(result.message || "Registration submitted successfully.");
+            toast.success(result.message);
             reset();
             setCountryCode("+880");
             setPhoneNumber("");
             setImageFile(null);
+            router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
         } catch (error: unknown) {
             const message =
                 (error as { data?: { message?: string } })?.data?.message ||
@@ -128,7 +123,6 @@ const RegistrationForm = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 noValidate
             >
-                {/* Profile Image */}
                 <ImageUploadField
                     value={imageFile}
                     onChange={setImageFile}
@@ -136,7 +130,6 @@ const RegistrationForm = () => {
                     helperText="JPG, PNG or WEBP — square or portrait photo works best."
                 />
 
-                {/* Full Name + Batch */}
                 <div className="grid gap-4 sm:grid-cols-2">
                     <InputField
                         {...register("name")}
@@ -161,13 +154,13 @@ const RegistrationForm = () => {
                                 placeholder="Select your batch"
                                 searchPlaceholder="Search batch year"
                                 error={errors.batch?.message}
+                                isLoading={batchesLoading}
                                 required
                             />
                         )}
                     />
                 </div>
 
-                {/* Email + Phone */}
                 <div className="grid gap-4 sm:grid-cols-2">
                     <InputField
                         {...register("email")}
@@ -192,7 +185,7 @@ const RegistrationForm = () => {
                                     setCountryCode(val);
                                     setValue("phone", `${val}${normalizedPhone}`);
                                 }}
-                                options={COUNTRY_CODES}
+                                options={constantsData.COUNTRY_CODES}
                                 placeholder="Code"
                                 searchPlaceholder="Search country"
                                 searchable
@@ -214,15 +207,9 @@ const RegistrationForm = () => {
                                 error={errors.phone?.message}
                             />
                         </div>
-                        {/* {!errors.phone?.message && (
-                            <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
-                                Full number: {combinedPhone || `${countryCode}...`}
-                            </p>
-                        )} */}
                     </div>
                 </div>
 
-                {/* Blood Group + Date of Birth */}
                 <div className="grid gap-4 sm:grid-cols-2">
                     <Controller
                         name="bloodGroup"
@@ -257,7 +244,6 @@ const RegistrationForm = () => {
                     />
                 </div>
 
-                {/* Addresses */}
                 <div className="grid gap-4 sm:grid-cols-2">
                     <TextAreaBox
                         {...register("currentAddress")}
@@ -277,7 +263,6 @@ const RegistrationForm = () => {
                     />
                 </div>
 
-                {/* Workplace + Position (optional) */}
                 <div className="grid gap-4 sm:grid-cols-2">
                     <InputField
                         {...register("workplace")}
@@ -285,7 +270,6 @@ const RegistrationForm = () => {
                         label="Workplace"
                         placeholder="School, company or organization"
                         icon={<RiBriefcase4Line />}
-                    // helperText="Optional"
                     />
                     <InputField
                         {...register("position")}
@@ -296,7 +280,6 @@ const RegistrationForm = () => {
                     />
                 </div>
 
-                {/* Password + Confirm */}
                 <div className="grid gap-4 sm:grid-cols-2">
                     <Controller
                         name="password"
@@ -332,20 +315,17 @@ const RegistrationForm = () => {
                     />
                 </div>
 
-                {/* Notice */}
                 <div
-                    className="rounded-2xl border px-4 py-3 text-sm"
+                    className="rounded-2xl border px-4 py-3 text-sm text-muted-foreground"
                     style={{
                         borderColor: "rgba(46,139,87,0.18)",
                         background: "rgba(46,139,87,0.05)",
-                        color: "var(--color-text-secondary)",
                     }}
                 >
                     After registration, your account stays pending until admin approval and email
                     verification are completed.
                 </div>
 
-                {/* Submit */}
                 <PrimaryButton
                     type="submit"
                     title="Submit Registration"
@@ -353,7 +333,8 @@ const RegistrationForm = () => {
                     iconSide="right"
                     isFullWidth
                     isLoading={isLoading}
-                    loadingTitle="Submitting..." className="py-5"
+                    loadingTitle="Submitting..."
+                    className="py-5"
                 />
             </form>
         </FormProvider>

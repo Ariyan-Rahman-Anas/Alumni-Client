@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { RiUser3Line } from "react-icons/ri"
+import { RiUserAddLine } from "react-icons/ri"
 import LoginForm from "./LoginForm"
 
 const RightSection = () => {
@@ -12,26 +12,25 @@ const RightSection = () => {
                 initial={{ opacity: 0, y: 28 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
-                className="rounded-3xl border p-6 sm:p-8"
-                style={{
-                    background: "linear-gradient(140deg, #fffef8 0%, #f7f3e8 100%)",
-                    borderColor: "rgba(200,188,160,0.56)",
-                    boxShadow: "0 24px 65px rgba(5,31,21,0.22)",
-                }}
+                className="rounded-3xl border border-surface-400/50 bg-gradient-to-br from-surface to-surface-100 p-6 sm:p-8"
+                style={{ boxShadow: "0 24px 65px rgba(5,31,21,0.22)" }}
             >
-                <h2 className="text-2xl font-semibold" style={{ color: "var(--color-primary-900)" }}>
-                    Sign in to your account
+                <h2 className="text-2xl font-semibold text-primary2-900">
+                    Alumni Sign In
                 </h2>
-                <p className="mt-2 text-sm" style={{ color: "var(--color-text-secondary)" }}>
-                    Use your registered email and password.
+                <p className="mt-2 text-sm text-neutral-500">
+                    Access your alumni profile, batch updates, and association news.
                 </p>
 
                 <LoginForm />
 
-                <p className="mt-6 text-center text-sm" style={{ color: "var(--color-text-secondary)" }}>
-                    New here?{" "}
-                    <Link href="/registration" className="inline-flex items-center gap-1 font-semibold hover:underline" style={{ color: "var(--color-primary-700)" }}>
-                        Create an account <RiUser3Line />
+                <p className="mt-6 text-center text-sm text-neutral-500">
+                    Not registered yet?{" "}
+                    <Link
+                        href="/registration"
+                        className="inline-flex items-center gap-1 font-semibold text-primary2-700 hover:underline"
+                    >
+                        Register as alumni <RiUserAddLine />
                     </Link>
                 </p>
             </motion.div>

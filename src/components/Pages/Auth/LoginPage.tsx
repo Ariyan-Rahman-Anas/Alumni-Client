@@ -26,9 +26,13 @@ const LoginPage = () => {
             style={{ background: "rgba(245,158,11,0.16)" }}
         />
 
-        <div className="page-setup relative z-10 grid items-center gap-8 lg:grid-cols-2">
-            <LeftSection />
-            <RightSection />
+        <div className="page-setup relative z-10 flex flex-col md:flex-row gap-8">
+            <div className="flex-1">
+                <LeftSection />
+            </div>
+            <div className="flex-1">
+                <RightSection />
+            </div>
         </div>
     </section>;
 };

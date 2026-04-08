@@ -12,7 +12,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "./ui/sheet";
 import { Menu, X } from "lucide-react";
+import { useSelector } from "react-redux";
 import PrimaryButton from "./shared/PrimaryButton";
+import UserMenu from "./shared/UserMenu";
+import { selectIsLoggedIn } from "@/redux/authSlice";
 
 /* ─────────────────────────────────────────────────────────
    NAV ITEMS
@@ -86,6 +89,8 @@ const Navbar = () => {
 
   const isActive = (link: string) =>
     link === "" ? pathname === "/" : pathname.startsWith(`/${link}`);
+
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
   /* ── shared island surface ──────────────────────────── */
   const islandBase: React.CSSProperties = {
@@ -253,13 +258,15 @@ const Navbar = () => {
           </motion.div>
 
 
-          {/* ── Portal Login ─────────────────────────── */}
+          {/* ── Portal Login / User Avatar ─────────────────────────── */}
           <motion.div
             initial={{ y: -72, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 220, damping: 24, delay: 0.08 }}
           >
-            <PrimaryButton type="button" title="Sign In" href="/login" />
+            {isLoggedIn
+              ? <UserMenu size="md" align="end" />
+              : <PrimaryButton type="button" title="Sign In" href="/login" />}
           </motion.div>
         </div>
 
@@ -410,7 +417,11 @@ const Navbar = () => {
                           {/* Footer CTA */}
                           <div className="px-4 py-4 border-t shrink-0"
                             style={{ borderColor: "var(--color-border)" }}>
-                            <PrimaryButton type="button" title="Sign In" href="/login" isFullWidth={true} />
+                            {isLoggedIn ? (
+                              <UserMenu size="md" align="start" />
+                            ) : (
+                              <PrimaryButton type="button" title="Sign In" href="/login" isFullWidth={true} />
+                            )}
                           </div>
                         </motion.div>
                       )}
@@ -427,8 +438,10 @@ const Navbar = () => {
                 </Link>
               </div>
 
-              {/* Right: Login */}
-              <PrimaryButton type="button" title="Sign In" href="/login" />
+              {/* Right: User avatar or Login */}
+              {isLoggedIn
+                ? <UserMenu size="sm" align="end" />
+                : <PrimaryButton type="button" title="Sign In" href="/login" />}
             </div>
           </motion.div>
         </div>

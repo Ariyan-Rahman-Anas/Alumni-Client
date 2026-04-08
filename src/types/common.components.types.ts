@@ -54,6 +54,7 @@ export interface SingleSelectPropsI {
   allowDeselect?: boolean;
   name?: string;
   id?: string;
+  isLoading?: boolean;
 }
 
 
@@ -71,4 +72,10 @@ export interface TextAreaBoxProps extends TextareaHTMLAttributes<HTMLTextAreaEle
     error?: string;
     helperText?: string;
     containerClassName?: string;
+}
+
+export interface UserMenuProps {
+    /** Size of the avatar button */
+    size?: "sm" | "md";
+    align?: "start" | "center" | "end";
 }

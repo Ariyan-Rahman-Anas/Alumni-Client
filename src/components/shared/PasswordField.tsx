@@ -66,7 +66,7 @@ const PasswordField = ({
             {error ? (
                 <p className="text-xs text-red-500">{error}</p>
             ) : helperText ? (
-                <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
+                <p className="text-xs text-muted-foreground">
                     {helperText}
                 </p>
             ) : null}

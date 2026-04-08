@@ -2,6 +2,7 @@
 import store from '@/redux/store';
 import React from 'react'
 import { Provider } from 'react-redux'
+import AuthInitializer from './AuthInitializer'
 
 const StoreProvider = ({ children }: { children: React.ReactNode }) => {
 
@@ -16,6 +17,7 @@ const StoreProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <Provider store={store}>
+      <AuthInitializer />
       <div
         onMouseMove={handleMouseMove}
         className="blue-bg min-h-screen flex flex-col"

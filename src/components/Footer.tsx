@@ -25,7 +25,7 @@ const quickLinks = [
 const communityLinks = [
   { label: "Blood Bank", href: "/bloodbank" },
   { label: "Alumni Request", href: "/request" },
-  { label: "Student Portal", href: "/login" },
+  { label: "Alumni Portal", href: "/login" },
   { label: "Alumni Directory", href: "/batches" },
 ];
 
@@ -266,14 +266,15 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.05 }}
           >
-            <FooterHeading>About BAMHS</FooterHeading>
+            <FooterHeading>About BAMHS Alumni</FooterHeading>
             <p
               className="text-sm leading-relaxed"
               style={{ color: "rgba(167,243,208,0.65)" }}
             >
-              A proud institution shaping generations since 1966. BAMHS stands
-              as a beacon of quality education, community pride, and the
-              enduring bond between students, alumni, and staff.
+              Connected by shared memories, united by BAMHS. Our alumni
+              association keeps the bonds strong across all batches — celebrating
+              our roots, supporting each other, and giving back to the
+              institution that shaped us.
             </p>
             <Link
               href="/about"

@@ -43,6 +43,7 @@ const SingleSelect = ({
     allowDeselect = false,
     name,
     id,
+    isLoading = false,
 }: SingleSelectPropsI) => {
     const generatedId = useId();
     const selectId = id ?? `single-select-${generatedId}`;
@@ -102,6 +103,17 @@ const SingleSelect = ({
 
             {name && <input type="hidden" name={name} value={selectedValue} />}
 
+            {isLoading ? (
+                <div
+                    className={cn(
+                        width,
+                        "flex h-10 items-center rounded-lg border border-border bg-white px-4",
+                        className
+                    )}
+                >
+                    <div className="h-3 w-2/3 animate-pulse rounded-md bg-muted" />
+                </div>
+            ) : (
             <Popover open={resolvedOpen} onOpenChange={handleOpenChange}>
                 <PopoverTrigger asChild>
                     <button
@@ -166,13 +178,13 @@ const SingleSelect = ({
                                             disabled={option.isDisabled}
                                             className={cn(
                                                 "gap-3 rounded-md px-3 py-2",
-                                                option.isDisabled && "cursor-not-allowed opacity-50"
+                                                option.isDisabled && "cursor-not-allowed opacity-50", isSelected ? "bg-primary2-500 hover:bg-primary2-500 text-white hover:text-white " : "hover:bg-surface-100",
                                             )}
                                         >
                                             <div className="min-w-0 flex-1">
                                                 <p className="truncate">{option.label}</p>
                                                 {option.description && (
-                                                    <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                                                    <p className={`mt-0.5 truncate text-xs text-muted-foreground ${isSelected ? "text-white" : ""}`}>
                                                         {option.description}
                                                     </p>
                                                 )}
@@ -192,11 +204,12 @@ const SingleSelect = ({
                     </Command>
                 </PopoverContent>
             </Popover>
+            )}
 
             {errorMessage ? (
                 <p className="text-xs text-red-500">{errorMessage}</p>
             ) : helperText ? (
-                <p className="text-xs" style={{ color: "var(--color-text-muted)" }}>
+                <p className="text-xs text-muted-foreground">
                     {helperText}
                 </p>
             ) : null}
