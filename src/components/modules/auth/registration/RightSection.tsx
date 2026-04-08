@@ -1,58 +1,8 @@
-// "use client";
-
-// import Link from "next/link";
-// import { motion } from "framer-motion";
-// import { RiUser3Line } from "react-icons/ri";
-// import RegistrationForm from "./RegistrationForm";
-
-// const RightSection = () => {
-//     return (
-//         <section>
-//             <motion.div
-//                 initial={{ opacity: 0, y: 28 }}
-//                 animate={{ opacity: 1, y: 0 }}
-//                 transition={{ duration: 0.7, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
-//                 className="rounded-3xl border p-6 sm:p-8"
-//                 style={{
-//                     background: "linear-gradient(140deg, #fffef8 0%, #f7f3e8 100%)",
-//                     borderColor: "rgba(200,188,160,0.56)",
-//                     boxShadow: "0 24px 65px rgba(5,31,21,0.22)",
-//                 }}
-//             >
-//                 <h2 className="text-2xl font-semibold" style={{ color: "var(--color-primary-900)" }}>
-//                     Create your account
-//                 </h2>
-//                 <p className="mt-2 text-sm" style={{ color: "var(--color-text-secondary)" }}>
-//                     Enter the details required for admin review and account verification.
-//                 </p>
-
-//                 <RegistrationForm />
-
-//                 <p className="mt-6 text-center text-sm" style={{ color: "var(--color-text-secondary)" }}>
-//                     Already have an account?{" "}
-//                     <Link href="/login" className="inline-flex items-center gap-1 font-semibold hover:underline" style={{ color: "var(--color-primary-700)" }}>
-//                         Login now <RiUser3Line />
-//                     </Link>
-//                 </p>
-//             </motion.div>
-//         </section>
-//     );
-// };
-// export default RightSection;
-
-
-
-
-
-
-
-
-
 "use client";
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { RiUser3Line } from "react-icons/ri";
+import { RiLoginBoxLine } from "react-icons/ri";
 import RegistrationForm from "./RegistrationForm";
 
 const RightSection = () => {
@@ -62,48 +12,28 @@ const RightSection = () => {
                 initial={{ opacity: 0, y: 28 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.12, ease: [0.19, 1, 0.22, 1] }}
-                className="rounded-3xl border p-7 sm:p-9"
-                style={{
-                    background: "linear-gradient(140deg, #fffef8 0%, #f7f3e8 100%)",
-                    borderColor: "rgba(200,188,160,0.50)",
-                    boxShadow: "0 24px 65px rgba(5,31,21,0.20)",
-                }}
+                className="rounded-3xl border border-surface-400/50 bg-gradient-to-br from-surface to-surface-100 p-7 sm:p-9"
+                style={{ boxShadow: "0 24px 65px rgba(5,31,21,0.20)" }}
             >
-                {/* Header */}
-                <div className="mb-6 border-b pb-6" style={{ borderColor: "rgba(200,188,160,0.35)" }}>
-                    <h2
-                        className="font-display font-bold leading-tight"
-                        style={{
-                            fontSize: "clamp(1.35rem, 2vw, 1.7rem)",
-                            color: "var(--color-primary-900)",
-                        }}
-                    >
-                        Create your alumni account
+                <div className="mb-6 border-b border-surface-300/35 pb-6">
+                    <h2 className="text-2xl font-bold leading-tight text-primary2-900 sm:text-[1.7rem]">
+                        Register as BAMHS Alumni
                     </h2>
-                    <p
-                        className="mt-2 text-sm leading-relaxed"
-                        style={{ color: "var(--color-text-secondary)" }}
-                    >
-                        Submit your details once — your profile goes live after admin
-                        approval and email verification.
+                    <p className="mt-2 text-sm leading-relaxed text-neutral-500">
+                        Submit your details once � your profile goes live after email
+                        verification and admin approval.
                     </p>
                 </div>
 
-                {/* Form — untouched */}
                 <RegistrationForm />
 
-                {/* Footer link */}
-                <p
-                    className="mt-6 text-center text-sm"
-                    style={{ color: "var(--color-text-secondary)" }}
-                >
-                    Already have an account?{" "}
+                <p className="mt-6 text-center text-sm text-neutral-500">
+                    Already registered?{" "}
                     <Link
                         href="/login"
-                        className="inline-flex items-center gap-1 font-semibold hover:underline"
-                        style={{ color: "var(--color-primary-700)" }}
+                        className="inline-flex items-center gap-1 font-semibold text-primary2-700 hover:underline"
                     >
-                        Login now <RiUser3Line />
+                        Sign in to your account <RiLoginBoxLine />
                     </Link>
                 </p>
             </motion.div>

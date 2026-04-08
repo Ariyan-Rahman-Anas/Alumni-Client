@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Controller, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -26,19 +27,11 @@ import {
     RegistrationFormValues,
     registrationSchema,
 } from "./registrationSchema";
+import { constantsData } from "@/constants";
 
-const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
-
-const COUNTRY_CODES = [
-    { label: "Bangladesh (+880)", value: "+880", description: "Recommended" },
-    { label: "India (+91)", value: "+91" },
-    { label: "Saudi Arabia (+966)", value: "+966" },
-    { label: "UAE (+971)", value: "+971" },
-    { label: "United Kingdom (+44)", value: "+44" },
-    { label: "United States (+1)", value: "+1" },
-];
 
 const RegistrationForm = () => {
+    const router = useRouter();
     const [countryCode, setCountryCode] = useState("+880");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -87,7 +80,7 @@ const RegistrationForm = () => {
     }, []);
 
     const bloodGroupOptions = useMemo(
-        () => BLOOD_GROUPS.map((group) => ({ label: group, value: group })),
+        () => constantsData.BLOOD_GROUPS.map((group) => ({ label: group, value: group })),
         []
     );
 
@@ -108,11 +101,12 @@ const RegistrationForm = () => {
 
         try {
             const result = await registerUser({ payload, image: imageFile }).unwrap();
-            toast.success(result.message || "Registration submitted successfully.");
+            toast.success(result.message || "Check your email for the verification code.");
             reset();
             setCountryCode("+880");
             setPhoneNumber("");
             setImageFile(null);
+            router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
         } catch (error: unknown) {
             const message =
                 (error as { data?: { message?: string } })?.data?.message ||
@@ -192,7 +186,7 @@ const RegistrationForm = () => {
                                     setCountryCode(val);
                                     setValue("phone", `${val}${normalizedPhone}`);
                                 }}
-                                options={COUNTRY_CODES}
+                                options={constantsData.COUNTRY_CODES}
                                 placeholder="Code"
                                 searchPlaceholder="Search country"
                                 searchable
@@ -334,11 +328,10 @@ const RegistrationForm = () => {
 
                 {/* Notice */}
                 <div
-                    className="rounded-2xl border px-4 py-3 text-sm"
+                    className="rounded-2xl border px-4 py-3 text-sm text-muted-foreground"
                     style={{
                         borderColor: "rgba(46,139,87,0.18)",
                         background: "rgba(46,139,87,0.05)",
-                        color: "var(--color-text-secondary)",
                     }}
                 >
                     After registration, your account stays pending until admin approval and email

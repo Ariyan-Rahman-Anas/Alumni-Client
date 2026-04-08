@@ -1,69 +1,129 @@
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { RiArrowRightLine, RiLock2Line, RiMailLine } from "react-icons/ri"
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
+import { RiArrowRightLine, RiEyeLine, RiEyeOffLine, RiLock2Line, RiMailLine } from "react-icons/ri";
+
+import InputField from "@/components/shared/InputField";
+import PrimaryButton from "@/components/shared/PrimaryButton";
+import { LoginPayload, useLoginUserMutation } from "@/redux/apis/authApi";
+
+const loginSchema = z.object({
+    email: z.string().trim().email("Please enter a valid email address"),
+    password: z.string().min(1, "Password is required"),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
 
 const LoginForm = () => {
+    const router = useRouter();
+    const [showPassword, setShowPassword] = useState(false);
+    const [loginUser, { isLoading }] = useLoginUserMutation();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginFormValues>({
+        resolver: zodResolver(loginSchema),
+    });
+
+    const onSubmit = async (data: LoginFormValues) => {
+        try {
+            const payload: LoginPayload = { email: data.email, password: data.password };
+            await loginUser(payload).unwrap();
+            toast.success("Welcome back! Redirecting to your dashboard...");
+            router.push("/");
+        } catch (err: unknown) {
+            const message =
+                (err as { data?: { message?: string } })?.data?.message || "";
+
+            if (
+                message.toLowerCase().includes("pending") ||
+                message.toLowerCase().includes("approval")
+            ) {
+                toast.error(
+                    "Your account is pending admin approval. Please wait or contact the alumni admin to expedite the process.",
+                    { duration: 6000 }
+                );
+            } else if (message.toLowerCase().includes("verify")) {
+                toast.error(
+                    "Please verify your email before logging in. Check your inbox for the verification code.",
+                    { duration: 5000 }
+                );
+            } else {
+                toast.error(message || "Login failed. Please check your credentials.");
+            }
+        }
+    };
+
     return (
-        <form className="mt-7 space-y-5">
-            <div>
-                <label className="mb-2 block text-xs uppercase tracking-[0.14em]" style={{ color: "var(--color-primary-700)" }}>
-                    Email Address
-                </label>
-                <div className="relative">
-                    <RiMailLine className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-lg" style={{ color: "var(--color-primary-500)" }} />
-                    <input
-                        type="email"
-                        placeholder="you@bamhs.org"
-                        className="h-12 w-full rounded-xl border bg-white pl-10 pr-4 text-sm outline-none transition focus:ring-2"
-                        style={{
-                            borderColor: "var(--color-border)",
-                            color: "var(--color-text-primary)",
-                        }}
-                    />
-                </div>
-            </div>
+        <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
+            <InputField
+                {...register("email")}
+                id="login-email"
+                type="email"
+                label="Email Address"
+                placeholder="you@example.com"
+                icon={<RiMailLine />}
+                error={errors.email?.message}
+                required
+            />
 
-            <div>
-                <label className="mb-2 block text-xs uppercase tracking-[0.14em]" style={{ color: "var(--color-primary-700)" }}>
-                    Password
+            <div className="flex flex-col gap-1.5">
+                <label htmlFor="login-password" className="block text-xs">
+                    Password <span className="text-danger">*</span>
                 </label>
                 <div className="relative">
-                    <RiLock2Line className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-lg" style={{ color: "var(--color-primary-500)" }} />
+                    <RiLock2Line
+                        className={`pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-lg ${errors.password ? "text-danger" : "text-primary2-500"}`}
+                    />
                     <input
-                        type="password"
+                        {...register("password")}
+                        id="login-password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
-                        className="h-12 w-full rounded-xl border bg-white pl-10 pr-4 text-sm outline-none transition focus:ring-2"
-                        style={{
-                            borderColor: "var(--color-border)",
-                            color: "var(--color-text-primary)",
-                        }}
+                        className={`h-10 w-full rounded-lg border bg-white pl-10 pr-10 text-sm text-accent-foreground outline-none transition focus-visible:border-primary2-500 ${errors.password ? "border-danger" : ""}`}
                     />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword((p) => !p)}
+                        className={`absolute right-3 top-1/2 -translate-y-1/2 text-lg ${errors.password ? "text-danger" : "text-primary2-500"}`}
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                        {showPassword ? <RiEyeOffLine /> : <RiEyeLine />}
+                    </button>
                 </div>
+                {errors.password && (
+                    <p className="text-xs text-danger">{errors.password.message}</p>
+                )}
             </div>
 
-            <div className="flex items-center justify-between pt-1 text-sm">
-                <label className="inline-flex items-center gap-2" style={{ color: "var(--color-text-secondary)" }}>
-                    <input type="checkbox" className="h-4 w-4 rounded" />
-                    Remember me
-                </label>
-                <Link href="#" className="font-medium hover:underline" style={{ color: "var(--color-primary-600)" }}>
+            <div className="flex items-center justify-end pt-0.5">
+                <Link
+                    href="/forgot-password"
+                    className="text-xs font-medium text-primary2-600 hover:underline"
+                >
                     Forgot password?
                 </Link>
             </div>
 
-            <Button
+            <PrimaryButton
                 type="submit"
-                size="lg"
-                className="h-12 w-full rounded-xl text-sm font-medium"
-                style={{
-                    background: "linear-gradient(135deg, #2e8b57 0%, #155a3e 100%)",
-                    color: "#fdfaf2",
-                    boxShadow: "0 10px 26px rgba(46,139,87,0.28)",
-                }}
-            >
-                Login to Dashboard <RiArrowRightLine className="ml-1" />
-            </Button>
+                title="Sign In"
+                icon={<RiArrowRightLine />}
+                iconSide="right"
+                isFullWidth
+                isLoading={isLoading} className="py-5"
+                loadingTitle="Signing in..."
+            />
         </form>
-    )
-}
-export default LoginForm
+    );
+};
+
+export default LoginForm;
