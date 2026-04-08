@@ -2,9 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
-import { RiUser3Line, RiUserLine, RiLogoutBoxLine } from "react-icons/ri";
+import { RiUser3Line, RiUserLine, RiLogoutBoxLine, RiShieldCheckLine } from "react-icons/ri";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -18,9 +18,7 @@ import {
 import { useLogoutUserMutation } from "@/redux/apis/authApi";
 import type { AppDispatch } from "@/redux/store";
 import type { UserMenuProps } from "@/types/common.components.types";
-import { useSelector } from "react-redux";
 import { clearUser, selectCurrentUser } from "@/redux/slice/authSlice";
-
 
 const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
     const router = useRouter();
@@ -83,6 +81,18 @@ const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
                         Profile
                     </Link>
                 </DropdownMenuItem>
+
+                {user?.role === "ADMIN" && (
+                    <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            <Link href="/admin/users" className="flex items-center gap-2">
+                                <RiShieldCheckLine className="size-4 text-primary2-500" />
+                                Admin Dashboard
+                            </Link>
+                        </DropdownMenuItem>
+                    </>
+                )}
 
                 <DropdownMenuSeparator />
 

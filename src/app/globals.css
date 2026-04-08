@@ -854,3 +854,8 @@
   0%, 100% { transform: rotate(-2deg); }
   50%       { transform: rotate(2deg); }
 }
+@layer components {
+  .pagination-btn {
+    @apply h-8 w-9 rounded-md flex items-center justify-center border border-gray-200 bg-white text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer;
+  }
+}

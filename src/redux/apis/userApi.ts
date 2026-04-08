@@ -13,6 +13,7 @@ export interface UserProfile {
     workplace?: string;
     position?: string;
     imageUrl?: string;
+    alumniProofUrl?: string;
     role: string;
     approvalStatus: string;
     isVerified: boolean;
@@ -22,6 +23,18 @@ interface UserProfileResponse {
     success: boolean;
     message: string;
     data: UserProfile;
+}
+
+interface UserListResponse {
+    success: boolean;
+    message: string;
+    meta: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPage: number;
+    };
+    data: UserProfile[];
 }
 
 export interface UpdateUserPayload {
@@ -43,6 +56,34 @@ export const userApi = baseApi.injectEndpoints({
             providesTags: (_result, _err, id) => [{ type: "users", id }],
         }),
 
+        getAllUsers: builder.query<UserListResponse, { page?: number; limit?: number; approvalStatus?: string; search?: string; bloodGroup?: string; dobYear?: number; dobMonth?: number; dobDay?: number }>({
+            query: ({ page = 1, limit = 10, approvalStatus, search, bloodGroup, dobYear, dobMonth, dobDay } = {}) => ({
+                url: "/users/list",
+                method: "GET",
+                params: {
+                    page,
+                    limit,
+                    ...(approvalStatus ? { approvalStatus } : {}),
+                    ...(search ? { searchTerm: search } : {}),
+                    ...(bloodGroup ? { bloodGroup } : {}),
+                    ...(dobYear ? { dobYear } : {}),
+                    ...(dobMonth ? { dobMonth } : {}),
+                    ...(dobDay ? { dobDay } : {}),
+                },
+            }),
+            providesTags: ["users"],
+        }),
+
+        approveUser: builder.mutation<UserProfileResponse, string>({
+            query: (id) => ({ url: `/users/${id}/approve`, method: "PATCH" }),
+            invalidatesTags: ["users"],
+        }),
+
+        deleteUser: builder.mutation<{ success: boolean; message: string }, string>({
+            query: (id) => ({ url: `/users/${id}`, method: "DELETE" }),
+            invalidatesTags: ["users"],
+        }),
+
         updateUser: builder.mutation<
             UserProfileResponse,
             { id: string; payload: UpdateUserPayload; image?: File | null }
@@ -57,7 +98,6 @@ export const userApi = baseApi.injectEndpoints({
                     formData.append("image", image);
                     return { url: `/users/${id}`, method: "PATCH", body: formData };
                 }
-                // Filter out empty strings before sending JSON
                 const clean = Object.fromEntries(
                     Object.entries(payload).filter(([, v]) => v != null && v !== "")
                 );
@@ -69,4 +109,10 @@ export const userApi = baseApi.injectEndpoints({
     overrideExisting: false,
 });
 
-export const { useGetUserProfileQuery, useUpdateUserMutation } = userApi;
+export const {
+    useGetUserProfileQuery,
+    useGetAllUsersQuery,
+    useApproveUserMutation,
+    useDeleteUserMutation,
+    useUpdateUserMutation,
+} = userApi;

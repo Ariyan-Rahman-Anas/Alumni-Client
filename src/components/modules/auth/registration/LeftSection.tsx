@@ -7,7 +7,7 @@ const STEPS = [
     {
         n: "1",
         title: "Fill your alumni profile",
-        desc: "Your name, batch year, contact, and career details � takes just a few minutes.",
+        desc: "Your name, batch year, contact, and career details takes just a few minutes.",
     },
     {
         n: "2",
@@ -17,7 +17,7 @@ const STEPS = [
     {
         n: "3",
         title: "Admin approves your account",
-        desc: "We keep the alumni network genuine � every member is reviewed before access is granted.",
+        desc: "We keep the alumni network genuine — every member is reviewed before access is granted.",
     },
     {
         n: "4",

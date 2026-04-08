@@ -36,6 +36,8 @@ const RegistrationForm = () => {
     const [countryCode, setCountryCode] = useState("+880");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [imageFile, setImageFile] = useState<File | null>(null);
+    const [alumniProofFile, setAlumniProofFile] = useState<File | null>(null);
+    const [alumniProofError, setAlumniProofError] = useState<string | undefined>();
 
     const [registerUser, { isLoading }] = useRegisterUserMutation();
     const { data: batchData, isFetching: batchesLoading } = useGetActiveBatchesQuery();
@@ -73,8 +75,6 @@ const RegistrationForm = () => {
     const normalizedPhone = phoneNumber.replace(/\D/g, "");
     const combinedPhone = `${countryCode}${normalizedPhone}`;
 
-    console.log({ batchData })
-
     const batchOptions = (batchData?.data ?? []).map((b) => ({
         label: String(b.year),
         value: String(b.year),
@@ -86,6 +86,12 @@ const RegistrationForm = () => {
     );
 
     const onSubmit = async (data: RegistrationFormValues) => {
+        if (!alumniProofFile) {
+            setAlumniProofError("Alumni proof image is required");
+            return;
+        }
+        setAlumniProofError(undefined);
+
         const payload: RegisterPayload = {
             name: data.name,
             email: data.email,
@@ -101,12 +107,14 @@ const RegistrationForm = () => {
         };
 
         try {
-            const result = await registerUser({ payload, image: imageFile }).unwrap();
+            const result = await registerUser({ payload, image: imageFile, alumniProof: alumniProofFile }).unwrap();
             toast.success(result.message);
             reset();
             setCountryCode("+880");
             setPhoneNumber("");
             setImageFile(null);
+            setAlumniProofFile(null);
+            setAlumniProofError(undefined);
             router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
         } catch (error: unknown) {
             const message =
@@ -127,7 +135,19 @@ const RegistrationForm = () => {
                     value={imageFile}
                     onChange={setImageFile}
                     label="Profile Image"
-                    helperText="JPG, PNG or WEBP — square or portrait photo works best."
+                    helperText="JPG, PNG or WEBP — square or portrait photo works best"
+                />
+
+                <ImageUploadField
+                    value={alumniProofFile}
+                    onChange={(file) => {
+                        setAlumniProofFile(file);
+                        if (file) setAlumniProofError(undefined);
+                    }}
+                    label="Alumni Proof"
+                    helperText="Upload your student ID, certificate, Testimonial, Marks sheet or any proof of alumni status (JPG, PNG or WEBP)"
+                    error={alumniProofError}
+                    required
                 />
 
                 <div className="grid gap-4 sm:grid-cols-2">
