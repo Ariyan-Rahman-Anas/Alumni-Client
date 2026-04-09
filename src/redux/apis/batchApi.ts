@@ -4,6 +4,13 @@ interface Batch {
     _id: string;
     year: number;
     isActive: boolean;
+    stats: {
+        totalRegistrations: number;
+        approved: number;
+        emailVerified: number;
+        lastRegistration: string | null;
+        last30Days: number;
+    };
 }
 
 interface BatchListResponse {
