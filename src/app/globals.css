@@ -334,8 +334,6 @@
     @apply w-full max-w-screen-3xl mx-auto py-24 px-4;
   }
 
-
-
   /* Main page wrapper */
   .page-setup {
     @apply w-[96%] mx-auto max-w-7xl;

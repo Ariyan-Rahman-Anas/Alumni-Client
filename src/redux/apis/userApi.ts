@@ -56,8 +56,8 @@ export const userApi = baseApi.injectEndpoints({
             providesTags: (_result, _err, id) => [{ type: "users", id }],
         }),
 
-        getAllUsers: builder.query<UserListResponse, { page?: number; limit?: number; approvalStatus?: string; search?: string; bloodGroup?: string; dobYear?: number; dobMonth?: number; dobDay?: number }>({
-            query: ({ page = 1, limit = 10, approvalStatus, search, bloodGroup, dobYear, dobMonth, dobDay } = {}) => ({
+        getAllUsers: builder.query<UserListResponse, { page?: number; limit?: number; approvalStatus?: string; search?: string; bloodGroup?: string; dobYear?: number; dobMonth?: number; dobDay?: number; isVerified?: boolean }>({
+            query: ({ page = 1, limit = 10, approvalStatus, search, bloodGroup, dobYear, dobMonth, dobDay, isVerified } = {}) => ({
                 url: "/users/list",
                 method: "GET",
                 params: {
@@ -69,6 +69,7 @@ export const userApi = baseApi.injectEndpoints({
                     ...(dobYear ? { dobYear } : {}),
                     ...(dobMonth ? { dobMonth } : {}),
                     ...(dobDay ? { dobDay } : {}),
+                    ...(isVerified !== undefined ? { isVerified } : {}),
                 },
             }),
             providesTags: ["users"],

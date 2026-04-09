@@ -79,3 +79,12 @@ export interface UserMenuProps {
     size?: "sm" | "md";
     align?: "start" | "center" | "end";
 }
+
+export interface DeleteAlertModalProps {
+  open: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  isDeleting?: boolean;
+  title?: string;
+  description?: string;
+}

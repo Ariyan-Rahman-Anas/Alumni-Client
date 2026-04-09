@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import StoreProvider from "@/providers/StoreProvider";
 import { Toaster } from "sonner";
 import { Sanchez, Splash } from "next/font/google";
@@ -71,13 +69,7 @@ export default function RootLayout({
           min-h-screen h-full
         ">
         <StoreProvider>
-          <div className="flex flex-col justify-between min-h-screen">
-            <Navbar />
-            <main className="flex-1">
-              {children}
-            </main>
-            <Footer />
-          </div>
+          {children}
           <Toaster richColors position="top-right" />
         </StoreProvider>
       </body>
