@@ -1,9 +1,13 @@
 import RegistrationPage from '@/components/Pages/Auth/RegistrationPage'
-import React from 'react'
+import ClientAuthGuard from '@/components/shared/ClientAuthGuard'
 
+// ClientAuthGuard: requireGuest — redirect logged-in users away from registration.
+// WHEN CUSTOM DOMAIN: middleware handles this too. Keep guard for defence-in-depth.
 const Registration = () => {
   return (
-    <div><RegistrationPage /></div>
+    <ClientAuthGuard requireGuest>
+      <RegistrationPage />
+    </ClientAuthGuard>
   )
 }
 

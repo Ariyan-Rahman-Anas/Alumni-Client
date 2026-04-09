@@ -13,6 +13,8 @@ import {
     RiBarChartBoxLine,
     RiMenuLine,
     RiCloseLine,
+    RiArrowLeftLine,
+    RiExternalLinkLine,
 } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { useLogoutUserMutation } from "@/redux/apis/authApi";
@@ -90,27 +92,50 @@ function SidebarContent({ onNav }: { onNav?: () => void }) {
             </nav>
 
             <div className="px-3 py-4 border-t border-white/10 space-y-2 shrink-0">
-                <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/5">
-                    <Avatar className="size-8 shrink-0">
-                        {user?.imageUrl && <AvatarImage src={user.imageUrl} alt={user.name} />}
-                        <AvatarFallback className="bg-primary2-700 text-white text-xs font-semibold">
-                            {initials}
-                        </AvatarFallback>
-                    </Avatar>
-                    <div className="min-w-0">
-                        <p className="text-sm font-medium text-white truncate">{user?.name ?? "Admin"}</p>
-                        <p className="text-[11px] text-white/40 truncate">{user?.email}</p>
-                    </div>
+                {/* Back to website */}
+                <div className="space-y-0.5">
+                    <p className="px-3 mb-1.5 text-[10px] uppercase tracking-widest text-white/30 font-medium">Navigate</p>
+                    <Link
+                        href="/"
+                        onClick={onNav}
+                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/60 hover:bg-white/5 hover:text-white transition-all group"
+                    >
+                        <RiArrowLeftLine className="text-lg shrink-0 text-white/40 group-hover:text-white/70" />
+                        Back to Website
+                    </Link>
+                    <Link
+                        href="/profile"
+                        onClick={onNav}
+                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/60 hover:bg-white/5 hover:text-white transition-all group"
+                    >
+                        <RiExternalLinkLine className="text-lg shrink-0 text-white/40 group-hover:text-white/70" />
+                        My Profile
+                    </Link>
                 </div>
-                <button
-                    type="button"
-                    onClick={handleLogout}
-                    disabled={isLoggingOut}
-                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-400 hover:bg-red-500/10 transition-all disabled:opacity-50"
-                >
-                    <RiLogoutBoxLine className="text-lg shrink-0" />
-                    {isLoggingOut ? "Logging out..." : "Logout"}
-                </button>
+
+                <div className="border-t border-white/10 pt-2">
+                    <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/5">
+                        <Avatar className="size-8 shrink-0">
+                            {user?.imageUrl && <AvatarImage src={user.imageUrl} alt={user.name} />}
+                            <AvatarFallback className="bg-primary2-700 text-white text-xs font-semibold">
+                                {initials}
+                            </AvatarFallback>
+                        </Avatar>
+                        <div className="min-w-0">
+                            <p className="text-sm font-medium text-white truncate">{user?.name ?? "Admin"}</p>
+                            <p className="text-[11px] text-white/40 truncate">{user?.email}</p>
+                        </div>
+                    </div>
+                    <button
+                        type="button"
+                        onClick={handleLogout}
+                        disabled={isLoggingOut}
+                        className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-400 hover:bg-red-500/10 transition-all disabled:opacity-50"
+                    >
+                        <RiLogoutBoxLine className="text-lg shrink-0" />
+                        {isLoggingOut ? "Logging out..." : "Logout"}
+                    </button>
+                </div>
             </div>
         </div>
     );
