@@ -32,7 +32,7 @@ const communityLinks = [
 const contactInfo = [
   {
     icon: <RiMapPin2Line className="text-base shrink-0 mt-0.5" />,
-    text: "Battali Bajar, Nangalkot, Cumilla, Chattogram, Bangladesh",
+    text: "Battali Bazar, Nangalkot, Cumilla, Chattogram, Bangladesh",
   },
   {
     icon: <RiPhoneLine className="text-base shrink-0" />,

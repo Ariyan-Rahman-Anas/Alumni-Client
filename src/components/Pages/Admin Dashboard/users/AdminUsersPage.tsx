@@ -12,6 +12,7 @@ const AdminUsersPage = () => {
         approvalStatus: "PENDING",
         search: undefined,
         bloodGroup: undefined,
+        section: undefined,
         dobYear: undefined,
         dobMonth: undefined,
         dobDay: undefined,
@@ -47,6 +48,7 @@ const AdminUsersPage = () => {
                 approvalStatus={filters.approvalStatus}
                 search={filters.search}
                 bloodGroup={filters.bloodGroup}
+                section={filters.section}
                 dobYear={filters.dobYear}
                 dobMonth={filters.dobMonth}
                 dobDay={filters.dobDay}

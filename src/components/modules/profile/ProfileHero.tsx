@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { RiShieldCheckLine, RiTimeLine, RiMailLine } from "react-icons/ri";
-import { cn } from "@/lib/utils";
+import { RiMailLine } from "react-icons/ri";
 import type { UserProfile } from "@/redux/apis/userApi";
 import ProfileAvatar from "./ProfileAvatar";
 
@@ -12,24 +11,7 @@ interface ProfileHeroProps {
     onImageChange: (file: File | null) => void;
 }
 
-const approvalConfig = {
-    APPROVED: {
-        label: "Approved",
-        icon: RiShieldCheckLine,
-        className: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30",
-    },
-    PENDING: {
-        label: "Pending Approval",
-        icon: RiTimeLine,
-        className: "bg-amber-500/20 text-amber-300 border border-amber-500/30",
-    },
-} as const;
-
 const ProfileHero = ({ user, pendingImage, onImageChange }: ProfileHeroProps) => {
-    const approval =
-        approvalConfig[user.approvalStatus as keyof typeof approvalConfig] ??
-        approvalConfig.PENDING;
-    const ApprovalIcon = approval.icon;
 
     return (
         <div
@@ -95,27 +77,16 @@ const ProfileHero = ({ user, pendingImage, onImageChange }: ProfileHeroProps) =>
                         {/* Batch */}
                         {user.batch && (
                             <span className="rounded-full bg-primary2-700/50 border border-primary2-600/40 px-3 py-0.5 text-xs font-medium text-primary2-200">
-                                Batch {user.batch}
+                                Batch - {user.batch}
                             </span>
                         )}
 
-                        {/* Role */}
-                        <span
-                            className={cn(
-                                "rounded-full px-3 py-0.5 text-xs font-medium",
-                                user.role === "ADMIN"
-                                    ? "bg-violet-500/20 text-violet-300 border border-violet-500/30"
-                                    : "bg-sky-500/20 text-sky-300 border border-sky-500/30"
-                            )}
-                        >
-                            {user.role}
-                        </span>
-
-                        {/* Approval */}
-                        <span className={cn("flex items-center gap-1 rounded-full px-3 py-0.5 text-xs font-medium", approval.className)}>
-                            <ApprovalIcon className="shrink-0" />
-                            {approval.label}
-                        </span>
+                        {/* Section */}
+                        {user.section && (
+                            <span className="rounded-full bg-sky-500/20 border border-sky-500/30 px-3 py-0.5 text-xs font-medium text-sky-200">
+                                {user.section}
+                            </span>
+                        )}
                     </div>
 
                     <p className="text-xs text-white/40 mt-0.5">

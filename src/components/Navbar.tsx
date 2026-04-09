@@ -2,7 +2,7 @@
 
 import { AiOutlineHome } from "react-icons/ai";
 import { TiInfoLarge } from "react-icons/ti";
-import { MdDashboard, MdOutlineCampaign, MdOutlineBloodtype } from "react-icons/md";
+import { MdOutlineCampaign, MdOutlineBloodtype } from "react-icons/md";
 import { IoBriefcaseOutline } from "react-icons/io5";
 import { RiCalendarEventLine, RiGroupLine } from "react-icons/ri";
 import { HiOutlineHandRaised } from "react-icons/hi2";
@@ -20,7 +20,7 @@ import { selectIsLoggedIn } from "@/redux/slice/authSlice";
 /* ─────────────────────────────────────────────────────────
    NAV ITEMS
 ───────────────────────────────────────────────────────── */
-const baseNavItems = [
+const navItems = [
   { title: "Home", link: "", icon: <AiOutlineHome /> },
   { title: "About", link: "about", icon: <TiInfoLarge /> },
   { title: "Gallery", link: "gallery", icon: <IoBriefcaseOutline /> },
@@ -29,9 +29,6 @@ const baseNavItems = [
   { title: "Batches", link: "batches", icon: <RiGroupLine /> },
   { title: "Blood Bank", link: "bloodbank", icon: <MdOutlineBloodtype /> },
   { title: "Request To Admin", link: "request", icon: <HiOutlineHandRaised /> },
-];
-const devNavItems = [
-  { title: "Dash", link: "arapdash/dashboard", icon: <MdDashboard /> },
 ];
 
 /* ─────────────────────────────────────────────────────────
@@ -50,9 +47,9 @@ const Navbar = () => {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
 
-  const navItems = process.env.NODE_ENV === "development"
-    ? [...baseNavItems, ...devNavItems]
-    : baseNavItems;
+  // const navItems = process.env.NODE_ENV === "development"
+  //   ? [...baseNavItems, ...devNavItems]
+  //   : baseNavItems;
 
   const isActive = (link: string) =>
     link === "" ? pathname === "/" : pathname.startsWith(`/${link}`);
@@ -471,5 +468,4 @@ const Navbar = () => {
     </>
   );
 };
-
 export default Navbar;

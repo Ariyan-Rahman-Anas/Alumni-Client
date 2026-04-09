@@ -9,7 +9,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             label,
             icon,
             iconRight,
-            error,
+            error, isShowErrorMessage = true,
             helperText,
             containerClassName,
             className,
@@ -66,7 +66,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
                     )}
                 </div>
 
-                {error && <p className="text-xs text-red-500">{error}</p>}
+                {isShowErrorMessage && error && <p className="text-xs text-red-500">{error}</p>}
                 {!error && helperText && (
                     <p className="text-xs text-muted-foreground">
                         {helperText}

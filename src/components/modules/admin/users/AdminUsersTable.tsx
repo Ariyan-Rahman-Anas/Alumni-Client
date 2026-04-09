@@ -25,6 +25,7 @@ interface AdminUsersTableProps {
     approvalStatus?: string;
     search?: string;
     bloodGroup?: string;
+    section?: string;
     dobYear?: number;
     dobMonth?: number;
     dobDay?: number;
@@ -39,6 +40,7 @@ const AdminUsersTable = ({
     approvalStatus,
     search,
     bloodGroup,
+    section,
     dobYear,
     dobMonth,
     dobDay,
@@ -54,6 +56,7 @@ const AdminUsersTable = ({
         approvalStatus,
         search,
         bloodGroup,
+        section,
         dobYear,
         dobMonth,
         dobDay,
@@ -86,6 +89,9 @@ const AdminUsersTable = ({
     const columns: TableColumn<UserProfile>[] = [
         {
             key: "index", label: "#"
+        },
+        {
+            key: "userId", label: "User ID"
         },
         {
             key: "name", label: "Name"

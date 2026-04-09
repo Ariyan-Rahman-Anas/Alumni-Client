@@ -1,12 +1,11 @@
 "use client"
 
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Link from "next/link";
 import { useRef } from "react";
-import { RiArrowRightLine } from "react-icons/ri";
 import { staticImages } from "@/assets";
+import PrimaryButton from "@/components/shared/PrimaryButton";
+import { BsArrowRight } from "react-icons/bs";
 
 const HeroSection = () => {
     const heroRef = useRef<HTMLDivElement>(null);
@@ -114,7 +113,7 @@ const HeroSection = () => {
                         backgroundClip: "text",
                         filter: "drop-shadow(0 2px 24px rgba(46,139,87,0.35))",
                     }}
-                    className="font-sanchez text-4xl md:text-7xl font-extrabold"
+                    className="font-sanchez text-4xl md:text-7xl font-extrabold pb-1"
                 >
                     Battali Abdul Matin High School
                 </motion.p>
@@ -159,40 +158,38 @@ const HeroSection = () => {
                     transition={{ delay: 0.55, duration: 0.7 }}
                     className="flex flex-col sm:flex-row gap-3"
                 >
-                    <Button
-                        asChild
-                        size="lg"
-                        className="px-8 py-6 text-sm rounded-xl shadow-xl"
+                    <PrimaryButton
+                        type="button"
+                        title=" Join the Community"
+                        href="/login"
+                        className="px-8 py-6 text-sm rounded-lg shadow-xl"
                         style={{
                             background: "linear-gradient(135deg, #16a34a 0%, #15803d 60%, #166534 100%)",
                             boxShadow: "0 0 32px rgba(22,163,74,0.45), 0 4px 16px rgba(0,0,0,0.4)",
                             border: "1px solid rgba(74,222,128,0.25)",
                         }}
-                    >
-                        <Link href="/login">
-                            Join the Community <RiArrowRightLine className="ml-1.5" />
-                        </Link>
-                    </Button>
+                        icon={<BsArrowRight className="ml-2 text-lg" />}
+                        iconSide="right"
 
-                    <Button
-                        asChild
+                    />
+                    <PrimaryButton
+                        type="button"
                         variant="outline"
-                        size="lg"
+                        title=" Find Your Batch"
+                        href="/batches"
                         className="px-8 py-6 text-sm rounded-xl border-white/20
                        text-white bg-white/[0.06] backdrop-blur
-                       hover:bg-white/[0.12]"
+                       hover:bg-surface duration-500"
                         style={{
                             borderColor: "rgba(255,255,255,0.15)",
                             boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08), 0 4px 16px rgba(0,0,0,0.3)",
                         }}
-                    >
-                        <Link href="/batches">Find Your Batch</Link>
-                    </Button>
+
+                    />
                 </motion.div>
             </motion.div>
 
         </section>
     );
 };
-
 export default HeroSection;

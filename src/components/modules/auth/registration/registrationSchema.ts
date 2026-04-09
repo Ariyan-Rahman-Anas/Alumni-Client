@@ -7,6 +7,7 @@ export const registrationSchema = z.object({
         .string()
         .regex(/^\+?[0-9]{11,16}$/, "Phone must be 11–16 digits including country code"),
     batch: z.string().min(1, "Please select your batch year"),
+    section: z.string().min(1, "Please select your section"),
     dob: z
         .string()
         .min(1, "Date of birth is required")
@@ -39,6 +40,7 @@ export const REGISTRATION_FIELD_ORDER: (keyof RegistrationFormValues)[] = [
     "email",
     "phone",
     "batch",
+    "section",
     "dob",
     "bloodGroup",
     "currentAddress",

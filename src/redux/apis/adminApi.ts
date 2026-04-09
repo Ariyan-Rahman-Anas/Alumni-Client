@@ -11,6 +11,23 @@ export interface AppStats {
         total: number;
         active: number;
     };
+    homeStats: {
+        totalUsers: number;
+        yearsOfExcellence: number;
+        totalBatches: number;
+        totalCountries: number;
+        countriesRepresented: Array<{
+            country: string;
+            count: number;
+        }>;
+        batchesSection: Array<{
+            year: number;
+            approved: number;
+            scienceCount: number;
+            commerceCount: number;
+            artsCount: number;
+        }>;
+    },
     recentUsers: Array<{
         _id: string;
         name: string;

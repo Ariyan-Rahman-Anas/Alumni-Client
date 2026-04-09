@@ -41,7 +41,7 @@ const FadeUp = ({
 
 /* ── Data ─────────────────────────────────────────────────── */
 const milestones = [
-    { year: "1966", title: "Founded", desc: "BAMHS opened its doors in Battali Bajar, Nangalkot, Cumilla — a school born from community vision." },
+    { year: "1966", title: "Founded", desc: "BAMHS opened its doors in Battali Bazar, Nangalkot, Cumilla — a school born from community vision." },
     { year: "1975", title: "First SSC Batch", desc: "The inaugural SSC batch passed their exams, marking the school's first major academic milestone." },
     { year: "1990", title: "Science Branch Opens", desc: "BAMHS expanded to include a Science branch, enabling students to pursue medicine and engineering." },
     { year: "2005", title: "Alumni Association", desc: "The formal alumni association was established, uniting thousands of graduates for the first time." },

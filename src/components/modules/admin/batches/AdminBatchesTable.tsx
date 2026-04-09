@@ -96,6 +96,33 @@ const AdminBatchesTable = ({
             ),
         },
         {
+            key: "stats",
+            label: "Science",
+            render: (b) => (
+                <span className="text-sm font-medium text-violet-700">
+                    {b.stats?.scienceCount ?? 0}
+                </span>
+            ),
+        },
+        {
+            key: "stats",
+            label: "Commerce",
+            render: (b) => (
+                <span className="text-sm font-medium text-sky-700">
+                    {b.stats?.commerceCount ?? 0}
+                </span>
+            ),
+        },
+        {
+            key: "stats",
+            label: "Arts",
+            render: (b) => (
+                <span className="text-sm font-medium text-amber-700">
+                    {b.stats?.artsCount ?? 0}
+                </span>
+            ),
+        },
+        {
             key: "actions",
             label: "Actions",
             render: (b) => (
