@@ -2,10 +2,13 @@ import { baseApi } from "./baseApi";
 
 export interface UserProfile {
     _id: string;
+    userId: string;
     name: string;
     email: string;
     phone?: string;
     batch?: number;
+    section?: string;
+    country?: string;
     bloodGroup?: string;
     dob?: string;
     currentAddress?: string;
@@ -56,8 +59,8 @@ export const userApi = baseApi.injectEndpoints({
             providesTags: (_result, _err, id) => [{ type: "users", id }],
         }),
 
-        getAllUsers: builder.query<UserListResponse, { page?: number; limit?: number; approvalStatus?: string; search?: string; bloodGroup?: string; dobYear?: number; dobMonth?: number; dobDay?: number; isVerified?: boolean }>({
-            query: ({ page = 1, limit = 10, approvalStatus, search, bloodGroup, dobYear, dobMonth, dobDay, isVerified } = {}) => ({
+        getAllUsers: builder.query<UserListResponse, { page?: number; limit?: number; approvalStatus?: string; search?: string; bloodGroup?: string; section?: string; dobYear?: number; dobMonth?: number; dobDay?: number; isVerified?: boolean }>({
+            query: ({ page = 1, limit = 10, approvalStatus, search, bloodGroup, section, dobYear, dobMonth, dobDay, isVerified } = {}) => ({
                 url: "/users/list",
                 method: "GET",
                 params: {
@@ -66,6 +69,7 @@ export const userApi = baseApi.injectEndpoints({
                     ...(approvalStatus ? { approvalStatus } : {}),
                     ...(search ? { searchTerm: search } : {}),
                     ...(bloodGroup ? { bloodGroup } : {}),
+                    ...(section ? { section } : {}),
                     ...(dobYear ? { dobYear } : {}),
                     ...(dobMonth ? { dobMonth } : {}),
                     ...(dobDay ? { dobDay } : {}),

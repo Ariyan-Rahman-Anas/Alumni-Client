@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
-import { RiUser3Line, RiUserLine, RiLogoutBoxLine, RiShieldCheckLine } from "react-icons/ri";
+import { RiUser3Line, RiUserLine, RiLogoutBoxLine } from "react-icons/ri";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -19,6 +19,7 @@ import { useLogoutUserMutation } from "@/redux/apis/authApi";
 import type { AppDispatch } from "@/redux/store";
 import type { UserMenuProps } from "@/types/common.components.types";
 import { clearUser, selectCurrentUser } from "@/redux/slice/authSlice";
+import { MdDashboard } from "react-icons/md";
 
 const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
     const router = useRouter();
@@ -86,8 +87,8 @@ const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
                     <>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
-                            <Link href="/admin/users" className="flex items-center gap-2">
-                                <RiShieldCheckLine className="size-4 text-primary2-500" />
+                            <Link href="/admin/overview" className="flex items-center gap-2">
+                                <MdDashboard className="size-4 text-primary2-500" />
                                 Admin Dashboard
                             </Link>
                         </DropdownMenuItem>

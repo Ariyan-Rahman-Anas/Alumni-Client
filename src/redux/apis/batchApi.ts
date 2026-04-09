@@ -10,6 +10,9 @@ interface Batch {
         emailVerified: number;
         lastRegistration: string | null;
         last30Days: number;
+        scienceCount: number;
+        commerceCount: number;
+        artsCount: number;
     };
 }
 

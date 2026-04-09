@@ -33,7 +33,7 @@ import { constantsData } from "@/constants";
 
 const RegistrationForm = () => {
     const router = useRouter();
-    const [countryCode, setCountryCode] = useState("+880");
+    const [selectedCountry, setSelectedCountry] = useState("Bangladesh");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [alumniProofFile, setAlumniProofFile] = useState<File | null>(null);
@@ -49,6 +49,7 @@ const RegistrationForm = () => {
                 name: "",
                 email: "",
                 batch: "",
+                section: "",
                 bloodGroup: "",
                 dob: "",
                 phone: "",
@@ -73,7 +74,16 @@ const RegistrationForm = () => {
     } = methods;
 
     const normalizedPhone = phoneNumber.replace(/\D/g, "");
-    const combinedPhone = `${countryCode}${normalizedPhone}`;
+    const selectedEntry = useMemo(
+        () => constantsData.COUNTRY_CODES.find((c) => c.country === selectedCountry),
+        [selectedCountry]
+    );
+    const dialCode = selectedEntry?.code ?? "+880";
+    const combinedPhone = `${dialCode}${normalizedPhone}`;
+    const countryCodeOptions = useMemo(
+        () => constantsData.COUNTRY_CODES.map((c) => ({ ...c, value: c.country })),
+        []
+    );
 
     const batchOptions = (batchData?.data ?? []).map((b) => ({
         label: String(b.year),
@@ -85,9 +95,12 @@ const RegistrationForm = () => {
         []
     );
 
+    const sectionOptions = useMemo(() => constantsData.SECTIONS, []);
+
     const onSubmit = async (data: RegistrationFormValues) => {
         if (!alumniProofFile) {
             setAlumniProofError("Alumni proof image is required");
+            toast.error("Please upload your alumni proof to proceed with registration.");
             return;
         }
         setAlumniProofError(undefined);
@@ -96,7 +109,9 @@ const RegistrationForm = () => {
             name: data.name,
             email: data.email,
             phone: combinedPhone,
+            country: selectedCountry,
             batch: Number(data.batch),
+            section: data.section,
             bloodGroup: data.bloodGroup,
             dob: data.dob,
             currentAddress: data.currentAddress,
@@ -110,7 +125,7 @@ const RegistrationForm = () => {
             const result = await registerUser({ payload, image: imageFile, alumniProof: alumniProofFile }).unwrap();
             toast.success(result.message);
             reset();
-            setCountryCode("+880");
+            setSelectedCountry("Bangladesh");
             setPhoneNumber("");
             setImageFile(null);
             setAlumniProofFile(null);
@@ -150,17 +165,77 @@ const RegistrationForm = () => {
                     required
                 />
 
+                <InputField
+                    {...register("name")}
+                    id="reg-name"
+                    label="Full Name"
+                    placeholder="Your full name"
+                    icon={<RiUser3Line />}
+                    error={errors.name?.message}
+                    required
+                />
+
+
+
                 <div className="grid gap-4 sm:grid-cols-2">
                     <InputField
-                        {...register("name")}
-                        id="reg-name"
-                        label="Full Name"
-                        placeholder="Your full name"
-                        icon={<RiUser3Line />}
-                        error={errors.name?.message}
+                        {...register("email")}
+                        id="reg-email"
+                        type="email"
+                        label="Email Address"
+                        placeholder="you@example.com"
+                        icon={<RiMailLine />}
+                        error={errors.email?.message}
                         required
                     />
 
+                    <div className="flex flex-col gap-1.5">
+                        <label className="block text-xs">
+                            Phone Number <span className="text-danger">*</span>
+                        </label>
+                        <div className="space-y-1.5">
+                            <div className="grid gap-2 grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+                                <SingleSelect
+                                    id="reg-country-code"
+                                    value={selectedCountry}
+                                    onValueChange={(val) => {
+                                        setSelectedCountry(val);
+                                        const entry = constantsData.COUNTRY_CODES.find((c) => c.country === val);
+                                        const code = entry?.code ?? "+880";
+                                        setValue("phone", `${code}${normalizedPhone}`);
+                                    }}
+                                    options={countryCodeOptions}
+                                    placeholder="Code"
+                                    searchPlaceholder="Search country"
+                                    searchable
+                                    error={errors.phone ? true : undefined}
+                                />
+
+                                <InputField
+                                    id="reg-phone"
+                                    type="tel"
+                                    inputMode="numeric"
+                                    value={phoneNumber}
+                                    onChange={(e) => {
+                                        const next = e.target.value;
+                                        setPhoneNumber(next);
+                                        setValue("phone", `${dialCode}${next.replace(/\D/g, "")}`);
+                                    }}
+                                    placeholder="1XXXXXXXXX"
+                                    icon={<RiPhoneLine />}
+                                    error={errors.phone?.message}
+                                    isShowErrorMessage={false}
+                                />
+                            </div>
+                            {errors.phone && (
+                                <p className="text-danger text-xs">{errors.phone.message}</p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div className="grid gap-4 sm:grid-cols-2">
                     <Controller
                         name="batch"
                         control={control}
@@ -179,55 +254,24 @@ const RegistrationForm = () => {
                             />
                         )}
                     />
-                </div>
 
-                <div className="grid gap-4 sm:grid-cols-2">
-                    <InputField
-                        {...register("email")}
-                        id="reg-email"
-                        type="email"
-                        label="Email Address"
-                        placeholder="you@example.com"
-                        icon={<RiMailLine />}
-                        error={errors.email?.message}
-                        required
-                    />
-
-                    <div className="flex flex-col gap-1.5">
-                        <label className="block text-xs">
-                            Phone Number <span className="text-danger">*</span>
-                        </label>
-                        <div className="grid gap-2 grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+                    <Controller
+                        name="section"
+                        control={control}
+                        render={({ field }) => (
                             <SingleSelect
-                                id="reg-country-code"
-                                value={countryCode}
-                                onValueChange={(val) => {
-                                    setCountryCode(val);
-                                    setValue("phone", `${val}${normalizedPhone}`);
-                                }}
-                                options={constantsData.COUNTRY_CODES}
-                                placeholder="Code"
-                                searchPlaceholder="Search country"
-                                searchable
-                                error={errors.phone ? true : undefined}
+                                id="reg-section"
+                                label="Section"
+                                value={field.value || ""}
+                                onValueChange={field.onChange}
+                                options={sectionOptions}
+                                placeholder="Select your section"
+                                searchable={false}
+                                error={errors.section?.message}
+                                required
                             />
-
-                            <InputField
-                                id="reg-phone"
-                                type="tel"
-                                inputMode="numeric"
-                                value={phoneNumber}
-                                onChange={(e) => {
-                                    const next = e.target.value;
-                                    setPhoneNumber(next);
-                                    setValue("phone", `${countryCode}${next.replace(/\D/g, "")}`);
-                                }}
-                                placeholder="1XXXXXXXXX"
-                                icon={<RiPhoneLine />}
-                                error={errors.phone?.message}
-                            />
-                        </div>
-                    </div>
+                        )}
+                    />
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">

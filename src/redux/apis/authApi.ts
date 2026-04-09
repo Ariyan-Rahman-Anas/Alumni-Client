@@ -30,7 +30,9 @@ export interface RegisterPayload {
     name: string;
     email: string;
     phone: string;
+    country: string;
     batch: number;
+    section: string;
     bloodGroup: string;
     dob: string;
     currentAddress: string;

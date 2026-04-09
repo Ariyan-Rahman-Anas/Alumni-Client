@@ -17,6 +17,7 @@ const PrimaryButton = ({
     loadingTitle,
     className = "",
     iconSide = "left",
+    style
 }: PrimaryButtonI) => {
     const buttonContent = (
         <>
@@ -45,6 +46,7 @@ const PrimaryButton = ({
                 variant={variant}
                 disabled={isButtonDisabled}
                 className={buttonClassName}
+                style={style}
             >
                 {buttonContent}
             </Button>
@@ -55,6 +57,7 @@ const PrimaryButton = ({
             variant={variant}
             disabled={isButtonDisabled}
             className={buttonClassName}
+            style={style}
             onClick={!isLoading ? onClick : undefined}
         >
             {buttonContent}

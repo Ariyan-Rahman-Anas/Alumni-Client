@@ -19,6 +19,7 @@ export interface PrimaryButtonI {
   isFullWidth?: boolean;
   isNewTab?: boolean;
   className?: string;
+  style?: React.CSSProperties;
   iconSide?: "left" | "right";
 }
 
@@ -62,7 +63,8 @@ export interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string;
     icon?: ReactNode;
     iconRight?: ReactNode;
-    error?: string;
+  error?: string;
+  isShowErrorMessage?: boolean;
     helperText?: string;
     containerClassName?: string;
 }

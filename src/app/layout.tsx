@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | BAMHS",
   },
   description:
-    "The Official Website of Battali Abdul Matin High School's Alumni Association. Located in Battali Bajar, Nangalkot, Cumilla, Chattogram, Bangladesh.",
+    "The Official Website of Battali Abdul Matin High School's Alumni Association. Located in Battali Bazar, Nangalkot, Cumilla, Chattogram, Bangladesh.",
   keywords: [
     "BAMHS",
     "Battali Abdul Matin High School",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Alumni Association | BAMHS — Battali Abdul Matin High School, Nangalkot, Cumilla, Chattogram, Bangladesh",
     description:
-      "The Official Website of Battali Abdul Matin High School's Alumni Association. Located in Battali Bajar, Nangalkot, Cumilla, Chattogram, Bangladesh.",
+      "The Official Website of Battali Abdul Matin High School's Alumni Association. Located in Battali Bazar, Nangalkot, Cumilla, Chattogram, Bangladesh.",
     type: "website",
     locale: "en_US",
   },
