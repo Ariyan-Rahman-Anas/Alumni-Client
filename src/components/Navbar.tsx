@@ -35,37 +35,12 @@ const devNavItems = [
 ];
 
 /* ─────────────────────────────────────────────────────────
-   SHIMMER + GLOW  CSS (injected once)
+   SHIMMER + GLOW CSS lives in globals.css (.shim, .glow,
+   @keyframes _shimBeam, @keyframes _islandGlow)
+   Moved out of inline <style> to fix Next.js hydration
+   mismatch caused by server HTML-encoding content: ""
+   as &quot;&quot; while the client rendered literal quotes.
 ───────────────────────────────────────────────────────── */
-const SHIMMER_CSS = `
-  @keyframes _shimBeam {
-    0%   { transform: translateX(-110%) skewX(-14deg); opacity: 0; }
-    15%  { opacity: 1; }
-    85%  { opacity: 1; }
-    100% { transform: translateX(210%)  skewX(-14deg); opacity: 0; }
-  }
-  @keyframes _islandGlow {
-    0%,100% { box-shadow: 0 4px 24px rgba(10,61,43,0.10), 0 0  0px 0px rgba(46,139,87,0.00), 0 1px 0 rgba(255,255,255,0.85) inset; }
-    50%     { box-shadow: 0 4px 28px rgba(10,61,43,0.15), 0 0 14px 3px rgba(46,139,87,0.16), 0 1px 0 rgba(255,255,255,0.85) inset; }
-  }
-  .shim { position: relative; overflow: hidden; }
-  .shim::after {
-    content: "";
-    position: absolute; inset: 0;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255,255,255,0.20) 40%,
-      rgba(255,255,255,0.50) 50%,
-      rgba(255,255,255,0.20) 60%,
-      transparent 100%
-    );
-    width: 45%;
-    animation: _shimBeam 3.8s ease-in-out infinite;
-    pointer-events: none; z-index: 30; border-radius: inherit;
-  }
-  .glow { animation: _islandGlow 4s ease-in-out infinite; }
-`;
 
 /* ─────────────────────────────────────────────────────────
    COMPONENT
@@ -75,14 +50,6 @@ const Navbar = () => {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
 
-  /* ── scroll detection ───────────────────────────────── */
-  const [scrolled, setScrolled] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   const navItems = process.env.NODE_ENV === "development"
     ? [...baseNavItems, ...devNavItems]
     : baseNavItems;
@@ -91,6 +58,13 @@ const Navbar = () => {
     link === "" ? pathname === "/" : pathname.startsWith(`/${link}`);
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  // Defer auth-dependent rendering until after hydration.
+  // Server always has isLoggedIn=false (no Redux state); rendering
+  // UserMenu vs Login button conditionally on server causes a hydration
+  // mismatch. Mounting null first makes both server and client agree.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
 
   /* ── shared island surface ──────────────────────────── */
   const islandBase: React.CSSProperties = {
@@ -102,8 +76,6 @@ const Navbar = () => {
 
   return (
     <>
-      <style>{SHIMMER_CSS}</style>
-
       <div className="fixed top-0 left-0 right-0 z-nav pointer-events-none">
 
         {/* ══════════════════════════════════════════════DESKTOP*/}
@@ -113,74 +85,55 @@ const Navbar = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 220, damping: 24, delay: 0.08 }}
           >
-            <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-              {/* Emblem — always visible */}
+            <Link href="/" className="flex items-center shrink-0 group">
+              {/* Logo pill — matches nav island style */}
               <div
-                className="relative w-9 h-9 rounded-xl overflow-hidden shadow-lg shrink-0"
-                style={{ background: "linear-gradient(135deg,#155A3E 0%,#0A3D2B 100%)" }}
-              >
-                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full opacity-30"
-                  style={{ background: "var(--color-primary-300)" }} />
-                <span className="absolute inset-0 flex items-center justify-center font-display font-bold text-white text-sm">
-                  B
-                </span>
-              </div>
-
-              {/* Text — switches colour based on scroll */}
-              <motion.div
-                className="flex flex-col leading-none px-2.5 py-1.5 rounded-xl transition-all duration-300"
-                animate={{
-                  background: scrolled
-                    ? "rgba(253,250,242,0.88)"
-                    : "transparent",
-                  backdropFilter: scrolled ? "blur(16px)" : "blur(0px)",
-                  boxShadow: scrolled
-                    ? "0 2px 12px rgba(10,61,43,0.10), 0 1px 0 rgba(255,255,255,0.80) inset"
-                    : "none",
-                  borderColor: scrolled
-                    ? "rgba(46,139,87,0.18)"
-                    : "transparent",
-                }}
+                className="shim glow flex items-center gap-2.5 px-2 py-1.5 rounded-2xl border relative"
                 style={{
-                  border: "1px solid transparent",
-                  WebkitBackdropFilter: scrolled ? "blur(16px)" : "blur(0px)",
+                  background: "rgba(253,250,242,0.88)",
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
+                  borderColor: "rgba(46,139,87,0.20)",
                 }}
               >
-                <motion.span
-                  className="font-serif italic font-semibold text-sm tracking-tight"
-                  animate={{ color: scrolled ? "var(--color-primary-900)" : "#ffffff" }}
-                  transition={{ duration: 0.25 }}
+                {/* Top highlight line */}
+                <div className="absolute top-0 left-3 right-3 h-px rounded-full z-10"
+                  style={{ background: "rgba(255,255,255,0.98)" }} />
+                {/* Bottom subtle line */}
+                <div className="absolute bottom-0 left-4 right-4 h-px rounded-full"
+                  style={{ background: "rgba(46,139,87,0.12)" }} />
+
+                {/* Emblem */}
+                <div
+                  className="relative w-7 h-7 rounded-lg overflow-hidden shrink-0"
+                  style={{ background: "linear-gradient(135deg,#155A3E 0%,#0A3D2B 100%)", boxShadow: "0 2px 8px rgba(10,61,43,0.30)" }}
                 >
-                  BAMHSian
-                </motion.span>
-                <motion.span
-                  className=" text-[10px] tracking-widest uppercase"
-                  animate={{
-                    color: scrolled
-                      ? "var(--color-primary-500)"
-                      : "rgba(195,232,206,0.65)",
-                  }}
-                  transition={{ duration: 0.25 }}
-                >
-                  Unity · Prosperity
-                </motion.span>
-              </motion.div>
+                  <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full opacity-30"
+                    style={{ background: "var(--color-primary-300)" }} />
+                  <span className="absolute inset-0 flex items-center justify-center font-display font-bold text-white text-xs">
+                    B
+                  </span>
+                </div>
+
+                {/* Divider */}
+                <div className="w-px h-6 shrink-0"
+                  style={{ background: "rgba(46,139,87,0.20)" }} />
+
+                {/* Text */}
+                <div className="flex flex-col leading-none pr-0.5">
+                  <span className="font-serif italic font-semibold text-sm tracking-tight"
+                    style={{ color: "var(--color-primary-900)" }}>
+                    BAMHSian
+                  </span>
+                  <span className="text-[9px] tracking-widest uppercase"
+                    style={{ color: "var(--color-primary-500)" }}>
+                    Unity - Prosperity
+                  </span>
+                </div>
+              </div>
             </Link>
           </motion.div>
 
-          {/* ── Logo — scroll-aware ─────────────────── */}
-          {/*
-              PROBLEM:  Logo text was hard-coded `text-white`.
-                        On dark hero it reads fine; after scrolling onto
-                        the light cream background it vanishes.
-
-              SOLUTION: Wrap the logo in its own mini glass island that
-                        appears only when scrolled. When at the top the
-                        text stays white (sitting over the dark hero).
-                        Once scrolled, the island fades in and text
-                        switches to dark green so it stays readable on
-                        any background.
-            */}
           {/* ── Nav island ──────────────────────────── */}
           <motion.div
             initial={{ y: -72, opacity: 0 }}
@@ -264,9 +217,9 @@ const Navbar = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 220, damping: 24, delay: 0.08 }}
           >
-            {isLoggedIn
+            {mounted && (isLoggedIn
               ? <UserMenu size="md" align="end" />
-              : <PrimaryButton type="button" title="Sign In" href="/login" />}
+              : <PrimaryButton type="button" title="Sign In" href="/login" />)}
           </motion.div>
         </div>
 
@@ -417,11 +370,11 @@ const Navbar = () => {
                           {/* Footer CTA */}
                           <div className="px-4 py-4 border-t shrink-0"
                             style={{ borderColor: "var(--color-border)" }}>
-                            {isLoggedIn ? (
+                            {mounted && (isLoggedIn ? (
                               <UserMenu size="md" align="start" />
                             ) : (
                               <PrimaryButton type="button" title="Sign In" href="/login" isFullWidth={true} />
-                            )}
+                            ))}
                           </div>
                         </motion.div>
                       )}
@@ -439,9 +392,9 @@ const Navbar = () => {
               </div>
 
               {/* Right: User avatar or Login */}
-              {isLoggedIn
+              {mounted && (isLoggedIn
                 ? <UserMenu size="sm" align="end" />
-                : <PrimaryButton type="button" title="Sign In" href="/login" />}
+                : <PrimaryButton type="button" title="Sign In" href="/login" />)}
             </div>
           </motion.div>
         </div>

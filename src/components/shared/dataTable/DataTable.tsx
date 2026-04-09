@@ -60,7 +60,7 @@ const DataTable = <T,>({
                 key={`row-${index}`}
                 item={item}
                 columns={columns}
-                rowIndex={index}
+                rowIndex={((paginationOptions?.current_page ?? 1) - 1) * (pageSize ?? 10) + index}
               />
             ))
           )}

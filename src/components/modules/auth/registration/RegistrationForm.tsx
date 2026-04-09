@@ -360,5 +360,4 @@ const RegistrationForm = () => {
         </FormProvider>
     );
 };
-
 export default RegistrationForm;

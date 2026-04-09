@@ -3,15 +3,15 @@ import { z } from "zod";
 export const registrationSchema = z.object({
     name: z.string().trim().min(2, "Name must be at least 2 characters"),
     email: z.string().trim().email("Please enter a valid email address"),
+    phone: z
+        .string()
+        .regex(/^\+?[0-9]{11,16}$/, "Phone must be 11–16 digits including country code"),
     batch: z.string().min(1, "Please select your batch year"),
-    bloodGroup: z.string().min(1, "Please select your blood group"),
     dob: z
         .string()
         .min(1, "Date of birth is required")
         .refine((val) => !isNaN(Date.parse(val)), "Please enter a valid date of birth"),
-    phone: z
-        .string()
-        .regex(/^\+?[0-9]{11,16}$/, "Phone must be 11–16 digits including country code"),
+    bloodGroup: z.string().min(1, "Please select your blood group"),
     currentAddress: z
         .string()
         .trim()
@@ -37,10 +37,10 @@ export type RegistrationFormValues = z.infer<typeof registrationSchema>;
 export const REGISTRATION_FIELD_ORDER: (keyof RegistrationFormValues)[] = [
     "name",
     "email",
-    "batch",
-    "bloodGroup",
-    "dob",
     "phone",
+    "batch",
+    "dob",
+    "bloodGroup",
     "currentAddress",
     "permanentAddress",
     "password",

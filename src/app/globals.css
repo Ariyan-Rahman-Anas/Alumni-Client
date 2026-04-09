@@ -334,8 +334,6 @@
     @apply w-full max-w-screen-3xl mx-auto py-24 px-4;
   }
 
-
-
   /* Main page wrapper */
   .page-setup {
     @apply w-[96%] mx-auto max-w-7xl;
@@ -854,6 +852,35 @@
   0%, 100% { transform: rotate(-2deg); }
   50%       { transform: rotate(2deg); }
 }
+
+/* ── Navbar island: shimmer beam + glow ─────────────────── */
+@keyframes _shimBeam {
+  0%   { transform: translateX(-110%) skewX(-14deg); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translateX(210%)  skewX(-14deg); opacity: 0; }
+}
+@keyframes _islandGlow {
+  0%,100% { box-shadow: 0 4px 24px rgba(10,61,43,0.10), 0 0  0px 0px rgba(46,139,87,0.00), 0 1px 0 rgba(255,255,255,0.85) inset; }
+  50%     { box-shadow: 0 4px 28px rgba(10,61,43,0.15), 0 0 14px 3px rgba(46,139,87,0.16), 0 1px 0 rgba(255,255,255,0.85) inset; }
+}
+.shim { position: relative; overflow: hidden; }
+.shim::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.20) 40%,
+    rgba(255,255,255,0.50) 50%,
+    rgba(255,255,255,0.20) 60%,
+    transparent 100%
+  );
+  width: 45%;
+  animation: _shimBeam 3.8s ease-in-out infinite;
+  pointer-events: none; z-index: 30; border-radius: inherit;
+}
+.glow { animation: _islandGlow 4s ease-in-out infinite; }
 @layer components {
   .pagination-btn {
     @apply h-8 w-9 rounded-md flex items-center justify-center border border-gray-200 bg-white text-sm text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer;
