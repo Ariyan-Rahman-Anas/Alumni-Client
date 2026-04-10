@@ -50,7 +50,7 @@ const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
             <DropdownMenuTrigger asChild>
                 <button
                     type="button"
-                    className={`${avatarSize} rounded-full ring-2 ring-primary2-300 ring-offset-1 transition-all duration-200 hover:ring-primary2-500 focus:outline-none focus-visible:ring-primary2-500`}
+                    className="flex items-center gap-2 rounded-full ring-2 ring-primary2-300 ring-offset1 bg-primary text-primary2-100 transition-all duration-200 hover:ring-primary2-500 focus:outline-none focus-visible:ring-primary2-500 pr-0 md:pr-3"
                     aria-label="User menu"
                 >
                     <Avatar className={`${avatarSize} shrink-0`}>
@@ -64,6 +64,11 @@ const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
                             }
                         </AvatarFallback>
                     </Avatar>
+                    {user?.name && (
+                        <span className="hidden md:block text-sm font-medium max-w-[150px] truncate">
+                            {user.name}
+                        </span>
+                    )}
                 </button>
             </DropdownMenuTrigger>
 

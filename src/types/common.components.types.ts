@@ -1,7 +1,7 @@
 import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
 
 export interface PrimaryButtonI {
-  type: "button" | "submit";
+  type?: "button" | "submit";
   title?: string;
   loadingTitle?: string;
   onClick?: (e: React.MouseEvent) => void;
