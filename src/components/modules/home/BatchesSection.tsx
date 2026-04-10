@@ -15,7 +15,7 @@ import { RiArrowRightLine, RiGroupLine, RiFlaskLine, RiBarChartLine, RiMicroscop
 import { HiArrowUpRight } from "react-icons/hi2";
 import SectionLabel from "@/components/shared/SectionLabel";
 
-/* ── Batch Card ───────────────────────────────────────────── */
+/* ── Batch Card  */
 const BatchCard = ({
     year,
     approved,
@@ -99,9 +99,11 @@ const BatchCard = ({
                                 >
                                     {year}
                                 </p>
-                                <div className="flex items-center gap-1 mt-1">
-                                    <RiGroupLine className="text-xs" style={{ color: "var(--color-primary-400)" }} />
-                                    <span className="text-[11px] font-medium" style={{ color: "rgba(195,232,206,0.55)" }}>
+                                <div className="flex items-center gap-1 mt-1 text-primary2-300">
+                                    <RiGroupLine className="text-xs"
+                                    />
+                                    <span className="text-xs font-medium"
+                                    >
                                         {hasData ? `${approved} alumni` : "Be the first"}
                                     </span>
                                 </div>
@@ -125,8 +127,7 @@ const BatchCard = ({
                                                 {icon}
                                             </span>
                                             <span
-                                                className="text-[11px] font-medium"
-                                                style={{ color: "rgba(195,232,206,0.50)" }}
+                                                className="text-xs text-primary2-400 font-medium"
                                             >
                                                 {label}
                                             </span>
@@ -141,7 +142,7 @@ const BatchCard = ({
                                 ))}
                             </div>
                         ) : (
-                            <p className="text-[11px] italic flex-1" style={{ color: "rgba(195,232,206,0.30)" }}>
+                            <p className="text-xs italic flex-1 text-primary2-400">
                                 No alumni registered yet
                             </p>
                         )}
@@ -212,8 +213,9 @@ const BatchesSection = () => {
                             ].map(({ color, label, icon }) => (
                                 <div key={label} className="flex items-center gap-1.5">
                                     <span className="text-sm" style={{ color }}>{icon}</span>
-                                    <span className="text-[11px] font-medium"
-                                        style={{ color: "rgba(195,232,206,0.50)" }}>
+                                    <span className="text-xs font-medium"
+                                        style={{ color: color }}
+                                    >
                                         {label}
                                     </span>
                                 </div>
@@ -259,20 +261,10 @@ const BatchesSection = () => {
 
                                 <div className="flex gap-2">
                                     <CarouselPrevious
-                                        className="static translate-y-0 h-10 w-10 rounded-xl border transition-colors duration-200"
-                                        style={{
-                                            background: "rgba(46,139,87,0.12)",
-                                            borderColor: "rgba(46,139,87,0.28)",
-                                            color: "var(--color-primary-300)",
-                                        }}
+                                        className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 bg-primary2-500 hover:bg-primary2-600 hover:text-surface"
                                     />
                                     <CarouselNext
-                                        className="static translate-y-0 h-10 w-10 rounded-xl border transition-colors duration-200"
-                                        style={{
-                                            background: "rgba(46,139,87,0.12)",
-                                            borderColor: "rgba(46,139,87,0.28)",
-                                            color: "var(--color-primary-300)",
-                                        }}
+                                        className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 bg-primary2-500 hover:bg-primary2-600 hover:text-surface"
                                     />
                                 </div>
                             </div>
@@ -313,5 +305,4 @@ const BatchesSection = () => {
         </section>
     );
 };
-
 export default BatchesSection;

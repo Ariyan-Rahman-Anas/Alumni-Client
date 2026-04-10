@@ -119,10 +119,13 @@ const OtpVerifyForm = ({ email }: OtpVerifyFormProps) => {
         <form onSubmit={handleSubmit} noValidate className="flex flex-col items-center gap-6">
             <div className="text-center">
                 <p className="text-sm text-muted-foreground">
-                    We sent a 6-digit code to
+                    We sent a 6-digit code to <span className="font-medium text-primary2-700">
+                        {maskedEmail}
+                    </span>
                 </p>
-                <p className="mt-0.5 text-sm font-medium text-primary2-700">
-                    {maskedEmail}
+                
+                <p className="text-sm text-muted-foreground">
+                    Code is valid for 10 minutes
                 </p>
             </div>
 
@@ -151,7 +154,7 @@ const OtpVerifyForm = ({ email }: OtpVerifyFormProps) => {
                 title="Verify Email"
                 isFullWidth
                 isLoading={isVerifying}
-                loadingTitle="Verifying..."
+                loadingTitle="Verifying..." className="py-[19px] "
             />
 
             {/* Resend */}
