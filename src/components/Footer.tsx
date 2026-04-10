@@ -75,50 +75,21 @@ const Footer = () => {
         background: "linear-gradient(180deg, #0A3D2B 0%, #051F15 100%)",
       }}
     >
-      {/* ── Background texture ── */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(46,139,87,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.06) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-          }}
-        />
-        <div
-          className="absolute -top-32 left-1/4 w-96 h-96 rounded-full blur-3xl opacity-20"
-          style={{ background: "var(--color-primary-500)" }}
-        />
-        <div
-          className="absolute -bottom-20 right-1/4 w-64 h-64 rounded-full blur-3xl opacity-15"
-          style={{ background: "var(--color-accent-500)" }}
-        />
-        {/* grain */}
-        <div
-          className="absolute inset-0 opacity-[0.025]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-            backgroundSize: "128px 128px",
-          }}
-        />
-      </div>
-
-      {/* ── Top decorative border ── */}
+      {/* ── Decorative grid overlay ── */}
       <div
-        className="relative h-[2px] w-full"
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0"
         style={{
-          background:
-            "linear-gradient(90deg, transparent 0%, rgba(46,139,87,0.7) 25%, rgba(245,158,11,0.6) 50%, rgba(46,139,87,0.7) 75%, transparent 100%)",
+          backgroundImage:
+            "linear-gradient(rgba(74,222,128,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.04) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
         }}
       />
 
       {/* ══════════════════════════════════════════════════════
           SCHOOL NAME HERO BAND
       ══════════════════════════════════════════════════════ */}
-      <div
-        className="relative py-12 px-3 text-center border-b"
-        style={{ borderColor: "rgba(46,139,87,0.15)" }}
-      >
+      <div className="relative py-12 px-3 text-center">
         {/* Emblem */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -166,6 +137,7 @@ const Footer = () => {
             filter: "drop-shadow(0 2px 16px rgba(46,139,87,0.4))",
           }}
         >
+          <span className="text-xl" >Alumni Association of</span> <br />
           Battali Abdul Matin High School
         </motion.h2>
 
@@ -174,10 +146,10 @@ const Footer = () => {
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.18 }}
-          className=" text-xs tracking-[0.22em] uppercase mb-4"
-          style={{ color: "rgba(134,239,172,0.55)" }}
+          className=" text-xs tracking-[0.22em] mb-4 text-primary2-400 "
+        // style={{ color: "rgba(134,239,172,0.55)" }}
         >
-          Est. 1966 · Nangalkot, Cumilla, Bangladesh
+          3582 - Battali, Nangalkot, Cumilla, Bangladesh
         </motion.p>
 
         {/* Tagline */}
@@ -200,13 +172,7 @@ const Footer = () => {
             className="font-serif italic text-sm"
             style={{ color: "rgba(167,243,208,0.80)" }}
           >
-            &quot;শিক্ষাই জাতির মেরুদণ্ড&quot;
-            <span
-              className="not-italic font-sans text-xs ml-2"
-              style={{ color: "rgba(134,239,172,0.55)" }}
-            >
-              — Education is the backbone of a nation
-            </span>
+            &quot;Where roots run deep, and bonds last forever&quot;
           </p>
           <span
             className="w-1 h-1 rounded-full"
@@ -256,7 +222,7 @@ const Footer = () => {
       {/* ══════════════════════════════════════════════════════
           MAIN GRID
       ══════════════════════════════════════════════════════ */}
-      <div className="relative page-setup py-14 px-3">
+      <div className="relative three-xl-section-setup">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
           {/* ── Col 1 — About ── */}
@@ -400,108 +366,48 @@ const Footer = () => {
           }}
         />
 
-        <div className="page-setup text-primary2-400 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <div className="page-setup py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs" style={{ color: "rgba(134,239,172,0.50)" }}>
+          {/* Copyright */}
           <p>
-            © {year} BAMHS alumni association. All rights reserved.
+            © {year} BAMHS Alumni Association. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-1 text-primary2-400">
+          {/* Developer credit — inline, professional */}
+          <Link
+            href="https://ariyanrahmananas.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 transition-colors duration-200"
+            style={{ color: "rgba(134,239,172,0.50)" }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(134,239,172,0.90)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(134,239,172,0.50)"; }}
+          >
+            <span>Designed &amp; developed by</span>
             <span
-              className="tracking-widest "
+              className="font-semibold"
+              style={{ color: "rgba(134,239,172,0.75)" }}
             >
-              Crafted with care for
+              Ariyan Rahman Anas
             </span>
-            <span
-              className="italic ml-1 text-primary2-300 "
-            >
-              BAMHSians
-            </span>
-            <span
-            >
-              {" "}everywhere
-            </span>
-          </div>
+            <HiArrowUpRight className="text-[10px] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+          </Link>
 
+          {/* Legal links */}
           <div className="flex items-center gap-4">
             <Link
               href="/privacy"
-              className="transition-colors duration-200 hover:text-primary-200"
+              className="transition-colors duration-200 hover:text-emerald-300"
             >
               Privacy
             </Link>
             <Link
               href="/terms"
-              className="transition-colors duration-200 hover:text-primary-200"
+              className="transition-colors duration-200 hover:text-emerald-300"
             >
               Terms
             </Link>
           </div>
         </div>
-
-        {/* ── Developed by — full-width, styled ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="w-full flex flex-col items-center gap-2 md:pb-2 px-4 text-xs"
-        >
-          {/* thin divider */}
-          <div
-            className="w-full h-px mb-1"
-            style={{
-              background:
-                "linear-gradient(90deg, transparent, rgba(46,139,87,0.25) 30%, rgba(245,158,11,0.20) 50%, rgba(46,139,87,0.25) 70%, transparent)",
-            }}
-          />
-
-          <p className="text-primary2-200">
-            Designed &amp; Developed by
-          </p>
-
-          <Link
-            href="https://ariyanrahmananas.vercel.app"
-            target="_blank"
-            className="group relative inline-flex items-center gap-2 px-5 py-2 rounded-full transition-all duration-300"
-            style={{
-              background: "rgba(46,139,87,0.08)",
-              border: "1px solid rgba(46,139,87,0.20)",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "rgba(46,139,87,0.16)";
-              (e.currentTarget as HTMLElement).style.borderColor = "rgba(74,222,128,0.40)";
-              (e.currentTarget as HTMLElement).style.boxShadow = "0 0 20px rgba(46,139,87,0.25)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "rgba(46,139,87,0.08)";
-              (e.currentTarget as HTMLElement).style.borderColor = "rgba(46,139,87,0.20)";
-              (e.currentTarget as HTMLElement).style.boxShadow = "none";
-            }}
-          >
-            {/* small avatar dot */}
-            <span
-              className="w-5 h-5 rounded-full flex items-center justify-center font-bold"
-              style={{
-                background: "linear-gradient(135deg, #16a34a, #0A3D2B)",
-                border: "1px solid rgba(74,222,128,0.40)",
-                color: "#86efac",
-              }}
-            >
-              A
-            </span>
-
-            <span
-              className="font-medium text-sm tracking-wide transition-colors text-primary2-300 duration-300 group-hover:text-emerald-300"
-            >
-              Ariyan Rahman Anas
-            </span>
-
-            <HiArrowUpRight
-              className="text-xs transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              style={{ color: "rgba(74,222,128,0.60)" }}
-            />
-          </Link>
-        </motion.div>
       </div>
 
       {/* mobile safe-area pad */}

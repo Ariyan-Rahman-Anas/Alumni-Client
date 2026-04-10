@@ -1,7 +1,7 @@
 "use client";
 
 import { FadeUpWrapper } from "@/components/Pages/Home/HomePage";
-import { useGetStatsQuery } from "@/redux/apis/adminApi";
+import { useGetHomeStatsQuery } from "@/redux/apis/statsApi";
 import {
     Carousel,
     CarouselContent,
@@ -155,8 +155,8 @@ const BatchCard = ({
 
 /* ── BatchesSection ───────────────────────────────────────── */
 const BatchesSection = () => {
-    const { data: statsData } = useGetStatsQuery();
-    const batches = statsData?.data.homeStats.batchesSection ?? [];
+    const { data: statsData } = useGetHomeStatsQuery();
+    const batches = statsData?.data.batchesSection ?? [];
 
     return (
         <section

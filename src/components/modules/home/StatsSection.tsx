@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { FadeUpWrapper } from "@/components/Pages/Home/HomePage";
-import { useGetStatsQuery } from "@/redux/apis/adminApi";
+import { useGetHomeStatsQuery } from "@/redux/apis/statsApi";
 import { motion, useInView } from "framer-motion";
 import { RiCalendarEventLine, RiGroupLine, RiMapPin2Line, RiSparkling2Line } from "react-icons/ri";
 
@@ -108,9 +108,9 @@ const StatCard = ({
 
 /* ── StatsSection  */
 const StatsSection = () => {
-    const { data: statsData } = useGetStatsQuery(undefined);
+    const { data: statsData } = useGetHomeStatsQuery();
     const { totalUsers, yearsOfExcellence, totalBatches, totalCountries } =
-        statsData?.data.homeStats || {};
+        statsData?.data || {};
 
     const stats = [
         { value: totalUsers, label: "Alumni Worldwide", icon: <RiGroupLine /> },

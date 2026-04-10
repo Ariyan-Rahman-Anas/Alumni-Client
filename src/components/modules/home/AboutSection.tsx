@@ -3,7 +3,7 @@
 import { FadeUpWrapper } from "@/components/Pages/Home/HomePage";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import SectionLabel from "@/components/shared/SectionLabel";
-import { useGetStatsQuery } from "@/redux/apis/adminApi";
+import { useGetHomeStatsQuery } from "@/redux/apis/statsApi";
 import { motion } from "framer-motion";
 import { HiArrowUpRight } from "react-icons/hi2";
 import { BiDonateBlood } from "react-icons/bi";
@@ -42,9 +42,9 @@ const features = [
 
 /* ── AboutSection  */
 const AboutSection = () => {
-    const { data: statsData } = useGetStatsQuery(undefined);
+    const { data: statsData } = useGetHomeStatsQuery();
     const { yearsOfExcellence, totalCountries } =
-        statsData?.data.homeStats || {};
+        statsData?.data || {};
 
     return (
         <section className="three-xl-section-setup grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
