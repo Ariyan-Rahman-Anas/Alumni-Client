@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import {
     RiGroupLine,
     RiCalendarLine,
+    RiCalendarEventLine,
     RiLogoutBoxLine,
     RiShieldCheckLine,
     RiBarChartBoxLine,
@@ -26,6 +27,7 @@ const NAV_ITEMS = [
     { label: "Overview", href: "/admin/overview", icon: RiBarChartBoxLine },
     { label: "Users", href: "/admin/users", icon: RiGroupLine },
     { label: "Batches", href: "/admin/batches", icon: RiCalendarLine },
+    { label: "Events", href: "/admin/events", icon: RiCalendarEventLine },
 ];
 
 function SidebarContent({ onNav }: { onNav?: () => void }) {

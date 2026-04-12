@@ -175,8 +175,6 @@ const RegistrationForm = () => {
                     required
                 />
 
-
-
                 <div className="grid gap-4 sm:grid-cols-2">
                     <InputField
                         {...register("email")}
