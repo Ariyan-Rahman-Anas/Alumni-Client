@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import AdminSidebar from "@/components/modules/ADMIN/AdminSidebar";
+import AdminSidebar from "@/components/modules/admin/AdminSidebar";
 import { Sanchez } from "next/font/google";
 import { cn } from "@/lib/utils";
 import ClientAuthGuard from "@/components/shared/ClientAuthGuard";

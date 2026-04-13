@@ -94,7 +94,10 @@ const AdminImageCategory = () => {
                             <tr key={cat._id}>
                                 <td className="border p-2">
                                     {cat.coverImageUrl ? (
-                                        <Image src={cat.coverImageUrl} alt={cat.name} className="w-16 h-10 object-cover rounded" />
+                                        <Image src={cat.coverImageUrl} alt={cat.name}
+                                            width={64} height={64}
+                                                // fill
+                                            className="w-16 h-10 object-cover rounded" />
                                     ) : (
                                         <span className="text-gray-400">No image</span>
                                     )}

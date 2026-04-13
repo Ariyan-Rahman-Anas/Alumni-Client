@@ -6,8 +6,8 @@ import { RiAddLine } from "react-icons/ri";
 
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import DeleteAlertModal from "@/components/shared/DeleteAlertModal";
-import AdminEventsTable from "@/components/modules/ADMIN/events/AdminEventsTable";
-import AdminEventFormModal from "@/components/modules/ADMIN/events/AdminEventFormModal";
+import AdminEventsTable from "@/components/modules/admin/events/AdminEventsTable";
+import AdminEventFormModal from "@/components/modules/admin/events/AdminEventFormModal";
 import {
     useGetAllEventsAdminQuery,
     useDeleteEventMutation,

@@ -6,8 +6,8 @@ import { RiAddLine } from "react-icons/ri";
 
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import DeleteAlertModal from "@/components/shared/DeleteAlertModal";
-import AdminBatchesTable from "@/components/modules/ADMIN/batches/AdminBatchesTable";
-import AdminBatchFormModal from "@/components/modules/ADMIN/batches/AdminBatchFormModal";
+import AdminBatchesTable from "@/components/modules/admin/batches/AdminBatchesTable";
+import AdminBatchFormModal from "@/components/modules/admin/batches/AdminBatchFormModal";
 import {
     useGetAllBatchesQuery,
     useDeleteBatchMutation,
