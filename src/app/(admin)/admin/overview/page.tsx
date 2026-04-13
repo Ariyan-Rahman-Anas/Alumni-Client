@@ -1,5 +1,6 @@
-import AdminOverviewPage from "@/components/modules/admin/overview/AdminOverviewPage";
+import AdminOverviewPage from "@/components/modules/ADMIN/overview/AdminOverviewPage";
 
-export default function Page() {
-    return <AdminOverviewPage />;
+const AdminOverview = () => {
+    return <AdminOverviewPage />
 }
+export default AdminOverview

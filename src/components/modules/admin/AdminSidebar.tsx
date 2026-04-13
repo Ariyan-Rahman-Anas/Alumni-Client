@@ -16,6 +16,7 @@ import {
     RiCloseLine,
     RiArrowLeftLine,
     RiExternalLinkLine,
+    RiImageLine,
 } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { useLogoutUserMutation } from "@/redux/apis/authApi";
@@ -28,6 +29,8 @@ const NAV_ITEMS = [
     { label: "Users", href: "/admin/users", icon: RiGroupLine },
     { label: "Batches", href: "/admin/batches", icon: RiCalendarLine },
     { label: "Events", href: "/admin/events", icon: RiCalendarEventLine },
+    { label: "Image Categories", href: "/admin/image-categories", icon: RiImageLine },
+    { label: "Galleries", href: "/admin/galleries", icon: RiImageLine },
 ];
 
 function SidebarContent({ onNav }: { onNav?: () => void }) {
