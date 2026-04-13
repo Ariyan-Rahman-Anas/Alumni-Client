@@ -1,4 +1,4 @@
-import { FadeUpWrapper } from "@/components/Pages/Home/HomePage";
+import { FadeUpWrapper } from "@/components/Pages/USER/Home/HomePage";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import SectionLabel from "@/components/shared/SectionLabel";
 import { BiDonateBlood } from "react-icons/bi";

@@ -1,7 +1,5 @@
-"use client";
-
 import { useEffect, useRef, useState } from "react";
-import { FadeUpWrapper } from "@/components/Pages/Home/HomePage";
+import { FadeUpWrapper } from "@/components/Pages/USER/Home/HomePage";
 import { motion } from "framer-motion";
 import {
     Carousel,

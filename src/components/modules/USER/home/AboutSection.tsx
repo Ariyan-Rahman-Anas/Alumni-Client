@@ -1,6 +1,5 @@
 "use client";
 
-import { FadeUpWrapper } from "@/components/Pages/Home/HomePage";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import SectionLabel from "@/components/shared/SectionLabel";
 import { useGetHomeStatsQuery } from "@/redux/apis/statsApi";
@@ -15,6 +14,7 @@ import {
     RiSparkling2Line,
     RiArrowRightLine,
 } from "react-icons/ri";
+import { FadeUpWrapper } from "@/components/Pages/USER/Home/HomePage";
 
 /* ── Feature list */
 const features = [

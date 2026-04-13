@@ -1,6 +1,5 @@
 "use client";
 
-import { FadeUpWrapper } from "@/components/Pages/Home/HomePage";
 import { useGetHomeStatsQuery } from "@/redux/apis/statsApi";
 import {
     Carousel,
@@ -14,6 +13,7 @@ import Link from "next/link";
 import { RiArrowRightLine, RiGroupLine, RiFlaskLine, RiBarChartLine, RiMicroscopeLine, RiStore2Line, RiPaletteLine } from "react-icons/ri";
 import { HiArrowUpRight } from "react-icons/hi2";
 import SectionLabel from "@/components/shared/SectionLabel";
+import { FadeUpWrapper } from "@/components/Pages/USER/Home/HomePage";
 
 /* ── Batch Card  */
 const BatchCard = ({

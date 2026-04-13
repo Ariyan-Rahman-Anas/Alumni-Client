@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { FadeUpWrapper } from "@/components/Pages/Home/HomePage";
+import { FadeUpWrapper } from "@/components/Pages/USER/Home/HomePage";
 import SectionLabel from "@/components/shared/SectionLabel";
 import Image from "next/image";
 import Link from "next/link";

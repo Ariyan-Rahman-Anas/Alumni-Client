@@ -1,7 +1,5 @@
-"use client";
-
 import { useEffect, useRef, useState } from "react";
-import { FadeUpWrapper } from "@/components/Pages/Home/HomePage";
+import { FadeUpWrapper } from "@/components/Pages/USER/Home/HomePage";
 import { useGetHomeStatsQuery } from "@/redux/apis/statsApi";
 import { motion, useInView } from "framer-motion";
 import { RiCalendarEventLine, RiGroupLine, RiMapPin2Line, RiSparkling2Line } from "react-icons/ri";

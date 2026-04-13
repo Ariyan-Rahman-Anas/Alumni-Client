@@ -1,4 +1,4 @@
-import { FadeUpWrapper } from "@/components/Pages/Home/HomePage"
+import { FadeUpWrapper } from "@/components/Pages/USER/Home/HomePage";
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"

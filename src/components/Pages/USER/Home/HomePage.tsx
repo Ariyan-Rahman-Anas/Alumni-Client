@@ -2,15 +2,15 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import StatsSection from "@/components/modules/home/StatsSection";
-import AboutSection from "@/components/modules/home/AboutSection";
-import BatchesSection from "@/components/modules/home/BatchesSection";
-import EventsSection from "@/components/modules/home/EventsSection";
-import TestimonialsSection from "@/components/modules/home/TestimonialsSection";
-import GallerySection from "@/components/modules/home/GallerySection";
-import BloodSection from "@/components/modules/home/BloodSection";
-import HomePageCTA from "@/components/modules/home/HomePageCTA";
-import HeroSection from "@/components/modules/home/HeroSection";
+import StatsSection from "@/components/modules/USER/home/StatsSection";
+import AboutSection from "@/components/modules/USER/home/AboutSection";
+import BatchesSection from "@/components/modules/USER/home/BatchesSection";
+import EventsSection from "@/components/modules/USER/home/EventsSection";
+import TestimonialsSection from "@/components/modules/USER/home/TestimonialsSection";
+import GallerySection from "@/components/modules/USER/home/GallerySection";
+import BloodSection from "@/components/modules/USER/home/BloodSection";
+import HomePageCTA from "@/components/modules/USER/home/HomePageCTA";
+import HeroSection from "@/components/modules/USER/home/HeroSection";
 
 /* ── Fade-up wrapper ──────────────────────────────────────── */
 export const FadeUpWrapper = ({

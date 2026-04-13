@@ -4,11 +4,11 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 import { useGetUserProfileQuery } from "@/redux/apis/userApi";
-import ProfileHero from "@/components/modules/profile/ProfileHero";
-import ProfileForm from "@/components/modules/profile/ProfileForm";
-import ProfileSidebar, { type ProfileSectionKey } from "@/components/modules/profile/ProfileSidebar";
-import ProfileTransactionsPanel from "@/components/modules/profile/ProfileTransactionsPanel";
-import ProfileChangePasswordPanel from "@/components/modules/profile/ProfileChangePasswordPanel";
+import ProfileHero from "@/components/modules/USER/profile/ProfileHero";
+import ProfileForm from "@/components/modules/USER/profile/ProfileForm";
+import ProfileSidebar, { type ProfileSectionKey } from "@/components/modules/USER/profile/ProfileSidebar";
+import ProfileTransactionsPanel from "@/components/modules/USER/profile/ProfileTransactionsPanel";
+import ProfileChangePasswordPanel from "@/components/modules/USER/profile/ProfileChangePasswordPanel";
 import { selectCurrentUser } from "@/redux/slice/authSlice";
 
 const ProfileSkeleton = () => (
