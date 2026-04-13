@@ -1,5 +1,5 @@
+import BloodBankPage from "@/components/Pages/USER/BloodBank/BloodBankPage";
 import type { Metadata } from "next";
-import BloodBankPage from "@/components/Pages/BloodBank/BloodBankPage";
 
 export const metadata: Metadata = {
     title: "Blood Bank | BAMHS Alumni",
@@ -9,5 +9,4 @@ export const metadata: Metadata = {
 const BloodBank = () => {
     return <BloodBankPage />;
 };
-
 export default BloodBank;

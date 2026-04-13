@@ -1,5 +1,7 @@
-import AdminBatchesPage from "@/components/Pages/Admin Dashboard/batches/AdminBatchesPage";
+import AdminBatchesPage from '@/components/Pages/ADMIN/batches/AdminBatchesPage'
+import React from 'react'
 
-export default function Page() {
-    return <AdminBatchesPage />;
+const AdminBatches = () => {
+    return <AdminBatchesPage />
 }
+export default AdminBatches

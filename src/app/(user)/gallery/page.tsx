@@ -1,5 +1,5 @@
+import GalleryPage from "@/components/Pages/USER/Gallery/GalleryPage";
 import type { Metadata } from "next";
-import GalleryPage from "@/components/Pages/Gallery/GalleryPage";
 
 export const metadata: Metadata = {
     title: "Gallery | BAMHS Alumni",
@@ -9,5 +9,4 @@ export const metadata: Metadata = {
 const Gallery = () => {
     return <GalleryPage />;
 };
-
 export default Gallery;

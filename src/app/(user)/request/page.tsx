@@ -1,5 +1,5 @@
+import RequestToAdminPage from "@/components/Pages/USER/Request/RequestToAdminPage";
 import type { Metadata } from "next";
-import RequestToAdminPage from "@/components/Pages/Request/RequestToAdminPage";
 
 export const metadata: Metadata = {
     title: "Request To Admin | BAMHS Alumni",
@@ -9,5 +9,4 @@ export const metadata: Metadata = {
 const RequestPage = () => {
     return <RequestToAdminPage />;
 };
-
 export default RequestPage;

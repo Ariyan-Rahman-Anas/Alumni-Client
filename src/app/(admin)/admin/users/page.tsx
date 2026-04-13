@@ -1,5 +1,6 @@
-import AdminUsersPage from "@/components/Pages/Admin Dashboard/users/AdminUsersPage";
+import AdminUsersPage from "@/components/Pages/ADMIN/users/AdminUsersPage"
 
-export default function Page() {
-    return <AdminUsersPage />;
+const AdminUsers = () => {
+    return <AdminUsersPage />
 }
+export default AdminUsers

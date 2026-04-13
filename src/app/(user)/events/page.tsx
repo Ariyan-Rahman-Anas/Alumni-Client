@@ -1,5 +1,5 @@
+import EventsPage from "@/components/Pages/USER/Events/EventsPage";
 import type { Metadata } from "next";
-import EventsPage from "@/components/Pages/Events/EventsPage";
 
 export const metadata: Metadata = {
     title: "Events | BAMHS Alumni",
@@ -9,5 +9,4 @@ export const metadata: Metadata = {
 const Events = () => {
     return <EventsPage />;
 };
-
 export default Events;

@@ -1,5 +1,5 @@
+import AnnouncementsPage from "@/components/Pages/USER/Announcements/AnnouncementsPage";
 import type { Metadata } from "next";
-import AnnouncementsPage from "@/components/Pages/Announcements/AnnouncementsPage";
 
 export const metadata: Metadata = {
     title: "Announcements | BAMHS Alumni",
@@ -9,5 +9,4 @@ export const metadata: Metadata = {
 const Announcements = () => {
     return <AnnouncementsPage />;
 };
-
 export default Announcements;

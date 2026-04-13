@@ -1,5 +1,8 @@
-import AdminEventsPage from "@/components/Pages/Admin Dashboard/events/AdminEventsPage";
+import AdminEventsPage from "@/components/Pages/ADMIN/events/AdminEventsPage";
 
-export default function Page() {
-    return <AdminEventsPage />;
+import React from 'react'
+
+const AdminEvents = () => {
+  return <AdminEventsPage />
 }
+export default AdminEvents

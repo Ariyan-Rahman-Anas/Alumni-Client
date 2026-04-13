@@ -1,5 +1,5 @@
+import BatchesPage from "@/components/Pages/USER/Batches/BatchesPage";
 import type { Metadata } from "next";
-import BatchesPage from "@/components/Pages/Batches/BatchesPage";
 
 export const metadata: Metadata = {
     title: "Batches | BAMHS Alumni",
@@ -9,5 +9,4 @@ export const metadata: Metadata = {
 const Batches = () => {
     return <BatchesPage />;
 };
-
 export default Batches;
