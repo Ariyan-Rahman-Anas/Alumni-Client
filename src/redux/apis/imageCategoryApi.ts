@@ -27,23 +27,23 @@ interface ImageCategoryResponse {
 export const imageCategoryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllImageCategories: builder.query<ImageCategoryListResponse, void>({
-      query: () => ({ url: "/gallery-categories/public", method: "GET" }),
+      query: () => ({ url: "/image-categories/public", method: "GET" }),
       providesTags: ["imageCategories"],
     }),
     createImageCategory: builder.mutation<ImageCategoryResponse, FormData>({
-      query: (body) => ({ url: "/gallery-categories/", method: "POST", body }),
+      query: (body) => ({ url: "/image-categories/", method: "POST", body }),
       invalidatesTags: ["imageCategories"],
     }),
     deleteImageCategory: builder.mutation<ImageCategoryResponse, string>({
-      query: (id) => ({ url: `/gallery-categories/${id}`, method: "DELETE" }),
+      query: (id) => ({ url: `/image-categories/${id}`, method: "DELETE" }),
       invalidatesTags: ["imageCategories"],
     }),
     togglePublish: builder.mutation<ImageCategoryResponse, string>({
-      query: (id) => ({ url: `/gallery-categories/${id}/publish`, method: "PATCH" }),
+      query: (id) => ({ url: `/image-categories/${id}/publish`, method: "PATCH" }),
       invalidatesTags: ["imageCategories"],
     }),
     toggleFeature: builder.mutation<ImageCategoryResponse, string>({
-      query: (id) => ({ url: `/gallery-categories/${id}/feature`, method: "PATCH" }),
+      query: (id) => ({ url: `/image-categories/${id}/feature`, method: "PATCH" }),
       invalidatesTags: ["imageCategories"],
     }),
   }),
