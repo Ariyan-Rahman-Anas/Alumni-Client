@@ -1,4 +1,4 @@
-import BatchesPage from "@/components/Pages/USER/Batches/BatchesPage";
+import BatchesPage from "@/components/pages/user/Batches/BatchesPage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

@@ -1,4 +1,4 @@
-import EventsPage from "@/components/Pages/USER/Events/EventsPage";
+import EventsPage from "@/components/pages/user/Events/EventsPage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

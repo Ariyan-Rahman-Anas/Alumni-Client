@@ -1,4 +1,4 @@
-import LoginPage from '@/components/Pages/Auth/LoginPage'
+import LoginPage from '@/components/pages/auth/LoginPage'
 import ClientAuthGuard from '@/components/shared/ClientAuthGuard'
 
 // ClientAuthGuard: requireGuest — redirect logged-in users away from login.

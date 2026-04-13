@@ -1,4 +1,4 @@
-import AnnouncementsPage from "@/components/Pages/USER/Announcements/AnnouncementsPage";
+import AnnouncementsPage from "@/components/pages/user/Announcements/AnnouncementsPage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

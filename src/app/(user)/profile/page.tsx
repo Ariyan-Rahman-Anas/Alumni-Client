@@ -1,4 +1,4 @@
-import ProfilePage from "@/components/Pages/USER/Profile/ProfilePage";
+import ProfilePage from "@/components/pages/user/Profile/ProfilePage";
 import ClientAuthGuard from "@/components/shared/ClientAuthGuard";
 
 export const metadata = {

@@ -1,4 +1,4 @@
-import BloodBankPage from "@/components/Pages/USER/BloodBank/BloodBankPage";
+import BloodBankPage from "@/components/pages/user/BloodBank/BloodBankPage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

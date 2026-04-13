@@ -1,4 +1,4 @@
-import AdminOverviewPage from "@/components/modules/ADMIN/overview/AdminOverviewPage";
+import AdminOverviewPage from "@/components/modules/admin/overview/AdminOverviewPage"
 
 const AdminOverview = () => {
     return <AdminOverviewPage />

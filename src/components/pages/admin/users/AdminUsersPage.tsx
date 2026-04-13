@@ -1,9 +1,9 @@
 ﻿"use client";
 
+import AdminUsersSearchFilter, { UserFilterValues } from "@/components/modules/admin/users/AdminUsersSearchFilter";
+import AdminUsersTable from "@/components/modules/admin/users/AdminUsersTable";
 import { useState } from "react";
 
-import AdminUsersSearchFilter, { type UserFilterValues } from "@/components/modules/ADMIN/users/AdminUsersSearchFilter";
-import AdminUsersTable from "@/components/modules/ADMIN/users/AdminUsersTable";
 
 const AdminUsersPage = () => {
     const [page, setPage] = useState(1);

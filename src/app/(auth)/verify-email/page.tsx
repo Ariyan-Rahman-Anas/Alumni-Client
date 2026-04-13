@@ -1,5 +1,5 @@
+import VerifyEmailPage from "@/components/pages/auth/VerifyEmailPage";
 import { Suspense } from "react";
-import VerifyEmailPage from "@/components/Pages/Auth/VerifyEmailPage";
 
 const VerifyEmail = () => {
     return (

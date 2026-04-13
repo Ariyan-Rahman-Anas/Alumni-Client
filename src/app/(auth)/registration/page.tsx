@@ -1,4 +1,4 @@
-import RegistrationPage from '@/components/Pages/Auth/RegistrationPage'
+import RegistrationPage from '@/components/pages/auth/RegistrationPage'
 import ClientAuthGuard from '@/components/shared/ClientAuthGuard'
 
 // ClientAuthGuard: requireGuest — redirect logged-in users away from registration.

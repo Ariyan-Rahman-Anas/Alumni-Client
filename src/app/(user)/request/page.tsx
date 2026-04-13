@@ -1,4 +1,4 @@
-import RequestToAdminPage from "@/components/Pages/USER/Request/RequestToAdminPage";
+import RequestToAdminPage from "@/components/pages/user/Request/RequestToAdminPage";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

@@ -1,5 +1,4 @@
-import AdminBatchesPage from '@/components/Pages/ADMIN/batches/AdminBatchesPage'
-import React from 'react'
+import AdminBatchesPage from "@/components/pages/admin/batches/AdminBatchesPage"
 
 const AdminBatches = () => {
     return <AdminBatchesPage />

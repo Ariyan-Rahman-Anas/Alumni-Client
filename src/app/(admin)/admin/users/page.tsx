@@ -1,4 +1,4 @@
-import AdminUsersPage from "@/components/Pages/ADMIN/users/AdminUsersPage"
+import AdminUsersPage from "@/components/pages/admin/users/AdminUsersPage"
 
 const AdminUsers = () => {
     return <AdminUsersPage />

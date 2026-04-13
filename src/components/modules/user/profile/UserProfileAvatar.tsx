@@ -6,7 +6,7 @@ import { RiCameraLine, RiUserLine } from "react-icons/ri";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-interface ProfileAvatarProps {
+interface UserProfileAvatarProps {
     imageUrl?: string;
     name: string;
     pendingImage: File | null;
@@ -22,13 +22,13 @@ const getInitials = (name: string) =>
         .map((w) => w[0]?.toUpperCase() ?? "")
         .join("");
 
-const ProfileAvatar = ({
+const UserProfileAvatar = ({
     imageUrl,
     name,
     pendingImage,
     onImageChange,
     size = "lg",
-}: ProfileAvatarProps) => {
+}: UserProfileAvatarProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const previewSrc = pendingImage ? URL.createObjectURL(pendingImage) : imageUrl;
     const initials = getInitials(name);
@@ -93,5 +93,4 @@ const ProfileAvatar = ({
         </motion.div>
     );
 };
-
-export default ProfileAvatar;
+export default UserProfileAvatar;

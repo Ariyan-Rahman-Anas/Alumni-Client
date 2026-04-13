@@ -1,5 +1,5 @@
+import AboutPage from "@/components/pages/user/About/AboutPage";
 import type { Metadata } from "next";
-import AboutPage from "@/components/Pages/USER/About/AboutPage"
 
 export const metadata: Metadata = {
   title: "About | BAMHS Alumni",

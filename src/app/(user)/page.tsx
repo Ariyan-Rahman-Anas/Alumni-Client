@@ -1,5 +1,5 @@
-import HomePage from "@/components/Pages/USER/Home/HomePage";
+import HomePageCTA from "@/components/modules/user/home/HomePageCTA";
 
 export default function Home() {
-  return <HomePage />
+  return <HomePageCTA />
 }
