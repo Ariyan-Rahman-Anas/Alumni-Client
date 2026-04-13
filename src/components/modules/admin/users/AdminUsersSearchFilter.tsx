@@ -103,109 +103,105 @@ const AdminUsersSearchFilter = ({ onChange, onPageReset }: AdminUsersSearchFilte
     };
 
     return (
-        <div className="mb-4">
-            {/* Row 1 — Search + Status tabs */}
-            <div className="flex flex-col gap-4 mb-3">
-                <div className="flex flex-col md:flex-row items-center justify-between gap-4 " >
-                    <div className="w-full md:max-w-sm">
-                        <InputField
-                            icon={<RiSearchLine />}
-                            placeholder="Search by name, email, phone..."
-                            value={inputFilters.search}
-                            onChange={(e) => setInputFilters((p) => ({ ...p, search: e.target.value }))}
-                            className="text-sm"
-                        />
-                    </div>
-
-                    <div className="flex items-center gap-0 border border-gray-200 rounded-lg p-0.5 w-fit h-10">
-                        {TABS.map((t) => (
-                            <PrimaryButton
-                                key={t.value}
-                                type="button"
-                                onClick={() => setTab(t.value)}
-                                title={t.label} variant={tab === t.value ? "default" : "ghost"}
-                            />
-                        ))}
-                    </div>
+        //Row 1 — Search + Status tabs 
+        <div className="flex flex-col gap-4 mb-3" >
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 " >
+                <div className="w-full md:max-w-sm">
+                    <InputField
+                        icon={<RiSearchLine />}
+                        placeholder="Search by name, email, phone..."
+                        value={inputFilters.search}
+                        onChange={(e) => setInputFilters((p) => ({ ...p, search: e.target.value }))}
+                        className="text-sm"
+                    />
                 </div>
 
-                {/* Row 2 — Extra filters */}
-                <div className="flex items-center lg:justify-end" >
-                    <div className="max-w-[57rem] grid grid-cols-3 items-end md:grid-cols-7 gap-x-1 gap-y-2 ">
-                        <SingleSelect
-                            options={BLOOD_GROUP_OPTIONS}
-                            value={bloodGroup}
-                            onValueChange={setBloodGroup}
-                            placeholder="Blood group"
-                            searchable={false}
-                            allowDeselect
-                            width="w-28"
-                            label="Blood"
-                        />
-                        <SingleSelect
-                            options={SECTION_OPTIONS}
-                            value={section}
-                            onValueChange={setSection}
-                            placeholder="Section"
-                            searchable={false}
-                            allowDeselect
-                            width="w-28"
-                            label="Section"
-                        />
-                        <InputField
-                            label="Year"
-                            type="number"
-                            placeholder="e.g. 1995"
-                            min={1900}
-                            max={2099}
-                            value={inputFilters.dobYear}
-                            onChange={(e) => setInputFilters((p) => ({ ...p, dobYear: e.target.value }))}
-                            className="text-sm w-28"
-                        />
-                        <SingleSelect
-                            options={MONTH_OPTIONS}
-                            value={dobMonth}
-                            onValueChange={setDobMonth}
-                            placeholder="Month"
-                            searchable={false}
-                            allowDeselect
-                            width="w-28"
-                            label="Month"
-                        />
-                        <InputField
-                            label="Day"
-                            type="number"
-                            placeholder="e.g. 14"
-                            min={1}
-                            max={31}
-                            value={inputFilters.dobDay}
-                            onChange={(e) => setInputFilters((p) => ({ ...p, dobDay: e.target.value }))}
-                            className="text-sm w-28"
-                        />
-                        <SingleSelect
-                            options={[
-                                { label: "Verified", value: "true" },
-                                { label: "Unverified", value: "false" },
-                            ]}
-                            value={isVerified}
-                            onValueChange={setIsVerified}
-                            placeholder="Any"
-                            searchable={false}
-                            allowDeselect
-                            width="w-28"
-                            label="Email"
-                        />
+                <div className="flex items-center gap-0 border border-gray-200 rounded-lg p-0.5 w-fit h-10">
+                    {TABS.map((t) => (
                         <PrimaryButton
-                            type="button" onClick={resetFilters}
-                            title="Clear Filters" variant="destructive" className="py-[19px] px-4 "
-                            isDisabled={!hasActiveFilter}
+                            key={t.value}
+                            type="button"
+                            onClick={() => setTab(t.value)}
+                            title={t.label} variant={tab === t.value ? "default" : "ghost"}
                         />
-                    </div>
+                    ))}
                 </div>
             </div>
 
-
-        </div>
+            {/* Row 2 — Extra filters */}
+            <div className="flex items-center lg:justify-end" >
+                <div className="max-w-[57rem] grid grid-cols-3 items-end md:grid-cols-7 gap-x-1 gap-y-2 ">
+                    <SingleSelect
+                        options={BLOOD_GROUP_OPTIONS}
+                        value={bloodGroup}
+                        onValueChange={setBloodGroup}
+                        placeholder="Blood group"
+                        searchable={false}
+                        allowDeselect
+                        width="w-28"
+                        label="Blood"
+                    />
+                    <SingleSelect
+                        options={SECTION_OPTIONS}
+                        value={section}
+                        onValueChange={setSection}
+                        placeholder="Section"
+                        searchable={false}
+                        allowDeselect
+                        width="w-28"
+                        label="Section"
+                    />
+                    <InputField
+                        label="Year"
+                        type="number"
+                        placeholder="e.g. 1995"
+                        min={1900}
+                        max={2099}
+                        value={inputFilters.dobYear}
+                        onChange={(e) => setInputFilters((p) => ({ ...p, dobYear: e.target.value }))}
+                        className="text-sm w-28"
+                    />
+                    <SingleSelect
+                        options={MONTH_OPTIONS}
+                        value={dobMonth}
+                        onValueChange={setDobMonth}
+                        placeholder="Month"
+                        searchable={false}
+                        allowDeselect
+                        width="w-28"
+                        label="Month"
+                    />
+                    <InputField
+                        label="Day"
+                        type="number"
+                        placeholder="e.g. 14"
+                        min={1}
+                        max={31}
+                        value={inputFilters.dobDay}
+                        onChange={(e) => setInputFilters((p) => ({ ...p, dobDay: e.target.value }))}
+                        className="text-sm w-28"
+                    />
+                    <SingleSelect
+                        options={[
+                            { label: "Verified", value: "true" },
+                            { label: "Unverified", value: "false" },
+                        ]}
+                        value={isVerified}
+                        onValueChange={setIsVerified}
+                        placeholder="Any"
+                        searchable={false}
+                        allowDeselect
+                        width="w-28"
+                        label="Email"
+                    />
+                    <PrimaryButton
+                        type="button" onClick={resetFilters}
+                        title="Clear Filters" variant="destructive" className="py-[19px] px-4 "
+                        isDisabled={!hasActiveFilter}
+                    />
+                </div>
+            </div>
+        </div >
     );
 };
 

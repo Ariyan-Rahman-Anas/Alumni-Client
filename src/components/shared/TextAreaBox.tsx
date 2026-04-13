@@ -1,5 +1,4 @@
 import { forwardRef } from "react";
-import { RiMapPin2Line } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { TextAreaBoxProps } from "@/types/common.components.types";
 
@@ -14,7 +13,7 @@ const TextAreaBox = forwardRef<HTMLTextAreaElement, TextAreaBoxProps>(
             helperText,
             required,
             rows = 4,
-            className,
+            className, icon,
             containerClassName,
             ...props
         },
@@ -36,16 +35,22 @@ const TextAreaBox = forwardRef<HTMLTextAreaElement, TextAreaBoxProps>(
                 )}
 
                 <div className="relative">
-                    <RiMapPin2Line
-                        className={`pointer-events-none absolute left-3 top-3 text-lg ${hasError ? "text-danger" : "text-primary2-500"}`}
-                    />
+                    {icon && (
+                        <div className={cn(
+                            "pointer-events-none absolute left-3 top-3 text-lg",
+                            hasError ? "text-danger" : "text-primary2-500"
+                        )}>
+                            {icon}
+                        </div>
+                    )}
                     <textarea
                         ref={ref}
                         id={areaId}
                         name={name}
                         rows={rows}
                         className={cn(
-                            "min-h-28 w-full rounded-lg border bg-white pl-10 pr-4 py-3 text-sm text-accent-foreground outline-none transition",
+                            "min-h-28 w-full rounded-lg border bg-white pr-4 py-3 text-sm text-accent-foreground outline-none transition",
+                            icon ? "pl-10" : "px-4",
                             hasError
                                 ? "border-danger focus:border-danger"
                                 : "focus:border-primary2-500",

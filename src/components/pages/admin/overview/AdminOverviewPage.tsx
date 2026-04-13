@@ -1,31 +1,9 @@
-"use client";
+"use client"
 
 import { RiGroupLine, RiTimeLine, RiCheckLine, RiCalendarLine, RiCheckboxCircleLine } from "react-icons/ri";
+import AdminPageHead from "@/components/shared/admin/AdminPageHead"
 import { useGetAdminStatsQuery } from "@/redux/apis/statsApi";
-
-interface StatCardProps {
-    label: string;
-    value: number | undefined;
-    icon: React.ReactNode;
-    color: string;
-    isLoading: boolean;
-}
-
-const StatCard = ({ label, value, icon, color, isLoading }: StatCardProps) => (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 flex items-center gap-4">
-        <div className={`h-12 w-12 rounded-xl flex items-center justify-center shrink-0 ${color}`}>
-            {icon}
-        </div>
-        <div>
-            <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">{label}</p>
-            {isLoading ? (
-                <div className="h-7 w-16 bg-gray-100 rounded animate-pulse mt-1" />
-            ) : (
-                <p className="text-2xl font-bold text-gray-900">{value ?? 0}</p>
-            )}
-        </div>
-    </div>
-);
+import StatCard from "@/components/shared/admin/StatCard";
 
 const AdminOverviewPage = () => {
     const { data: statsResponse, isLoading } = useGetAdminStatsQuery();
@@ -69,25 +47,19 @@ const AdminOverviewPage = () => {
             color: "bg-teal-50",
         },
     ];
-
     return (
-        <div className="p-4 sm:p-6 md:p-8">
-            {/* Header */}
-            <div className="mb-6">
-                <h1 className="text-xl font-semibold text-gray-900">Overview</h1>
-                <p className="text-sm text-muted-foreground mt-0.5">
-                    Application statistics at a glance.
-                </p>
-            </div>
+        <div className="admin-page-setup">
+            <AdminPageHead
+                title="Overview"
+                description="Application statistics at a glance."
+            />
 
-            {/* Stats grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {statCards.map((card) => (
                     <StatCard key={card.label} {...card} isLoading={isLoading} />
                 ))}
             </div>
         </div>
-    );
-};
-
-export default AdminOverviewPage;
+    )
+}
+export default AdminOverviewPage

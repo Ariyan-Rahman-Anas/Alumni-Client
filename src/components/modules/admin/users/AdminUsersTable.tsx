@@ -15,23 +15,10 @@ import {
     useDeleteUserMutation,
     type UserProfile,
 } from "@/redux/apis/userApi";
-import { formatDate } from "@/lib/DateFormatter";
+// import { formatDate } from "@/lib/DateFormatter";
 import Image from "next/image";
-
-interface AdminUsersTableProps {
-    page: number;
-    limit: number;
-    onPageChange: (page: number) => void;
-    approvalStatus?: string;
-    search?: string;
-    bloodGroup?: string;
-    section?: string;
-    dobYear?: number;
-    dobMonth?: number;
-    dobDay?: number;
-    isVerified?: boolean;
-    emptyMessage?: string;
-}
+import { AdminUsersTableProps } from "@/types/admin/users.types";
+import DateFormatter from "@/lib/DateFormatter";
 
 const AdminUsersTable = ({
     page,
@@ -115,7 +102,7 @@ const AdminUsersTable = ({
         {
             key: "dob",
             label: "Date of Birth",
-            render: (u) => <span>{u.dob ? formatDate(u.dob) : "—"}</span>,
+            render: (u) => <DateFormatter date={u.dob} />
         },
         {
             key: "batch",

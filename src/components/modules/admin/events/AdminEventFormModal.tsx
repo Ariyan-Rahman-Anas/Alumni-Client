@@ -29,8 +29,8 @@ import {
     EVENT_CATEGORIES,
     EVENT_STATUSES,
     LOCATION_TYPES,
-    FIELD_ORDER,
     type EventFormValues,
+    eventFieldOrder,
 } from "./eventSchema";
 
 interface AdminEventFormModalProps {
@@ -51,19 +51,6 @@ const toLocalDT = (iso?: string): string => {
 const CATEGORY_OPTIONS = EVENT_CATEGORIES.map((c) => ({ label: c, value: c }));
 const STATUS_OPTIONS = EVENT_STATUSES.map((s) => ({ label: s, value: s }));
 const LOCATION_OPTIONS = LOCATION_TYPES.map((l) => ({ label: l, value: l }));
-
-/* ── section divider ── */
-// const section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-//     <section className="space-y-3">
-//         <div className="flex items-center gap-3">
-//             <span className="text-xs font-semibold uppercase tracking-wider text-primary2-600 whitespace-nowrap">
-//                 {title}
-//             </span>
-//             <div className="flex-1 h-px bg-surface-300" />
-//         </div>
-//         {children}
-//     </section>
-// );
 
 /* ════════════════════════════════════════════════
    Form Modal
@@ -107,7 +94,7 @@ const AdminEventFormModal = ({ open, onClose, event }: AdminEventFormModalProps)
                 isFeatured: false,
             },
         },
-        { fieldOrder: FIELD_ORDER }
+        { fieldOrder: eventFieldOrder }
     );
 
     const {
