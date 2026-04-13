@@ -31,7 +31,7 @@ export const imageCategoryApi = baseApi.injectEndpoints({
       providesTags: ["imageCategories"],
     }),
     createImageCategory: builder.mutation<ImageCategoryResponse, FormData>({
-      query: (body) => ({ url: "/image-categories/", method: "POST", body }),
+      query: (body) => ({ url: "/image-categories/create", method: "POST", body }),
       invalidatesTags: ["imageCategories"],
     }),
     deleteImageCategory: builder.mutation<ImageCategoryResponse, string>({
