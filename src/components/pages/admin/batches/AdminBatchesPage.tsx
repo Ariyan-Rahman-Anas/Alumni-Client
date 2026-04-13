@@ -53,7 +53,7 @@ const AdminBatchesPage = () => {
         : undefined;
 
     return (
-        <div className="p-6 md:p-8 max-w4xl">
+        <div className="admin-page-setup">
             <div className="flex items-center justify-between mb-6">
                 <div>
                     <h1 className="text-xl font-semibold text-gray-900">Batches</h1>

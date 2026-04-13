@@ -3,7 +3,7 @@
 import { useId, useState } from "react";
 import { RiEyeLine, RiEyeOffLine, RiLock2Line } from "react-icons/ri";
 import { cn } from "@/lib/utils";
-import { PasswordFieldPropsI } from "@/components/shared/types/form-fields.types";
+import { PasswordFieldPropsI } from "@/types/common.components.types";
 
 const PasswordField = ({
     value,

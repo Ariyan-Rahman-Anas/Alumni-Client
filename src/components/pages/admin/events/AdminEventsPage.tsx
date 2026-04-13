@@ -13,6 +13,7 @@ import {
 } from "@/redux/apis/eventApi";
 import AdminEventFormModal from "@/components/modules/admin/events/AdminEventFormModal";
 import AdminEventsTable from "@/components/modules/admin/events/AdminEventsTable";
+import AdminPageHead from "@/components/shared/admin/AdminPageHead";
 
 type StatusFilter = "ALL" | "UPCOMING" | "ONGOING" | "COMPLETED" | "CANCELLED";
 
@@ -65,15 +66,10 @@ const AdminEventsPage = () => {
         : undefined;
 
     return (
-        <div className="p-4 sm:p-6 md:p-8">
+        <div className="admin-page-setup">
             {/* Header */}
             <div className="flex items-start justify-between mb-6">
-                <div>
-                    <h1 className="text-xl font-semibold text-gray-900">Events</h1>
-                    <p className="text-sm text-muted-foreground mt-0.5">
-                        Create and manage alumni events, reunions, and programs.
-                    </p>
-                </div>
+                <AdminPageHead title="Events" description="Create and manage alumni events, reunions, and programs." />
                 <PrimaryButton
                     type="button"
                     title="Add Event"

@@ -2,6 +2,7 @@
 
 import AdminUsersSearchFilter, { UserFilterValues } from "@/components/modules/admin/users/AdminUsersSearchFilter";
 import AdminUsersTable from "@/components/modules/admin/users/AdminUsersTable";
+import AdminPageHead from "@/components/shared/admin/AdminPageHead";
 import { useState } from "react";
 
 
@@ -28,13 +29,11 @@ const AdminUsersPage = () => {
                 : "No users found";
 
     return (
-        <div className="p-4 sm:p-6 md:p-8">
-            <div className="mb-5">
-                <h1 className="text-xl font-semibold text-gray-900">Users</h1>
-                <p className="text-sm text-muted-foreground mt-0.5">
-                    Review registrations and manage user accounts.
-                </p>
-            </div>
+        <div className="admin-page-setup">
+            <AdminPageHead
+                title="Users"
+                description="Review registrations and manage user accounts."
+            />
 
             <AdminUsersSearchFilter
                 onChange={setFilters}
@@ -58,5 +57,4 @@ const AdminUsersPage = () => {
         </div>
     );
 };
-
 export default AdminUsersPage;

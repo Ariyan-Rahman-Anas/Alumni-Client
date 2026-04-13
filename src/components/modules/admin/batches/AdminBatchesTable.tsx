@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { type Batch } from "@/redux/apis/batchApi";
 import type { TableColumn } from "@/types";
+import DateFormatter from "@/lib/DateFormatter";
 
 interface AdminBatchesTableProps {
     data: Batch[];
@@ -85,15 +86,7 @@ const AdminBatchesTable = ({
         {
             key: "stats",
             label: "Last Registration",
-            render: (b) => (
-                <span className="text-sm text-gray-500">
-                    {b.stats?.lastRegistration
-                        ? new Date(b.stats.lastRegistration).toLocaleDateString("en-GB", {
-                            day: "2-digit", month: "short", year: "numeric",
-                        })
-                        : "N/A"}
-                </span>
-            ),
+            render: (b) => <DateFormatter date={b.stats?.lastRegistration} />
         },
         {
             key: "stats",

@@ -9,6 +9,7 @@ import {
     RiArrowRightLine,
     RiBriefcase4Line,
     RiMailLine,
+    RiMapPin2Line,
     RiPhoneLine,
     RiUser3Line,
 } from "react-icons/ri";
@@ -313,6 +314,7 @@ const RegistrationForm = () => {
                         label="Current Address"
                         placeholder="Where you live now"
                         error={errors.currentAddress?.message}
+                        icon={<RiMapPin2Line />}
                         required
                     />
                     <TextAreaBox
@@ -321,6 +323,7 @@ const RegistrationForm = () => {
                         label="Permanent Address"
                         placeholder="Your permanent home address"
                         error={errors.permanentAddress?.message}
+                        icon={<RiMapPin2Line />}
                         required
                     />
                 </div>

@@ -334,6 +334,10 @@
     @apply w-full max-w-screen-3xl mx-auto py-24 px-4;
   }
 
+  .admin-page-setup{
+    @apply p-4 sm:p-6 w-full max-w-screen-4xl mx-auto space-y-5;
+  }
+
   /* Main page wrapper */
   .page-setup {
     @apply w-[96%] mx-auto max-w-7xl;

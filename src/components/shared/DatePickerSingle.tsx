@@ -7,7 +7,7 @@ import { CalendarIcon, Clock } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { DatePickerSinglePropsI } from "@/components/shared/types/form-fields.types";
+import { DatePickerSinglePropsI } from "@/types/common.components.types";
 
 const DatePickerSingle = ({
     value,

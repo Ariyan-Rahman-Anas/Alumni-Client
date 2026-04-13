@@ -18,6 +18,7 @@ import {
     useToggleEventPublishMutation,
     useToggleEventFeatureMutation,
 } from "@/redux/apis/eventApi";
+import DateFormatter from "@/lib/DateFormatter";
 
 interface AdminEventsTableProps {
     data: Event[];
@@ -45,9 +46,6 @@ const STATUS_COLORS: Record<string, string> = {
     COMPLETED: "bg-surface-200 text-neutral-600 border-surface-300",
     CANCELLED: "bg-danger-light text-danger border-red-200",
 };
-
-const formatEventDate = (iso: string) =>
-    new Date(iso).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 
 const AdminEventsTable = ({
     data,
@@ -131,9 +129,7 @@ const AdminEventsTable = ({
         {
             key: "startDateTime",
             label: "Date",
-            render: (e) => (
-                <span className="text-sm text-gray-600">{formatEventDate(e.startDateTime)}</span>
-            ),
+            render: (e) => <DateFormatter date={e.startDateTime} />
         },
         {
             key: "isFree",

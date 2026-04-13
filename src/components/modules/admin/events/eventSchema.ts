@@ -70,7 +70,7 @@ export const eventSchema = z
 
 export type EventFormValues = z.infer<typeof eventSchema>;
 
-export const FIELD_ORDER: (keyof EventFormValues)[] = [
+export const eventFieldOrder: (keyof EventFormValues)[] = [
     "title",
     "description",
     "category",
