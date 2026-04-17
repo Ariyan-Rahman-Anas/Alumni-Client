@@ -129,7 +129,7 @@ const AdminEventsTable = ({
         {
             key: "startDateTime",
             label: "Date",
-            render: (e) => <DateFormatter date={e.startDateTime} />
+            render: (e) => <DateFormatter date={e.startDateTime} isShowTime={true} />
         },
         {
             key: "isFree",

@@ -21,7 +21,7 @@ import InputField from "@/components/shared/InputField";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import SingleSelect from "@/components/shared/SingleSelect";
 import TextAreaBox from "@/components/shared/TextAreaBox";
-import { useCreateEventMutation, useUpdateEventMutation, type Event } from "@/redux/apis/eventApi";
+import { useCreateEventMutation, useUpdateEventMutation } from "@/redux/apis/eventApi";
 import { useFormWithToast } from "@/hooks/useFormWithToast";
 import {
     eventSchema,
@@ -32,11 +32,12 @@ import {
     type EventFormValues,
     eventFieldOrder,
 } from "./eventSchema";
+import { IEvent } from "@/types/common/events.types";
 
 interface AdminEventFormModalProps {
     open: boolean;
     onClose: () => void;
-    event?: Event | null;
+    event?: IEvent | null;
 }
 
 /* ── Convert UTC ISO → "yyyy-MM-dd'T'HH:mm" local for DatePickerSingle ── */
@@ -173,12 +174,7 @@ const AdminEventFormModal = ({ open, onClose, event }: AdminEventFormModalProps)
                 toast.success(res.message ?? "Event created");
             }
             onClose();
-        } catch (err: unknown) {
-            toast.error(
-                (err as { data?: { message?: string } })?.data?.message ??
-                `Failed to ${isEdit ? "update" : "create"} event`
-            );
-        }
+        } catch {}
     };
 
     return (
