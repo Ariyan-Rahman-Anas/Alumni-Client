@@ -261,5 +261,4 @@ const EventPageEvents = () => {
         </FadeUpWrapper>
     )
 }
-
 export default EventPageEvents

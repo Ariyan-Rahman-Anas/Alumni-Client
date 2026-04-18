@@ -106,8 +106,8 @@ const LoginForm = () => {
             <PrimaryButton
                 type="submit"
                 title="Sign In"
-                icon={<RiArrowRightLine />}
-                iconSide="right"
+                icon2={<RiArrowRightLine />}
+                iconSide2="right"
                 isFullWidth
                 isLoading={isLoading} className="py-5"
                 loadingTitle="Signing in..."

@@ -107,10 +107,10 @@ const ProfileChangePasswordPanel = () => {
                 <div className="mt-6 flex justify-end">
                     <PrimaryButton
                         title="Update Password"
-                        loadingTitle="Updatingâ€¦"
+                        loadingTitle="Updating..."
                         type="submit"
-                        icon={<RiCheckboxCircleLine />}
-                        iconSide="right"
+                        icon2={<RiCheckboxCircleLine />}
+                        iconSide2="right"
                         isLoading={isLoading}
                         isDisabled={isSubmitDisabled}
                         className="min-w-40"

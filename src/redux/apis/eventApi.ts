@@ -46,6 +46,12 @@ export const eventApi = baseApi.injectEndpoints({
             // providesTags: (result, error, id) => [{ type: "events", id }],
             providesTags: ["events"],
         }),
+        
+        getEventBySlug: builder.query<EventResponse, string>({
+            query: (slug) => ({ url: `/events/public/slug/${slug}` }),
+            // providesTags: (result, error, slug) => [{ type: "events", id: slug }],
+            providesTags: ["events"],
+        }),
 
         createEvent: builder.mutation<EventResponse, FormData>({
             query: (body) => ({ url: "/events/", method: "POST", body }),
@@ -79,6 +85,7 @@ export const {
     useGetAllEventsAdminQuery,
     useGetAllPublishedEventsQuery,
     useGetEventByIdQuery,
+    useGetEventBySlugQuery,
     useCreateEventMutation,
     useUpdateEventMutation,
     useDeleteEventMutation,

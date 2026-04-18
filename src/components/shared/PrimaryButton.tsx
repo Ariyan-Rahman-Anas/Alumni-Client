@@ -2,12 +2,14 @@ import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { PrimaryButtonI } from "@/types/common.components.types";
+import { cn } from "@/lib/utils";
 
 const PrimaryButton = ({
     title,
     type = "button",
     href,
     icon,
+    icon2,
     isNewTab = false,
     variant = "default",
     isDisabled = false,
@@ -17,6 +19,7 @@ const PrimaryButton = ({
     loadingTitle,
     className = "",
     iconSide = "left",
+    iconSide2 = "right",
     style
 }: PrimaryButtonI) => {
     const buttonContent = (
@@ -26,7 +29,7 @@ const PrimaryButton = ({
             {(title || (isLoading && loadingTitle)) && (
                 <span>{isLoading ? loadingTitle || title : title}</span>
             )}
-            {!isLoading && iconSide === "right" && icon}
+            {!isLoading && iconSide2 === "right" && icon2}
         </>
     );
 
@@ -36,10 +39,12 @@ const PrimaryButton = ({
 
     return href && !isLoading ? (
         <Link
-            href={href}
+            // href={!isDisabled && href}
+            href={ href}
             target={isNewTab ? "_blank" : "_self"}
             rel={isNewTab ? "noopener noreferrer" : undefined}
-            className={isFullWidth ? "w-full block" : "inline-block"}
+            // className={isFullWidth ? "w-full block" : "inline-block" }
+            className={cn(isFullWidth ? "w-full block" : "inline-block", isDisabled ? "pointer-events-none" : "")}
         >
             <Button
                 type={type}
