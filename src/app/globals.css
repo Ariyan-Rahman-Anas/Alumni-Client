@@ -370,8 +370,8 @@
 /* ── Section Headings ────────────────────────────────────── */
 @layer components {
 
-  .section-heading {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-center;
+  .section-heading-text-center {
+    @apply text-3xl md:text-4xl xl:text-5xl font-bold text-center;
     color: var(--foreground);
     letter-spacing: -0.02em;
   }
@@ -382,8 +382,8 @@
   }
 
   /* Left-aligned variant */
-  .section-heading-left {
-    @apply text-3xl md:text-4xl font-bold;
+  .section-heading-text-left {
+    @apply text-3xl md:text-4xl xl:text-5xl font-bold text-left;
     color: var(--foreground);
     letter-spacing: -0.02em;
   }

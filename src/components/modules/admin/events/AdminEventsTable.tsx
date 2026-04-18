@@ -10,41 +10,40 @@ import {
 } from "react-icons/ri";
 
 import DataTable from "@/components/shared/dataTable/DataTable";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { TableColumn } from "@/types";
 import {
-    type Event,
     useToggleEventPublishMutation,
     useToggleEventFeatureMutation,
 } from "@/redux/apis/eventApi";
 import DateFormatter from "@/lib/DateFormatter";
+import { IEvent } from "@/types/common/events.types";
 
 interface AdminEventsTableProps {
-    data: Event[];
+    data: IEvent[];
     isLoading: boolean;
     isError: boolean;
     paginationOptions?: { count: number; current_page: number; num_pages: number };
     pageSize: number;
     onPageChange: (page: number) => void;
-    onEdit: (event: Event) => void;
+    onEdit: (event: IEvent) => void;
     onDelete: (id: string) => void;
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-    Reunion: "bg-primary2-100 text-primary2-700 border-primary2-200",
-    Career: "bg-blue-100 text-blue-700 border-blue-200",
-    Community: "bg-gold-100 text-gold-700 border-gold-200",
-    Cultural: "bg-violet-100 text-violet-700 border-violet-200",
-    Sports: "bg-emerald-100 text-emerald-700 border-emerald-200",
-    Other: "bg-surface-200 text-neutral-600 border-surface-300",
+    Reunion: "badge-student",
+    Career: "badge-parent",
+    Community: "badge-alumni",
+    Cultural: "badge-staff",
+    Sports: "badge-success",
+    Other: "badge-admin",
 };
 
 const STATUS_COLORS: Record<string, string> = {
-    UPCOMING: "bg-blue-100 text-blue-700 border-blue-200",
-    ONGOING: "bg-emerald-100 text-emerald-700 border-emerald-200",
-    COMPLETED: "bg-surface-200 text-neutral-600 border-surface-300",
-    CANCELLED: "bg-danger-light text-danger border-red-200",
+    UPCOMING: "badge-parent",
+    ONGOING: "badge-success",
+    COMPLETED: "badge-staff",
+    CANCELLED: "badge-danger",
 };
 
 const AdminEventsTable = ({
@@ -60,7 +59,7 @@ const AdminEventsTable = ({
     const [togglePublish, { isLoading: isTogglingPublish }] = useToggleEventPublishMutation();
     const [toggleFeature, { isLoading: isTogglingFeature }] = useToggleEventFeatureMutation();
 
-    const handleTogglePublish = async (event: Event) => {
+    const handleTogglePublish = async (event: IEvent) => {
         try {
             await togglePublish(event._id).unwrap();
             toast.success(`Event ${event.isPublished ? "unpublished" : "published"}`);
@@ -71,7 +70,7 @@ const AdminEventsTable = ({
         }
     };
 
-    const handleToggleFeature = async (event: Event) => {
+    const handleToggleFeature = async (event: IEvent) => {
         try {
             await toggleFeature(event._id).unwrap();
             toast.success(`Event ${event.isFeatured ? "unfeatured" : "featured"}`);
@@ -82,13 +81,14 @@ const AdminEventsTable = ({
         }
     };
 
-    const columns: TableColumn<Event>[] = [
-        { key: "index", label: "#" },
+    const columns: TableColumn<IEvent>[] = [
+        { key: "index", label: "SN." },
         {
             key: "title",
+            width: "0%",
             label: "Title",
             render: (e) => (
-                <span className="font-medium text-sm text-gray-900 line-clamp-1 max-w-[200px] block">
+                <span className="max-w-sm flex items-center justify-center overflow-hidden">
                     {e.title}
                 </span>
             ),
@@ -97,31 +97,29 @@ const AdminEventsTable = ({
             key: "category",
             label: "Category",
             render: (e) => (
-                <Badge
-                    variant="outline"
-                    className={`text-xs font-medium ${CATEGORY_COLORS[e.category] ?? "bg-surface-200 text-neutral-600"}`}
+                <p
+                    className={`${CATEGORY_COLORS[e.category] ?? "bg-surface-200 text-neutral-600"}`}
                 >
                     {e.category}
-                </Badge>
+                </p>
             ),
         },
         {
             key: "status",
             label: "Status",
             render: (e) => (
-                <Badge
-                    variant="outline"
-                    className={`text-xs font-medium ${STATUS_COLORS[e.status] ?? ""}`}
+                <p
+                    className={`${STATUS_COLORS[e.status] ?? ""}`}
                 >
                     {e.status}
-                </Badge>
+                </p>
             ),
         },
         {
             key: "locationType",
             label: "Type",
             render: (e) => (
-                <span className="text-xs text-muted-foreground font-medium">
+                <span>
                     {e.locationType}
                 </span>
             ),
@@ -129,20 +127,19 @@ const AdminEventsTable = ({
         {
             key: "startDateTime",
             label: "Date",
-            render: (e) => <DateFormatter date={e.startDateTime} />
+            render: (e) => <DateFormatter date={e.startDateTime} isShowTime={true} />
         },
         {
             key: "isFree",
             label: "Pricing",
             render: (e) => (
-                <Badge
-                    variant="outline"
+                <p
                     className={e.isFree
-                        ? "bg-emerald-100 text-emerald-700 border-emerald-200 text-xs"
-                        : "bg-gold-100 text-gold-700 border-gold-200 text-xs"}
+                        ? "badge-success"
+                        : "badge-alumni"}
                 >
                     {e.isFree ? "Free" : "Paid"}
-                </Badge>
+                </p>
             ),
         },
         {
@@ -231,5 +228,4 @@ const AdminEventsTable = ({
         />
     );
 };
-
 export default AdminEventsTable;

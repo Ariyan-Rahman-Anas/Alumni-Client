@@ -66,6 +66,18 @@ export const eventSchema = z
             return true;
         },
         { message: "At least one price tier is required for paid events", path: ["priceTiers"] }
+    )
+    .refine(
+        (data) => {
+            if (data.endDateTime) {
+                return new Date(data.endDateTime) > new Date(data.startDateTime);
+            }
+            return true;
+        },
+        {
+            message: "End date must be after start date",
+            path: ["endDateTime"],
+        }
     );
 
 export type EventFormValues = z.infer<typeof eventSchema>;

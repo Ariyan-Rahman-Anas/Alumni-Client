@@ -57,11 +57,7 @@ const AboutSection = () => {
 
                     {/* Headline */}
                     <h2
-                        className="font-display font-bold leading-tight mb-6 text-primary2-900 "
-                        style={{
-                            fontSize: "clamp(2rem, 4vw, 3rem)",
-                        }}
-                    >
+                        className="section-heading-text-left mb-6 text-primary2-900 ">
                         Scattered across the world,{" "}
                         <br className="hidden sm:block" />
                         united by{" "}
@@ -73,15 +69,13 @@ const AboutSection = () => {
                     </h2>
 
                     {/* Description */}
-                    <p className="text-base leading-relaxed mb-4"
-                        style={{ color: "var(--color-text-secondary)" }}>
+                    <p className="text-muted-foreground mb-4">
                         We are not an institution — we are a family. A family born in the
                         classrooms of Battali Abdul Matin High School and now spread across{" "}
                         {totalCountries ? `${totalCountries}+ countries` : "the globe"}.
                         This portal is our shared home online.
                     </p>
-                    <p className="text-base leading-relaxed mb-8"
-                        style={{ color: "var(--color-text-secondary)" }}>
+                    <p className="mb-8 text-muted-foreground">
                         Built by BAMHSians, for BAMHSians — a place to reconnect with old
                         friends, celebrate shared milestones, and give back to the community
                         that shaped who we are.
@@ -109,12 +103,10 @@ const AboutSection = () => {
                                     {icon}
                                 </div>
                                 <div>
-                                    <p className="font-semibold text-sm mb-0.5"
-                                        style={{ color: "var(--color-primary-900)" }}>
+                                    <p className="font-semibold text-sm mb-0.5 text-primary2-700 ">
                                         {title}
                                     </p>
-                                    <p className="text-sm leading-relaxed"
-                                        style={{ color: "var(--color-text-secondary)" }}>
+                                    <p className="text-sm text-muted-foreground leading-relaxed">
                                         {desc}
                                     </p>
                                 </div>

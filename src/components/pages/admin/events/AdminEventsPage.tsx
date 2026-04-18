@@ -9,11 +9,11 @@ import DeleteAlertModal from "@/components/shared/DeleteAlertModal";
 import {
     useGetAllEventsAdminQuery,
     useDeleteEventMutation,
-    type Event,
 } from "@/redux/apis/eventApi";
 import AdminEventFormModal from "@/components/modules/admin/events/AdminEventFormModal";
 import AdminEventsTable from "@/components/modules/admin/events/AdminEventsTable";
 import AdminPageHead from "@/components/shared/admin/AdminPageHead";
+import { IEvent } from "@/types/common/events.types";
 
 type StatusFilter = "ALL" | "UPCOMING" | "ONGOING" | "COMPLETED" | "CANCELLED";
 
@@ -31,7 +31,7 @@ const AdminEventsPage = () => {
 
     const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
     const [formOpen, setFormOpen] = useState(false);
-    const [editEvent, setEditEvent] = useState<Event | null>(null);
+    const [editEvent, setEditEvent] = useState<IEvent | null>(null);
     const [deleteEventId, setDeleteEventId] = useState<string | null>(null);
 
     const { data, isLoading, isError } = useGetAllEventsAdminQuery({
@@ -83,7 +83,7 @@ const AdminEventsPage = () => {
             </div>
 
             {/* Status Tabs */}
-            <div className="flex items-center gap-1 mb-5 border-b border-surface-300 overflow-x-auto">
+            <div className="flex items-center gap-1 mb-5 border-b border-surface-300">
                 {STATUS_TABS.map(({ label, value }) => (
                     <button
                         key={value}
@@ -138,5 +138,4 @@ const AdminEventsPage = () => {
         </div>
     );
 };
-
 export default AdminEventsPage;

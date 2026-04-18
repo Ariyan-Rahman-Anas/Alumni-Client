@@ -1,63 +1,7 @@
+import { EventListResponse, EventResponse, ToggleResponse } from "@/types/common/events.types";
 import { baseApi } from "./baseApi";
 
-export interface PriceTier {
-    _id?: string;
-    label: string;
-    fee: number;
-    batchFrom?: number;
-    batchTo?: number;
-}
 
-export interface Event {
-    _id: string;
-    title: string;
-    description: string;
-    coverImage?: string;
-    coverImagePublicId?: string;
-    category: string;
-    status: string;
-    startDateTime: string;
-    endDateTime?: string;
-    locationType: string;
-    venue: string;
-    meetingLink?: string;
-    organizer?: string;
-    contactInfo?: string;
-    isRegistrationRequired: boolean;
-    registrationOpensAt?: string;
-    registrationDeadline?: string;
-    maxAttendees?: number;
-    isFree: boolean;
-    priceTiers: PriceTier[];
-    allowGuests: boolean;
-    maxGuestsPerAlumni: number;
-    guestFee: number;
-    collectsTShirtSize: boolean;
-    eventFlow: string[];
-    isPublished: boolean;
-    isFeatured: boolean;
-    createdAt: string;
-    updatedAt: string;
-}
-
-interface EventListResponse {
-    success: boolean;
-    message: string;
-    meta: { page: number; limit: number; total: number; totalPage: number };
-    data: Event[];
-}
-
-interface EventResponse {
-    success: boolean;
-    message: string;
-    data: Event;
-}
-
-interface ToggleResponse {
-    success: boolean;
-    message: string;
-    data: Event;
-}
 
 export const eventApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -67,7 +11,6 @@ export const eventApi = baseApi.injectEndpoints({
         >({
             query: ({ page = 1, limit = 10, category, status, search } = {}) => ({
                 url: "/events/",
-                method: "GET",
                 params: {
                     page,
                     limit,
@@ -76,6 +19,31 @@ export const eventApi = baseApi.injectEndpoints({
                     ...(search ? { searchTerm: search } : {}),
                 },
             }),
+            providesTags: ["events"],
+        }),
+
+
+        getAllPublishedEvents: builder.query<
+            EventListResponse,
+            { page?: number; limit?: number; category?: string; status?: string; locationType?: string; search?: string }
+        >({
+            query: ({ page = 1, limit = 10, category, status, locationType,  search } = {}) => ({
+                url: "/events/public",
+                params: {
+                    page,
+                    limit,
+                    ...(category ? { category } : {}),
+                    ...(status ? { status } : {}),
+                        ...(locationType ? { locationType } : {}),
+                    ...(search ? { searchTerm: search } : {}),
+                },
+            }),
+            providesTags: ["events"],
+        }),
+
+        getEventById: builder.query<EventResponse, string>({
+            query: (id) => ({ url: `/events/public/${id}` }),
+            // providesTags: (result, error, id) => [{ type: "events", id }],
             providesTags: ["events"],
         }),
 
@@ -109,6 +77,8 @@ export const eventApi = baseApi.injectEndpoints({
 
 export const {
     useGetAllEventsAdminQuery,
+    useGetAllPublishedEventsQuery,
+    useGetEventByIdQuery,
     useCreateEventMutation,
     useUpdateEventMutation,
     useDeleteEventMutation,

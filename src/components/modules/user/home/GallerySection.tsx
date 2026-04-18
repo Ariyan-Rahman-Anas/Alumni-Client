@@ -129,7 +129,7 @@ const GallerySection = () => (
     <section className="three-xl-section-setup">
 
         {/* ── Header ───────────────────────────────────────────── */}
-        <FadeUpWrapper className="text-center mb-12">
+        <FadeUpWrapper delay={0.14} className="text-center mb-12">
             {/* Pill badge */}
             <SectionLabel text="Captured Memories" icon={<RiGalleryLine className="text-sm" />} />
 
@@ -147,7 +147,7 @@ const GallerySection = () => (
             </div>
         </FadeUpWrapper>
 
-        <FadeUpWrapper delay={0.1}>
+        <FadeUpWrapper delay={0.2}>
             {/*
             ═══════════════════════════════════════════════════════
               MOBILE  (<sm / <640px)
@@ -207,10 +207,6 @@ const GallerySection = () => (
                 <ViewAllCard />
             </div>
         </FadeUpWrapper>
-
-
-
     </section>
 );
-
 export default GallerySection;

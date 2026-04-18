@@ -46,50 +46,57 @@ const BloodSection = () => (
                     <div className="flex flex-col lg:flex-row lg:items-center gap-10 lg:gap-16">
 
                         {/* Left: copy */}
-                        <div className="flex-1 min-w-0">
+                        <FadeUpWrapper delay={0.14} className="flex-1 min-w-0" >
                             {/* Badge */}
                             <SectionLabel text="Blood Donation" className="text-danger-light border-danger-light/30" icon={<RiHeartPulseLine />} align="left" />
 
-                            <h2
-                                className="font-display font-bold text-white my-4"
-                                style={{
-                                    fontSize: "clamp(1.9rem, 4vw, 3rem)",
-                                    letterSpacing: "-0.025em",
-                                    lineHeight: 1.15,
-                                }}
-                            >
-                                BAMHSians Helping to {" "}
-                                <span
-                                    className="font-serifitalic"
+                            <FadeUpWrapper delay={0.18}>
+                                <h2
+                                    className="font-display font-bold text-white my-4"
                                     style={{
-                                        background: "linear-gradient(135deg, #FCA5A5 0%, #F87171 100%)",
-                                        WebkitBackgroundClip: "text",
-                                        WebkitTextFillColor: "transparent",
-                                        backgroundClip: "text",
+                                        fontSize: "clamp(1.9rem, 4vw, 3rem)",
+                                        letterSpacing: "-0.025em",
+                                        lineHeight: 1.15,
                                     }}
                                 >
-                                    Save Lives
-                                </span>
-                            </h2>
+                                    BAMHSians Helping to {" "}
+                                    <span
+                                        className="font-serifitalic"
+                                        style={{
+                                            background: "linear-gradient(135deg, #FCA5A5 0%, #F87171 100%)",
+                                            WebkitBackgroundClip: "text",
+                                            WebkitTextFillColor: "transparent",
+                                            backgroundClip: "text",
+                                        }}
+                                    >
+                                        Save Lives
+                                    </span>
+                                </h2>
+                            </FadeUpWrapper>
 
-                            <p
-                                className="text-base leading-relaxed mb-8 max-w-lg"
-                                style={{ color: "rgba(254,202,202,0.78)" }}
-                            >
-                                Our alumni blood bank connects verified donors with those in need —
-                                across Bangladesh, around the clock. One registration. Countless lives touched.
-                            </p>
+                            <FadeUpWrapper delay={0.22}>
+                                <p
+                                    className="text-base leading-relaxed mb-8 max-w-lg"
+                                    style={{ color: "rgba(254,202,202,0.78)" }}
+                                >
+                                    Our alumni blood bank connects verified donors with those in need —
+                                    across Bangladesh, around the clock. One registration. Countless lives touched.
+                                </p>
+                            </FadeUpWrapper>
 
                             {/* CTA buttons */}
-                            <div className="flex flex-col items-center sm:flex-row gap-4">
+                            <FadeUpWrapper delay={0.26} className="flex flex-col items-center sm:flex-row gap-4">
+                                {/* <div className="flex flex-col items-center sm:flex-row gap-4"> */}
                                 <PrimaryButton type="button" title="Register as Donor" href={"/bloobank"} className="bg-danger-light py-[18px] text-danger-dark font-semibold hover:scale-[1.05] transition-transform duration-300" icon={<RiUserAddLine />} />
 
                                 <PrimaryButton type="button" title="Find a Donor" href={"/bloobank"} className=" py-[18px] bg-transparent text-danger-light border border-danger-light/50 hover:scale-[1.05] transition-transform duration-300" icon={<RiSearchLine />} />
-                            </div>
-                        </div>
+                                {/* </div> */}
+                            </FadeUpWrapper>
+                        </FadeUpWrapper>
+
 
                         {/* Right: stat pills */}
-                        <div className="flex flex-row lg:flex-col gap-3 flex-wrap lg:flex-nowrap lg:shrink-0">
+                        <FadeUpWrapper delay={0.16} className="flex flex-row lg:flex-col gap-3 flex-wrap lg:flex-nowrap lg:shrink-0">
                             {stats.map(({ icon, value, label }) => (
                                 <div
                                     key={label}
@@ -116,23 +123,23 @@ const BloodSection = () => (
                                     </div>
                                 </div>
                             ))}
-                        </div>
+                        </FadeUpWrapper>
                     </div>
 
                     {/* note */}
-                    <div
+                    <FadeUpWrapper delay={0.3}
                         className="mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3"
                     >
                         <p className="text-xs text-center sm:text-left" style={{ color: "rgba(254,202,202,0.45)" }}>
                             All donors are verified BAMHS alumni. Your information stays private and secure.
                         </p>
                         <span
-                            className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest ppercase px-3 bg-danger-light/10 text-danger-light py-1 rounded-full shrink-0 border border-danger-light/50"
+                            className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase px-3 bg-danger-light/10 text-danger-light py-1 rounded-full shrink-0 border border-danger-light/50"
                         >
                             <RiShieldCheckLine />
                             Trusted & Verified
                         </span>
-                    </div>
+                    </FadeUpWrapper>
                 </div>
             </div>
         </FadeUpWrapper>
