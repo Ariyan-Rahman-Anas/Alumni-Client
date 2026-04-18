@@ -119,10 +119,10 @@ const AboutSection = () => {
                         <PrimaryButton
                             type="button"
                             title="Join the Community"
-                            icon={<RiArrowRightLine />}
+                            icon2={<RiArrowRightLine />}
                             href="/login"
                             variant="default"
-                            iconSide="right"
+                            iconSide2="right"
                             style={{
                                 background: "linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-800) 100%)",
                                 color: "#FDFAF2",
@@ -131,10 +131,10 @@ const AboutSection = () => {
                         <PrimaryButton
                             type="button"
                             title="Our Full Story"
-                            icon={<HiArrowUpRight />}
+                            icon2={<HiArrowUpRight />}
                             href="/about"
                             variant="outline"
-                            iconSide="right"
+                            iconSide2="right"
                         />
                     </div>
                 </FadeUpWrapper>

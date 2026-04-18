@@ -41,7 +41,6 @@ const FadeUp = ({
 };
 
 
-
 const experienceMoments = [
     { icon: <RiMicLine />, title: "Stage Reveals", desc: "Award walks, batch introductions, and MC-led live storytelling format." },
     { icon: <RiTeamLine />, title: "Batch Roll-Call", desc: "Year-wise assembly in the auditorium floor for nostalgic connection." },

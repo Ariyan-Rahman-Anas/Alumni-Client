@@ -168,9 +168,8 @@ const HeroSection = () => {
                             boxShadow: "0 0 32px rgba(22,163,74,0.45), 0 4px 16px rgba(0,0,0,0.4)",
                             border: "1px solid rgba(74,222,128,0.25)",
                         }}
-                        icon={<BsArrowRight className="ml-2 text-lg" />}
-                        iconSide="right"
-
+                        icon2={<BsArrowRight className="ml-2 text-lg" />}
+                        iconSide2="right"
                     />
                     <PrimaryButton
                         type="button"

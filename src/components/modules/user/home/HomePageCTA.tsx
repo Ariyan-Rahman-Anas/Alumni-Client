@@ -145,7 +145,7 @@ const HomePageCTA = () => (
                             style={{
                                 background: "linear-gradient(135deg, #2E8B57 0%, #155A3E 100%)",
                                 boxShadow: "0 0 32px rgba(46,139,87,0.45), 0 4px 16px rgba(0,0,0,0.30)",
-                            }} icon={<BsArrowRight />} iconSide="right"
+                            }} icon2={<BsArrowRight />} iconSide2="right"
                             title="Join BAMHS Alumni" href="/login" />
                         <PrimaryButton
                             className="hover:scale-[1.05] transition-transform duration-300 bg-transparent py-[19px] text-primary2-200 font-semibold border-primary2-700 "

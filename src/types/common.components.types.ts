@@ -14,13 +14,15 @@ export interface PrimaryButtonI {
     | "secondary"
     | "ghost";
   icon?: ReactNode;
+  icon2?: ReactNode;
   isDisabled?: boolean;
   isLoading?: boolean;
   isFullWidth?: boolean;
   isNewTab?: boolean;
   className?: string;
   style?: React.CSSProperties;
-  iconSide?: "left" | "right";
+  iconSide?: "left";
+  iconSide2?: "right";
 }
 
 export interface SingleSelectOptionI {

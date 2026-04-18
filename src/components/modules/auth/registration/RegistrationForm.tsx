@@ -394,8 +394,8 @@ const RegistrationForm = () => {
                 <PrimaryButton
                     type="submit"
                     title="Submit Registration"
-                    icon={<RiArrowRightLine />}
-                    iconSide="right"
+                    icon2={<RiArrowRightLine />}
+                    iconSide2="right"
                     isFullWidth
                     isLoading={isLoading}
                     loadingTitle="Submitting..."
