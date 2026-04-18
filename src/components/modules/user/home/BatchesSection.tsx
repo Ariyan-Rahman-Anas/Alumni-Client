@@ -184,11 +184,7 @@ const BatchesSection = () => {
                             />
 
                             <h2
-                                className="font-display font-bold leading-tight text-primary2-50 mt-5"
-                                style={{
-                                    fontSize: "clamp(2rem, 4vw, 3rem)",
-                                }}
-                            >
+                                className="section-heading-text-left text-primary2-50 mt-5">
                                 Every year tells{" "}
                                 <span className="text-primary2-300"
                                 >

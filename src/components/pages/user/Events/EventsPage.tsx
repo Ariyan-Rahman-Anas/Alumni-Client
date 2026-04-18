@@ -13,7 +13,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import HorizontalSnapCarousel from "@/components/shared/HorizontalSnapCarousel";
-import EventPageHead from "@/components/modules/user/events/EventPageHead";
 import EventPageEvents from "@/components/modules/user/events/EventPageEvents";
 
 /* ── FadeUp ─────────────────────────────────────────────── */
@@ -64,10 +63,6 @@ const operationLanes = [
 const EventsPage = () => {
     return (
         <div className="three-xl-section-setup pb-20 space-y-16">
-
-            {/* ═══ 1. HERO ════════════════════════════════════════ */}
-            <EventPageHead />
-            
 
             {/* ═══ 2. UPCOMING EVENTS ═════════════════════════════ */}
             <EventPageEvents />
@@ -138,5 +133,4 @@ const EventsPage = () => {
         </div>
     );
 };
-
 export default EventsPage;

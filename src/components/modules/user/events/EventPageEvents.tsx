@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from "framer-motion"
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import { useGetAllPublishedEventsQuery } from "@/redux/apis/eventApi"
 import EventPageEventCard from "./EventPageEventCard"
-import { RiSearch2Line, RiCloseLine } from "react-icons/ri"
+import { RiSearch2Line, RiCloseLine, RiCalendarEventLine } from "react-icons/ri"
 import { LuSlidersHorizontal } from "react-icons/lu"
+import SectionLabel from "@/components/shared/SectionLabel"
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -77,14 +78,12 @@ const EventPageEvents = () => {
                     </div>
 
                     <div className="relative z-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-                        <div>
-                            <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-primary2-300">
-                                Evergreen Academy
-                            </p>
-                            <h1 className="font-sanchez text-4xl font-extrabold leading-tight tracking-tight text-white md:text-5xl">
+                        <div className="space-y-4">
+                            <SectionLabel text="Events Hub" align="left" className="text-primary2-100" icon={<RiCalendarEventLine />} />
+                            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white md:text-5xl">
                                 Discover <span className="text-gold-400">Events</span>
                             </h1>
-                            <p className="mt-3 max-w-md text-sm leading-relaxed text-primary2-200/80">
+                            <p className="max-w-md text-sm sm:text-lg leading-relaxed text-primary2-200/80">
                                 Connect, grow, and celebrate. Find events crafted for every member of our community.
                             </p>
                         </div>

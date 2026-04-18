@@ -84,7 +84,10 @@ const LOCATION_CONFIG: Record<string, {
 // ─── Component ───────────────────────────────────────────────────────────────
 
 const EventPageEventCard = ({ event }: { event: IEvent }) => {
-    const { _id, allowGuests, category, collectsTShirtSize, createdAt, description, eventFlow, guestFee, isFeatured, locationType, startDateTime, slug, status, coverImage, title, isFree, isRegistrationRequired, maxGuestsPerAlumni, priceTiers, updatedAt, venue, contactInfo, coverImagePublicId, endDateTime, maxAttendees, meetingLink, organizer, registrationDeadline, registrationOpensAt } = event || {}
+    const { _id, locationType, startDateTime, slug, status, coverImage, title, isFree, category, priceTiers, venue, maxAttendees,
+        // allowGuests, collectsTShirtSize, createdAt, description, eventFlow, guestFee, isFeatured, isRegistrationRequired, maxGuestsPerAlumni, updatedAt, contactInfo, coverImagePublicId, endDateTime, meetingLink, organizer, registrationDeadline, registrationOpensAt 
+        
+    } = event || {}
 
     const isCancelled = status === "CANCELLED"
     const statusConfig = STATUS_CONFIG[status] ?? STATUS_CONFIG.UPCOMING
@@ -176,12 +179,12 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                 </h2>
 
                 {/* Meta row */}
-                <div className="mb-5 flex flex-col gap-2">
+                <div className="mb-5 grid grid-cols-2 gap-2">
                     <div className="flex items-center gap-2 text-sm text-neutral-500">
                         <RiTimeLine className="shrink-0 text-primary2-500" />
                         <DateFormatter date={startDateTime} isShowTime={true} />
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-neutral-500">
+                    <div className="flex items-center justify-end gap-2 text-sm text-neutral-500">
                         <RiMapPin2Line className="shrink-0 text-primary2-500" />
                         <span className="truncate">{venue || "TBA"}</span>
                     </div>
