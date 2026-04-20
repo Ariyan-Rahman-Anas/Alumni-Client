@@ -4,6 +4,7 @@ import StoreProvider from "@/providers/StoreProvider";
 import { Toaster } from "sonner";
 import { Sanchez, Splash } from "next/font/google";
 import { cn } from "@/lib/utils";
+import SmoothScroller from "@/lib/SmoothScroller";
 
 /* ── Fonts ─────────────────────────────────────────────────── */
 const sanchez = Sanchez({
@@ -69,7 +70,7 @@ export default function RootLayout({
           min-h-screen h-full
         ">
         <StoreProvider>
-          {children}
+          <SmoothScroller>{children}</SmoothScroller>
           <Toaster richColors position="top-right" />
         </StoreProvider>
       </body>
