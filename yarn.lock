@@ -2524,6 +2524,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@studio-freight/lenis@npm:^1.0.42":
+  version: 1.0.42
+  resolution: "@studio-freight/lenis@npm:1.0.42"
+  checksum: 10c0/edaaa6692a2e365ef6a0ed5b0a6d5f0bf32370fd4f53cd6aeff4cb42e92496127453dc348d4e1e5206425990c15d07c188fdf86f454995e342194c41f2ca270a
+  languageName: node
+  linkType: hard
+
 "@swc/counter@npm:^0.1.3":
   version: 0.1.3
   resolution: "@swc/counter@npm:0.1.3"
@@ -3279,6 +3286,7 @@ __metadata:
     "@hookform/resolvers": "npm:^5.2.2"
     "@radix-ui/react-popover": "npm:^1.1.15"
     "@reduxjs/toolkit": "npm:^2.8.2"
+    "@studio-freight/lenis": "npm:^1.0.42"
     "@tailwindcss/aspect-ratio": "npm:^0.4.2"
     "@tailwindcss/forms": "npm:^0.5.11"
     "@tailwindcss/typography": "npm:^0.5.19"
@@ -3294,6 +3302,7 @@ __metadata:
     eslint-config-next: "npm:14.2.28"
     framer-motion: "npm:^12.23.12"
     jwt-decode: "npm:^4.0.0"
+    lenis: "npm:^1.3.23"
     lucide-react: "npm:^1.7.0"
     next: "npm:14.2.28"
     postcss: "npm:^8"
@@ -5969,6 +5978,24 @@ __metadata:
   dependencies:
     language-subtag-registry: "npm:^0.3.20"
   checksum: 10c0/9ab911213c4bd8bd583c850201c17794e52cb0660d1ab6e32558aadc8324abebf6844e46f92b80a5d600d0fbba7eface2c207bfaf270a1c7fd539e4c3a880bff
+  languageName: node
+  linkType: hard
+
+"lenis@npm:^1.3.23":
+  version: 1.3.23
+  resolution: "lenis@npm:1.3.23"
+  peerDependencies:
+    "@nuxt/kit": ">=3.0.0"
+    react: ">=17.0.0"
+    vue: ">=3.0.0"
+  peerDependenciesMeta:
+    "@nuxt/kit":
+      optional: true
+    react:
+      optional: true
+    vue:
+      optional: true
+  checksum: 10c0/c2ed59ee022edf8507661d47a82903e3a8b51e61d754ceb09c6671d1d975691f406b790dfff58d06c2d56e6cbceaed9db7235766c24598894cec1ea22da51768
   languageName: node
   linkType: hard
 

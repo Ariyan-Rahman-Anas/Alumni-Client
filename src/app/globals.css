@@ -9,6 +9,15 @@
    Forest Green + Warm Cream | School Portal
    ============================================================ */
 
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
 /* ── CSS Variables (Design Tokens) ──────────────────────── */
 @layer base {
   :root {
