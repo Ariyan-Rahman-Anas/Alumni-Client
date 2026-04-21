@@ -1,12 +1,20 @@
-import { z, object, string } from "zod";
+import {z, object, string} from "zod" 
 
-export const imageCategorySchema = object({
-    name: string().min(2, "Name is required"),
-    description: string().optional(),
-});
-export type ImageCategoryFormValues = z.infer<typeof imageCategorySchema>;
+const createImageCategorySchema = object({
+  name: string({error: "Category name is required"}).min(2, "Name must be at least 2 characters").max(50, "Name must be at most 50 characters"),
+  description: string().max(500, "Description must be at most 500 characters").optional(),
+})
 
-export const imageCategoryUpdateSchema = imageCategorySchema.partial();
-export type ImageCategoryUpdateValues = z.infer<typeof imageCategoryUpdateSchema>;
+const imageCategoryFormFieldOrder: (keyof TImageCategoryCreteFormValues)[] = ["name", "description"];
 
-export const imageCategoryFieldOrder: (keyof ImageCategoryFormValues)[] = ["name", "description"];
+export const imageCategoryValidation = {
+  createImageCategorySchema,
+  imageCategoryFormFieldOrder
+}
+
+export type TImageCategoryCreteFormValues = z.infer<typeof createImageCategorySchema> extends infer O ? O & { coverImage: File | null } : never;
+
+export interface AdminImageCategoryFormProps {
+    open: boolean;
+    onClose: () => void;
+}

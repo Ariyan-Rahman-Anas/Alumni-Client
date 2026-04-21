@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import {  useState } from "react";
 import { FormProvider, Controller, Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -8,22 +8,12 @@ import { Button } from "@/components/ui/button";
 import InputField from "@/components/shared/InputField";
 import TextAreaBox from "@/components/shared/TextAreaBox";
 import ImageUploadField from "@/components/shared/ImageUploadField";
-import { imageCategoryFieldOrder, imageCategorySchema } from "./imageCategorySchema";
 import { useFormWithToast } from "@/hooks/useFormWithToast";
 import { useCreateImageCategoryMutation } from "@/redux/apis/imageCategoryApi";
 import { toast } from "sonner";
 import PrimaryButton from "@/components/shared/PrimaryButton";
+import { AdminImageCategoryFormProps, imageCategoryValidation, TImageCategoryCreteFormValues } from "./imageCategorySchema";
 
-export interface ImageCategoryFormValues {
-    name: string;
-    description: string;
-    coverImage: File | null;
-}
-
-interface AdminImageCategoryFormProps {
-    open: boolean;
-    onClose: () => void;
-}
 
 const AdminImageCategoryFormSheet = ({ open, onClose }: AdminImageCategoryFormProps) => {
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -31,21 +21,31 @@ const AdminImageCategoryFormSheet = ({ open, onClose }: AdminImageCategoryFormPr
 
     const [createImageCategory, { isLoading: isCreatingImageCategory }] = useCreateImageCategoryMutation()
 
-    const methods = useFormWithToast<ImageCategoryFormValues>(
+    const methods = useFormWithToast<TImageCategoryCreteFormValues>(
         {
-            resolver: zodResolver(imageCategorySchema) as unknown as Resolver<ImageCategoryFormValues>,
+            resolver: zodResolver(imageCategoryValidation.createImageCategorySchema) as unknown as Resolver<TImageCategoryCreteFormValues>,
             defaultValues: {
                 name: "",
                 description: "",
             },
         },
-        { fieldOrder: imageCategoryFieldOrder }
+        { fieldOrder: imageCategoryValidation.imageCategoryFormFieldOrder }
     );
     const { handleSubmit, reset, control,
-        // setValue,
         formState: { errors } } = methods;
 
-    const handleOnSubmit = async (data: ImageCategoryFormValues) => {
+
+    // useEffect(() => {
+    //     if (open) {
+    //         reset({
+    //             name: initialValues?.name || "",
+    //             description: initialValues?.description || "",
+    //             coverImage: null,
+    //         });
+    //     }
+    // }, [open, initialValues, reset]);
+
+    const handleOnSubmit = async (data: TImageCategoryCreteFormValues) => {
         const payload = {
             name: data.name,
             description: data.description,
@@ -63,16 +63,6 @@ const AdminImageCategoryFormSheet = ({ open, onClose }: AdminImageCategoryFormPr
             );
         }
     }
-
-    // useEffect(() => {
-    //     if (open) {
-    //         reset({
-    //             name: initialValues?.name || "",
-    //             description: initialValues?.description || "",
-    //             coverImage: null,
-    //         });
-    //     }
-    // }, [open, initialValues, reset]);
 
     return (
         <Sheet open={open} onOpenChange={(o) => !o && onClose()}>
