@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import DataTable from "@/components/shared/dataTable/DataTable";
 import { Button } from "@/components/ui/button";
@@ -15,7 +14,7 @@ interface AdminImageCategoriesTableProps {
     onPageChange?: (page: number) => void;
 }
 
-const AdminImageCategoriesTable = ({
+const AdminGalleryImagesTable = ({
     categories,
     isLoading,
     isError = false,
@@ -54,7 +53,7 @@ const AdminImageCategoriesTable = ({
                 <Button
                     size="sm"
                     className={`px-2 py-1 rounded ${cat.isPublished ? "bg-green-500 text-white" : "bg-gray-300"}`}
-                    // onClick={() => onTogglePublish(cat._id)}
+                // onClick={() => onTogglePublish(cat._id)}
                 >
                     {cat.isPublished ? "Yes" : "No"}
                 </Button>
@@ -67,7 +66,7 @@ const AdminImageCategoriesTable = ({
                 <Button
                     size="sm"
                     className={`px-2 py-1 rounded ${cat.isFeatured ? "bg-yellow-500 text-white" : "bg-gray-300"}`}
-                    // onClick={() => onToggleFeature(cat._id)}
+                // onClick={() => onToggleFeature(cat._id)}
                 >
                     {cat.isFeatured ? "Yes" : "No"}
                 </Button>
@@ -84,7 +83,7 @@ const AdminImageCategoriesTable = ({
                 <Button
                     size="sm"
                     className="bg-red-500 text-white px-2 py-1 rounded"
-                    // onClick={() => onDelete(cat._id)}
+                // onClick={() => onDelete(cat._id)}
                 >
                     Delete
                 </Button>
@@ -107,4 +106,4 @@ const AdminImageCategoriesTable = ({
         />
     );
 };
-export default AdminImageCategoriesTable;
+export default AdminGalleryImagesTable;
