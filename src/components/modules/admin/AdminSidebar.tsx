@@ -30,7 +30,7 @@ const NAV_ITEMS = [
     { label: "Batches", href: "/admin/batches", icon: RiCalendarLine },
     { label: "Events", href: "/admin/events", icon: RiCalendarEventLine },
     { label: "Image Categories", href: "/admin/image-categories", icon: RiImageLine },
-    { label: "Galleries", href: "/admin/galleries", icon: RiImageLine },
+    { label: "Gallery", href: "/admin/gallery", icon: RiImageLine },
 ];
 
 function SidebarContent({ onNav }: { onNav?: () => void }) {

@@ -1,7 +1,6 @@
 "use client"
 
 import AdminImageCategoriesTable from "@/components/modules/admin/imageCategories/AdminImageCategoriesTable";
-// import AdminImageCategoriesTable from "@/components/modules/admin/imageCategories/AdminImageCategoriesTable";
 import AdminImageCategoryFormSheet from "@/components/modules/admin/imageCategories/AdminImageCategoryFormSheet";
 import AdminPageHead from "@/components/shared/admin/AdminPageHead"
 import PrimaryButton from "@/components/shared/PrimaryButton";
@@ -13,7 +12,6 @@ const AdminImageCategoriesPage = () => {
   const [formOpen, setFormOpen] = useState(false);
 
   const { data, isLoading} = useGetAllImageCategoriesQuery();
-  // const [form, setForm] = useState({ name: "", description: "", coverImage: undefined });
 
   return (
     <div className="admin-page-setup">
