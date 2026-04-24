@@ -32,7 +32,12 @@ interface ImageCategoryPayload {
 export const imageCategoryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllImageCategories: builder.query<ImageCategoryListResponse, void>({
-      query: () => ({ url: "/image-categories/public", method: "GET" }),
+      query: () => ({ url: "/image-categories/list", method: "GET" }),
+      providesTags: ["imageCategories"],
+    }),
+  
+    getAllPublishedImageCategories: builder.query<ImageCategoryListResponse, void>({
+      query: () => ({ url: "/image-categories/published", method: "GET" }),
       providesTags: ["imageCategories"],
     }),
 
@@ -69,6 +74,7 @@ export const imageCategoryApi = baseApi.injectEndpoints({
 
 export const {
   useGetAllImageCategoriesQuery,
+  useGetAllPublishedImageCategoriesQuery,
   useCreateImageCategoryMutation,
   useDeleteImageCategoryMutation,
   useTogglePublishMutation,
