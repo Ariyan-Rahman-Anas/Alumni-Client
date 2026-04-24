@@ -2,38 +2,32 @@
 
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 import SectionLabel from "@/components/shared/SectionLabel";
+import { useGetPublishedImagesQuery } from "@/redux/apis/galleryApi";
 import Image from "next/image";
 import Link from "next/link";
 import { HiArrowUpRight } from "react-icons/hi2";
 import { RiImageLine, RiGalleryLine } from "react-icons/ri";
-
-const galleryItems = [
-    { src: "/bamhs.png", label: "School Campus", tag: "Campus" },
-    { src: "/bamhs2.png", label: "Alumni Gathering", tag: "Alumni" },
-    { src: "/472855498_1113804890464912_7048434061283229523_n.jpg", label: "Class Reunion 2005", tag: "Reunion" },
-    { src: "/570085856_1976814893717423_4351859646516135459_n.jpg", label: "Annual Sports Day", tag: "Sports" },
-    { src: "/597922916_4227217690925495_4207115085969201556_n.jpg", label: "Cultural Programme", tag: "Culture" },
-    { src: "/600825102_1569959977483625_8463712704209570580_n.jpg", label: "Blood Donation Camp", tag: "Welfare" },
-];
 
 const GalleryCard = ({
     item,
     className = "",
     priority = false,
 }: {
-    item: (typeof galleryItems)[number];
+    item: any;
     className?: string;
     priority?: boolean;
 }) => (
     <Link
         href="/gallery"
-        aria-label={item.label}
+        aria-label={item?.innerTitle || item?.title}
         className={`group relative block overflow-hidden rounded-2xl ${className}`}
     >
         <Image
-            src={item.src}
-            alt={item.label}
+            src={item.imageUrl ?? "/bamhs.png"}
+            alt={item?.innerTitle?.substring(0, 25) || item?.title?.substring(0, 25) || "Gallery Image"}
             fill
+            // width={1920}
+            // height={1080}
             priority={priority}
             className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-110"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 480px"
@@ -51,18 +45,11 @@ const GalleryCard = ({
             }}
         >
             <div className="min-w-0">
-                <span
-                    className="inline-block px-2 py-0.5 rounded-full text-[9px] font-bold tracking-widest uppercase mb-1"
-                    style={{
-                        background: "rgba(46,139,87,0.75)",
-                        color: "#C3E8CE",
-                        border: "1px solid rgba(46,139,87,0.45)",
-                    }}
-                >
-                    {item.tag}
-                </span>
-                <p className="text-white font-semibold text-xs sm:text-sm leading-snug truncate">
-                    {item.label}
+                <h1 className="text-white font-semibold text-xs sm:text-sm leading-snug truncate">
+                    {item.innerTitle ? item.innerTitle : item.title}
+                </h1>
+                <p className="text-white/80 text-xs sm:text-sm leading-snug truncate">
+                    {item.description}
                 </p>
             </div>
 
@@ -81,14 +68,14 @@ const GalleryCard = ({
     </Link>
 );
 
-const ViewAllCard = ({ className = "" }: { className?: string }) => (
+const ViewAllCard = ({ item, className = "" }: { item: any; className?: string }) => (
     <div className={`group relative overflow-hidden rounded-2xl ${className}`}>
         <Link href="/gallery" aria-label="View all photos" className="absolute inset-0 z-20" />
 
         {/* Background photo */}
         <Image
-            src={galleryItems[5].src}
-            alt={galleryItems[5].label}
+            src={item.imageUrl ?? "/bamhs.png"}
+            alt={item.innerTitle ?? item.title ?? "Gallery Image"}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-110"
             sizes="300px"
@@ -125,30 +112,82 @@ const ViewAllCard = ({ className = "" }: { className?: string }) => (
     </div>
 );
 
-const GallerySection = () => (
-    <section className="three-xl-section-setup">
-
-        {/* ── Header ───────────────────────────────────────────── */}
-        <FadeUpWrapper delay={0.14} className="text-center mb-12">
-            {/* Pill badge */}
-            <SectionLabel text="Captured Memories" icon={<RiGalleryLine className="text-sm" />} />
-
-            <h2 className="section-heading text-primary2-900 ">
-                Our Gallery
-            </h2>
-
-            {/* Decorative line + subtext */}
-            <div className="flex items-center justify-center gap-4 mt-4">
-                <span className="block h-px w-12 rounded-full" style={{ background: "var(--color-primary-300)" }} />
-                <p className="text-sm md:text-base" style={{ color: "var(--color-text-secondary)" }}>
-                    Moments frozen in time — from dusty playgrounds to proud graduations.
-                </p>
-                <span className="block h-px w-12 rounded-full" style={{ background: "var(--color-primary-300)" }} />
+const GallerySkeleton = () => (
+    <div className="animate-pulse">
+        {/* Mobile skeleton */}
+        <div className="flex flex-col gap-3 sm:hidden">
+            <div className="w-full aspect-video rounded-2xl bg-primary-100/60" />
+            <div className="grid grid-cols-2 gap-3">
+                <div className="aspect-[4/3] rounded-2xl bg-primary-100/60" />
+                <div className="aspect-[4/3] rounded-2xl bg-primary-100/60" />
+                <div className="aspect-[4/3] rounded-2xl bg-primary-100/60" />
+                <div className="aspect-[4/3] rounded-2xl bg-primary-100/60" />
             </div>
-        </FadeUpWrapper>
+        </div>
 
-        <FadeUpWrapper delay={0.2}>
-            {/*
+        {/* Desktop skeleton */}
+        <div
+            className="hidden sm:grid sm:grid-cols-3 gap-3"
+            style={{ gridTemplateRows: "280px 280px 200px" }}
+        >
+            <div className="col-span-2 row-span-2 rounded-2xl bg-primary-100/60" />
+            <div className="rounded-2xl bg-primary-100/60" />
+            <div className="rounded-2xl bg-primary-100/60" />
+            <div className="rounded-2xl bg-primary-100/60" />
+            <div className="rounded-2xl bg-primary-100/60" />
+            <div className="rounded-2xl bg-primary-100/60" />
+        </div>
+    </div>
+);
+
+const GallerySection = () => {
+    const { data: publishedImagesData, isLoading: isPublishedImagesLoading } = useGetPublishedImagesQuery({})
+    const featuredImages = publishedImagesData?.data?.slice(0, 6) || []
+
+    const manipulateImages = featuredImages?.map((image: any) => {
+        return {
+            imageUrl: image?.imageUrl,
+            title: image?.title,
+            innerTitle: image?.innerTitle,
+            description: image?.description,
+        }
+    })
+
+    const item1 = manipulateImages[0]
+    const item2 = manipulateImages[1]
+    const item3 = manipulateImages[2]
+    const item4 = manipulateImages[3]
+    const item5 = manipulateImages[4]
+    const item6 = manipulateImages[5]
+
+
+
+    return (
+        <section className="three-xl-section-setup">
+
+            {/* ── Header ───────────────────────────────────────────── */}
+            <FadeUpWrapper delay={0.14} className="text-center mb-12">
+                {/* Pill badge */}
+                <SectionLabel text="Captured Memories" icon={<RiGalleryLine className="text-sm" />} />
+
+                <h2 className="section-heading text-primary2-900 ">
+                    Our Gallery
+                </h2>
+
+                {/* Decorative line + subtext */}
+                <div className="flex items-center justify-center gap-4 mt-4">
+                    <span className="block h-px w-12 rounded-full" style={{ background: "var(--color-primary-300)" }} />
+                    <p className="text-sm md:text-base" style={{ color: "var(--color-text-secondary)" }}>
+                        Moments frozen in time — from dusty playgrounds to proud graduations.
+                    </p>
+                    <span className="block h-px w-12 rounded-full" style={{ background: "var(--color-primary-300)" }} />
+                </div>
+            </FadeUpWrapper>
+
+            <FadeUpWrapper delay={0.2}>
+                {isPublishedImagesLoading ? <GallerySkeleton /> : (
+                    <>
+                        {/*
             ═══════════════════════════════════════════════════════
               MOBILE  (<sm / <640px)
               Completely separate layout — no conflict with desktop
@@ -162,23 +201,24 @@ const GallerySection = () => (
               CTA button below handles "View All"
             ═══════════════════════════════════════════════════════
             */}
-            <div className="flex flex-col gap-3 sm:hidden">
-                {/* Hero — full width */}
-                <GalleryCard
-                    item={galleryItems[0]}
-                    priority
-                    className="w-full aspect-video"
-                />
-                {/* 2 × 2 grid + ViewAll */}
-                <div className="grid grid-cols-2 gap-3">
-                    <GalleryCard item={galleryItems[1]} className="aspect-[4/3]" />
-                    <GalleryCard item={galleryItems[2]} className="aspect-[4/3]" />
-                    <GalleryCard item={galleryItems[3]} className="aspect-[4/3]" />
-                    <ViewAllCard className="aspect-[4/3]" />
-                </div>
-            </div>
+                        <div className="flex flex-col gap-3 sm:hidden">
+                            {/* Hero — full width */}
+                            <GalleryCard
+                                // item={galleryItems[0]}
+                                item={item1}
+                                priority
+                                className="w-full aspect-video"
+                            />
+                            {/* 2 × 2 grid + ViewAll */}
+                            <div className="grid grid-cols-2 gap-3">
+                                <GalleryCard item={item2} className="aspect-[4/3]" />
+                                <GalleryCard item={item2} className="aspect-[4/3]" />
+                                <GalleryCard item={item3} className="aspect-[4/3]" />
+                                <ViewAllCard className="aspect-[4/3]" item={item4} />
+                            </div>
+                        </div>
 
-            {/*
+                        {/*
             ═══════════════════════════════════════════════════════
               DESKTOP  (≥sm / ≥640px)
               3-column bento — explicit inline gridTemplateRows
@@ -191,22 +231,25 @@ const GallerySection = () => (
               └──────────┴────────────┴──────┘
             ═══════════════════════════════════════════════════════
             */}
-            <div
-                className="hidden sm:grid sm:grid-cols-3 gap-3"
-                style={{ gridTemplateRows: "280px 280px 200px" }}
-            >
-                <GalleryCard
-                    item={galleryItems[0]}
-                    priority
-                    className="col-span-2 row-span-2"
-                />
-                <GalleryCard item={galleryItems[1]} />
-                <GalleryCard item={galleryItems[2]} />
-                <GalleryCard item={galleryItems[3]} />
-                <GalleryCard item={galleryItems[4]} />
-                <ViewAllCard />
-            </div>
-        </FadeUpWrapper>
-    </section>
-);
+                        <div
+                            className="hidden sm:grid sm:grid-cols-3 gap-3"
+                            style={{ gridTemplateRows: "280px 280px 200px" }}
+                        >
+                            <GalleryCard
+                                item={item1}
+                                priority
+                                className="col-span-2 row-span-2"
+                            />
+                            <GalleryCard item={item2} />
+                            <GalleryCard item={item3} />
+                            <GalleryCard item={item4} />
+                            <GalleryCard item={item5} />
+                            <ViewAllCard item={item6} />
+                        </div>
+                    </>
+                )}
+            </FadeUpWrapper>
+        </section>
+    );
+};
 export default GallerySection;

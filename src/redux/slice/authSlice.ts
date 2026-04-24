@@ -14,10 +14,12 @@ export interface AuthUser {
 
 interface AuthState {
     user: AuthUser | null;
+    isInitialized: boolean;
 }
 
 const initialState: AuthState = {
     user: null,
+    isInitialized: false,
 };
 
 const authSlice = createSlice({
@@ -26,9 +28,11 @@ const authSlice = createSlice({
     reducers: {
         setUser(state, action: PayloadAction<AuthUser>) {
             state.user = action.payload;
+             state.isInitialized = true;
         },
         clearUser(state) {
             state.user = null;
+             state.isInitialized = true; 
         },
     },
 });
@@ -38,3 +42,4 @@ export default authSlice.reducer;
 
 export const selectCurrentUser = (state: RootState) => state.auth.user;
 export const selectIsLoggedIn = (state: RootState) => Boolean(state.auth.user);
+export const selectIsInitialized = (state: RootState) => state.auth.isInitialized;

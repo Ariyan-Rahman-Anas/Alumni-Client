@@ -61,19 +61,6 @@ const AdminImageCategoriesTable = ({
             )
         },
         {
-            key: "isFeatured",
-            label: "Featured",
-            render: (cat) => (
-                <Button
-                    size="sm"
-                    className={`px-2 py-1 rounded ${cat.isFeatured ? "bg-yellow-500 text-white" : "bg-gray-300"}`}
-                    // onClick={() => onToggleFeature(cat._id)}
-                >
-                    {cat.isFeatured ? "Yes" : "No"}
-                </Button>
-            )
-        },
-        {
             key: "createdAt", label: "Created At",
             render: (i) => <DateFormatter date={i.createdAt} />
         },

@@ -28,8 +28,7 @@
 import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "@/redux/slice/authSlice";
-import { useGetMeQuery } from "@/redux/apis/authApi";
+import { selectCurrentUser, selectIsInitialized } from "@/redux/slice/authSlice";
 
 interface ClientAuthGuardProps {
     children: React.ReactNode;
@@ -50,13 +49,15 @@ const ClientAuthGuard = ({
     const router = useRouter();
     const pathname = usePathname();
     const user = useSelector(selectCurrentUser);
+    const isInitialized = useSelector(selectIsInitialized);
 
     // isLoading = true while AuthInitializer's GET /auth/me is in-flight
-    const { isLoading } = useGetMeQuery();
+    // const { isLoading } = useGetMeQuery();
 
     useEffect(() => {
         // Wait for auth state to settle before making redirect decisions
-        if (isLoading) return;
+        // if (isLoading) return;
+        if (!isInitialized) return;
 
         if (requireAuth && !user) {
             router.replace(`/login?next=${encodeURIComponent(pathname)}`);
@@ -74,10 +75,11 @@ const ClientAuthGuard = ({
             router.replace("/");
             return;
         }
-    }, [isLoading, user, requireAuth, requireRole, requireGuest, router, pathname]);
+    }, [isInitialized, user, requireAuth, requireRole, requireGuest, router, pathname]);
 
     // While auth is loading OR a redirect is pending, render nothing to avoid flash
-    if (isLoading) return null;
+    // if (isLoading) return null;
+    if (!isInitialized) return null
     if (requireAuth && !user) return null;
     if (requireRole && user?.role !== requireRole) return null;
     if (requireGuest && user) return null;
