@@ -7,21 +7,15 @@ import AdminGalleryImagesTable from "@/components/modules/admin/gallery/AdminGal
 import AdminPageHead from "@/components/shared/admin/AdminPageHead";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import { useGetAllImagesQuery } from "@/redux/apis/galleryApi";
-
-const PAGE_SIZE = 12;
+import { constantsData } from "@/constants";
 
 const AdminGalleryPage = () => {
     const [formOpen, setFormOpen] = useState(false);
     const [page, setPage] = useState(1);
 
-    const { data, isLoading, isError } = useGetAllImagesQuery({ page, limit: PAGE_SIZE });
-
+    const { data, isLoading, isError } = useGetAllImagesQuery({ page, limit: constantsData.TABLE_PAGE_SIZE });
     const paginationOptions = data?.meta
-        ? {
-              page: data.meta.page,
-              totalPage: data.meta.totalPage,
-              total: data.meta.total,
-          }
+        ? { count: data.meta.total, current_page: data.meta.page, num_pages: data.meta.totalPage }
         : undefined;
 
     return (
@@ -48,7 +42,7 @@ const AdminGalleryPage = () => {
                 isError={isError}
                 errorMessage="Failed to load gallery images"
                 paginationOptions={paginationOptions}
-                pageSize={PAGE_SIZE}
+                pageSize={constantsData.TABLE_PAGE_SIZE}
                 onPageChange={setPage}
             />
         </div>

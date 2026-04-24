@@ -6,6 +6,9 @@ const SECTIONS = [
     { label: "Arts",     value: "Arts"     },
 ];
 
+const TABLE_PAGE_SIZE = 10
+const GALLERY_PAGE_SIZE = 3
+
 /**
  * COUNTRY_CODES — phone prefix + resident-country data, merged into one list.
  *
@@ -118,5 +121,7 @@ const COUNTRY_CODES = [
 export const constantsData = {
     BLOOD_GROUPS,
     SECTIONS,
+    TABLE_PAGE_SIZE,
+    GALLERY_PAGE_SIZE,
     COUNTRY_CODES,
 }

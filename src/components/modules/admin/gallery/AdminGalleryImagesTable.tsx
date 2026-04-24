@@ -10,10 +10,13 @@ import {
     useToggleGalleryPublishMutation,
     useToggleGalleryPublishMultipleMutation,
     type GalleryImage,
+    useToggleGalleryFeaturedMutation,
 } from "@/redux/apis/galleryApi";
 import { toast } from "sonner";
 import AdminGalleryImageEditSheet from "./AdminGalleryImageEditSheet";
-import { Trash2, ToggleLeft } from "lucide-react";
+import { Trash2, ToggleLeft, Edit } from "lucide-react";
+import CheckBox from "@/components/shared/CheckBox";
+import { useForm } from "react-hook-form";
 
 interface AdminGalleryImagesTableProps {
     galleries: GalleryImage[];
@@ -24,11 +27,6 @@ interface AdminGalleryImagesTableProps {
     pageSize?: number;
     onPageChange?: (page: number) => void;
 }
-
-const getCategoryName = (cat: GalleryImage["category"]): string => {
-    if (typeof cat === "object" && cat !== null) return cat.name;
-    return String(cat ?? "");
-};
 
 const AdminGalleryImagesTable = ({
     galleries,
@@ -42,9 +40,12 @@ const AdminGalleryImagesTable = ({
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [editItem, setEditItem] = useState<GalleryImage | null>(null);
 
+    const { register } = useForm()
+
     const [deleteGallery] = useDeleteGalleryMutation();
     const [deleteMultiple] = useDeleteMultipleGalleriesMutation();
     const [togglePublish] = useToggleGalleryPublishMutation();
+    const [toggleGalleryFeatured] = useToggleGalleryFeaturedMutation();
     const [togglePublishMultiple] = useToggleGalleryPublishMultipleMutation();
 
     const allIds = galleries.map((g) => g._id);
@@ -62,8 +63,8 @@ const AdminGalleryImagesTable = ({
 
     const handleDelete = async (id: string) => {
         try {
-            await deleteGallery(id).unwrap();
-            toast.success("Image deleted");
+            const deleteRes = await deleteGallery(id).unwrap();
+            toast.success(deleteRes.message ?? "Image deleted");
             setSelectedIds((prev) => prev.filter((x) => x !== id));
         } catch (error) {
             toast.error(
@@ -87,7 +88,19 @@ const AdminGalleryImagesTable = ({
 
     const handleTogglePublish = async (id: string) => {
         try {
-            await togglePublish(id).unwrap();
+            const publishRes = await togglePublish(id).unwrap();
+            toast.success(publishRes.message ?? "Image updated");
+        } catch (error) {
+            toast.error(
+                (error as { data?: { message?: string } })?.data?.message ?? "Failed to update"
+            );
+        }
+    };
+    
+    const handleToggleFeatured = async (id: string) => {
+        try {
+            const featuredRes = await toggleGalleryFeatured(id).unwrap();
+            toast.success(featuredRes.message ?? "Image updated");
         } catch (error) {
             toast.error(
                 (error as { data?: { message?: string } })?.data?.message ?? "Failed to update"
@@ -109,24 +122,24 @@ const AdminGalleryImagesTable = ({
     };
 
     const columns: TableColumn<GalleryImage>[] = [
+        { key: "index", label: "SN." },
         {
             key: "_id" as keyof GalleryImage,
             label: (
-                <input
-                    type="checkbox"
+                <CheckBox
+                    label=""
                     checked={isAllSelected}
-                    onChange={toggleSelectAll}
-                    className="h-4 w-4 rounded border-gray-300"
-                    aria-label="Select all"
+                    checkedFunc={toggleSelectAll}
+                    register={register}
                 />
             ) as unknown as string,
             render: (item) => (
-                <input
-                    type="checkbox"
+                <CheckBox
+                    label=""
                     checked={selectedIds.includes(item._id)}
-                    onChange={() => toggleSelect(item._id)}
-                    className="h-4 w-4 rounded border-gray-300"
-                    aria-label={`Select ${item.title}`}
+                    checkedFunc={() => toggleSelect(item._id)}
+                    register={register}
+
                 />
             ),
         },
@@ -135,7 +148,7 @@ const AdminGalleryImagesTable = ({
             label: "Image",
             render: (item) =>
                 item.imageUrl ? (
-                    <div className="overflow-hidden rounded bg-gray-100">
+                    <div className="overflow-hidden rounded flex items-center justify-center ">
                         <Image
                             src={item.imageUrl}
                             height={500}
@@ -145,7 +158,7 @@ const AdminGalleryImagesTable = ({
                         />
                     </div>
                 ) : (
-                    <span className="text-gray-400 text-xs">No image</span>
+                    <span>No image</span>
                 ),
         },
         {
@@ -153,9 +166,9 @@ const AdminGalleryImagesTable = ({
             label: "Title",
             render: (item) => (
                 <div>
-                    <p className="font-medium text-sm">{item.title}</p>
+                    <p>{item.title}</p>
                     {item.innerTitle && (
-                        <p className="text-xs text-gray-400">{item.innerTitle}</p>
+                        <p>{item.innerTitle}</p>
                     )}
                 </div>
             ),
@@ -164,9 +177,19 @@ const AdminGalleryImagesTable = ({
             key: "category",
             label: "Category",
             render: (item) => (
-                <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
-                    {getCategoryName(item.category)}
+                <span >
+                    {item.category.name}
                 </span>
+            ),
+        },
+        {
+            key: "uploadedBy",
+            label: "Uploaded By",
+            render: (item) => (
+                <div>
+                    <p>{item.uploadedBy.name}</p>
+                    <p>{item.uploadedBy.email}</p>
+                </div>
             ),
         },
         {
@@ -186,6 +209,22 @@ const AdminGalleryImagesTable = ({
             ),
         },
         {
+            key: "isFeatured",
+            label: "Featured",
+            render: (item) => (
+                <Button
+                    size="sm"
+                    className={`px-2 py-1 rounded text-xs ${item.isFeatured
+                        ? "bg-green-500 text-white hover:bg-green-600"
+                        : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                        }`}
+                    onClick={() => handleToggleFeatured(item._id)}
+                >
+                    {item.isFeatured ? "Yes" : "No"}
+                </Button>
+            ),
+        },
+        {
             key: "createdAt",
             label: "Created",
             render: (i) => <DateFormatter date={i.createdAt} />,
@@ -194,21 +233,21 @@ const AdminGalleryImagesTable = ({
             key: "actions",
             label: "Actions",
             render: (item) => (
-                <div className="flex gap-1.5">
+                <div className="flex items-center justify-center gap-1.5">
                     <Button
                         size="sm"
                         variant="outline"
                         className="px-2 py-1 text-xs"
                         onClick={() => setEditItem(item)}
                     >
-                        Edit
+                        <Edit />
                     </Button>
                     <Button
                         size="sm"
                         className="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600"
                         onClick={() => handleDelete(item._id)}
                     >
-                        Delete
+                        <Trash2 />
                     </Button>
                 </div>
             ),

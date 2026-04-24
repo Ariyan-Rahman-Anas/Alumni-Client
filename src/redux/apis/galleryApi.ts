@@ -10,10 +10,17 @@ export interface GalleryImage {
   title: string;
   innerTitle?: string;
   description?: string;
-  category: GalleryCategory | string;
+  category: {
+    _id: string;
+    name: string;
+  };
   imageUrl: string;
   imagePublicId: string;
-  uploadedBy?: string;
+  uploadedBy: {
+    _id: string;
+    name: string;
+    email: string;
+  };
   isPublished: boolean;
   isFeatured: boolean;
   createdAt: string;
@@ -94,7 +101,7 @@ interface GetPublishedGalleriesParams {
 
 export const galleryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getPublishedGalleries: builder.query<GalleryCursorResponse, GetPublishedGalleriesParams>({
+    getPublishedImages: builder.query<GalleryCursorResponse, GetPublishedGalleriesParams>({
       query: (params) => ({ url: "/gallery", method: "GET", params }),
       providesTags: ["galleryImages"],
     }),
@@ -146,6 +153,11 @@ export const galleryApi = baseApi.injectEndpoints({
       invalidatesTags: ["galleryImages"],
     }),
 
+    toggleGalleryFeatured: builder.mutation<GalleryResponse, string>({
+      query: (id) => ({ url: `/gallery/${id}/featured`, method: "PATCH" }),
+      invalidatesTags: ["galleryImages"],
+    }),
+
     toggleGalleryPublishMultiple: builder.mutation<BulkResponse, string[]>({
       query: (ids) => ({ url: "/gallery/bulk-publish", method: "PATCH", body: { ids } }),
       invalidatesTags: ["galleryImages"],
@@ -155,12 +167,13 @@ export const galleryApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useGetPublishedGalleriesQuery,
+  useGetPublishedImagesQuery,
   useGetAllImagesQuery,
   useCreateGalleryMutation,
   useUpdateGalleryMutation,
   useDeleteGalleryMutation,
   useDeleteMultipleGalleriesMutation,
   useToggleGalleryPublishMutation,
+  useToggleGalleryFeaturedMutation,
   useToggleGalleryPublishMultipleMutation,
 } = galleryApi;

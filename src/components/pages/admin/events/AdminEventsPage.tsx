@@ -14,6 +14,7 @@ import AdminEventFormModal from "@/components/modules/admin/events/AdminEventFor
 import AdminEventsTable from "@/components/modules/admin/events/AdminEventsTable";
 import AdminPageHead from "@/components/shared/admin/AdminPageHead";
 import { IEvent } from "@/types/common/events.types";
+import { constantsData } from "@/constants";
 
 type StatusFilter = "ALL" | "UPCOMING" | "ONGOING" | "COMPLETED" | "CANCELLED";
 
@@ -27,8 +28,6 @@ const STATUS_TABS: { label: string; value: StatusFilter }[] = [
 
 const AdminEventsPage = () => {
     const [page, setPage] = useState(1);
-    const limit = 10;
-
     const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
     const [formOpen, setFormOpen] = useState(false);
     const [editEvent, setEditEvent] = useState<IEvent | null>(null);
@@ -36,7 +35,7 @@ const AdminEventsPage = () => {
 
     const { data, isLoading, isError } = useGetAllEventsAdminQuery({
         page,
-        limit,
+        limit: constantsData.TABLE_PAGE_SIZE,
         status: statusFilter === "ALL" ? undefined : statusFilter,
     });
 
@@ -83,7 +82,7 @@ const AdminEventsPage = () => {
             </div>
 
             {/* Status Tabs */}
-            <div className="flex items-center gap-1 mb-5 border-b border-surface-300">
+            <div className="flex items-center flex-wrap gap-1 mb-5 border-b border-surface-300">
                 {STATUS_TABS.map(({ label, value }) => (
                     <button
                         key={value}
@@ -107,7 +106,7 @@ const AdminEventsPage = () => {
                 isLoading={isLoading}
                 isError={isError}
                 paginationOptions={paginationOptions}
-                pageSize={limit}
+                pageSize={constantsData.TABLE_PAGE_SIZE}
                 onPageChange={setPage}
                 onEdit={(ev) => {
                     setEditEvent(ev);

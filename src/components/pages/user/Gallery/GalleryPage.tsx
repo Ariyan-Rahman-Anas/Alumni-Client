@@ -16,7 +16,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import HorizontalSnapCarousel from "@/components/shared/HorizontalSnapCarousel";
-import { useGetPublishedGalleriesQuery, type GalleryImage } from "@/redux/apis/galleryApi";
+import { useGetPublishedImagesQuery, type GalleryImage } from "@/redux/apis/galleryApi";
+import PrimaryButton from "@/components/shared/PrimaryButton";
+import { constantsData } from "@/constants";
 
 /* ── Types ────────────────────────────────────────────────── */
 const getCategoryName = (img: GalleryImage): string => {
@@ -62,8 +64,6 @@ const galleryStats = [
 
 const masonryBreakpoints = { default: 3, 1024: 3, 768: 2, 640: 1 };
 
-const LOAD_SIZE = 5;
-
 /* ── FadeUp helper ────────────────────────────────────────── */
 const FadeUp = ({
     children,
@@ -95,8 +95,8 @@ const GalleryPage = () => {
     const [allImages, setAllImages] = useState<GalleryImage[]>([]);
     const [activeFilter, setActiveFilter] = useState<string>("All");
 
-    const { data, isFetching } = useGetPublishedGalleriesQuery(
-        { cursor, limit: LOAD_SIZE },
+    const { data, isFetching } = useGetPublishedImagesQuery(
+        { cursor, limit: constantsData.GALLERY_PAGE_SIZE },
         { refetchOnMountOrArgChange: false }
     );
 
@@ -294,14 +294,29 @@ const GalleryPage = () => {
                 {/* Load more */}
                 {hasMore && (
                     <div className="mt-8 flex justify-center">
-                        <Button
-                            variant="outline"
+                        <PrimaryButton
+                            title={isFetching ? "Showing…" : "Show More"}
+                            isLoading={isFetching}
+                            isDisabled={isFetching}
                             onClick={handleLoadMore}
-                            disabled={isFetching}
-                            className="min-w-32"
-                        >
-                            {isFetching ? "Loading…" : "Load More"}
-                        </Button>
+                        />
+                    </div>
+                )}
+                
+                {/* show less */}
+                {!hasMore && filtered.length > constantsData.GALLERY_PAGE_SIZE && (
+                    <div className="mt-8 flex flex-col items-center justify-center gap-3">
+                        <p>You have reached the end of the gallery.</p>
+                        <PrimaryButton
+                            variant="outline"
+                            title={isFetching ? "Showing…" : "Show Less (Reset)"}
+                            isLoading={isFetching}
+                            isDisabled={isFetching}
+                            onClick={() => {
+                                setCursor(undefined);
+                                setAllImages([]);
+                            }}
+                        />
                     </div>
                 )}
             </section>

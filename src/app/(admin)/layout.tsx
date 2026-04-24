@@ -25,7 +25,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <ClientAuthGuard requireRole="ADMIN">
             <div className={cn(sanchez.variable, "flex h-screen overflow-hidden bg-[#f4f6f5]")}>
                 <AdminSidebar />
-                <main className="flex-1 min-w-0 h-full overflow-y-auto pt-14 lg:pt-0">
+                <main className="flex-1 min-w-0 h-full overflow-y-auto pt-14 lg:pt-0" data-lenis-prevent>
                     {children}
                 </main>
             </div>
