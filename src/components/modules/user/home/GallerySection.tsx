@@ -2,7 +2,7 @@
 
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 import SectionLabel from "@/components/shared/SectionLabel";
-import { useGetPublishedImagesQuery } from "@/redux/apis/galleryApi";
+import { GalleryImage, useGetPublishedImagesQuery } from "@/redux/apis/galleryApi";
 import Image from "next/image";
 import Link from "next/link";
 import { HiArrowUpRight } from "react-icons/hi2";
@@ -13,7 +13,7 @@ const GalleryCard = ({
     className = "",
     priority = false,
 }: {
-    item: any;
+    item: GalleryImage | null | undefined;
     className?: string;
     priority?: boolean;
 }) => (
@@ -23,11 +23,9 @@ const GalleryCard = ({
         className={`group relative block overflow-hidden rounded-2xl ${className}`}
     >
         <Image
-            src={item.imageUrl ?? "/bamhs.png"}
+            src={item?.imageUrl ?? "/bamhs.png"}
             alt={item?.innerTitle?.substring(0, 25) || item?.title?.substring(0, 25) || "Gallery Image"}
             fill
-            // width={1920}
-            // height={1080}
             priority={priority}
             className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-110"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 480px"
@@ -46,10 +44,10 @@ const GalleryCard = ({
         >
             <div className="min-w-0">
                 <h1 className="text-white font-semibold text-xs sm:text-sm leading-snug truncate">
-                    {item.innerTitle ? item.innerTitle : item.title}
+                    {item?.innerTitle ? item?.innerTitle : item?.title}
                 </h1>
                 <p className="text-white/80 text-xs sm:text-sm leading-snug truncate">
-                    {item.description}
+                    {item?.description}
                 </p>
             </div>
 
@@ -68,14 +66,14 @@ const GalleryCard = ({
     </Link>
 );
 
-const ViewAllCard = ({ item, className = "" }: { item: any; className?: string }) => (
+const ViewAllCard = ({ item, className = "" }: { item: GalleryImage | null | undefined; className?: string }) => (
     <div className={`group relative overflow-hidden rounded-2xl ${className}`}>
         <Link href="/gallery" aria-label="View all photos" className="absolute inset-0 z-20" />
 
         {/* Background photo */}
         <Image
-            src={item.imageUrl ?? "/bamhs.png"}
-            alt={item.innerTitle ?? item.title ?? "Gallery Image"}
+            src={item?.imageUrl ?? "/deep-light.jpeg"}
+            alt={item?.innerTitle ?? item?.title ?? "Gallery Image"}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-110"
             sizes="300px"
@@ -142,23 +140,14 @@ const GallerySkeleton = () => (
 
 const GallerySection = () => {
     const { data: publishedImagesData, isLoading: isPublishedImagesLoading } = useGetPublishedImagesQuery({})
-    const featuredImages = publishedImagesData?.data?.slice(0, 6) || []
+    const featuredImages = publishedImagesData?.data?.filter((image: GalleryImage) => image?.isFeatured) || []
 
-    const manipulateImages = featuredImages?.map((image: any) => {
-        return {
-            imageUrl: image?.imageUrl,
-            title: image?.title,
-            innerTitle: image?.innerTitle,
-            description: image?.description,
-        }
-    })
-
-    const item1 = manipulateImages[0]
-    const item2 = manipulateImages[1]
-    const item3 = manipulateImages[2]
-    const item4 = manipulateImages[3]
-    const item5 = manipulateImages[4]
-    const item6 = manipulateImages[5]
+    const item1 = featuredImages[0]
+    const item2 = featuredImages[1]
+    const item3 = featuredImages[2]
+    const item4 = featuredImages[3]
+    const item5 = featuredImages[4]
+    const item6 = featuredImages[5]
 
 
 

@@ -1,10 +1,9 @@
-import Anas from "./../../public/Anas.png"
 import BAMHS from "./../../public/bamhs.png"
-import BAMHS2 from "./../../public/bamhs2.png"
+import deepLight from "./../../public/deep-light.jpeg"
+
 
 
 export const staticImages = {
-    Anas,
-    bamhsBackground1: BAMHS,
-    bamhsBackground: BAMHS2,
+    bamhsBackground: BAMHS,
+    deepLight: deepLight,
 }

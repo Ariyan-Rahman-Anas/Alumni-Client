@@ -50,10 +50,12 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
+  dialogCloseClassName,
   showCloseButton = true,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean
+  dialogCloseClassName?: string
 }) {
   return (
     <DialogPortal>
@@ -71,7 +73,12 @@ function DialogContent({
           <DialogPrimitive.Close data-slot="dialog-close" asChild>
             <Button
               variant="ghost"
-              className="absolute top-2 right-2"
+              // className="absolute top-2 right-2"
+              className={cn(
+                // "absolute top-2 right-2 rounded-full opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary2-500 focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary",
+                "absolute top-2 right-2",
+                dialogCloseClassName
+              )}
               size="icon-sm"
             >
               <XIcon

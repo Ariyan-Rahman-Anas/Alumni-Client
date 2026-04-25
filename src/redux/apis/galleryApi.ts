@@ -1,4 +1,5 @@
 import { baseApi } from "./baseApi";
+import { UserProfile } from "./userApi";
 
 export interface GalleryCategory {
   _id: string;
@@ -16,11 +17,7 @@ export interface GalleryImage {
   };
   imageUrl: string;
   imagePublicId: string;
-  uploadedBy: {
-    _id: string;
-    name: string;
-    email: string;
-  };
+  uploadedBy: UserProfile;
   isPublished: boolean;
   isFeatured: boolean;
   createdAt: string;
@@ -99,8 +96,30 @@ interface GetPublishedGalleriesParams {
   category?: string;
 }
 
+export interface TopContributor {
+  user: UserProfile;
+  imageCount: number;
+}
+
+interface TopContributorsResponse {
+  success: boolean;
+  message: string;
+  data: TopContributor[];
+}
+
+
 export const galleryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getTopContributors: builder.query<TopContributorsResponse, void>({
+      query: () => ({ url: "/gallery/top-contributors", method: "GET" }),
+      providesTags: ["galleryImages"],
+    }),
+
+    getImagesByContributor: builder.query<GalleryCursorResponse, { userId: string; cursor?: string; limit?: number }>({
+      query: ({ userId, ...params }) => ({ url: `/gallery/contributor/${userId}`, method: "GET", params }),
+      providesTags: ["galleryImages"],
+    }),
+
     getPublishedImages: builder.query<GalleryCursorResponse, GetPublishedGalleriesParams>({
       query: (params) => ({ url: "/gallery", method: "GET", params }),
       providesTags: ["galleryImages"],
@@ -167,6 +186,8 @@ export const galleryApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useGetTopContributorsQuery,
+  useGetImagesByContributorQuery,
   useGetPublishedImagesQuery,
   useGetAllImagesQuery,
   useCreateGalleryMutation,
