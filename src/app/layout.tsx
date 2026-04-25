@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import StoreProvider from "@/providers/StoreProvider";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "sonner";
 import { Sanchez, Splash } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -70,8 +71,10 @@ export default function RootLayout({
           min-h-screen h-full
         ">
         <StoreProvider>
-          <SmoothScroller>{children}</SmoothScroller>
-          <Toaster richColors position="top-right" />
+          <TooltipProvider>
+            <SmoothScroller>{children}</SmoothScroller>
+            <Toaster richColors position="top-right" />
+          </TooltipProvider>
         </StoreProvider>
       </body>
     </html>
