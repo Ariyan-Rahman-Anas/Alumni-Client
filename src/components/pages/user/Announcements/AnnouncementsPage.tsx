@@ -1,22 +1,28 @@
 "use client";
 
-import { useRef } from "react";
+import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { motion, useInView } from "framer-motion";
 import {
     RiBookmarkLine,
-    RiCheckboxCircleLine,
     RiErrorWarningLine,
     RiInformationLine,
+    RiCheckboxCircleLine,
     RiMegaphoneLine,
-    RiRadarLine,
-    RiSearchLine,
-    RiShieldCheckLine,
+    RiPushpin2Line,
+    RiTimeLine,
+    RiCalendarEventLine,
+    RiNewspaperLine,
+    RiAlertLine,
+    RiRefreshLine,
 } from "react-icons/ri";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import HorizontalSnapCarousel from "@/components/shared/HorizontalSnapCarousel";
+import {
+    useGetPublishedAnnouncementsQuery,
+    type Announcement,
+    type AnnouncementType,
+} from "@/redux/apis/announcementApi";
+import { format } from "date-fns";
 
 /* ── FadeUp ─────────────────────────────────────────────── */
 const FadeUp = ({
@@ -43,61 +49,127 @@ const FadeUp = ({
     );
 };
 
-/* ── Data ─────────────────────────────────────────────────── */
-const criticalNotices = [
-    {
-        title: "Reunion 2026 registration window is now open",
-        time: "Today, 9:00 AM",
-        priority: "High",
+/* ── Priority style map ──────────────────────────────────── */
+const PRIORITY_STYLES = {
+    urgent: {
+        card: "bg-red-50 border-red-200 text-red-800",
+        badge: "bg-red-100 text-red-700",
         icon: <RiErrorWarningLine />,
-        colors: "bg-amber-50 border-amber-200 text-amber-800",
+        label: "Urgent",
+    },
+    high: {
+        card: "bg-amber-50 border-amber-200 text-amber-800",
         badge: "bg-amber-100 text-amber-700",
+        icon: <RiErrorWarningLine />,
+        label: "High",
     },
-    {
-        title: "Scholarship interview shortlist has been published",
-        time: "Yesterday, 3:30 PM",
-        priority: "Medium",
+    normal: {
+        card: "bg-surface-50 border-surface-200 text-primary2-800",
+        badge: "bg-primary2-50 text-primary2-700",
         icon: <RiCheckboxCircleLine />,
-        colors: "bg-emerald-50 border-emerald-200 text-emerald-800",
-        badge: "bg-emerald-100 text-emerald-700",
+        label: "Info",
     },
-    {
-        title: "Updated volunteer onboarding guidelines",
-        time: "2 days ago",
-        priority: "Info",
-        icon: <RiInformationLine />,
-        colors: "bg-sky-50 border-sky-200 text-sky-800",
-        badge: "bg-sky-100 text-sky-700",
-    },
-];
+};
 
-const policyUpdates = [
-    { title: "Event Media Policy", desc: "Updated consent framework for all future event photography and livestreaming." },
-    { title: "Directory Privacy Refresh", desc: "Alumni contact visibility settings have been refined for GDPR alignment." },
-    { title: "Donation Transparency", desc: "Quarterly usage disclosure now available to all registered alumni members." },
-    { title: "Portal Moderation Guide", desc: "Content standards and reporting workflow updated for community health." },
-    { title: "Scholarship Terms", desc: "Eligibility criteria and disbursement schedule for 2026 cohort revised." },
-];
+/* ── Single card ─────────────────────────────────────────── */
+const AnnouncementCard = ({ item, idx }: { item: Announcement; idx: number }) => {
+    const router = useRouter();
+    const p = PRIORITY_STYLES[item.priority];
 
-const radarStats = [
-    { key: "Live", value: "14" },
-    { key: "Scheduled", value: "06" },
-    { key: "Draft", value: "09" },
-    { key: "Archived", value: "87" },
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: idx * 0.06 }}
+        >
+            <div className={`rounded-2xl border p-5 h-full ${p.card}`}>
+                <div className="flex items-start justify-between gap-2">
+                    <span className="text-xl mt-0.5">{p.icon}</span>
+                    <div className="flex items-center gap-1.5">
+                        {item.isPinned && (
+                            <span
+                                className={`rounded-full px-2 py-0.5 text-xs font-medium flex items-center gap-1 ${p.badge}`}
+                            >
+                                <RiPushpin2Line /> Pinned
+                            </span>
+                        )}
+                        <span
+                            className={`rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ${p.badge}`}
+                        >
+                            {p.label}
+                        </span>
+                    </div>
+                </div>
+                <p className="mt-3 text-sm font-semibold leading-snug">{item.title}</p>
+                <p className="mt-1.5 text-xs opacity-75 leading-relaxed line-clamp-2">
+                    {item.description}
+                </p>
+                {item.publishedAt && (
+                    <p className="mt-2 text-xs opacity-60 flex items-center gap-1">
+                        <RiTimeLine />
+                        {format(new Date(item.publishedAt), "dd MMM yyyy")}
+                    </p>
+                )}
+                <button
+                    type="button"
+                    onClick={() => router.push(`/announcements/${item.slug}`)}
+                    className="mt-3 flex items-center gap-1 text-xs font-medium opacity-80 hover:opacity-100"
+                >
+                    <RiBookmarkLine /> Read more
+                </button>
+            </div>
+        </motion.div>
+    );
+};
+
+/* ── Type filter options ────────────────────────────────── */
+const TYPE_FILTERS: { label: string; value: AnnouncementType | "all"; icon?: React.ReactNode }[] = [
+    { label: "All", value: "all" },
+    { label: "General", value: "general", icon: <RiMegaphoneLine /> },
+    { label: "Notice", value: "notice", icon: <RiInformationLine /> },
+    { label: "Event", value: "event", icon: <RiCalendarEventLine /> },
+    { label: "News", value: "news", icon: <RiNewspaperLine /> },
+    { label: "Update", value: "update", icon: <RiRefreshLine /> },
+    { label: "Alert", value: "alert", icon: <RiAlertLine /> },
 ];
 
 /* ── Page ─────────────────────────────────────────────────── */
 const AnnouncementsPage = () => {
+    const [typeFilter, setTypeFilter] = useState<AnnouncementType | "all">("all");
+    const [page, setPage] = useState(1);
+
+    const { data, isLoading } = useGetPublishedAnnouncementsQuery({
+        page,
+        limit: 12,
+        type: typeFilter === "all" ? undefined : typeFilter,
+    });
+
+    const announcements = data?.data ?? [];
+    const meta = data?.meta;
+
+    const priorityItems = announcements
+        .filter((a) => a.isPinned || a.priority === "urgent" || a.priority === "high")
+        .slice(0, 3);
+
     return (
         <div className="three-xl-section-setup pb-20 space-y-16">
 
             {/* ═══ 1. HERO ════════════════════════════════════════ */}
             <section className="rounded-3xl border border-surface-300/60 bg-surface overflow-hidden relative">
-                <div className="absolute inset-0 pointer-events-none"
-                    style={{ background: "radial-gradient(ellipse at 90% 0%, rgba(46,139,87,0.15), transparent 55%)" }}
+                <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                        background:
+                            "radial-gradient(ellipse at 90% 0%, rgba(46,139,87,0.15), transparent 55%)",
+                    }}
                 />
                 <div className="relative z-10 px-7 py-12 sm:px-12 sm:py-16">
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.55 }}
+                    >
                         <Badge className="mb-5 bg-primary2-100 text-primary2-700 border-primary2-200 hover:bg-primary2-100">
                             <RiMegaphoneLine className="mr-1.5" /> Announcements
                         </Badge>
@@ -105,102 +177,122 @@ const AnnouncementsPage = () => {
                             Signal Center for alumni updates
                         </h1>
                         <p className="mt-5 max-w-xl text-sm sm:text-lg text-muted-foreground leading-relaxed">
-                            High-priority notices, verified updates, and policy communication in one clearly layered command board.
+                            High-priority notices, verified updates, and policy communication in one
+                            clearly layered command board.
                         </p>
-                        {/* search bar */}
-                        <div className="mt-8 relative max-w-sm">
-                            <RiSearchLine className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                            <Input placeholder="Search announcements..." className="pl-9" />
-                        </div>
                     </motion.div>
                 </div>
             </section>
 
             {/* ═══ 2. PRIORITY NOTICES ════════════════════════════ */}
-            <FadeUp>
-                <div className="mb-6">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900">Priority Notices</h2>
-                    <p className="mt-1 text-sm text-muted-foreground">Time-sensitive, source-verified communications.</p>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    {criticalNotices.map((notice, idx) => (
-                        <motion.div key={notice.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.08 }}>
-                            <div className={`rounded-2xl border p-5 h-full ${notice.colors}`}>
-                                <div className="flex items-start justify-between gap-2">
-                                    <span className="text-xl mt-0.5">{notice.icon}</span>
-                                    <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${notice.badge}`}>{notice.priority}</span>
-                                </div>
-                                <p className="mt-3 text-sm font-semibold leading-snug">{notice.title}</p>
-                                <p className="mt-2 text-xs opacity-70">{notice.time}</p>
-                                <button type="button" className="mt-3 flex items-center gap-1 text-xs font-medium opacity-80 hover:opacity-100">
-                                    <RiBookmarkLine /> Read more
-                                </button>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
-            </FadeUp>
+            {(isLoading || priorityItems.length > 0) && (
+                <FadeUp>
+                    <div className="mb-6">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900">
+                            Priority Notices
+                        </h2>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                            Time-sensitive, source-verified communications.
+                        </p>
+                    </div>
+                    {isLoading ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            {Array.from({ length: 3 }).map((_, i) => (
+                                <div key={i} className="h-36 rounded-2xl animate-pulse bg-gray-100" />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            {priorityItems.map((item, idx) => (
+                                <AnnouncementCard key={item._id} item={item} idx={idx} />
+                            ))}
+                        </div>
+                    )}
+                </FadeUp>
+            )}
 
-            {/* ═══ 3. POLICY REFRESH CAROUSEL (shadcn) ════════════ */}
+            {/* ═══ 3. ALL ANNOUNCEMENTS ════════════════════════════ */}
             <FadeUp>
-                <div className="mb-5">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900">Policy Refresh Lane</h2>
-                    <p className="mt-1 text-sm text-muted-foreground">Governance and communication updates, curated and verified.</p>
+                <div className="mb-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900">
+                            All Announcements
+                        </h2>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                            Browse the full archive of official communications.
+                        </p>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                        {TYPE_FILTERS.map(({ label, value }) => (
+                            <button
+                                key={value}
+                                type="button"
+                                onClick={() => {
+                                    setTypeFilter(value);
+                                    setPage(1);
+                                }}
+                                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors border ${typeFilter === value
+                                    ? "bg-primary2-800 text-white border-primary2-800"
+                                    : "border-surface-300 text-primary2-700 hover:border-primary2-400"
+                                    }`}
+                            >
+                                {label}
+                            </button>
+                        ))}
+                    </div>
                 </div>
-                <HorizontalSnapCarousel>
-                    {policyUpdates.map((item) => (
-                        <Card key={item.title} className="h-full border-surface-300/60 hover:-translate-y-1 transition-transform duration-200">
-                            <CardContent className="p-6">
-                                <div className="h-10 w-10 rounded-xl bg-primary2-100 flex items-center justify-center text-primary2-700 text-lg">
-                                    <RiShieldCheckLine />
-                                </div>
-                                <h3 className="mt-4 text-base font-semibold text-primary2-900">{item.title}</h3>
-                                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </HorizontalSnapCarousel>
-            </FadeUp>
 
-            {/* ═══ 4. RADAR STATS + CREDIBILITY ══════════════════ */}
-            <FadeUp>
-                <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-5">
-                    <Card className="border-surface-300/60">
-                        <CardContent className="p-6 sm:p-8">
-                            <h3 className="text-xl font-bold text-primary2-900">Release Radar</h3>
-                            <p className="mt-2 text-sm text-muted-foreground">Published, scheduled, and in-draft notices across all categories and admin tiers.</p>
-                            <div className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                {radarStats.map(({ key, value }) => (
-                                    <div key={key} className="rounded-xl border border-surface-300/60 bg-primary2-50/50 p-4 text-center">
-                                        <p className="text-2xl font-bold text-primary2-900">{value}</p>
-                                        <p className="mt-1 text-xs text-muted-foreground">{key}</p>
-                                    </div>
+                {isLoading ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <div key={i} className="h-44 rounded-2xl animate-pulse bg-gray-100" />
+                        ))}
+                    </div>
+                ) : announcements.length === 0 ? (
+                    <p className="py-12 text-center text-sm text-muted-foreground">
+                        No announcements found.
+                    </p>
+                ) : (
+                    <>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {announcements.map((item, idx) => (
+                                <AnnouncementCard key={item._id} item={item} idx={idx} />
+                            ))}
+                        </div>
+                        {meta && meta.totalPage > 1 && (
+                            <div className="mt-8 flex items-center justify-center gap-2">
+                                {Array.from({ length: meta.totalPage }, (_, i) => i + 1).map((p) => (
+                                    <button
+                                        key={p}
+                                        type="button"
+                                        onClick={() => setPage(p)}
+                                        className={`h-8 w-8 text-sm rounded-lg transition-colors ${p === page
+                                            ? "bg-primary2-700 text-white"
+                                            : "hover:bg-surface-100 text-muted-foreground"
+                                            }`}
+                                    >
+                                        {p}
+                                    </button>
                                 ))}
                             </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="border-surface-300/60">
-                        <CardContent className="p-6 sm:p-8">
-                            <h3 className="text-xl font-bold text-primary2-900">Credibility System</h3>
-                            <p className="mt-2 text-sm text-muted-foreground">Every official notice can carry source verification and responsible admin signature for trust auditability.</p>
-                            <Separator className="my-5" />
-                            <div className="flex items-start gap-3 text-sm text-primary2-900">
-                                <RiRadarLine className="text-lg mt-0.5 shrink-0 text-primary2-700" />
-                                <p>Verification token and admin-signed publishing workflow can be connected here.</p>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div>
+                        )}
+                    </>
+                )}
             </FadeUp>
 
-            {/* ═══ 5. UPGRADE BANNER ═══════════════════════════════ */}
+            {/* ═══ 4. UPGRADE BANNER ═══════════════════════════════ */}
             <FadeUp>
-                <div className="rounded-3xl border border-primary2-200/60 px-6 py-5 flex flex-wrap items-center gap-3"
-                    style={{ background: "linear-gradient(135deg, rgba(46,139,87,0.07) 0%, rgba(126,158,37,0.05) 100%)" }}>
+                <div
+                    className="rounded-3xl border border-primary2-200/60 px-6 py-5 flex flex-wrap items-center gap-3"
+                    style={{
+                        background:
+                            "linear-gradient(135deg, rgba(46,139,87,0.07) 0%, rgba(126,158,37,0.05) 100%)",
+                    }}
+                >
                     <RiMegaphoneLine className="text-primary2-700 text-xl shrink-0" />
                     <p className="text-sm text-primary2-900 flex-1 min-w-0">
-                        <strong>Next upgrade-ready:</strong> full-text search, category filters, read-status sync, per-member announcement bookmarks, and push notification hooks.
+                        <strong>Next upgrade-ready:</strong> read-status sync, per-member bookmarks,
+                        and push notification hooks.
                     </p>
                 </div>
             </FadeUp>

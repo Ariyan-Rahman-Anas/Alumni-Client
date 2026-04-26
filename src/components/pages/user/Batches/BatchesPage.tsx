@@ -141,12 +141,11 @@ const BatchesPage = () => {
                 <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900 mb-5">Batch Directory</h2>
                 <p className="mb-5 text-sm text-muted-foreground">Comprehensive alumni directory with batch, contact, and professional details.</p>
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-                    <div className="flex-1 max-w-2xl">
+                    <div className="flex-1 w-full max-w-2xl">
                         <InputField
                             type="text"
                             label="Search alumni"
                             placeholder="Search by name, phone, email, profession & address..."
-                            className="w-full"
                             value={searchInput}
                             onChange={(e) => {
                                 setSearchInput(e.target.value);
@@ -154,7 +153,7 @@ const BatchesPage = () => {
                             }}
                         />
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                         <Controller
                             name="batch"
                             control={control}

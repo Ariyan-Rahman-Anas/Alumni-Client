@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+// import Footer from "@/components/Footer";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -8,7 +8,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             <main className="flex-1">
                 {children}
             </main>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 }

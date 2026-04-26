@@ -61,8 +61,8 @@ const UserProfileAvatar = ({
                     <Image
                         src={previewSrc}
                         alt={name}
-                        width={dim}
-                        height={dim}
+                        width={800}
+                        height={800}
                         className="object-cover w-full h-full"
                         unoptimized={Boolean(pendingImage)}
                     />

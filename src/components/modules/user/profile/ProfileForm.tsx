@@ -89,9 +89,10 @@ const SectionCard = ({ title, icon, index, children }: SectionCardProps) => (
 interface ProfileFormProps {
     user: UserProfile;
     pendingImage: File | null;
+    onImageSaved: () => void;
 }
 
-const ProfileForm = ({ user, pendingImage }: ProfileFormProps) => {
+const ProfileForm = ({ user, pendingImage, onImageSaved }: ProfileFormProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const [updateUser, { isLoading: isSaving }] = useUpdateUserMutation();
 
@@ -167,6 +168,7 @@ const ProfileForm = ({ user, pendingImage }: ProfileFormProps) => {
                 })
             );
 
+            if (pendingImage) onImageSaved();
             toast.success("Profile updated successfully!");
         } catch (err: unknown) {
             const msg =
