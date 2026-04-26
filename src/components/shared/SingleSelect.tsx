@@ -151,6 +151,7 @@ const SingleSelect = ({
                 <PopoverContent
                     align="start"
                     className={cn("w-[var(--radix-popover-trigger-width)] min-w-56 p-0", contentClassName)}
+                    data-lenis-prevent
                 >
                     <Command>
                         {searchable && (

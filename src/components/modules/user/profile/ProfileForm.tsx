@@ -46,18 +46,18 @@ const profileSchema = z.object({
         .string()
         .trim()
         .min(5, "Address must be at least 5 characters")
-        .max(150)
+        .max(100, "Address must be at most 100 characters")
         .or(z.literal(""))
         .optional(),
     permanentAddress: z
         .string()
         .trim()
         .min(5, "Address must be at least 5 characters")
-        .max(150)
+        .max(100, "Address must be at most 100 characters")
         .or(z.literal(""))
         .optional(),
-    workplace: z.string().trim().max(120).or(z.literal("")).optional(),
-    position: z.string().trim().max(120).or(z.literal("")).optional(),
+    workplace: z.string().trim().max(60, "Workplace must be at most 60 characters").or(z.literal("")).optional(),
+    position: z.string().trim().max(60, "Position must be at most 60 characters").or(z.literal("")).optional(),
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;

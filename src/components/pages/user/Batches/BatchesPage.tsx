@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { useDebounce } from "@/hooks/useDebounce";
 import { motion, useInView } from "framer-motion";
 import {
     RiGroupLine,
@@ -14,6 +15,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import HorizontalSnapCarousel from "@/components/shared/HorizontalSnapCarousel";
+import BatchPageUsersTable from "@/components/modules/user/batches/BatchPageUsersTable";
+import InputField from "@/components/shared/InputField";
+import { Controller, useForm } from "react-hook-form";
+import SingleSelect from "@/components/shared/SingleSelect";
+import { constantsData } from "@/constants";
+import { useGetActiveBatchesQuery } from "@/redux/apis/batchApi";
+import { IBatchUserFilterValues } from "@/types/user/batch/batch.types";
 
 /* ── FadeUp ─────────────────────────────────────────────── */
 const FadeUp = ({
@@ -65,6 +73,36 @@ const leaderboardItems = [
 
 /* ── Page ─────────────────────────────────────────────────── */
 const BatchesPage = () => {
+    const [page, setPage] = useState(1);
+    const limit = constantsData.TABLE_PAGE_SIZE;
+    const [searchInput, setSearchInput] = useState("");
+    const debouncedSearch = useDebounce(searchInput, 400);
+    const [filters, setFilters] = useState<IBatchUserFilterValues>({
+        search: undefined,
+        bloodGroup: undefined,
+        section: undefined,
+        batch: undefined,
+    });
+
+    const emptyMessage = debouncedSearch
+        ? `No users matching "${debouncedSearch}"`
+        : Object.values(filters).some(Boolean)
+            ? "No users match the selected filters"
+            : "No users found";
+
+    const { data: allActiveBatchesData } = useGetActiveBatchesQuery();
+
+    const { control } = useForm();
+
+    const bloodGroups = constantsData.BLOOD_GROUPS.map(bg => ({ label: bg, value: bg }));
+    const bloodGroupOptions = [{ label: "All blood groups", value: "" }, ...bloodGroups];
+
+    const batches = allActiveBatchesData?.data?.map(b => ({ label: b.year.toString(), value: b.year.toString() })) ?? [];
+    const batchOptions = [{ label: "All batches", value: "" }, ...batches];
+
+    const sections = constantsData.SECTIONS.map(s => ({ label: s.label, value: s.value }));
+    const sectionOptions = [{ label: "All sections", value: "" }, ...sections];
+
     return (
         <div className="three-xl-section-setup pb-20 space-y-16">
 
@@ -98,6 +136,97 @@ const BatchesPage = () => {
                     </motion.div>
                 </div>
             </section>
+
+            <div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900 mb-5">Batch Directory</h2>
+                <p className="mb-5 text-sm text-muted-foreground">Comprehensive alumni directory with batch, contact, and professional details.</p>
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                    <div className="flex-1 max-w-2xl">
+                        <InputField
+                            type="text"
+                            label="Search alumni"
+                            placeholder="Search by name, phone, email, profession & address..."
+                            className="w-full"
+                            value={searchInput}
+                            onChange={(e) => {
+                                setSearchInput(e.target.value);
+                                setPage(1);
+                            }}
+                        />
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <Controller
+                            name="batch"
+                            control={control}
+                            render={({ field }) => (
+                                <SingleSelect
+                                    id="reg-batch"
+                                    label="Batch"
+                                    value={field.value || ""}
+                                    onValueChange={(value) => {
+                                        field.onChange(value);
+                                        setFilters((prev) => ({ ...prev, batch: value || undefined }));
+                                        setPage(1);
+                                    }}
+                                    options={batchOptions}
+                                    placeholder="Select batch"
+                                    searchable={false}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name="section"
+                            control={control}
+                            render={({ field }) => (
+                                <SingleSelect
+                                    id="reg-section"
+                                    label="Section"
+                                    value={field.value || ""}
+                                    onValueChange={(value) => {
+                                        field.onChange(value);
+                                        setFilters((prev) => ({ ...prev, section: value || undefined }));
+                                        setPage(1);
+                                    }}
+                                    options={sectionOptions}
+                                    placeholder="Select section"
+                                    searchable={false}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name="bloodGroup"
+                            control={control}
+                            render={({ field }) => (
+                                <SingleSelect
+                                    id="reg-blood-group"
+                                    label="Blood Group"
+                                    value={field.value || ""}
+                                    onValueChange={(value) => {
+                                        field.onChange(value);
+                                        setFilters((prev) => ({ ...prev, bloodGroup: value || undefined }));
+                                        setPage(1);
+                                    }}
+                                    options={bloodGroupOptions}
+                                    placeholder="Select blood group"
+                                    searchable={false}
+                                />
+                            )}
+                        />
+                    </div>
+                </div>
+
+                <BatchPageUsersTable
+                    page={page}
+                    limit={limit}
+                    onPageChange={setPage}
+                    emptyMessage={emptyMessage}
+                    search={debouncedSearch || undefined}
+                    bloodGroup={filters.bloodGroup}
+                    section={filters.section}
+                    batch={filters.batch}
+                />
+            </div>
+
 
             {/* ═══ 2. DECADE NAVIGATOR (shadcn Carousel) ══════════ */}
             <FadeUp>
