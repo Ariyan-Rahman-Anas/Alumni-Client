@@ -23,14 +23,16 @@ import { useLogoutUserMutation } from "@/redux/apis/authApi";
 import { clearUser, selectCurrentUser } from "@/redux/slice/authSlice";
 import type { AppDispatch } from "@/redux/store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { MdOutlineCampaign } from "react-icons/md";
 
 const NAV_ITEMS = [
-    { label: "Overview", href: "/admin/overview", icon: RiBarChartBoxLine },
-    { label: "Users", href: "/admin/users", icon: RiGroupLine },
+    { label: "Dashboard", href: "/admin/overview", icon: RiBarChartBoxLine },
+    { label: "Announcements", href: "/admin/announcements", icon: MdOutlineCampaign },
     { label: "Batches", href: "/admin/batches", icon: RiCalendarLine },
     { label: "Events", href: "/admin/events", icon: RiCalendarEventLine },
-    { label: "Image Categories", href: "/admin/image-categories", icon: RiImageLine },
     { label: "Gallery", href: "/admin/gallery", icon: RiImageLine },
+    { label: "Image Categories", href: "/admin/image-categories", icon: RiImageLine },
+    { label: "Users", href: "/admin/users", icon: RiGroupLine },
 ];
 
 function SidebarContent({ onNav }: { onNav?: () => void }) {

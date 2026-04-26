@@ -65,7 +65,7 @@ const ProfilePage = () => {
                     onImageChange={setPendingImage}
                 />
 
-                <ProfileForm user={user} pendingImage={pendingImage} />
+                <ProfileForm user={user} pendingImage={pendingImage} onImageSaved={() => setPendingImage(null)} />
             </div>
         );
     };

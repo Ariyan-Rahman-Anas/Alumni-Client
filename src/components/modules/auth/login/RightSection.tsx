@@ -1,40 +1,35 @@
 "use client"
 
 import Link from "next/link"
-import { motion } from "framer-motion"
 import { RiUserAddLine } from "react-icons/ri"
 import LoginForm from "./LoginForm"
+import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 
 const RightSection = () => {
     return (
-        <section>
-            <motion.div
-                initial={{ opacity: 0, y: 28 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
-                className="rounded-3xl border border-surface-400/50 bg-gradient-to-br from-surface to-surface-100 p-6 sm:p-8"
-                style={{ boxShadow: "0 24px 65px rgba(5,31,21,0.22)" }}
-            >
-                <h2 className="text-2xl font-semibold text-primary2-900">
-                    Alumni Sign In
-                </h2>
-                <p className="mt-2 text-sm text-neutral-500">
-                    Access your alumni profile, batch updates, and association news.
-                </p>
+        <FadeUpWrapper delay={0.1}
+            className="rounded-b-3xl md:rounded-l-none md:rounded-r-3xl bg-gradient-to-tl from-surface to-surface p-6 sm:p-8"
+            style={{ boxShadow: "0 24px 65px rgba(5,31,21,0.22)" }}
+        >
+            <h2 className="text-2xl font-semibold text-primary2-900">
+                Alumni Sign In
+            </h2>
+            <p className="mt-2 text-sm text-neutral-500">
+                Enter the email and password for your alumni profile.
+            </p>
 
-                <LoginForm />
+            <LoginForm />
 
-                <p className="mt-6 text-center text-sm text-neutral-500">
-                    Not registered yet?{" "}
-                    <Link
-                        href="/registration"
-                        className="inline-flex items-center gap-1 font-semibold text-primary2-700 hover:underline"
-                    >
-                        Register as alumni <RiUserAddLine />
-                    </Link>
-                </p>
-            </motion.div>
-        </section>
+            <p className="mt-6 text-center text-sm text-neutral-500">
+                Not registered yet?{" "}
+                <Link
+                    href="/registration"
+                    className="inline-flex items-center gap-1 font-semibold text-primary2-700 hover:underline"
+                >
+                    Register as alumni <RiUserAddLine />
+                </Link>
+            </p>
+        </FadeUpWrapper>
     )
 }
 export default RightSection

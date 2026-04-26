@@ -16,11 +16,13 @@ import HeroSection from "@/components/modules/user/home/HeroSection";
 export const FadeUpWrapper = ({
     children,
     delay = 0,
-    className = "",
+    className = "", 
+    style = {},
 }: {
     children: React.ReactNode;
     delay?: number;
     className?: string;
+    style?: React.CSSProperties;
 }) => {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -39,6 +41,7 @@ export const FadeUpWrapper = ({
                 ease: [0.19, 1, 0.22, 1],
             }}
             className={className}
+            style={style}
         >
             {children}
         </motion.div>

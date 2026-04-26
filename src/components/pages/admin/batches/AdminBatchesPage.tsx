@@ -14,10 +14,12 @@ import {
 } from "@/redux/apis/batchApi";
 import AdminBatchFormModal from "@/components/modules/admin/batches/AdminBatchFormModal";
 import AdminBatchesTable from "@/components/modules/admin/batches/AdminBatchesTable";
+import AdminPageHead from "@/components/shared/admin/AdminPageHead";
+import { constantsData } from "@/constants";
 
 const AdminBatchesPage = () => {
     const [page, setPage] = useState(1);
-    const limit = 10;
+    const limit = constantsData.TABLE_PAGE_SIZE;
 
     const [formOpen, setFormOpen] = useState(false);
     const [editBatch, setEditBatch] = useState<Batch | null>(null);
@@ -55,12 +57,7 @@ const AdminBatchesPage = () => {
     return (
         <div className="admin-page-setup">
             <div className="flex items-center justify-between mb-6">
-                <div>
-                    <h1 className="text-xl font-semibold text-gray-900">Batches</h1>
-                    <p className="text-sm text-muted-foreground mt-0.5">
-                        Manage graduation batches. Active batches appear in the registration form.
-                    </p>
-                </div>
+                <AdminPageHead title="Batches" description="Manage graduation batches. Active batches appear in the registration form" />
                 <PrimaryButton
                     type="button"
                     title="Add Batch"

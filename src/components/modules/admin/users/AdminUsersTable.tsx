@@ -84,9 +84,10 @@ const AdminUsersTable = ({
         },
         {
             key: "imageUrl", label: "Image",
+            width: "0%",
             render: (u) => (
-                <div>
-                    <Image src={u.imageUrl ?? ""} alt={u.name.slice(0, 2).toUpperCase()} width={40} height={40} className="rounded-full" />
+                <div className="h-14 w-14 overflow-hidden flex items-center justify-center rounded-full border border-primary2-700">
+                    <Image src={u.imageUrl ?? ""} alt={u.name.slice(0, 2).toUpperCase()} width={800} height={800}/>
                 </div>
             )
         },
