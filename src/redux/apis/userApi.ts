@@ -61,7 +61,7 @@ export const userApi = baseApi.injectEndpoints({
 
         getAllUsers: builder.query<UserListResponse, { page?: number; limit?: number; approvalStatus?: string; search?: string; bloodGroup?: string; section?: string; dobYear?: number; dobMonth?: number; dobDay?: number; isVerified?: boolean }>({
             query: ({ page = 1, limit = 10, approvalStatus, search, bloodGroup, section, dobYear, dobMonth, dobDay, isVerified } = {}) => ({
-                url: "/users/list",
+                url: "/users",
                 method: "GET",
                 params: {
                     page,
@@ -74,6 +74,22 @@ export const userApi = baseApi.injectEndpoints({
                     ...(dobMonth ? { dobMonth } : {}),
                     ...(dobDay ? { dobDay } : {}),
                     ...(isVerified !== undefined ? { isVerified } : {}),
+                },
+            }),
+            providesTags: ["users"],
+        }),
+      
+        getAllApprovedUsers: builder.query<UserListResponse, { page?: number; limit?: number; search?: string; bloodGroup?: string; section?: string; batch?: string }>({
+            query: ({ page = 1, limit = 10, search, bloodGroup, section, batch } = {}) => ({
+                url: "/users/approved",
+                method: "GET",
+                params: {
+                    page,
+                    limit,
+                    ...(search ? { searchTerm: search } : {}),
+                    ...(bloodGroup ? { bloodGroup } : {}),
+                    ...(section ? { section } : {}),
+                    ...(batch ? { batch } : {}),
                 },
             }),
             providesTags: ["users"],
@@ -117,6 +133,7 @@ export const userApi = baseApi.injectEndpoints({
 export const {
     useGetUserProfileQuery,
     useGetAllUsersQuery,
+    useGetAllApprovedUsersQuery,
     useApproveUserMutation,
     useDeleteUserMutation,
     useUpdateUserMutation,

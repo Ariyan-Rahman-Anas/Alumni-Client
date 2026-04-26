@@ -8,6 +8,7 @@ const SECTIONS = [
 
 const TABLE_PAGE_SIZE = 10
 const GALLERY_PAGE_SIZE = 3
+const TABLE_SKELETON_ROWS = 5
 
 /**
  * COUNTRY_CODES — phone prefix + resident-country data, merged into one list.
@@ -124,4 +125,5 @@ export const constantsData = {
     TABLE_PAGE_SIZE,
     GALLERY_PAGE_SIZE,
     COUNTRY_CODES,
+    TABLE_SKELETON_ROWS
 }

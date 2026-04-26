@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 // ── DataTable ──────────────────────────────────────────────────────────────
 
 export interface TableColumn<T> {
-    key: keyof T | "index" | "actions";
+    key: keyof T | "index" | "actions" | string;
     label: string;
     width?: string;
     align?: "left" | "center" | "right";

@@ -3,12 +3,13 @@
 import AdminUsersSearchFilter, { UserFilterValues } from "@/components/modules/admin/users/AdminUsersSearchFilter";
 import AdminUsersTable from "@/components/modules/admin/users/AdminUsersTable";
 import AdminPageHead from "@/components/shared/admin/AdminPageHead";
+import { constantsData } from "@/constants";
 import { useState } from "react";
 
 
 const AdminUsersPage = () => {
     const [page, setPage] = useState(1);
-    const limit = 10;
+    const limit = constantsData.TABLE_PAGE_SIZE;
     const [filters, setFilters] = useState<UserFilterValues>({
         approvalStatus: "PENDING",
         search: undefined,

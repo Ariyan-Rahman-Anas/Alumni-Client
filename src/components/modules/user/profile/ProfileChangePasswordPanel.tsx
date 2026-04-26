@@ -33,8 +33,8 @@ const ProfileChangePasswordPanel = () => {
         if (isSubmitDisabled) return;
 
         try {
-            await changePassword({ currentPassword, newPassword }).unwrap();
-            toast.success("Password changed successfully!");
+            const passChangeRes = await changePassword({ currentPassword, newPassword }).unwrap();
+            toast.success(passChangeRes.message);
             setCurrentPassword("");
             setNewPassword("");
             setConfirmPassword("");

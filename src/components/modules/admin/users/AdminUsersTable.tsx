@@ -15,7 +15,6 @@ import {
     useDeleteUserMutation,
     type UserProfile,
 } from "@/redux/apis/userApi";
-// import { formatDate } from "@/lib/DateFormatter";
 import Image from "next/image";
 import { AdminUsersTableProps } from "@/types/admin/users.types";
 import DateFormatter from "@/lib/DateFormatter";
