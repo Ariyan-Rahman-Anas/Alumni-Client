@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -70,7 +70,7 @@ const Footer = () => {
 
   return (
     <footer
-      className="relative overflow-hidden"
+      className="relative overflow-hidden rounded-t-pill md:rounded-t-circle"
       style={{
         background: "linear-gradient(180deg, #0A3D2B 0%, #051F15 100%)",
       }}
@@ -82,7 +82,7 @@ const Footer = () => {
         style={{
           backgroundImage:
             "linear-gradient(rgba(74,222,128,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.04) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
+          backgroundSize: "60px 60px",
         }}
       />
 
@@ -222,7 +222,7 @@ const Footer = () => {
       {/* ══════════════════════════════════════════════════════
           MAIN GRID
       ══════════════════════════════════════════════════════ */}
-      <div className="relative three-xl-section-setup">
+      <div className="relative pb-8 pt-0 three-xl-section-setup">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
           {/* ── Col 1 — About ── */}

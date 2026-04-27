@@ -7,7 +7,7 @@ const SECTIONS = [
 ];
 
 const TABLE_PAGE_SIZE = 10
-const GALLERY_PAGE_SIZE = 3
+const GALLERY_PAGE_SIZE = 10
 const TABLE_SKELETON_ROWS = 5
 
 /**

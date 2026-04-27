@@ -9,7 +9,9 @@ import ProfileForm from "@/components/modules/user/profile/ProfileForm";
 import ProfileSidebar, { type ProfileSectionKey } from "@/components/modules/user/profile/ProfileSidebar";
 import ProfileTransactionsPanel from "@/components/modules/user/profile/ProfileTransactionsPanel";
 import ProfileChangePasswordPanel from "@/components/modules/user/profile/ProfileChangePasswordPanel";
+import MyJobApplicationsPanel from "@/components/modules/user/profile/MyJobApplicationsPanel";
 import { selectCurrentUser } from "@/redux/slice/authSlice";
+import MyPostedJobsPanel from "@/components/modules/user/profile/MyPostedJobsPanel";
 
 const ProfileSkeleton = () => (
     <div className="flex flex-col gap-5 animate-pulse">
@@ -55,6 +57,14 @@ const ProfilePage = () => {
 
         if (activeSection === "change-password") {
             return <ProfileChangePasswordPanel />;
+        }
+
+        if (activeSection === "my-applications") {
+            return <MyJobApplicationsPanel />;
+        }
+
+        if (activeSection === "my-posted-jobs") {
+            return <MyPostedJobsPanel />;
         }
 
         return (
