@@ -149,11 +149,8 @@ const GallerySection = () => {
     const item5 = featuredImages[4]
     const item6 = featuredImages[5]
 
-
-
     return (
         <section className="three-xl-section-setup">
-
             {/* ── Header ───────────────────────────────────────────── */}
             <FadeUpWrapper delay={0.14} className="text-center mb-12">
                 {/* Pill badge */}

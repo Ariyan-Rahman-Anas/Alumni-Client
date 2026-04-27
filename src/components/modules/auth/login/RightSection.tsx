@@ -12,7 +12,7 @@ const RightSection = () => {
             style={{ boxShadow: "0 24px 65px rgba(5,31,21,0.22)" }}
         >
             <h2 className="text-2xl font-semibold text-primary2-900">
-                Alumni Sign In
+                Sign in
             </h2>
             <p className="mt-2 text-sm text-neutral-500">
                 Enter the email and password for your alumni profile.

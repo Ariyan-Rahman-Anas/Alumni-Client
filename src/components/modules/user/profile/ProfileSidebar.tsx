@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { RiArrowRightSLine, RiLockPasswordLine, RiProfileLine, RiWallet3Line } from "react-icons/ri";
+import { RiArrowRightSLine, RiLockPasswordLine, RiProfileLine, RiWallet3Line, RiFileListLine, RiBriefcaseLine } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 
-export type ProfileSectionKey = "profile-info" | "transactions" | "change-password";
+export type ProfileSectionKey = "profile-info" | "transactions" | "change-password" | "my-applications" | "my-posted-jobs";
 
 interface SidebarItem {
     id: ProfileSectionKey;
@@ -31,6 +31,18 @@ const sidebarItems: SidebarItem[] = [
         label: "Change Password",
         description: "Secure your account access",
         icon: <RiLockPasswordLine />,
+    },
+    {
+        id: "my-applications",
+        label: "My Applications",
+        description: "Track your job applications",
+        icon: <RiFileListLine />,
+    },
+    {
+        id: "my-posted-jobs",
+        label: "My Posted Jobs",
+        description: "View your posts & applicants",
+        icon: <RiBriefcaseLine />,
     },
 ];
 

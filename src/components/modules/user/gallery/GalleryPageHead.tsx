@@ -1,5 +1,5 @@
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
-import { Badge } from "@/components/ui/badge"
+import SectionLabel from "@/components/shared/SectionLabel";
 import { RiGalleryLine } from "react-icons/ri"
 
 const GalleryPageHead = () => {
@@ -38,12 +38,10 @@ const GalleryPageHead = () => {
                     <FadeUpWrapper
                         delay={0.15}
                     >
-                        <Badge className="bg-white/10 text-primary2-100 border-primary2-300/35 hover:bg-white/10 mb-5">
-                            <RiGalleryLine className="mr-1.5" /> Gallery Hub
-                        </Badge>
+                        <SectionLabel text="Gallery Hub" align="left" icon={<RiGalleryLine />} className="text-primary2-200 capitalize mb-2" />
                         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight max-w-3xl">
                             Memory Wall,{" "}
-                            <span className="text-primary2-300">built as a living mosaic</span>
+                            <span className="text-primary2-300">built as a Living Mosaic</span>
                         </h1>
                         <p className="mt-5 max-w-2xl text-sm sm:text-lg text-primary2-100/75 leading-relaxed">
                             Curated alumni moments through an editorial masonry grid, featured

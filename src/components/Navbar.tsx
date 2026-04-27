@@ -3,8 +3,7 @@
 import { AiOutlineHome } from "react-icons/ai";
 import { TiInfoLarge } from "react-icons/ti";
 import { MdOutlineCampaign, MdOutlineBloodtype } from "react-icons/md";
-import { IoBriefcaseOutline } from "react-icons/io5";
-import { RiCalendarEventLine, RiGroupLine } from "react-icons/ri";
+import { RiBriefcaseLine, RiCalendarEventLine, RiGalleryLine, RiGroupLine } from "react-icons/ri";
 import { HiOutlineHandRaised } from "react-icons/hi2";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -23,12 +22,14 @@ import { selectIsLoggedIn } from "@/redux/slice/authSlice";
 const navItems = [
   { title: "Home", link: "", icon: <AiOutlineHome /> },
   { title: "About", link: "about", icon: <TiInfoLarge /> },
-  { title: "Gallery", link: "gallery", icon: <IoBriefcaseOutline /> },
+  { title: "Gallery", link: "gallery", icon: <RiGalleryLine /> },
   { title: "Events", link: "events", icon: <RiCalendarEventLine /> },
   { title: "Announcements", link: "announcements", icon: <MdOutlineCampaign /> },
   { title: "Batches", link: "batches", icon: <RiGroupLine /> },
   { title: "Blood Bank", link: "bloodbank", icon: <MdOutlineBloodtype /> },
   { title: "Request To Admin", link: "request", icon: <HiOutlineHandRaised /> },
+  { title: "Jobs", link: "jobs", icon: <RiBriefcaseLine /> },
+
 ];
 
 /* ─────────────────────────────────────────────────────────

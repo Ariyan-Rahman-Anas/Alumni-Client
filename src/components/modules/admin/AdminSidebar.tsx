@@ -32,6 +32,7 @@ const NAV_ITEMS = [
     { label: "Events", href: "/admin/events", icon: RiCalendarEventLine },
     { label: "Gallery", href: "/admin/gallery", icon: RiImageLine },
     { label: "Image Categories", href: "/admin/image-categories", icon: RiImageLine },
+    { label: "Jobs", href: "/admin/jobs", icon: RiExternalLinkLine },
     { label: "Users", href: "/admin/users", icon: RiGroupLine },
 ];
 

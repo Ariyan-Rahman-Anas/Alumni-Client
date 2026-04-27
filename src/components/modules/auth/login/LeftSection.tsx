@@ -17,7 +17,7 @@ const LeftSection = () => {
                 <span className="text-gold-300">BAMHSian</span>
             </h1>
 
-            <p className="max-w-md text-base leading-relaxed text-emerald-100/75 sm:text-lg">
+            <p className="max-w-md text-base leading-relaxed text-emerald-100/75">
                 Sign in to your alumni account to connect with your batch, stay updated on association events, and engage with the BAMHS alumni community.
             </p>
 
@@ -28,8 +28,8 @@ const LeftSection = () => {
                     "Participate in alumni welfare and mentorship programmes",
                 ].map((point) => (
                     <div key={point} className="flex items-center gap-3">
-                        <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-primary2-300" />
-                        <p className="text-sm text-emerald-100/70 sm:text-base">{point}</p>
+                        <span className="h-2 w-2 shrink-0 rounded-full bg-primary2-300" />
+                        <p className="text-sm text-emerald-100/70">{point}</p>
                     </div>
                 ))}
             </div>
