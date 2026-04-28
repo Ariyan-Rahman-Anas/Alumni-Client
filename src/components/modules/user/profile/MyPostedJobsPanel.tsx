@@ -4,12 +4,14 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { format, formatDistanceToNow } from "date-fns";
+import { toast } from "sonner";
 import {
     RiBriefcaseLine,
     RiCheckboxCircleLine,
     RiCloseCircleLine,
     RiTimeLine,
     RiCheckLine,
+    RiDeleteBin6Line,
     RiExternalLinkLine,
     RiUserLine,
     RiArrowDownSLine,
@@ -19,15 +21,17 @@ import {
     useGetMyJobsQuery,
     useGetJobApplicationsQuery,
     useSelectApplicantMutation,
+    useDeleteJobPostMutation,
     type JobPost,
     type JobPostStatus,
 } from "@/redux/apis/jobApi";
+import DeleteAlertModal from "@/components/shared/DeleteAlertModal";
 
 const STATUS_CONFIG: Record<JobPostStatus, { label: string; className: string; icon: React.ReactNode }> = {
-    pending: { label: "Pending", className: "bg-amber-50 text-amber-700 border border-amber-200", icon: <RiTimeLine /> },
-    approved: { label: "Active", className: "bg-emerald-50 text-emerald-700 border border-emerald-200", icon: <RiCheckboxCircleLine /> },
-    rejected: { label: "Rejected", className: "bg-red-50 text-red-700 border border-red-200", icon: <RiCloseCircleLine /> },
-    closed: { label: "Closed", className: "bg-surface-100 text-neutral-600 border border-surface-300", icon: <RiCheckLine /> },
+    PENDING: { label: "Pending", className: "bg-amber-50 text-amber-700 border border-amber-200", icon: <RiTimeLine /> },
+    APPROVED: { label: "Active", className: "bg-emerald-50 text-emerald-700 border border-emerald-200", icon: <RiCheckboxCircleLine /> },
+    REJECTED: { label: "Rejected", className: "bg-red-50 text-red-700 border border-red-200", icon: <RiCloseCircleLine /> },
+    CLOSED: { label: "Closed", className: "bg-surface-100 text-neutral-600 border border-surface-300", icon: <RiCheckLine /> },
 };
 
 function Avatar({ name, imageUrl, size = 36 }: { name: string; imageUrl?: string; size?: number }) {
@@ -52,9 +56,9 @@ function JobApplicantsPanel({ jobId, isOwner }: { jobId: string; isOwner: boolea
         <div className="space-y-3">
             {apps.map((app) => {
                 const statusColor = {
-                    pending: "bg-amber-50 text-amber-700 border border-amber-200",
-                    selected: "bg-emerald-50 text-emerald-700 border border-emerald-200",
-                    rejected: "bg-red-50 text-red-700 border border-red-200",
+                    PENDING: "bg-amber-50 text-amber-700 border border-amber-200",
+                    SELECTED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+                    REJECTED: "bg-red-50 text-red-700 border border-red-200",
                 }[app.status] ?? "bg-surface-100 text-neutral-600";
 
                 return (
@@ -69,7 +73,7 @@ function JobApplicantsPanel({ jobId, isOwner }: { jobId: string; isOwner: boolea
                             {app.message && <p className="text-xs text-neutral-600 mt-1 line-clamp-2">{app.message}</p>}
                             <div className="flex items-center gap-3 mt-2">
                                 <span className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(app.createdAt), { addSuffix: true })}</span>
-                                {isOwner && app.status === "pending" && (
+                                {isOwner && app.status === "PENDING" && (
                                     <button
                                         onClick={() => selectApplicant({ jobId, appId: app._id })}
                                         className="text-xs bg-emerald-500 text-white px-3 py-1 rounded-full hover:bg-emerald-600 transition-colors"
@@ -89,8 +93,20 @@ function JobApplicantsPanel({ jobId, isOwner }: { jobId: string; isOwner: boolea
 /* ── Job Row ──────────────────────────────────────────── */
 function JobRow({ job }: { job: JobPost }) {
     const [expanded, setExpanded] = useState(false);
-    const isSeek = job.type !== "official";
-    const statusCfg = STATUS_CONFIG[job.status] ?? STATUS_CONFIG.pending;
+    const [showDelete, setShowDelete] = useState(false);
+    const [deleteJob, { isLoading: isDeleting }] = useDeleteJobPostMutation();
+    const isSeek = job.type !== "OFFICIAL";
+    const statusCfg = STATUS_CONFIG[job.status] ?? STATUS_CONFIG.PENDING;
+
+    const handleDelete = async () => {
+        try {
+            await deleteJob(job._id).unwrap();
+            toast.success("Job post deleted.");
+            setShowDelete(false);
+        } catch {
+            toast.error("Failed to delete job post. Please try again.");
+        }
+    };
 
     return (
         <div className="bg-white rounded-2xl border border-surface-200 overflow-hidden hover:border-primary2-200 transition-colors">
@@ -114,6 +130,13 @@ function JobRow({ job }: { job: JobPost }) {
                                 <Link href={`/jobs/${job._id}`} title="View post" className="p-1.5 text-muted-foreground hover:text-primary2-700 hover:bg-primary2-50 rounded-lg transition-colors">
                                     <RiExternalLinkLine />
                                 </Link>
+                                <button
+                                    onClick={() => setShowDelete(true)}
+                                    title="Delete post"
+                                    className="p-1.5 text-muted-foreground hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                >
+                                    <RiDeleteBin6Line />
+                                </button>
                             </div>
                         </div>
 
@@ -147,6 +170,15 @@ function JobRow({ job }: { job: JobPost }) {
                     <JobApplicantsPanel jobId={job._id} isOwner={true} />
                 </div>
             )}
+
+            <DeleteAlertModal
+                open={showDelete}
+                onClose={() => setShowDelete(false)}
+                onConfirm={handleDelete}
+                isDeleting={isDeleting}
+                title="Delete this job post?"
+                description="This will permanently delete the job post and all its applications. This cannot be undone."
+            />
         </div>
     );
 }

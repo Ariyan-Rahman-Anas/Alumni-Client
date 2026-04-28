@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import StoreProvider from "@/providers/StoreProvider";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "sonner";
 import { Sanchez, Splash } from "next/font/google";
@@ -61,7 +62,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(sanchez.variable, splash.variable,)}
+      className={cn(sanchez.variable, splash.variable)}
+      suppressHydrationWarning
     >
       <body
         className="
@@ -70,12 +72,14 @@ export default function RootLayout({
           max-w-full
           min-h-screen h-full
         ">
-        <StoreProvider>
-          <TooltipProvider>
-            <SmoothScroller>{children}</SmoothScroller>
-            <Toaster richColors position="top-right" />
-          </TooltipProvider>
-        </StoreProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <StoreProvider>
+            <TooltipProvider>
+              <SmoothScroller>{children}</SmoothScroller>
+              <Toaster richColors position="top-right" />
+            </TooltipProvider>
+          </StoreProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

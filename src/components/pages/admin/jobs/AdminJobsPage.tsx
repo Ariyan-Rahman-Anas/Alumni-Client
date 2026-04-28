@@ -50,16 +50,16 @@ import {
 
 /* â”€â”€ Config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const TYPE_ICONS: Record<JobPostType, React.ReactNode> = {
-    official: <RiBriefcaseLine />,
-    tuition_seek: <RiBookOpenLine />,
-    personal_seek: <RiToolsLine />,
+    OFFICIAL: <RiBriefcaseLine />,
+    TUITION: <RiBookOpenLine />,
+    PERSONAL: <RiToolsLine />,
 };
 
 const STATUS_BADGE: Record<string, string> = {
-    pending: "bg-amber-50 text-amber-700 border border-amber-200",
-    approved: "bg-emerald-50 text-emerald-700 border border-emerald-200",
-    rejected: "bg-red-50 text-red-700 border border-red-200",
-    closed: "bg-surface-100 text-neutral-600 border border-surface-300",
+    PENDING: "bg-amber-50 text-amber-700 border border-amber-200",
+    APPROVED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+    REJECTED: "bg-red-50 text-red-700 border border-red-200",
+    CLOSED: "bg-surface-100 text-neutral-600 border border-surface-300",
 };
 
 type TabKey = "posts" | "providers";
@@ -71,10 +71,10 @@ const TABS: { key: TabKey; label: string }[] = [
 type StatusFilterType = "all" | JobPostStatus;
 const STATUS_FILTERS: { label: string; value: StatusFilterType }[] = [
     { label: "All", value: "all" },
-    { label: "Pending", value: "pending" },
-    { label: "Approved", value: "approved" },
-    { label: "Rejected", value: "rejected" },
-    { label: "Closed", value: "closed" },
+    { label: "Pending", value: "PENDING" },
+    { label: "Approved", value: "APPROVED" },
+    { label: "Rejected", value: "REJECTED" },
+    { label: "Closed", value: "CLOSED" },
 ];
 
 /* â”€â”€ Avatar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -97,10 +97,10 @@ function JobStatusDialog({
     job, open, onClose, onSubmit, isLoading,
 }: {
     job: JobPost | null; open: boolean; onClose: () => void;
-    onSubmit: (status: "approved" | "rejected" | "closed", adminNote?: string, rejectedReason?: string) => void;
+    onSubmit: (status: "APPROVED" | "REJECTED" | "CLOSED", adminNote: string, rejectedReason?: string) => void;
     isLoading: boolean;
 }) {
-    const [status, setStatus] = useState<"approved" | "rejected" | "closed">("approved");
+    const [status, setStatus] = useState<"APPROVED" | "REJECTED" | "CLOSED">("APPROVED");
     const [adminNote, setAdminNote] = useState("");
     const [rejectedReason, setRejectedReason] = useState("");
     if (!job) return null;
@@ -112,17 +112,25 @@ function JobStatusDialog({
                     <DialogDescription className="line-clamp-1">{job.title}</DialogDescription>
                 </DialogHeader>
                 <div className="flex gap-2 my-2">
-                    {(["approved", "rejected", "closed"] as const).map((s) => (
+                    {(["APPROVED", "REJECTED", "CLOSED"] as const).map((s) => (
                         <button key={s} onClick={() => setStatus(s)} className={`flex-1 py-2 rounded-xl text-sm font-medium capitalize transition-colors ${status === s ? "bg-primary2-700 text-white" : "bg-surface-100 text-neutral-600 hover:bg-surface-200"}`}>{s}</button>
                     ))}
                 </div>
                 <div className="space-y-3">
-                    <textarea value={adminNote} onChange={(e) => setAdminNote(e.target.value)} placeholder="Admin note (optional â€” added to notes history)..." rows={2} className="w-full px-4 py-2.5 rounded-xl border border-surface-200 bg-surface-50 text-sm focus:outline-none focus:ring-2 focus:ring-primary2-300 resize-none" />
-                    {status === "rejected" && <textarea value={rejectedReason} onChange={(e) => setRejectedReason(e.target.value)} placeholder="Rejection reason (shown to poster)..." rows={2} className="w-full px-4 py-2.5 rounded-xl border border-surface-200 bg-surface-50 text-sm focus:outline-none focus:ring-2 focus:ring-primary2-300 resize-none" />}
+                    <div>
+                        <textarea value={adminNote} onChange={(e) => setAdminNote(e.target.value)} placeholder="Admin note (required)..." rows={2} className="w-full px-4 py-2.5 rounded-xl border border-surface-200 bg-surface-50 text-sm focus:outline-none focus:ring-2 focus:ring-primary2-300 resize-none" />
+                        {!adminNote.trim() && <p className="text-xs text-red-500 mt-1">Note is required</p>}
+                    </div>
+                    {status === "REJECTED" && (
+                        <div>
+                            <textarea value={rejectedReason} onChange={(e) => setRejectedReason(e.target.value)} placeholder="Rejection reason (shown to poster)..." rows={2} className="w-full px-4 py-2.5 rounded-xl border border-surface-200 bg-surface-50 text-sm focus:outline-none focus:ring-2 focus:ring-primary2-300 resize-none" />
+                            {!rejectedReason.trim() && <p className="text-xs text-red-500 mt-1">Rejection reason is required</p>}
+                        </div>
+                    )}
                 </div>
                 <DialogFooter className="gap-2 sm:gap-2">
                     <button onClick={onClose} className="flex-1 py-2.5 border border-surface-200 rounded-xl text-sm text-neutral-700 hover:border-surface-300 transition-colors">Cancel</button>
-                    <button onClick={() => onSubmit(status, adminNote || undefined, rejectedReason || undefined)} disabled={isLoading} className="flex-1 py-2.5 bg-primary2-700 text-white font-semibold rounded-xl hover:bg-primary2-800 disabled:opacity-50 transition-colors text-sm">{isLoading ? "Savingâ€¦" : "Confirm"}</button>
+                    <button onClick={() => { const r = rejectedReason.trim() || undefined; onSubmit(status, adminNote.trim(), r); }} disabled={isLoading || !adminNote.trim() || (status === "REJECTED" && !rejectedReason.trim())} className="flex-1 py-2.5 bg-primary2-700 text-white font-semibold rounded-xl hover:bg-primary2-800 disabled:opacity-50 transition-colors text-sm">{isLoading ? "Saving..." : "Confirm"}</button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
@@ -134,10 +142,10 @@ function ProviderStatusDialog({
     provider, open, onClose, onSubmit, isLoading,
 }: {
     provider: ServiceProvider | null; open: boolean; onClose: () => void;
-    onSubmit: (status: "approved" | "rejected", adminNote?: string) => void;
+    onSubmit: (status: "APPROVED" | "REJECTED", adminNote: string) => void;
     isLoading: boolean;
 }) {
-    const [status, setStatus] = useState<"approved" | "rejected">("approved");
+    const [status, setStatus] = useState<"APPROVED" | "REJECTED">("APPROVED");
     const [adminNote, setAdminNote] = useState("");
     if (!provider) return null;
     return (
@@ -145,17 +153,20 @@ function ProviderStatusDialog({
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle>Update Provider Status</DialogTitle>
-                    <DialogDescription>{provider.user.name} Â· {provider.providerType}</DialogDescription>
+                    <DialogDescription>{provider.user.name} · {provider.providerType}</DialogDescription>
                 </DialogHeader>
                 <div className="flex gap-2 my-2">
-                    {(["approved", "rejected"] as const).map((s) => (
+                    {(["APPROVED", "REJECTED"] as const).map((s) => (
                         <button key={s} onClick={() => setStatus(s)} className={`flex-1 py-2 rounded-xl text-sm font-medium capitalize transition-colors ${status === s ? "bg-primary2-700 text-white" : "bg-surface-100 text-neutral-600 hover:bg-surface-200"}`}>{s}</button>
                     ))}
                 </div>
-                <textarea value={adminNote} onChange={(e) => setAdminNote(e.target.value)} placeholder="Admin note (optional)..." rows={2} className="w-full px-4 py-2.5 rounded-xl border border-surface-200 bg-surface-50 text-sm focus:outline-none focus:ring-2 focus:ring-primary2-300 resize-none" />
+                <div>
+                    <textarea value={adminNote} onChange={(e) => setAdminNote(e.target.value)} placeholder="Admin note (required)..." rows={2} className="w-full px-4 py-2.5 rounded-xl border border-surface-200 bg-surface-50 text-sm focus:outline-none focus:ring-2 focus:ring-primary2-300 resize-none" />
+                    {!adminNote.trim() && <p className="text-xs text-red-500 mt-1">Note is required</p>}
+                </div>
                 <DialogFooter className="gap-2 sm:gap-2">
                     <button onClick={onClose} className="flex-1 py-2.5 border border-surface-200 rounded-xl text-sm text-neutral-700 hover:border-surface-300 transition-colors">Cancel</button>
-                    <button onClick={() => onSubmit(status, adminNote || undefined)} disabled={isLoading} className="flex-1 py-2.5 bg-primary2-700 text-white font-semibold rounded-xl hover:bg-primary2-800 disabled:opacity-50 transition-colors text-sm">{isLoading ? "Savingâ€¦" : "Confirm"}</button>
+                    <button onClick={() => onSubmit(status, adminNote.trim())} disabled={isLoading || !adminNote.trim()} className="flex-1 py-2.5 bg-primary2-700 text-white font-semibold rounded-xl hover:bg-primary2-800 disabled:opacity-50 transition-colors text-sm">{isLoading ? "Saving…" : "Confirm"}</button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
@@ -166,10 +177,10 @@ function ProviderStatusDialog({
 function JobDetailSheet({ job, open, onClose, onUpdateStatus }: {
     job: JobPost | null; open: boolean; onClose: () => void; onUpdateStatus: () => void;
 }) {
-    const { data: appsData } = useGetJobApplicationsQuery(job?._id ?? "", { skip: !job || job.type === "official" });
+    const { data: appsData } = useGetJobApplicationsQuery(job?._id ?? "", { skip: !job || job.type === "OFFICIAL" });
     const apps = appsData?.data ?? [];
     if (!job) return null;
-    const isSeek = job.type !== "official";
+    const isSeek = job.type !== "OFFICIAL";
     return (
         <Sheet open={open} onOpenChange={(v) => { if (!v) onClose(); }}>
             <SheetContent side="right" className="w-full sm:max-w-2xl overflow-y-auto">
@@ -219,7 +230,7 @@ function JobDetailSheet({ job, open, onClose, onUpdateStatus }: {
                     <span className="flex items-center gap-1"><RiChat3Line /> {job.comments.length} comments</span>
                 </div>
 
-                {job.status === "rejected" && job.rejectedReason && (
+                {job.status === "REJECTED" && job.rejectedReason && (
                     <div className="mb-5 bg-red-50 rounded-xl border border-red-200 p-4">
                         <p className="text-xs font-semibold text-red-700 uppercase tracking-wide mb-1 flex items-center gap-1"><RiAlertLine /> Rejection Reason</p>
                         <p className="text-sm text-red-700">{job.rejectedReason}</p>
@@ -229,11 +240,19 @@ function JobDetailSheet({ job, open, onClose, onUpdateStatus }: {
                 {job.adminNotes?.length > 0 && (
                     <div className="mb-5 bg-blue-50 rounded-xl border border-blue-200 p-4">
                         <p className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-3 flex items-center gap-1"><RiStickyNoteLine /> Admin Notes History</p>
-                        <div className="space-y-2">
+                        <div className="space-y-3">
                             {job.adminNotes.map((n, i) => (
                                 <div key={i} className="bg-white rounded-lg p-3 border border-blue-100">
                                     <p className="text-sm text-blue-800">{n.note}</p>
-                                    <p className="text-xs text-blue-500 mt-1">{format(new Date(n.addedAt), "dd MMM yyyy, HH:mm")}</p>
+                                    <div className="flex items-center gap-2 mt-2">
+                                        {n.addedBy?.imageUrl ? (
+                                            <Image src={n.addedBy.imageUrl} alt={n.addedBy.name} width={18} height={18} className="rounded-full object-cover flex-shrink-0" />
+                                        ) : (
+                                            <span className="w-4.5 h-4.5 rounded-full bg-blue-200 text-blue-700 flex items-center justify-center text-xs font-bold flex-shrink-0">{n.addedBy?.name?.[0]}</span>
+                                        )}
+                                        <span className="text-xs text-blue-600 font-medium">{n.addedBy?.name}</span>
+                                        <span className="text-xs text-blue-400">&middot; {format(new Date(n.addedAt), "dd MMM yyyy, HH:mm")}</span>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -344,11 +363,19 @@ function ProviderDetailSheet({ provider, open, onClose, onUpdateStatus }: {
                 {provider.adminNotes?.length > 0 && (
                     <div className="mb-4 bg-blue-50 rounded-xl border border-blue-200 p-4">
                         <p className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-3 flex items-center gap-1"><RiStickyNoteLine /> Admin Notes</p>
-                        <div className="space-y-2">
+                        <div className="space-y-3">
                             {provider.adminNotes.map((n, i) => (
                                 <div key={i} className="bg-white rounded-lg p-3 border border-blue-100">
                                     <p className="text-sm text-blue-800">{n.note}</p>
-                                    <p className="text-xs text-blue-500 mt-1">{format(new Date(n.addedAt), "dd MMM yyyy, HH:mm")}</p>
+                                    <div className="flex items-center gap-2 mt-2">
+                                        {n.addedBy?.imageUrl ? (
+                                            <Image src={n.addedBy.imageUrl} alt={n.addedBy.name} width={18} height={18} className="rounded-full object-cover flex-shrink-0" />
+                                        ) : (
+                                            <span className="w-4.5 h-4.5 rounded-full bg-blue-200 text-blue-700 flex items-center justify-center text-xs font-bold flex-shrink-0">{n.addedBy?.name?.[0]}</span>
+                                        )}
+                                        <span className="text-xs text-blue-600 font-medium">{n.addedBy?.name}</span>
+                                        <span className="text-xs text-blue-400">&middot; {format(new Date(n.addedAt), "dd MMM yyyy, HH:mm")}</span>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -362,7 +389,7 @@ function ProviderDetailSheet({ provider, open, onClose, onUpdateStatus }: {
                         <div>
                             <p className="font-semibold text-primary2-900 text-sm">{provider.user.name}</p>
                             <p className="text-xs text-muted-foreground">{provider.user.email}</p>
-                            {provider.status === "approved" && <span className="inline-flex items-center gap-1 text-xs text-emerald-700 mt-1"><RiShieldCheckLine /> Verified Provider</span>}
+                            {provider.status === "APPROVED" && <span className="inline-flex items-center gap-1 text-xs text-emerald-700 mt-1"><RiShieldCheckLine /> Verified Provider</span>}
                         </div>
                     </div>
                 </div>
@@ -393,7 +420,7 @@ export default function AdminJobsPage() {
     const [updateJobStatus, { isLoading: statusUpdating }] = useAdminUpdateJobStatusMutation();
     const [updateProviderStatus, { isLoading: providerStatusUpdating }] = useAdminUpdateProviderStatusMutation();
 
-    const handleJobStatusSubmit = async (status: "approved" | "rejected" | "closed", adminNote?: string, rejectedReason?: string) => {
+    const handleJobStatusSubmit = async (status: "APPROVED" | "REJECTED" | "CLOSED", adminNote: string, rejectedReason?: string) => {
         if (!dialogJob) return;
         try {
             await updateJobStatus({ id: dialogJob._id, status, adminNote, rejectedReason }).unwrap();
@@ -403,7 +430,7 @@ export default function AdminJobsPage() {
         } catch { toast.error("Failed to update status"); }
     };
 
-    const handleProviderStatusSubmit = async (status: "approved" | "rejected", adminNote?: string) => {
+    const handleProviderStatusSubmit = async (status: "APPROVED" | "REJECTED", adminNote: string) => {
         if (!dialogProvider) return;
         try {
             await updateProviderStatus({ id: dialogProvider._id, status, adminNote }).unwrap();
