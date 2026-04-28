@@ -1,10 +1,11 @@
-"use client";
+﻿"use client";
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
-import { RiUser3Line, RiUserLine, RiLogoutBoxLine } from "react-icons/ri";
+import { useTheme } from "next-themes";
+import { RiUser3Line, RiUserLine, RiLogoutBoxLine, RiSunLine, RiMoonLine, RiComputerLine } from "react-icons/ri";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -21,11 +22,18 @@ import type { UserMenuProps } from "@/types/common.components.types";
 import { clearUser, selectCurrentUser } from "@/redux/slice/authSlice";
 import { MdDashboard } from "react-icons/md";
 
+const THEMES = [
+    { value: "light", label: "Light", icon: RiSunLine },
+    { value: "dark", label: "Dark", icon: RiMoonLine },
+    { value: "system", label: "System", icon: RiComputerLine },
+] as const;
+
 const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
     const user = useSelector(selectCurrentUser);
     const [logoutUser, { isLoading: isLoggingOut }] = useLogoutUserMutation();
+    const { theme, setTheme } = useTheme();
 
     const avatarSize = size === "sm" ? "size-8" : "size-9";
     const initials = user?.name
@@ -72,7 +80,7 @@ const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
                 </button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent align={align} sideOffset={8} className="w-52">
+            <DropdownMenuContent align={align} sideOffset={8} className="w-56">
                 {/* User info header */}
                 <DropdownMenuLabel className="px-3 py-2.5">
                     <p className="text-sm font-semibold text-accent-foreground truncate">{user?.name}</p>
@@ -100,6 +108,28 @@ const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
                     </>
                 )}
 
+                {/* Theme switcher */}
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel className="px-3 py-1 text-xs font-medium text-muted-foreground">
+                    Theme
+                </DropdownMenuLabel>
+                <div className="flex gap-1 px-2 pb-1.5">
+                    {THEMES.map(({ value, label, icon: Icon }) => (
+                        <button
+                            key={value}
+                            onClick={() => setTheme(value)}
+                            title={label}
+                            className={`flex-1 flex flex-col items-center gap-0.5 py-1.5 rounded-lg text-xs transition-colors ${theme === value
+                                    ? "bg-primary2-700 text-white"
+                                    : "bg-surface-100 text-muted-foreground hover:bg-primary2-50 hover:text-primary2-700"
+                                }`}
+                        >
+                            <Icon className="text-base" />
+                            <span className="text-[10px] leading-none">{label}</span>
+                        </button>
+                    ))}
+                </div>
+
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem
@@ -117,3 +147,4 @@ const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
 };
 
 export default UserMenu;
+

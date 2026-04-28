@@ -12,6 +12,8 @@ import ProfileChangePasswordPanel from "@/components/modules/user/profile/Profil
 import MyJobApplicationsPanel from "@/components/modules/user/profile/MyJobApplicationsPanel";
 import { selectCurrentUser } from "@/redux/slice/authSlice";
 import MyPostedJobsPanel from "@/components/modules/user/profile/MyPostedJobsPanel";
+import MyProviderContactsPanel from "@/components/modules/user/profile/MyProviderContactsPanel";
+import MyProviderProfilePanel from "@/components/modules/user/profile/MyProviderProfilePanel";
 
 const ProfileSkeleton = () => (
     <div className="flex flex-col gap-5 animate-pulse">
@@ -65,6 +67,14 @@ const ProfilePage = () => {
 
         if (activeSection === "my-posted-jobs") {
             return <MyPostedJobsPanel />;
+        }
+
+        if (activeSection === "my-provider-contacts") {
+            return <MyProviderContactsPanel />;
+        }
+
+        if (activeSection === "my-provider-profile") {
+            return <MyProviderProfilePanel />;
         }
 
         return (

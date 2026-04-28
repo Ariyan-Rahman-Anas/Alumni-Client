@@ -7,9 +7,9 @@ import { RiFileListLine, RiCheckboxCircleLine, RiCloseCircleLine, RiTimeLine, Ri
 import { useGetMyApplicationsQuery, type ApplicationStatus } from "@/redux/apis/jobApi";
 
 const STATUS_CONFIG: Record<ApplicationStatus, { label: string; className: string; icon: React.ReactNode }> = {
-    pending:  { label: "Pending",  className: "bg-amber-50 text-amber-700 border border-amber-200",   icon: <RiTimeLine /> },
-    selected: { label: "Selected", className: "bg-emerald-50 text-emerald-700 border border-emerald-200", icon: <RiCheckboxCircleLine /> },
-    rejected: { label: "Rejected", className: "bg-red-50 text-red-700 border border-red-200",         icon: <RiCloseCircleLine /> },
+    PENDING: { label: "Pending", className: "bg-amber-50 text-amber-700 border border-amber-200", icon: <RiTimeLine /> },
+    SELECTED: { label: "Selected", className: "bg-emerald-50 text-emerald-700 border border-emerald-200", icon: <RiCheckboxCircleLine /> },
+    REJECTED: { label: "Rejected", className: "bg-red-50 text-red-700 border border-red-200", icon: <RiCloseCircleLine /> },
 };
 
 function Avatar({ name, imageUrl, size = 36 }: { name: string; imageUrl?: string; size?: number }) {
@@ -58,14 +58,14 @@ export default function MyJobApplicationsPanel() {
             ) : (
                 <div className="space-y-4">
                     {applications.map((app) => {
-                        const statusCfg = STATUS_CONFIG[app.status] ?? STATUS_CONFIG.pending;
+                        const statusCfg = STATUS_CONFIG[app.status] ?? STATUS_CONFIG.PENDING;
                         const jobTitle = typeof app.job === "object" ? app.job.title : "Job Post";
                         const jobId = typeof app.job === "object" ? app.job._id : app.job as unknown as string;
 
                         return (
                             <div key={app._id} className="bg-white rounded-2xl border border-surface-200 p-5 hover:border-primary2-200 transition-colors">
                                 {/* Selected banner */}
-                                {app.status === "selected" && (
+                                {app.status === "SELECTED" && (
                                     <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-2 mb-4 flex items-center gap-2 text-emerald-700 text-sm font-medium">
                                         <RiCheckboxCircleLine className="text-lg" /> Congratulations! You were selected for this position.
                                     </div>

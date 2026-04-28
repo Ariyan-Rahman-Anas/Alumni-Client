@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Controller, FormProvider } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     RiBriefcaseLine,
@@ -12,20 +15,64 @@ import {
     RiCheckboxCircleLine,
     RiAddLine,
     RiCloseLine,
+    RiMapPin2Line,
 } from "react-icons/ri";
 import { useCreateJobPostMutation, type JobPostType, type CreateJobPostPayload } from "@/redux/apis/jobApi";
+import { useFormWithToast } from "@/hooks/useFormWithToast";
+import InputField from "@/components/shared/InputField";
+import TextAreaBox from "@/components/shared/TextAreaBox";
+import SingleSelect from "@/components/shared/SingleSelect";
+import DatePickerSingle from "@/components/shared/DatePickerSingle";
+import PrimaryButton from "@/components/shared/PrimaryButton";
+import {
+    PostJobFormValues,
+    POST_JOB_FIELD_ORDER,
+    postJobSchema,
+} from "./postJobSchema";
 
 const TYPE_OPTIONS: { value: JobPostType; label: string; description: string; icon: React.ReactNode }[] = [
-    { value: "official", label: "Official Job", description: "Post a job opening for your company or organization.", icon: <RiBriefcaseLine className="text-2xl" /> },
-    { value: "tuition_seek", label: "Tuition Seek", description: "Find a tutor for your child or yourself.", icon: <RiBookOpenLine className="text-2xl" /> },
-    { value: "personal_seek", label: "Service Seek", description: "Hire an electrician, plumber, cook, or other professional.", icon: <RiToolsLine className="text-2xl" /> },
+    { value: "OFFICIAL", label: "Official Job", description: "Post a job opening for your company or organization.", icon: <RiBriefcaseLine className="text-2xl" /> },
+    { value: "TUITION", label: "Tuition Seek", description: "Find a tutor for your child or yourself.", icon: <RiBookOpenLine className="text-2xl" /> },
+    { value: "PERSONAL", label: "Service Seek", description: "Hire an electrician, plumber, cook, or other professional.", icon: <RiToolsLine className="text-2xl" /> },
 ];
 
 const SUBJECTS_LIST = ["Mathematics", "Physics", "Chemistry", "Biology", "English", "Bangla", "ICT", "Accounting", "Economics", "History"];
-const SERVICE_CATEGORIES = ["electrician", "plumber", "cook", "driver", "cleaner", "carpenter", "painter", "gardener", "security", "other"];
-const JOB_TYPES = ["full-time", "part-time", "remote", "contract", "internship"];
-const EXPERIENCE_LEVELS = ["entry", "mid", "senior", "executive"];
 const DAYS = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+
+const JOB_TYPE_OPTIONS = [
+    { label: "Full Time", value: "FULL_TIME" },
+    { label: "Part Time", value: "PART_TIME" },
+    { label: "Remote", value: "REMOTE" },
+    { label: "Contract", value: "CONTRACT" },
+    { label: "Intern", value: "INTERN" },
+];
+const EXPERIENCE_LEVEL_OPTIONS = [
+    { label: "Entry", value: "ENTRY" },
+    { label: "Mid", value: "MID" },
+    { label: "Senior", value: "SENIOR" },
+    { label: "Executive", value: "EXECUTIVE" },
+];
+const SERVICE_CATEGORY_OPTIONS = [
+    { label: "Electrician", value: "ELECTRICIAN" },
+    { label: "Plumber", value: "PLUMBER" },
+    { label: "Cook", value: "COOK" },
+    { label: "Driver", value: "DRIVER" },
+    { label: "Cleaner", value: "CLEANER" },
+    { label: "Carpenter", value: "CARPENTER" },
+    { label: "Painter", value: "PAINTER" },
+    { label: "Gardener", value: "GARDENER" },
+    { label: "Security", value: "SECURITY" },
+];
+const GENDER_OPTIONS = [
+    { label: "Any", value: "" },
+    { label: "Male", value: "MALE" },
+    { label: "Female", value: "FEMALE" },
+];
+const PAYMENT_PER_OPTIONS = [
+    { label: "Month", value: "MONTH" },
+    { label: "Hour", value: "HOUR" },
+    { label: "Session", value: "SESSION" },
+];
 
 function TagInput({ tags, onAdd, onRemove, placeholder, suggestions }: {
     tags: string[];
@@ -45,7 +92,7 @@ function TagInput({ tags, onAdd, onRemove, placeholder, suggestions }: {
                 {tags.map((t) => (
                     <span key={t} className="inline-flex items-center gap-1 bg-primary2-50 text-primary2-700 border border-primary2-200 text-sm px-3 py-1 rounded-full">
                         {t}
-                        <button onClick={() => onRemove(t)} className="hover:text-red-500 ml-0.5"><RiCloseLine /></button>
+                        <button type="button" onClick={() => onRemove(t)} className="hover:text-red-500 ml-0.5"><RiCloseLine /></button>
                     </span>
                 ))}
             </div>
@@ -74,120 +121,130 @@ function TagInput({ tags, onAdd, onRemove, placeholder, suggestions }: {
     );
 }
 
-function FormField({ label, required, children, hint }: { label: string; required?: boolean; children: React.ReactNode; hint?: string }) {
-    return (
-        <div>
-            <label className="block text-sm font-medium text-primary2-900 mb-1.5">
-                {label} {required && <span className="text-red-500">*</span>}
-            </label>
-            {children}
-            {hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>}
-        </div>
-    );
-}
-
-const inputCls = "w-full px-4 py-2.5 rounded-xl border border-surface-200 bg-surface-50 text-sm text-primary2-900 focus:outline-none focus:ring-2 focus:ring-primary2-300 focus:border-primary2-300 placeholder:text-muted-foreground";
-const selectCls = `${inputCls}`;
-
 export default function PostJobPage() {
     const router = useRouter();
-    const [step, setStep] = useState(0); // 0=type select, 1=details
+    const [step, setStep] = useState(0);
     const [selectedType, setSelectedType] = useState<JobPostType | null>(null);
     const [createJob, { isLoading }] = useCreateJobPostMutation();
 
-    // Common
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-
-    // Official
-    const [company, setCompany] = useState("");
-    const [jobTitle, setJobTitle] = useState("");
-    const [jobType, setJobType] = useState("");
-    const [salaryMin, setSalaryMin] = useState("");
-    const [salaryMax, setSalaryMax] = useState("");
-    const [salaryNegotiable, setSalaryNegotiable] = useState(false);
+    // Array / checkbox state (not managed by react-hook-form)
     const [requirements, setRequirements] = useState<string[]>([]);
-    const [experienceLevel, setExperienceLevel] = useState("");
-    const [applicationDeadline, setApplicationDeadline] = useState("");
-    const [applicationInstruction, setApplicationInstruction] = useState("");
-    const [location, setLocation] = useState("");
-    const [isRemote, setIsRemote] = useState(false);
-
-    // Tuition
-    const [studentClass, setStudentClass] = useState("");
-    const [studentGender, setStudentGender] = useState("");
-    const [requiredTutorGender, setRequiredTutorGender] = useState("");
     const [subjects, setSubjects] = useState<string[]>([]);
-    const [timing, setTiming] = useState("");
-    const [sessionDuration, setSessionDuration] = useState("");
     const [weeklyDays, setWeeklyDays] = useState<string[]>([]);
-    const [seekLocation, setSeekLocation] = useState("");
-    const [paymentAmount, setPaymentAmount] = useState("");
-    const [paymentPer, setPaymentPer] = useState("");
+    const [salaryNegotiable, setSalaryNegotiable] = useState(false);
+    const [isRemote, setIsRemote] = useState(false);
     const [paymentNegotiable, setPaymentNegotiable] = useState(false);
-    const [startDate, setStartDate] = useState("");
 
-    // Personal
-    const [serviceCategory, setServiceCategory] = useState("");
+    const methods = useFormWithToast<PostJobFormValues>(
+        {
+            resolver: zodResolver(postJobSchema),
+            defaultValues: {
+                title: "",
+                description: "",
+                company: "",
+                jobTitle: "",
+                jobType: "",
+                salaryMin: "",
+                salaryMax: "",
+                experienceLevel: "",
+                applicationDeadline: "",
+                applicationInstruction: "",
+                location: "",
+                studentClass: "",
+                studentGender: "",
+                requiredTutorGender: "",
+                timing: "",
+                sessionDuration: "",
+                seekLocation: "",
+                paymentAmount: "",
+                paymentPer: "",
+                serviceCategory: "",
+                startDate: "",
+            },
+        },
+        { fieldOrder: POST_JOB_FIELD_ORDER }
+    );
 
-    const handleSubmit = async () => {
-        if (!selectedType || !title.trim() || !description.trim()) return;
+    const {
+        register,
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = methods;
 
-        const base: Record<string, unknown> = { type: selectedType, title: title.trim(), description: description.trim() };
+    const onSubmit = async (data: PostJobFormValues) => {
+        if (!selectedType) return;
 
-        if (selectedType === "official") {
+        if (selectedType === "TUITION" && !data.studentClass?.trim()) {
+            toast.error("Student class is required for tuition posts.");
+            return;
+        }
+        if (selectedType === "PERSONAL" && !data.serviceCategory) {
+            toast.error("Service category is required.");
+            return;
+        }
+
+        const base: Record<string, unknown> = {
+            type: selectedType,
+            title: data.title,
+            description: data.description,
+        };
+
+        if (selectedType === "OFFICIAL") {
             Object.assign(base, {
-                company: company || undefined,
-                jobTitle: jobTitle || undefined,
-                jobType: jobType || undefined,
-                salaryMin: salaryMin ? Number(salaryMin) : undefined,
-                salaryMax: salaryMax ? Number(salaryMax) : undefined,
+                company: data.company || undefined,
+                jobTitle: data.jobTitle || undefined,
+                jobType: data.jobType || undefined,
+                salaryMin: data.salaryMin ? Number(data.salaryMin) : undefined,
+                salaryMax: data.salaryMax ? Number(data.salaryMax) : undefined,
                 salaryNegotiable,
                 requirements: requirements.length ? requirements : undefined,
-                experienceLevel: experienceLevel || undefined,
-                applicationDeadline: applicationDeadline || undefined,
-                applicationInstruction: applicationInstruction || undefined,
-                location: location || undefined,
+                experienceLevel: data.experienceLevel || undefined,
+                applicationDeadline: data.applicationDeadline || undefined,
+                applicationInstruction: data.applicationInstruction || undefined,
+                location: data.location || undefined,
                 isRemote,
             });
-        } else if (selectedType === "tuition_seek") {
+        } else if (selectedType === "TUITION") {
             Object.assign(base, {
-                studentClass: studentClass || undefined,
-                studentGender: studentGender || undefined,
-                requiredTutorGender: requiredTutorGender || undefined,
+                studentClass: data.studentClass || undefined,
+                employerGender: data.studentGender || undefined,
+                employeeGender: data.requiredTutorGender || undefined,
                 subjects: subjects.length ? subjects : undefined,
-                timing: timing || undefined,
-                sessionDuration: sessionDuration || undefined,
+                timing: data.timing || undefined,
+                sessionDuration: data.sessionDuration || undefined,
                 weeklyDays: weeklyDays.length ? weeklyDays : undefined,
-                seekLocation: seekLocation || undefined,
-                paymentAmount: paymentAmount ? Number(paymentAmount) : undefined,
-                paymentPer: paymentPer || undefined,
+                seekLocation: data.seekLocation || undefined,
+                paymentAmount: data.paymentAmount ? Number(data.paymentAmount) : undefined,
+                paymentPer: data.paymentPer || undefined,
                 paymentNegotiable,
-                startDate: startDate || undefined,
+                startDate: data.startDate || undefined,
             });
         } else {
             Object.assign(base, {
-                serviceCategory: serviceCategory || undefined,
-                seekLocation: seekLocation || undefined,
-                paymentAmount: paymentAmount ? Number(paymentAmount) : undefined,
-                paymentPer: paymentPer || undefined,
+                serviceCategory: data.serviceCategory || undefined,
+                seekLocation: data.seekLocation || undefined,
+                paymentAmount: data.paymentAmount ? Number(data.paymentAmount) : undefined,
+                paymentPer: data.paymentPer || undefined,
                 paymentNegotiable,
-                startDate: startDate || undefined,
+                startDate: data.startDate || undefined,
             });
         }
 
         try {
             await createJob(base as CreateJobPostPayload).unwrap();
             router.push("/jobs?posted=1");
-        } catch {
-            // Error handled by RTK
+        } catch (err: unknown) {
+            const message =
+                (err as { data?: { message?: string } })?.data?.message ?? "Submission failed. Please try again.";
+            toast.error(message);
         }
     };
 
     return (
         <div className="three-xl-section-setup pb-24 pt-10 max-w-2xl">
             <div className="mb-8">
-                <button onClick={() => router.push("/jobs")} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary2-700 mb-4 transition-colors">
+                <button type="button" onClick={() => router.push("/jobs")} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary2-700 mb-4 transition-colors">
                     <RiArrowLeftLine /> Back to Jobs
                 </button>
                 <h1 className="text-3xl font-extrabold text-primary2-900">Post a Job</h1>
@@ -214,6 +271,7 @@ export default function PostJobPage() {
                             {TYPE_OPTIONS.map((opt) => (
                                 <button
                                     key={opt.value}
+                                    type="button"
                                     onClick={() => { setSelectedType(opt.value); setStep(1); }}
                                     className={`w-full flex items-center gap-5 p-6 rounded-2xl border-2 transition-all text-left ${selectedType === opt.value ? "border-primary2-600 bg-primary2-50" : "border-surface-200 bg-white hover:border-primary2-300"}`}
                                 >
@@ -231,149 +289,186 @@ export default function PostJobPage() {
                     </motion.div>
                 ) : (
                     <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                        <div className="bg-white rounded-2xl border border-surface-200 p-6 space-y-6">
-                            {/* Common */}
-                            <FormField label="Title" required>
-                                <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Full Stack Developer at TechCorp" className={inputCls} />
-                            </FormField>
-                            <FormField label="Description" required>
-                                <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe the position, requirements, or what you're looking for..." rows={4} className={`${inputCls} resize-none`} />
-                            </FormField>
+                        <FormProvider {...methods}>
+                            <form onSubmit={handleSubmit(onSubmit)} noValidate className="bg-white rounded-2xl border border-surface-200 p-6 space-y-6">
+                                {/* Common */}
+                                <InputField
+                                    {...register("title")}
+                                    id="job-title"
+                                    label="Title"
+                                    placeholder="e.g. Full Stack Developer at TechCorp"
+                                    error={errors.title?.message}
+                                    required
+                                />
+                                <TextAreaBox
+                                    {...register("description")}
+                                    id="job-description"
+                                    label="Description"
+                                    placeholder="Describe the position, requirements, or what you're looking for..."
+                                    rows={4}
+                                    error={errors.description?.message}
+                                    required
+                                />
 
-                            {/* Official */}
-                            {selectedType === "official" && (
-                                <>
-                                    <FormField label="Company Name"><input value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Your Company Ltd." className={inputCls} /></FormField>
-                                    <FormField label="Job Title"><input value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} placeholder="e.g. Senior Software Engineer" className={inputCls} /></FormField>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <FormField label="Job Type">
-                                            <select value={jobType} onChange={(e) => setJobType(e.target.value)} className={selectCls}>
-                                                <option value="">Select type</option>
-                                                {JOB_TYPES.map((t) => <option key={t} value={t} className="capitalize">{t}</option>)}
-                                            </select>
-                                        </FormField>
-                                        <FormField label="Experience Level">
-                                            <select value={experienceLevel} onChange={(e) => setExperienceLevel(e.target.value)} className={selectCls}>
-                                                <option value="">Select level</option>
-                                                {EXPERIENCE_LEVELS.map((l) => <option key={l} value={l} className="capitalize">{l}</option>)}
-                                            </select>
-                                        </FormField>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <FormField label="Min Salary (BDT)"><input value={salaryMin} onChange={(e) => setSalaryMin(e.target.value)} type="number" placeholder="e.g. 30000" className={inputCls} /></FormField>
-                                        <FormField label="Max Salary (BDT)"><input value={salaryMax} onChange={(e) => setSalaryMax(e.target.value)} type="number" placeholder="e.g. 60000" className={inputCls} /></FormField>
-                                    </div>
-                                    <div className="flex items-center gap-6">
-                                        <label className="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" checked={salaryNegotiable} onChange={(e) => setSalaryNegotiable(e.target.checked)} className="rounded" /> Salary Negotiable</label>
-                                        <label className="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" checked={isRemote} onChange={(e) => setIsRemote(e.target.checked)} className="rounded" /> Remote Friendly</label>
-                                    </div>
-                                    <FormField label="Location"><input value={location} onChange={(e) => setLocation(e.target.value)} placeholder="e.g. Dhaka, Bangladesh" className={inputCls} /></FormField>
-                                    <FormField label="Application Deadline"><input value={applicationDeadline} onChange={(e) => setApplicationDeadline(e.target.value)} type="date" className={inputCls} /></FormField>
-                                    <FormField label="Application Instructions" hint="How should candidates apply? (link, email, or description)">
-                                        <textarea value={applicationInstruction} onChange={(e) => setApplicationInstruction(e.target.value)} placeholder="Apply via our portal at careers.company.com or email your CV to hr@company.com" rows={3} className={`${inputCls} resize-none`} />
-                                    </FormField>
-                                    <FormField label="Requirements">
-                                        <TagInput tags={requirements} onAdd={(v) => setRequirements([...requirements, v])} onRemove={(v) => setRequirements(requirements.filter((r) => r !== v))} placeholder="Add requirement and press Enter" />
-                                    </FormField>
-                                </>
-                            )}
-
-                            {/* Tuition */}
-                            {selectedType === "tuition_seek" && (
-                                <>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <FormField label="Student Class" required><input value={studentClass} onChange={(e) => setStudentClass(e.target.value)} placeholder="e.g. Class 10 / SSC" className={inputCls} /></FormField>
-                                        <FormField label="Student Gender">
-                                            <select value={studentGender} onChange={(e) => setStudentGender(e.target.value)} className={selectCls}>
-                                                <option value="">Any</option>
-                                                <option value="male">Male</option>
-                                                <option value="female">Female</option>
-                                            </select>
-                                        </FormField>
-                                    </div>
-                                    <FormField label="Required Tutor Gender">
-                                        <select value={requiredTutorGender} onChange={(e) => setRequiredTutorGender(e.target.value)} className={selectCls}>
-                                            <option value="">Any</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                        </select>
-                                    </FormField>
-                                    <FormField label="Subjects" required>
-                                        <TagInput tags={subjects} onAdd={(v) => setSubjects([...subjects, v])} onRemove={(v) => setSubjects(subjects.filter((s) => s !== v))} placeholder="Add subject" suggestions={SUBJECTS_LIST} />
-                                    </FormField>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <FormField label="Preferred Timing"><input value={timing} onChange={(e) => setTiming(e.target.value)} placeholder="e.g. 5 PM – 7 PM" className={inputCls} /></FormField>
-                                        <FormField label="Session Duration"><input value={sessionDuration} onChange={(e) => setSessionDuration(e.target.value)} placeholder="e.g. 2 hours" className={inputCls} /></FormField>
-                                    </div>
-                                    <FormField label="Preferred Days">
-                                        <div className="flex flex-wrap gap-2 mt-1">
-                                            {DAYS.map((d) => (
-                                                <button key={d} type="button" onClick={() => setWeeklyDays(weeklyDays.includes(d) ? weeklyDays.filter((x) => x !== d) : [...weeklyDays, d])}
-                                                    className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${weeklyDays.includes(d) ? "border-primary2-600 bg-primary2-50 text-primary2-700" : "border-surface-200 text-muted-foreground hover:border-primary2-300"}`}
-                                                >{d}</button>
-                                            ))}
+                                {/* Official */}
+                                {selectedType === "OFFICIAL" && (
+                                    <>
+                                        <InputField {...register("company")} id="job-company" label="Company Name" placeholder="Your Company Ltd." />
+                                        <InputField {...register("jobTitle")} id="job-job-title" label="Job Title" placeholder="e.g. Senior Software Engineer" />
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <Controller
+                                                name="jobType"
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <SingleSelect id="job-type" label="Job Type" value={field.value ?? ""} onValueChange={field.onChange} options={JOB_TYPE_OPTIONS} placeholder="Select type" searchable={false} />
+                                                )}
+                                            />
+                                            <Controller
+                                                name="experienceLevel"
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <SingleSelect id="job-exp-level" label="Experience Level" value={field.value ?? ""} onValueChange={field.onChange} options={EXPERIENCE_LEVEL_OPTIONS} placeholder="Select level" searchable={false} />
+                                                )}
+                                            />
                                         </div>
-                                    </FormField>
-                                    <FormField label="Location"><input value={seekLocation} onChange={(e) => setSeekLocation(e.target.value)} placeholder="Area / District" className={inputCls} /></FormField>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <FormField label="Payment Amount (BDT)"><input value={paymentAmount} onChange={(e) => setPaymentAmount(e.target.value)} type="number" placeholder="e.g. 5000" className={inputCls} /></FormField>
-                                        <FormField label="Per">
-                                            <select value={paymentPer} onChange={(e) => setPaymentPer(e.target.value)} className={selectCls}>
-                                                <option value="">Select</option>
-                                                <option value="month">Month</option>
-                                                <option value="hour">Hour</option>
-                                                <option value="session">Session</option>
-                                            </select>
-                                        </FormField>
-                                    </div>
-                                    <div className="flex items-center gap-6">
-                                        <label className="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" checked={paymentNegotiable} onChange={(e) => setPaymentNegotiable(e.target.checked)} className="rounded" /> Negotiable</label>
-                                    </div>
-                                    <FormField label="Start Date"><input value={startDate} onChange={(e) => setStartDate(e.target.value)} type="date" className={inputCls} /></FormField>
-                                </>
-                            )}
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <InputField {...register("salaryMin")} id="job-salary-min" label="Min Salary (BDT)" type="number" placeholder="e.g. 30000" />
+                                            <InputField {...register("salaryMax")} id="job-salary-max" label="Max Salary (BDT)" type="number" placeholder="e.g. 60000" />
+                                        </div>
+                                        <div className="flex items-center gap-6">
+                                            <label className="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" checked={salaryNegotiable} onChange={(e) => setSalaryNegotiable(e.target.checked)} className="rounded" /> Salary Negotiable</label>
+                                            <label className="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" checked={isRemote} onChange={(e) => setIsRemote(e.target.checked)} className="rounded" /> Remote Friendly</label>
+                                        </div>
+                                        <InputField {...register("location")} id="job-location" label="Location" placeholder="e.g. Dhaka, Bangladesh" icon={<RiMapPin2Line />} />
+                                        <Controller
+                                            name="applicationDeadline"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <DatePickerSingle id="job-deadline" label="Application Deadline" value={field.value} onChange={field.onChange} />
+                                            )}
+                                        />
+                                        <TextAreaBox
+                                            {...register("applicationInstruction")}
+                                            id="job-app-instruction"
+                                            label="Application Instructions"
+                                            placeholder="Apply via our portal at careers.company.com or email your CV to hr@company.com"
+                                            rows={3}
+                                            helperText="How should candidates apply? (link, email, or description)"
+                                        />
+                                        <div>
+                                            <label className="block text-xs mb-1.5">Requirements</label>
+                                            <TagInput tags={requirements} onAdd={(v) => setRequirements([...requirements, v])} onRemove={(v) => setRequirements(requirements.filter((r) => r !== v))} placeholder="Add requirement and press Enter" />
+                                        </div>
+                                    </>
+                                )}
 
-                            {/* Personal */}
-                            {selectedType === "personal_seek" && (
-                                <>
-                                    <FormField label="Service Category" required>
-                                        <select value={serviceCategory} onChange={(e) => setServiceCategory(e.target.value)} className={selectCls}>
-                                            <option value="">Select category</option>
-                                            {SERVICE_CATEGORIES.map((c) => <option key={c} value={c} className="capitalize">{c}</option>)}
-                                        </select>
-                                    </FormField>
-                                    <FormField label="Location"><input value={seekLocation} onChange={(e) => setSeekLocation(e.target.value)} placeholder="Area / District" className={inputCls} /></FormField>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <FormField label="Payment Amount (BDT)"><input value={paymentAmount} onChange={(e) => setPaymentAmount(e.target.value)} type="number" placeholder="e.g. 2000" className={inputCls} /></FormField>
-                                        <FormField label="Per">
-                                            <select value={paymentPer} onChange={(e) => setPaymentPer(e.target.value)} className={selectCls}>
-                                                <option value="">Select</option>
-                                                <option value="session">Session</option>
-                                                <option value="hour">Hour</option>
-                                                <option value="month">Month</option>
-                                            </select>
-                                        </FormField>
-                                    </div>
-                                    <div className="flex items-center gap-6">
+                                {/* Tuition */}
+                                {selectedType === "TUITION" && (
+                                    <>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <InputField {...register("studentClass")} id="job-student-class" label="Student Class" placeholder="e.g. Class 10 / SSC" error={errors.studentClass?.message} required />
+                                            <Controller
+                                                name="studentGender"
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <SingleSelect id="job-student-gender" label="Student Gender" value={field.value ?? ""} onValueChange={field.onChange} options={GENDER_OPTIONS} searchable={false} />
+                                                )}
+                                            />
+                                        </div>
+                                        <Controller
+                                            name="requiredTutorGender"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <SingleSelect id="job-tutor-gender" label="Required Tutor Gender" value={field.value ?? ""} onValueChange={field.onChange} options={GENDER_OPTIONS} searchable={false} />
+                                            )}
+                                        />
+                                        <div>
+                                            <label className="block text-xs mb-1.5">Subjects <span className="ml-1 text-danger">*</span></label>
+                                            <TagInput tags={subjects} onAdd={(v) => setSubjects([...subjects, v])} onRemove={(v) => setSubjects(subjects.filter((s) => s !== v))} placeholder="Add subject" suggestions={SUBJECTS_LIST} />
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <InputField {...register("timing")} id="job-timing" label="Preferred Timing" placeholder="e.g. 5 PM – 7 PM" />
+                                            <InputField {...register("sessionDuration")} id="job-session-dur" label="Session Duration" placeholder="e.g. 2 hours" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs mb-1.5">Preferred Days</label>
+                                            <div className="flex flex-wrap gap-2 mt-1">
+                                                {DAYS.map((d) => (
+                                                    <button key={d} type="button" onClick={() => setWeeklyDays(weeklyDays.includes(d) ? weeklyDays.filter((x) => x !== d) : [...weeklyDays, d])}
+                                                        className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${weeklyDays.includes(d) ? "border-primary2-600 bg-primary2-50 text-primary2-700" : "border-surface-200 text-muted-foreground hover:border-primary2-300"}`}
+                                                    >{d}</button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <InputField {...register("seekLocation")} id="job-seek-location" label="Location" placeholder="Area / District" icon={<RiMapPin2Line />} />
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <InputField {...register("paymentAmount")} id="job-payment-amount" label="Payment Amount (BDT)" type="number" placeholder="e.g. 5000" />
+                                            <Controller
+                                                name="paymentPer"
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <SingleSelect id="job-payment-per" label="Per" value={field.value ?? ""} onValueChange={field.onChange} options={PAYMENT_PER_OPTIONS} placeholder="Select" searchable={false} />
+                                                )}
+                                            />
+                                        </div>
                                         <label className="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" checked={paymentNegotiable} onChange={(e) => setPaymentNegotiable(e.target.checked)} className="rounded" /> Negotiable</label>
-                                    </div>
-                                    <FormField label="Start Date"><input value={startDate} onChange={(e) => setStartDate(e.target.value)} type="date" className={inputCls} /></FormField>
-                                </>
-                            )}
+                                        <Controller
+                                            name="startDate"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <DatePickerSingle id="job-start-date" label="Start Date" value={field.value} onChange={field.onChange} />
+                                            )}
+                                        />
+                                    </>
+                                )}
 
-                            <div className="flex gap-3 pt-2">
-                                <button onClick={() => setStep(0)} className="px-5 py-2.5 border border-surface-200 rounded-xl text-sm hover:border-surface-300 text-neutral-700 transition-colors">
-                                    Back
-                                </button>
-                                <button
-                                    onClick={handleSubmit}
-                                    disabled={isLoading || !title.trim() || !description.trim()}
-                                    className="flex-1 px-6 py-2.5 bg-primary2-700 text-white font-bold rounded-xl hover:bg-primary2-800 disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
-                                >
-                                    {isLoading ? "Submitting…" : <><RiCheckboxCircleLine /> Submit for Review</>}
-                                </button>
-                            </div>
-                        </div>
+                                {/* Personal */}
+                                {selectedType === "PERSONAL" && (
+                                    <>
+                                        <Controller
+                                            name="serviceCategory"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <SingleSelect id="job-service-cat" label="Service Category" value={field.value ?? ""} onValueChange={field.onChange} options={SERVICE_CATEGORY_OPTIONS} placeholder="Select category" searchable={false} error={errors.serviceCategory?.message} required />
+                                            )}
+                                        />
+                                        <InputField {...register("seekLocation")} id="job-personal-location" label="Location" placeholder="Area / District" icon={<RiMapPin2Line />} />
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <InputField {...register("paymentAmount")} id="job-personal-payment" label="Payment Amount (BDT)" type="number" placeholder="e.g. 2000" />
+                                            <Controller
+                                                name="paymentPer"
+                                                control={control}
+                                                render={({ field }) => (
+                                                    <SingleSelect id="job-personal-per" label="Per" value={field.value ?? ""} onValueChange={field.onChange} options={PAYMENT_PER_OPTIONS} placeholder="Select" searchable={false} />
+                                                )}
+                                            />
+                                        </div>
+                                        <label className="flex items-center gap-2 text-sm cursor-pointer"><input type="checkbox" checked={paymentNegotiable} onChange={(e) => setPaymentNegotiable(e.target.checked)} className="rounded" /> Negotiable</label>
+                                        <Controller
+                                            name="startDate"
+                                            control={control}
+                                            render={({ field }) => (
+                                                <DatePickerSingle id="job-personal-start" label="Start Date" value={field.value} onChange={field.onChange} />
+                                            )}
+                                        />
+                                    </>
+                                )}
+
+                                <div className="flex gap-3 pt-2">
+                                    <button type="button" onClick={() => setStep(0)} className="px-5 py-2.5 border border-surface-200 rounded-xl text-sm hover:border-surface-300 text-neutral-700 transition-colors">
+                                        Back
+                                    </button>
+                                    <PrimaryButton
+                                        type="submit"
+                                        title="Submit for Review"
+                                        icon={<RiCheckboxCircleLine />}
+                                        isLoading={isLoading}
+                                        loadingTitle="Submitting..."
+                                        className="flex-1 py-2.5"
+                                    />
+                                </div>
+                            </form>
+                        </FormProvider>
                     </motion.div>
                 )}
             </AnimatePresence>

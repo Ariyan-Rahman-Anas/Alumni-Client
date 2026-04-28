@@ -9,10 +9,8 @@ import {
     RiBookOpenLine,
     RiToolsLine,
     RiMapPinLine,
-    // RiMoneyDollarCircleLine,
     RiTimeLine,
     RiCalendarLine,
-    // RiUserLine,
     RiArrowLeftLine,
     RiHeartLine,
     RiHeartFill,
@@ -23,10 +21,11 @@ import {
     RiCloseCircleLine,
     RiAlertLine,
     RiCheckLine,
-    // RiExternalLinkLine,
     RiFileLine,
     RiDeleteBinLine,
     RiStickyNoteLine,
+    RiCloseLine,
+    RiUserLine,
 } from "react-icons/ri";
 import { format, formatDistanceToNow } from "date-fns";
 import {
@@ -42,6 +41,7 @@ import {
     useSelectApplicantMutation,
     useReactToCommentMutation,
     useReactToReplyMutation,
+    useGetMyProviderProfileQuery,
     type Comment,
     type JobPost,
     type CommentReactionType,
@@ -50,16 +50,16 @@ import { useAppSelector } from "@/redux/hooks";
 
 /* ── Type config ───────────────────────────────────────── */
 const TYPE_CONFIG = {
-    official: { label: "Official Job", color: "bg-blue-50 text-blue-700 border border-blue-200", icon: <RiBriefcaseLine /> },
-    tuition_seek: { label: "Tuition Seek", color: "bg-emerald-50 text-emerald-700 border border-emerald-200", icon: <RiBookOpenLine /> },
-    personal_seek: { label: "Service Seek", color: "bg-violet-50 text-violet-700 border border-violet-200", icon: <RiToolsLine /> },
+    OFFICIAL: { label: "Official Job", color: "bg-blue-50 text-blue-700 border border-blue-200", icon: <RiBriefcaseLine /> },
+    TUITION: { label: "Tuition Seek", color: "bg-emerald-50 text-emerald-700 border border-emerald-200", icon: <RiBookOpenLine /> },
+    PERSONAL: { label: "Service Seek", color: "bg-violet-50 text-violet-700 border border-violet-200", icon: <RiToolsLine /> },
 };
 
 const STATUS_CONFIG = {
-    pending: { label: "Pending Review", color: "text-amber-700 bg-amber-50 border border-amber-200", icon: <RiTimeLine /> },
-    approved: { label: "Active", color: "text-emerald-700 bg-emerald-50 border border-emerald-200", icon: <RiCheckboxCircleLine /> },
-    rejected: { label: "Rejected", color: "text-red-700 bg-red-50 border border-red-200", icon: <RiCloseCircleLine /> },
-    closed: { label: "Closed", color: "text-neutral-600 bg-surface-100 border border-surface-300", icon: <RiCheckLine /> },
+    PENDING: { label: "Pending Review", color: "text-amber-700 bg-amber-50 border border-amber-200", icon: <RiTimeLine /> },
+    APPROVED: { label: "Active", color: "text-emerald-700 bg-emerald-50 border border-emerald-200", icon: <RiCheckboxCircleLine /> },
+    REJECTED: { label: "Rejected", color: "text-red-700 bg-red-50 border border-red-200", icon: <RiCloseCircleLine /> },
+    CLOSED: { label: "Closed", color: "text-neutral-600 bg-surface-100 border border-surface-300", icon: <RiCheckLine /> },
 };
 
 /* ── Avatar ───────────────────────────────────────────── */
@@ -79,12 +79,12 @@ function Avatar({ user, size = 32 }: { user: { name: string; imageUrl?: string }
 
 /* ── Reaction config ──────────────────────────────────── */
 const REACTIONS: { type: CommentReactionType; emoji: string; label: string }[] = [
-    { type: "like", emoji: "👍", label: "Like" },
-    { type: "love", emoji: "❤️", label: "Love" },
-    { type: "haha", emoji: "😂", label: "Haha" },
-    { type: "sad", emoji: "😢", label: "Sad" },
-    { type: "angry", emoji: "😠", label: "Angry" },
-    { type: "dislike", emoji: "👎", label: "Dislike" },
+    { type: "LIKE", emoji: "👍", label: "Like" },
+    { type: "LOVE", emoji: "❤️", label: "Love" },
+    { type: "HAHA", emoji: "😂", label: "Haha" },
+    { type: "SAD", emoji: "😢", label: "Sad" },
+    { type: "ANGRY", emoji: "😠", label: "Angry" },
+    { type: "DISLIKE", emoji: "👎", label: "Dislike" },
 ];
 
 function groupReactions(reactions: { userId: string; type: CommentReactionType }[]) {
@@ -106,14 +106,154 @@ function ReactionPicker({ onReact }: { onReact: (type: CommentReactionType) => v
             {REACTIONS.map((r) => (
                 <button
                     key={r.type}
-                    title={r.label}
+                    title={r?.label}
                     onClick={() => onReact(r.type)}
                     className="text-lg hover:scale-125 transition-transform duration-150 p-0.5"
                 >
-                    {r.emoji}
+                    {r?.emoji}
                 </button>
             ))}
         </motion.div>
+    );
+}
+
+/* ── Reactions Modal ──────────────────────────────────── */
+type ReactorsTab = "LIKE" | "DISLIKE" | CommentReactionType;
+
+function ReactorsModal({
+    open,
+    onClose,
+    tabs,
+}: {
+    open: boolean;
+    onClose: () => void;
+    tabs: { type: ReactorsTab; emoji: string; label: string; users: { name: string; imageUrl?: string }[] }[];
+}) {
+    const [activeTab, setActiveTab] = useState<ReactorsTab>(tabs[0]?.type ?? "LIKE");
+    if (!open) return null;
+
+    const activeUsers = tabs.find((t) => t.type === activeTab)?.users ?? [];
+
+    return (
+        <AnimatePresence>
+            {open && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                        onClick={onClose}
+                    />
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.92, y: 16 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.92, y: 16 }}
+                        transition={{ duration: 0.18 }}
+                        className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden"
+                    >
+                        <div className="flex items-center justify-between px-5 py-4 border-b border-surface-200">
+                            <h3 className="font-bold text-primary2-900">Reactions</h3>
+                            <button onClick={onClose} className="text-muted-foreground hover:text-primary2-700 transition-colors p-1 rounded-lg hover:bg-surface-100">
+                                <RiCloseLine className="text-xl" />
+                            </button>
+                        </div>
+
+                        {/* Tabs */}
+                        <div className="flex border-b border-surface-200 overflow-x-auto">
+                            {tabs.filter(t => t.users.length > 0).map((tab) => (
+                                <button
+                                    key={tab.type}
+                                    onClick={() => setActiveTab(tab.type)}
+                                    className={`flex items-center gap-1.5 px-4 py-2.5 text-sm whitespace-nowrap transition-colors border-b-2 ${activeTab === tab.type ? "border-primary2-600 text-primary2-700 font-semibold" : "border-transparent text-muted-foreground hover:text-primary2-700"}`}
+                                >
+                                    <span>{tab.emoji}</span>
+                                    <span>{tab.users.length}</span>
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* User list */}
+                        <div className="max-h-72 overflow-y-auto px-3 py-2">
+                            {activeUsers.length === 0 ? (
+                                <p className="text-sm text-muted-foreground text-center py-6">No reactions</p>
+                            ) : (
+                                activeUsers.map((u, i) => (
+                                    <div key={i} className="flex items-center gap-3 px-2 py-2.5 rounded-xl hover:bg-surface-50 transition-colors">
+                                        {u.imageUrl ? (
+                                            <Image src={u.imageUrl} alt={u.name} width={36} height={36} className="rounded-full object-cover" />
+                                        ) : (
+                                            <div className="w-9 h-9 rounded-full bg-primary2-100 flex items-center justify-center text-sm font-bold text-primary2-700">
+                                                {u.name[0]}
+                                            </div>
+                                        )}
+                                        <span className="text-sm font-medium text-primary2-900">{u.name}</span>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </motion.div>
+                </div>
+            )}
+        </AnimatePresence>
+    );
+}
+
+/* ── Comment Reactions Modal ──────────────────────────── */
+function CommentReactionsModal({
+    open,
+    onClose,
+    reactions,
+}: {
+    open: boolean;
+    onClose: () => void;
+    reactions: { userId: string; type: CommentReactionType }[];
+}) {
+    const groups = REACTIONS.map((r) => ({
+        ...r,
+        count: reactions.filter((x) => x.type === r.type).length,
+    })).filter((g) => g.count > 0);
+
+    const [activeTab, setActiveTab] = useState<CommentReactionType>(groups[0]?.type ?? "LIKE");
+    if (!open || groups.length === 0) return null;
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                onClick={onClose}
+            />
+            <motion.div
+                initial={{ opacity: 0, scale: 0.92, y: 16 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.18 }}
+                className="relative bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden"
+            >
+                <div className="flex items-center justify-between px-5 py-4 border-b border-surface-200">
+                    <h3 className="font-bold text-primary2-900">Reactions</h3>
+                    <button onClick={onClose} className="text-muted-foreground hover:text-primary2-700 transition-colors p-1 rounded-lg hover:bg-surface-100">
+                        <RiCloseLine className="text-xl" />
+                    </button>
+                </div>
+                <div className="flex border-b border-surface-200 overflow-x-auto">
+                    {groups.map((g) => (
+                        <button
+                            key={g.type}
+                            onClick={() => setActiveTab(g.type)}
+                            className={`flex items-center gap-1.5 px-4 py-2.5 text-sm whitespace-nowrap transition-colors border-b-2 ${activeTab === g.type ? "border-primary2-600 text-primary2-700 font-semibold" : "border-transparent text-muted-foreground hover:text-primary2-700"}`}
+                        >
+                            <span>{g.emoji}</span>
+                            <span>{g.count}</span>
+                        </button>
+                    ))}
+                </div>
+                <div className="px-5 py-4 text-sm text-muted-foreground">
+                    {groups.find(g => g.type === activeTab)?.count ?? 0} {groups.find(g => g.type === activeTab)?.label} reactions
+                </div>
+            </motion.div>
+        </div>
     );
 }
 
@@ -135,6 +275,7 @@ function CommentItem({
     const [visibleCount, setVisibleCount] = useState(REPLIES_PER_PAGE);
     const [replyBody, setReplyBody] = useState("");
     const [showCommentPicker, setShowCommentPicker] = useState(false);
+    const [showCommentReactionsModal, setShowCommentReactionsModal] = useState(false);
     const [addReply, { isLoading: replying }] = useAddReplyMutation();
     const [deleteComment] = useDeleteCommentMutation();
     const [deleteReply] = useDeleteReplyMutation();
@@ -176,14 +317,17 @@ function CommentItem({
                     <p className="text-sm text-neutral-700">{comment.body}</p>
                 </div>
 
-                {/* Comment reaction summary */}
+                {/* Comment reaction summary — clickable to open modal */}
                 {commentReactionGroups.length > 0 && (
-                    <div className="flex items-center gap-1.5 mt-1 px-1">
+                    <button
+                        onClick={() => setShowCommentReactionsModal(true)}
+                        className="flex items-center gap-1.5 mt-1 px-1 hover:opacity-70 transition-opacity"
+                    >
                         {commentReactionGroups.map(([type, count]) => {
                             const r = REACTIONS.find((x) => x.type === type);
                             return r ? <span key={type} className="text-xs text-muted-foreground">{r.emoji} {count}</span> : null;
                         })}
-                    </div>
+                    </button>
                 )}
 
                 {/* Actions */}
@@ -193,7 +337,7 @@ function CommentItem({
                         <button
                             onMouseEnter={() => setShowCommentPicker(true)}
                             onMouseLeave={() => setShowCommentPicker(false)}
-                            onClick={() => handleCommentReact(myCommentReaction === "like" ? "like" : "like")}
+                            onClick={() => handleCommentReact(myCommentReaction === "LIKE" ? "LIKE" : "LIKE")}
                             className={`text-xs transition-colors ${myCommentReaction ? "text-primary2-700 font-semibold" : "text-muted-foreground hover:text-primary2-700"}`}
                         >
                             {myCommentReaction ? (REACTIONS.find((r) => r.type === myCommentReaction)?.emoji + " " + myCommentReaction) : "👍 Like"}
@@ -207,7 +351,7 @@ function CommentItem({
                         </AnimatePresence>
                     </div>
 
-                    <button onClick={() => setShowReply(!showReply)} className="text-xs text-muted-foreground hover:text-primary2-700 transition-colors">Reply</button>
+                    {userId && <button onClick={() => setShowReply(!showReply)} className="text-xs text-muted-foreground hover:text-primary2-700 transition-colors">Reply</button>}
 
                     {canDeleteComment && (
                         <button onClick={() => deleteComment({ id: jobId, commentId: comment._id })} className="text-xs text-red-400 hover:text-red-600 transition-colors flex items-center gap-0.5">
@@ -231,37 +375,15 @@ function CommentItem({
                             const myReplyReaction = reply.reactions?.find((r) => r.userId === userId)?.type;
                             const replyReactionGroups = groupReactions(reply.reactions ?? []);
                             return (
-                                <div key={reply._id} className="flex gap-2 ml-4">
-                                    <Avatar user={reply.author} size={24} />
-                                    <div className="flex-1 min-w-0">
-                                        <div className="bg-surface-50 rounded-xl px-3 py-2">
-                                            <div className="flex items-center justify-between gap-2 mb-0.5">
-                                                <span className="text-xs font-semibold text-primary2-900">{reply.author.name}</span>
-                                                <span className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(reply.createdAt), { addSuffix: true })}</span>
-                                            </div>
-                                            <p className="text-xs text-neutral-700">{reply.body}</p>
-                                        </div>
-                                        {replyReactionGroups.length > 0 && (
-                                            <div className="flex items-center gap-1.5 mt-0.5 px-1">
-                                                {replyReactionGroups.map(([type, count]) => {
-                                                    const rx = REACTIONS.find((x) => x.type === type);
-                                                    return rx ? <span key={type} className="text-xs text-muted-foreground">{rx.emoji} {count}</span> : null;
-                                                })}
-                                            </div>
-                                        )}
-                                        <div className="flex items-center gap-2 mt-0.5 px-1">
-                                            <ReplyReactionButton
-                                                myReaction={myReplyReaction}
-                                                onReact={(type) => reactToReply({ id: jobId, commentId: comment._id, replyId: reply._id, reactionType: type })}
-                                            />
-                                            {canDeleteReply && (
-                                                <button onClick={() => deleteReply({ id: jobId, commentId: comment._id, replyId: reply._id })} className="text-xs text-red-400 hover:text-red-600 transition-colors flex items-center gap-0.5">
-                                                    <RiDeleteBinLine />
-                                                </button>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
+                                <ReplyItem
+                                    key={reply._id}
+                                    reply={reply}
+                                    myReplyReaction={myReplyReaction}
+                                    replyReactionGroups={replyReactionGroups}
+                                    canDelete={canDeleteReply}
+                                    onDelete={() => deleteReply({ id: jobId, commentId: comment._id, replyId: reply._id })}
+                                    onReact={(type) => reactToReply({ id: jobId, commentId: comment._id, replyId: reply._id, reactionType: type })}
+                                />
                             );
                         })}
 
@@ -300,6 +422,69 @@ function CommentItem({
                         </button>
                     </div>
                 )}
+
+                <CommentReactionsModal
+                    open={showCommentReactionsModal}
+                    onClose={() => setShowCommentReactionsModal(false)}
+                    reactions={comment.reactions ?? []}
+                />
+            </div>
+        </div>
+    );
+}
+
+/* ── Reply Item ───────────────────────────────────────── */
+function ReplyItem({
+    reply,
+    myReplyReaction,
+    replyReactionGroups,
+    canDelete,
+    onDelete,
+    onReact,
+}: {
+    reply: Comment["replies"][0];
+    myReplyReaction?: CommentReactionType;
+    replyReactionGroups: [CommentReactionType, number][];
+    canDelete: boolean;
+    onDelete: () => void;
+    onReact: (type: CommentReactionType) => void;
+}) {
+    const [showReactionsModal, setShowReactionsModal] = useState(false);
+    return (
+        <div className="flex gap-2 ml-4">
+            <Avatar user={reply.author} size={24} />
+            <div className="flex-1 min-w-0">
+                <div className="bg-surface-50 rounded-xl px-3 py-2">
+                    <div className="flex items-center justify-between gap-2 mb-0.5">
+                        <span className="text-xs font-semibold text-primary2-900">{reply.author.name}</span>
+                        <span className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(reply.createdAt), { addSuffix: true })}</span>
+                    </div>
+                    <p className="text-xs text-neutral-700">{reply.body}</p>
+                </div>
+                {replyReactionGroups.length > 0 && (
+                    <button onClick={() => setShowReactionsModal(true)} className="flex items-center gap-1.5 mt-0.5 px-1 hover:opacity-70 transition-opacity">
+                        {replyReactionGroups.map(([type, count]) => {
+                            const rx = REACTIONS.find((x) => x.type === type);
+                            return rx ? <span key={type} className="text-xs text-muted-foreground">{rx.emoji} {count}</span> : null;
+                        })}
+                    </button>
+                )}
+                <div className="flex items-center gap-2 mt-0.5 px-1">
+                    <ReplyReactionButton
+                        myReaction={myReplyReaction}
+                        onReact={onReact}
+                    />
+                    {canDelete && (
+                        <button onClick={onDelete} className="text-xs text-red-400 hover:text-red-600 transition-colors flex items-center gap-0.5">
+                            <RiDeleteBinLine />
+                        </button>
+                    )}
+                </div>
+                <CommentReactionsModal
+                    open={showReactionsModal}
+                    onClose={() => setShowReactionsModal(false)}
+                    reactions={reply.reactions ?? []}
+                />
             </div>
         </div>
     );
@@ -329,14 +514,12 @@ function ReplyReactionButton({ myReaction, onReact }: { myReaction?: CommentReac
 }
 
 /* ── Application Card ─────────────────────────────────── */
-function ApplicationCard({ app,
-    // jobId,
-    onSelect, isOwner }: {
-        app: { _id: string; applicant: { name: string; imageUrl?: string; email: string; batch?: string }; message?: string; status: string; createdAt: string };
-        jobId: string;
-        onSelect: (appId: string) => void;
-        isOwner: boolean;
-    }) {
+function ApplicationCard({ app, onSelect, isOwner }: {
+    app: { _id: string; applicant: { name: string; imageUrl?: string; email: string; batch?: string }; message?: string; status: string; createdAt: string };
+    jobId: string;
+    onSelect: (appId: string) => void;
+    isOwner: boolean;
+}) {
     const statusColor = {
         pending: "text-amber-700 bg-amber-50 border border-amber-200",
         selected: "text-emerald-700 bg-emerald-50 border border-emerald-200",
@@ -358,10 +541,7 @@ function ApplicationCard({ app,
                 <div className="flex items-center gap-3 mt-2">
                     <span className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(app.createdAt), { addSuffix: true })}</span>
                     {isOwner && app.status === "pending" && (
-                        <button
-                            onClick={() => onSelect(app._id)}
-                            className="text-xs bg-emerald-500 text-white px-3 py-1 rounded-full hover:bg-emerald-600 transition-colors"
-                        >
+                        <button onClick={() => onSelect(app._id)} className="text-xs bg-emerald-500 text-white px-3 py-1 rounded-full hover:bg-emerald-600 transition-colors">
                             Select
                         </button>
                     )}
@@ -385,17 +565,31 @@ export default function JobDetailPage({ id }: { id: string }) {
     const [commentBody, setCommentBody] = useState("");
     const [applyMessage, setApplyMessage] = useState("");
     const [showApplyForm, setShowApplyForm] = useState(false);
-    // const [activeSection, setActiveSection] = useState<"details" | "comments" | "applicants">("details");
+    const [showJobReactionsModal, setShowJobReactionsModal] = useState(false);
 
     const authUser = useAppSelector((s) => s.auth.user);
     const userId = authUser?._id ?? "";
     const role = authUser?.role ?? "USER";
 
+    // Check if current user is a TUTOR-type approved provider
+    const { data: myProviderData } = useGetMyProviderProfileQuery(undefined, { skip: !userId || role === "ADMIN" });
+    const myProvider = myProviderData?.data;
+    const isTutorProvider = myProvider?.providerType === "TUTOR" && myProvider?.status === "APPROVED";
+    // console.log({userId, role})
+    // console.log({myProviderData})
+    // console.log(myProviderData?.data)
+    // console.log({myProvider})
+    // console.log({isTutorProvider})
+
     const job = data?.data as JobPost | undefined;
 
     const isOwner = !!job && job.postedBy._id === userId;
-    const canSeeApplicants = isOwner || role === "ADMIN";
-    const isSeekPost = job?.type === "tuition_seek" || job?.type === "personal_seek";
+    // Admin can see applicants/notes only if they are the owner OR NOT admin — admin is excluded from seeing applicants panel
+    const canSeeApplicants = isOwner;
+    const isSeekPost = job?.type === "TUITION" || job?.type === "PERSONAL";
+
+    // For comments/apply: must be logged in, must be TUTOR-type provider (or owner, or admin sees it all read-only)
+    const canInteract = !!userId && (isTutorProvider || isOwner);
 
     const { data: appsData } = useGetJobApplicationsQuery(id, { skip: !canSeeApplicants || !isSeekPost });
     const { data: myAppsData } = useGetMyApplicationsQuery({}, { skip: !userId || !isSeekPost || isOwner });
@@ -406,6 +600,11 @@ export default function JobDetailPage({ id }: { id: string }) {
 
     const hasLiked = job?.likes.includes(userId) ?? false;
     const hasDisliked = job?.dislikes.includes(userId) ?? false;
+
+    const jobReactionsTabs = [
+        { type: "LIKE" as const, emoji: "❤️", label: "Like", users: job?.likeUsers ?? [] },
+        { type: "DISLIKE" as const, emoji: "👎", label: "Dislike", users: job?.dislikeUsers ?? [] },
+    ].filter(t => t.users.length > 0);
 
     const handleComment = async () => {
         if (!commentBody.trim()) return;
@@ -467,11 +666,11 @@ export default function JobDetailPage({ id }: { id: string }) {
                     {/* Title block */}
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-2xl border border-surface-200 p-6 mb-6">
                         <div className="flex flex-wrap items-center gap-3 mb-4">
-                            <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full ${cfg.color}`}>
-                                {cfg.icon} {cfg.label}
+                            <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full ${cfg?.color}`}>
+                                {cfg?.icon} {cfg?.label}
                             </span>
-                            <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full ${statusCfg.color}`}>
-                                {statusCfg.icon} {statusCfg.label}
+                            <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full ${statusCfg?.color}`}>
+                                {statusCfg?.icon} {statusCfg?.label}
                             </span>
                             {job.applicationDeadline && (
                                 <span className="text-xs text-orange-600 bg-orange-50 border border-orange-200 px-2.5 py-1 rounded-full flex items-center gap-1">
@@ -483,9 +682,9 @@ export default function JobDetailPage({ id }: { id: string }) {
                         <h1 className="text-2xl sm:text-3xl font-extrabold text-primary2-900 leading-tight mb-3">{job.title}</h1>
 
                         <div className="flex flex-wrap gap-3 text-sm text-muted-foreground mb-4">
-                            {job.type === "official" && job.company && <span className="flex items-center gap-1"><RiBriefcaseLine /> {job.company}</span>}
+                            {job.type === "OFFICIAL" && job.company && <span className="flex items-center gap-1"><RiBriefcaseLine /> {job.company}</span>}
                             {(job.location || job.seekLocation) && <span className="flex items-center gap-1"><RiMapPinLine /> {job.location || job.seekLocation}</span>}
-                            {job.type === "official" && job.jobType && <span className="flex items-center gap-1"><RiTimeLine /> {job.jobType}</span>}
+                            {job.type === "OFFICIAL" && job.jobType && <span className="flex items-center gap-1"><RiTimeLine /> {job.jobType}</span>}
                             <span className="flex items-center gap-1"><RiCalendarLine /> Posted {formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}</span>
                         </div>
 
@@ -494,25 +693,34 @@ export default function JobDetailPage({ id }: { id: string }) {
                         {/* Reactions */}
                         <div className="flex items-center gap-4 mt-6 pt-4 border-t border-surface-100">
                             <button
-                                onClick={() => reactToJob({ id, reactionType: "like" })}
+                                onClick={() => userId && reactToJob({ id, reactionType: "LIKE" })}
                                 className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all ${hasLiked ? "bg-red-50 text-red-600" : "bg-surface-100 text-neutral-600 hover:bg-red-50 hover:text-red-500"}`}
                             >
                                 {hasLiked ? <RiHeartFill /> : <RiHeartLine />} {job.likes.length}
                             </button>
                             <button
-                                onClick={() => reactToJob({ id, reactionType: "dislike" })}
+                                onClick={() => userId && reactToJob({ id, reactionType: "DISLIKE" })}
                                 className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all ${hasDisliked ? "bg-surface-200 text-neutral-700" : "bg-surface-100 text-neutral-600 hover:bg-surface-200"}`}
                             >
                                 <RiThumbDownLine /> {job.dislikes.length}
                             </button>
-                            <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                            {/* Who reacted — click to open modal */}
+                            {(job.likes.length > 0 || job.dislikes.length > 0) && (
+                                <button
+                                    onClick={() => setShowJobReactionsModal(true)}
+                                    className="text-xs text-primary2-600 hover:underline flex items-center gap-1"
+                                >
+                                    <RiUserLine /> See who reacted
+                                </button>
+                            )}
+                            <span className="flex items-center gap-1.5 text-sm text-muted-foreground ml-auto">
                                 <RiChat3Line /> {job.comments.length} comments
                             </span>
                         </div>
                     </motion.div>
 
                     {/* ── Official Job Details ──────────────────── */}
-                    {job.type === "official" && (
+                    {job.type === "OFFICIAL" && (
                         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }} className="bg-white rounded-2xl border border-surface-200 p-6 mb-6">
                             <h2 className="text-base font-bold text-primary2-900 mb-4">Job Details</h2>
                             <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
@@ -548,13 +756,13 @@ export default function JobDetailPage({ id }: { id: string }) {
                     )}
 
                     {/* ── Tuition Seek Details ──────────────────── */}
-                    {job.type === "tuition_seek" && (
+                    {job.type === "TUITION" && (
                         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }} className="bg-white rounded-2xl border border-surface-200 p-6 mb-6">
                             <h2 className="text-base font-bold text-primary2-900 mb-4">Tuition Details</h2>
                             <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                                 {job.studentClass && <><dt className="text-muted-foreground">Student Class</dt><dd className="font-medium text-primary2-900">{job.studentClass}</dd></>}
-                                {job.studentGender && <><dt className="text-muted-foreground">Student Gender</dt><dd className="font-medium text-primary2-900 capitalize">{job.studentGender}</dd></>}
-                                {job.requiredTutorGender && <><dt className="text-muted-foreground">Required Tutor</dt><dd className="font-medium text-primary2-900 capitalize">{job.requiredTutorGender}</dd></>}
+                                {job.employerGender && <><dt className="text-muted-foreground">Student Gender</dt><dd className="font-medium text-primary2-900 capitalize">{job.employerGender}</dd></>}
+                                {job.employeeGender && <><dt className="text-muted-foreground">Required Tutor</dt><dd className="font-medium text-primary2-900 capitalize">{job.employeeGender}</dd></>}
                                 {job.timing && <><dt className="text-muted-foreground">Timing</dt><dd className="font-medium text-primary2-900">{job.timing}</dd></>}
                                 {job.sessionDuration && <><dt className="text-muted-foreground">Duration</dt><dd className="font-medium text-primary2-900">{job.sessionDuration}</dd></>}
                                 {job.weeklyDays?.length && <><dt className="text-muted-foreground">Days/Week</dt><dd className="font-medium text-primary2-900">{job.weeklyDays.join(", ")}</dd></>}
@@ -575,7 +783,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                     )}
 
                     {/* ── Personal Seek Details ─────────────────── */}
-                    {job.type === "personal_seek" && (
+                    {job.type === "PERSONAL" && (
                         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }} className="bg-white rounded-2xl border border-surface-200 p-6 mb-6">
                             <h2 className="text-base font-bold text-primary2-900 mb-4">Service Details</h2>
                             <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
@@ -588,11 +796,22 @@ export default function JobDetailPage({ id }: { id: string }) {
                     )}
 
                     {/* ── Apply Section (seek posts) ────────────── */}
-                    {isSeekPost && job.status === "approved" && !isOwner && (
+                    {isSeekPost && job.status === "APPROVED" && !isOwner && (
                         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-primary2-50 rounded-2xl border border-primary2-200 p-6 mb-6">
                             <h2 className="text-base font-bold text-primary2-900 mb-2">Interested?</h2>
-                            <p className="text-sm text-muted-foreground mb-4">Apply to this post and let the poster know you&apos;re available.</p>
-                            {hasApplied ? (
+                            {!userId ? (
+                                <p className="text-sm text-muted-foreground">
+                                    <Link href="/login" className="text-primary2-700 font-semibold hover:underline">Log in</Link> to apply to this post.
+                                </p>
+                            ) : !isTutorProvider ? (
+                                <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl p-4">
+                                    <RiAlertLine className="text-amber-600 text-lg flex-shrink-0 mt-0.5" />
+                                    <div>
+                                        <p className="text-sm font-semibold text-amber-800">Provider Registration Required</p>
+                                        <p className="text-xs text-amber-700 mt-0.5">You must be a registered &amp; approved TUTOR provider to apply. <Link href="/jobs/register-provider" className="underline font-semibold">Register now</Link></p>
+                                    </div>
+                                </div>
+                            ) : hasApplied ? (
                                 <div className="flex items-center gap-2 text-emerald-600 font-medium">
                                     <RiCheckboxCircleLine className="text-lg" /> Application submitted!
                                 </div>
@@ -647,7 +866,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                         </h2>
 
                         {/* Add comment */}
-                        {userId && (
+                        {canInteract && (
                             <div className="flex gap-3 mb-6">
                                 <div className="w-8 h-8 rounded-full bg-primary2-100 flex items-center justify-center text-xs font-bold text-primary2-700 flex-shrink-0">
                                     {authUser?.name?.[0] ?? "U"}
@@ -668,6 +887,14 @@ export default function JobDetailPage({ id }: { id: string }) {
                                         <RiSendPlaneLine />
                                     </button>
                                 </div>
+                            </div>
+                        )}
+
+                        {/* Not eligible message */}
+                        {userId && !canInteract && !isOwner && (
+                            <div className="flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl p-3 mb-6">
+                                <RiAlertLine className="text-amber-600 text-base flex-shrink-0 mt-0.5" />
+                                <p className="text-xs text-amber-700">Only approved <strong>TUTOR</strong> providers can comment. <Link href="/jobs/register-provider" className="underline font-semibold">Register as a provider</Link></p>
                             </div>
                         )}
 
@@ -706,11 +933,11 @@ export default function JobDetailPage({ id }: { id: string }) {
                         <dl className="space-y-2 text-sm">
                             <div className="flex justify-between">
                                 <dt className="text-muted-foreground">Status</dt>
-                                <dd className={`font-semibold ${statusCfg.color} px-2 py-0.5 rounded-full text-xs`}>{statusCfg.label}</dd>
+                                <dd className={`font-semibold ${statusCfg?.color} px-2 py-0.5 rounded-full text-xs`}>{statusCfg?.label}</dd>
                             </div>
                             <div className="flex justify-between">
                                 <dt className="text-muted-foreground">Type</dt>
-                                <dd className="font-medium text-primary2-900">{cfg.label}</dd>
+                                <dd className="font-medium text-primary2-900">{cfg?.label}</dd>
                             </div>
                             <div className="flex justify-between">
                                 <dt className="text-muted-foreground">Posted</dt>
@@ -725,15 +952,18 @@ export default function JobDetailPage({ id }: { id: string }) {
                         </dl>
                     </motion.div>
 
-                    {/* Admin notes (admin only) */}
-                    {role === "ADMIN" && job.adminNotes?.length > 0 && (
+                    {/* Admin notes — only for owner, not pure admin visitors */}
+                    {isOwner && role !== "ADMIN" && job.adminNotes?.length > 0 && (
                         <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.18 }} className="bg-blue-50 rounded-2xl border border-blue-200 p-5">
                             <p className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-3 flex items-center gap-1"><RiStickyNoteLine /> Admin Notes</p>
                             <div className="space-y-2">
                                 {job.adminNotes.map((n, i) => (
                                     <div key={i} className="bg-white rounded-lg p-3 border border-blue-100">
                                         <p className="text-sm text-blue-800">{n.note}</p>
-                                        <p className="text-xs text-blue-500 mt-1">{format(new Date(n.addedAt), "dd MMM yyyy, HH:mm")}</p>
+                                        <div className="flex items-center gap-2 mt-2">
+                                            <span className="text-xs text-blue-600 font-medium">{n.addedBy?.name}</span>
+                                            <span className="text-xs text-blue-400">· {format(new Date(n.addedAt), "dd MMM yyyy, HH:mm")}</span>
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -741,7 +971,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                     )}
 
                     {/* Rejection reason */}
-                    {job.status === "rejected" && job.rejectedReason && (
+                    {job.status === "REJECTED" && job.rejectedReason && (
                         <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="bg-red-50 rounded-2xl border border-red-200 p-5">
                             <p className="text-xs font-semibold text-red-700 uppercase tracking-wide mb-2 flex items-center gap-1"><RiAlertLine /> Rejection Reason</p>
                             <p className="text-sm text-red-700">{job.rejectedReason}</p>
@@ -749,6 +979,15 @@ export default function JobDetailPage({ id }: { id: string }) {
                     )}
                 </div>
             </div>
-        </div>
+
+            {/* Job reactions modal */}
+            {jobReactionsTabs.length > 0 && (
+                <ReactorsModal
+                    open={showJobReactionsModal}
+                    onClose={() => setShowJobReactionsModal(false)}
+                    tabs={jobReactionsTabs}
+                />
+            )}
+        </div >
     );
 }

@@ -23,41 +23,30 @@ import {
     RiFilterLine,
     RiStarLine,
     RiFileListLine,
-    RiCalendarLine,
-    RiShieldCheckLine,
-    RiExternalLinkLine,
 } from "react-icons/ri";
-import { format, formatDistanceToNow } from "date-fns";
+import {  formatDistanceToNow } from "date-fns";
 import { useDebounce } from "@/hooks/useDebounce";
 import {
     useGetApprovedJobsQuery,
     useGetApprovedProvidersQuery,
-    useGetProviderByIdQuery,
     type JobPost,
     type JobPostType,
     type ServiceProvider,
 } from "@/redux/apis/jobApi";
-import {
-    Sheet,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-    SheetDescription,
-} from "@/components/ui/sheet";
 
 
 const TYPE_CONFIG: Record<JobPostType, { label: string; color: string; icon: React.ReactNode }> = {
-    official: {
+    OFFICIAL: {
         label: "Official Job",
         color: "bg-blue-50 text-blue-700 border border-blue-200",
         icon: <RiBriefcaseLine />,
     },
-    tuition_seek: {
+    TUITION: {
         label: "Tuition Seek",
         color: "bg-emerald-50 text-emerald-700 border border-emerald-200",
         icon: <RiBookOpenLine />,
     },
-    personal_seek: {
+    PERSONAL: {
         label: "Service Seek",
         color: "bg-violet-50 text-violet-700 border border-violet-200",
         icon: <RiToolsLine />,
@@ -96,8 +85,8 @@ function JobCard({ job, index }: { job: JobPost; index: number }) {
         >
             {/* Type badge */}
             <div className="flex items-start justify-between gap-3 mb-3">
-                <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full ${cfg.color}`}>
-                    {cfg.icon} {cfg.label}
+                <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full ${cfg?.color}`}>
+                    {cfg?.icon} {cfg?.label}
                 </span>
                 <span className="text-xs text-muted-foreground whitespace-nowrap shrink-0">{postedAgo}</span>
             </div>
@@ -108,28 +97,28 @@ function JobCard({ job, index }: { job: JobPost; index: number }) {
 
             {/* Meta info by type */}
             <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-xs text-muted-foreground">
-                {job.type === "official" && job.company && (
+                {job.type === "OFFICIAL" && job.company && (
                     <span className="flex items-center gap-1"><RiBriefcaseLine /> {job.company}</span>
                 )}
-                {job.type === "official" && job.location && (
+                {job.type === "OFFICIAL" && job.location && (
                     <span className="flex items-center gap-1"><RiMapPinLine /> {job.location}</span>
                 )}
-                {job.type === "official" && (job.salaryMin || job.salaryMax) && (
+                {job.type === "OFFICIAL" && (job.salaryMin || job.salaryMax) && (
                     <span className="flex items-center gap-1">
                         <RiMoneyDollarCircleLine />
-                        {job.salaryNegotiable ? "Negotiable" : `${job.salaryMin ?? "?"} â€“ ${job.salaryMax ?? "?"} ${job.salaryCurrency ?? "BDT"}`}
+                        {job.salaryNegotiable ? "Negotiable" : `${job.salaryMin ?? "?"} – ${job.salaryMax ?? "?"} ${job.salaryCurrency ?? "BDT"}`}
                     </span>
                 )}
-                {job.type === "tuition_seek" && job.studentClass && (
+                {job.type === "TUITION" && job.studentClass && (
                     <span className="flex items-center gap-1"><RiBookOpenLine /> Class {job.studentClass}</span>
                 )}
-                {job.type === "tuition_seek" && job.subjects?.length && (
-                    <span className="flex items-center gap-1"><RiCheckboxCircleLine /> {job.subjects.slice(0, 2).join(", ")}{job.subjects.length > 2 ? "â€¦" : ""}</span>
+                {job.type === "TUITION" && job.subjects?.length && (
+                    <span className="flex items-center gap-1"><RiCheckboxCircleLine /> {job.subjects.slice(0, 2).join(", ")}{job.subjects.length > 2 ? "…" : ""}</span>
                 )}
-                {job.type === "personal_seek" && job.serviceCategory && (
+                {job.type === "PERSONAL" && job.serviceCategory && (
                     <span className="flex items-center gap-1"><RiToolsLine /> {job.serviceCategory}</span>
                 )}
-                {(job.type === "tuition_seek" || job.type === "personal_seek") && job.seekLocation && (
+                {(job.type === "TUITION" || job.type === "PERSONAL") && job.seekLocation && (
                     <span className="flex items-center gap-1"><RiMapPinLine /> {job.seekLocation}</span>
                 )}
             </div>
@@ -155,172 +144,6 @@ function JobCard({ job, index }: { job: JobPost; index: number }) {
 
             <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-primary2-500 to-accent2-500 rounded-b-2xl scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
         </motion.div>
-    );
-}
-
-function ProviderDetailSheet({ providerId, open, onClose }: { providerId: string | null; open: boolean; onClose: () => void }) {
-    const { data, isLoading } = useGetProviderByIdQuery(providerId ?? "", { skip: !providerId });
-    const router = useRouter();
-    const p = data?.data;
-
-    return (
-        <Sheet open={open} onOpenChange={(v) => { if (!v) onClose(); }}>
-            <SheetContent side="right" className="w-full sm:max-w-lg overflow-y-auto">
-                {isLoading || !p ? (
-                    <div className="space-y-4 mt-6 animate-pulse">
-                        <div className="flex gap-4 items-center">
-                            <div className="w-16 h-16 rounded-2xl bg-surface-200" />
-                            <div className="flex-1 space-y-2">
-                                <div className="h-5 w-40 bg-surface-200 rounded" />
-                                <div className="h-4 w-24 bg-surface-200 rounded" />
-                            </div>
-                        </div>
-                        {[1, 2, 3, 4].map((i) => <div key={i} className="h-16 bg-surface-200 rounded-xl" />)}
-                    </div>
-                ) : (
-                    <>
-                        <SheetHeader className="mb-5">
-                            <div className="flex gap-4 items-start">
-                                {p.user.imageUrl ? (
-                                    <Image src={p.user.imageUrl} alt={p.user.name} width={64} height={64} className="rounded-2xl object-cover flex-shrink-0" />
-                                ) : (
-                                    <div className="w-16 h-16 rounded-2xl bg-primary2-100 flex items-center justify-center text-2xl font-bold text-primary2-700 flex-shrink-0">
-                                        {p.user.name[0]}
-                                    </div>
-                                )}
-                                <div className="min-w-0">
-                                    <SheetTitle className="text-primary2-900 text-lg font-bold leading-tight">{p.user.name}</SheetTitle>
-                                    <SheetDescription className="mt-1">
-                                        <span className="capitalize bg-primary2-50 text-primary2-700 border border-primary2-200 text-xs font-semibold px-2.5 py-1 rounded-full">{p.providerType}</span>
-                                    </SheetDescription>
-                                    <div className="flex items-center gap-2 mt-2">
-                                        {p.status === "approved" && (
-                                            <span className="inline-flex items-center gap-1 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
-                                                <RiShieldCheckLine /> Verified
-                                            </span>
-                                        )}
-                                        {p.isAvailable && (
-                                            <span className="text-xs text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-full">Available</span>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </SheetHeader>
-
-                        {/* Bio */}
-                        <div className="mb-5 bg-surface-50 rounded-xl p-4">
-                            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">About</p>
-                            <p className="text-sm text-neutral-700 leading-relaxed">{p.bio}</p>
-                        </div>
-
-                        {/* Quick details */}
-                        <div className="mb-5 bg-white rounded-xl border border-surface-200 p-4">
-                            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Details</p>
-                            <dl className="space-y-2.5 text-sm">
-                                <div className="flex justify-between">
-                                    <dt className="text-muted-foreground">Location</dt>
-                                    <dd className="font-medium text-primary2-900 flex items-center gap-1"><RiMapPinLine />{p.location}</dd>
-                                </div>
-                                <div className="flex justify-between">
-                                    <dt className="text-muted-foreground">Experience</dt>
-                                    <dd className="font-medium text-primary2-900">{p.experience}</dd>
-                                </div>
-                                <div className="flex justify-between">
-                                    <dt className="text-muted-foreground">Gender</dt>
-                                    <dd className="font-medium text-primary2-900 capitalize">{p.gender}</dd>
-                                </div>
-                                {p.hourlyRate && (
-                                    <div className="flex justify-between">
-                                        <dt className="text-muted-foreground">Hourly Rate</dt>
-                                        <dd className="font-medium text-primary2-900">{p.hourlyRate} BDT/hr</dd>
-                                    </div>
-                                )}
-                                {p.monthlyRate && (
-                                    <div className="flex justify-between">
-                                        <dt className="text-muted-foreground">Monthly Rate</dt>
-                                        <dd className="font-medium text-primary2-900">{p.monthlyRate} BDT/mo</dd>
-                                    </div>
-                                )}
-                                {p.availableGenderStudents && (
-                                    <div className="flex justify-between">
-                                        <dt className="text-muted-foreground">Teaches</dt>
-                                        <dd className="font-medium text-primary2-900 capitalize">{p.availableGenderStudents} students</dd>
-                                    </div>
-                                )}
-                                {p.createdAt && (
-                                    <div className="flex justify-between">
-                                        <dt className="text-muted-foreground">Member since</dt>
-                                        <dd className="font-medium text-primary2-900 flex items-center gap-1"><RiCalendarLine /> {format(new Date(p.createdAt), "MMM yyyy")}</dd>
-                                    </div>
-                                )}
-                            </dl>
-                        </div>
-
-                        {/* Subjects / Class range (tutor) */}
-                        {(p.subjects?.length || p.classRange?.length) && (
-                            <div className="mb-5 bg-white rounded-xl border border-surface-200 p-4">
-                                {p.subjects?.length ? (
-                                    <>
-                                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Subjects</p>
-                                        <div className="flex flex-wrap gap-2 mb-3">
-                                            {p.subjects.map((s) => (
-                                                <span key={s} className="bg-emerald-50 text-emerald-700 border border-emerald-100 text-xs px-2.5 py-1 rounded-full">{s}</span>
-                                            ))}
-                                        </div>
-                                    </>
-                                ) : null}
-                                {p.classRange?.length ? (
-                                    <>
-                                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Class Range</p>
-                                        <div className="flex flex-wrap gap-2">
-                                            {p.classRange.map((c) => (
-                                                <span key={c} className="bg-blue-50 text-blue-700 border border-blue-100 text-xs px-2.5 py-1 rounded-full">{c}</span>
-                                            ))}
-                                        </div>
-                                    </>
-                                ) : null}
-                            </div>
-                        )}
-
-                        {/* Qualifications */}
-                        {p.qualifications?.length ? (
-                            <div className="mb-5 bg-white rounded-xl border border-surface-200 p-4">
-                                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Qualifications</p>
-                                <ul className="space-y-1">
-                                    {p.qualifications.map((q) => (
-                                        <li key={q} className="flex items-start gap-2 text-sm text-neutral-700">
-                                            <RiCheckboxCircleLine className="text-primary2-600 mt-0.5 flex-shrink-0" /> {q}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ) : null}
-
-                        {/* Availability */}
-                        {p.availability?.length ? (
-                            <div className="mb-5 bg-white rounded-xl border border-surface-200 p-4">
-                                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Availability</p>
-                                <div className="flex flex-wrap gap-2">
-                                    {p.availability.map((a) => (
-                                        <span key={a} className="bg-surface-100 text-neutral-700 text-xs px-2.5 py-1 rounded-full border border-surface-200">{a}</span>
-                                    ))}
-                                </div>
-                            </div>
-                        ) : null}
-
-                        {/* CTA: view full profile / contact */}
-                        <div className="flex gap-3 mt-2">
-                            <button
-                                onClick={() => { onClose(); router.push(`/jobs/providers/${p._id}`); }}
-                                className="flex-1 inline-flex items-center justify-center gap-2 bg-primary2-700 text-white font-semibold py-2.5 rounded-xl hover:bg-primary2-800 transition-colors text-sm"
-                            >
-                                <RiExternalLinkLine /> View Full Profile
-                            </button>
-                        </div>
-                    </>
-                )}
-            </SheetContent>
-        </Sheet>
     );
 }
 
@@ -375,9 +198,9 @@ type Tab = "all" | JobPostType | "providers";
 
 const TABS: { key: Tab; label: string; icon: React.ReactNode }[] = [
     { key: "all", label: "All Posts", icon: <RiFilterLine /> },
-    { key: "official", label: "Official Jobs", icon: <RiBriefcaseLine /> },
-    { key: "tuition_seek", label: "Tuition Seek", icon: <RiBookOpenLine /> },
-    { key: "personal_seek", label: "Service Seek", icon: <RiToolsLine /> },
+    { key: "OFFICIAL", label: "Official Jobs", icon: <RiBriefcaseLine /> },
+    { key: "TUITION", label: "Tuition Seek", icon: <RiBookOpenLine /> },
+    { key: "PERSONAL", label: "Service Seek", icon: <RiToolsLine /> },
     { key: "providers", label: "Browse Providers", icon: <RiStarLine /> },
 ];
 
@@ -387,7 +210,6 @@ export default function JobsPage() {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [providerPage, setProviderPage] = useState(1);
-    const [selectedProviderId, setSelectedProviderId] = useState<string | null>(null);
     const debouncedSearch = useDebounce(search, 400);
 
     const isProviderTab = tab === "providers";
@@ -526,7 +348,7 @@ export default function JobsPage() {
                                         : "border-surface-200 text-primary2-700 hover:border-primary2-300 hover:bg-primary2-50"
                                         }`}
                                 >
-                                    {t.icon} {t.label}
+                                    {t.icon} {t?.label}
                                 </button>
                             ))}
                         </div>
@@ -613,7 +435,7 @@ export default function JobsPage() {
                                             <ProviderCard
                                                 key={p._id}
                                                 provider={p}
-                                                onClick={() => setSelectedProviderId(p._id)}
+                                                onClick={() => router.push(`/jobs/providers/${p._id}`)}
                                             />
                                         ))
                                 }
@@ -665,13 +487,6 @@ export default function JobsPage() {
                     </div>
                 </FadeUp>
             </div>
-
-            {/* Provider Detail Sheet */}
-            <ProviderDetailSheet
-                providerId={selectedProviderId}
-                open={!!selectedProviderId}
-                onClose={() => setSelectedProviderId(null)}
-            />
         </div>
     );
 }
