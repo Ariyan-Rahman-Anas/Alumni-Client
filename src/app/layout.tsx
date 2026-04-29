@@ -29,7 +29,7 @@ const splash = Splash({
 /* ── Metadata ──────────────────────────────────────────────── */
 export const metadata: Metadata = {
   title: {
-    default: "Alumni Association | BAMHS — Battali Abdul Matin High School, Nangalkot, Cumilla, Chattogram, Bangladesh",
+    default: "Alumni Association of Battali Abdul Matin High School - BAMHS, Nangalkot, Cumilla, Chattogram, Bangladesh",
     template: "%s | BAMHS",
   },
   description:
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "BAMHS" }],
   openGraph: {
-    title: "Alumni Association | BAMHS — Battali Abdul Matin High School, Nangalkot, Cumilla, Chattogram, Bangladesh",
+    title: "Alumni Association of Battali Abdul Matin High School - BAMHS, Nangalkot, Cumilla, Chattogram, Bangladesh",
     description:
       "The Official Website of Battali Abdul Matin High School's Alumni Association. Located in Battali Bazar, Nangalkot, Cumilla, Chattogram, Bangladesh.",
     type: "website",
@@ -68,7 +68,7 @@ export default function RootLayout({
       <body
         className="
            antialiased
-          bg-surface
+          bg-surface darkbgblack
           max-w-full
           min-h-screen h-full
         ">

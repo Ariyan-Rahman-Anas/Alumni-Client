@@ -70,7 +70,7 @@ const Footer = () => {
 
   return (
     <footer
-      className="relative overflow-hidden rounded-t-pill md:rounded-t-circle"
+      className="relative overflow-hidden rounded-t-pillmd:rounded-t-circle"
       style={{
         background: "linear-gradient(180deg, #0A3D2B 0%, #051F15 100%)",
       }}
