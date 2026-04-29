@@ -19,11 +19,11 @@ import TextAreaBox from "@/components/shared/TextAreaBox";
 import SingleSelect from "@/components/shared/SingleSelect";
 import DatePickerSingle from "@/components/shared/DatePickerSingle";
 import PrimaryButton from "@/components/shared/PrimaryButton";
-import type { UserProfile, UpdateUserPayload } from "@/redux/apis/userApi";
 import { useUpdateUserMutation } from "@/redux/apis/userApi";
 import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/redux/store";
 import { setUser } from "@/redux/slice/authSlice";
+import { IUpdateUserPayload, IUserProfile } from "../user.types";
 
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"] as const;
 
@@ -86,13 +86,13 @@ const SectionCard = ({ title, icon, index, children }: SectionCardProps) => (
     </motion.div>
 );
 
-interface ProfileFormProps {
-    user: UserProfile;
+interface IProfileFormProps {
+    user: IUserProfile;
     pendingImage: File | null;
     onImageSaved: () => void;
 }
 
-const ProfileForm = ({ user, pendingImage, onImageSaved }: ProfileFormProps) => {
+const ProfileForm = ({ user, pendingImage, onImageSaved }: IProfileFormProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const [updateUser, { isLoading: isSaving }] = useUpdateUserMutation();
 
@@ -138,7 +138,7 @@ const ProfileForm = ({ user, pendingImage, onImageSaved }: ProfileFormProps) => 
         }
 
         try {
-            const payload: UpdateUserPayload = {};
+            const payload: IUpdateUserPayload = {};
             if (dirtyFields.name) payload.name = values.name;
             if (dirtyFields.phone && values.phone) payload.phone = values.phone;
             if (dirtyFields.bloodGroup && values.bloodGroup) payload.bloodGroup = values.bloodGroup;

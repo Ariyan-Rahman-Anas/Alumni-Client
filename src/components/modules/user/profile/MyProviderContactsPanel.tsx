@@ -23,10 +23,10 @@ import {
     useGetMyProviderProfileQuery,
     useDeleteContactMutation,
     useDeleteContactReplyMutation,
-    type ProviderContact,
 } from "@/redux/apis/jobApi";
 import { useAppSelector } from "@/redux/hooks";
 import { cn } from "@/lib/utils";
+import { IProviderContact } from "../job/job.types";
 
 /* ── Avatar ──────────────────────────────────────────────── */
 function Av({ name, imageUrl, size = 40 }: { name: string; imageUrl?: string; size?: number }) {
@@ -45,19 +45,19 @@ function Av({ name, imageUrl, size = 40 }: { name: string; imageUrl?: string; si
 }
 
 /* ── Helpers ─────────────────────────────────────────────── */
-function getOtherPerson(contact: ProviderContact, myUserId: string) {
+function getOtherPerson(contact: IProviderContact, myUserId: string) {
     const providerUserId = (contact.provider as { user?: { _id?: string } })?.user?._id ?? contact.provider?._id ?? "";
     const isIAmProvider = providerUserId === myUserId;
     return isIAmProvider ? contact.seeker : (contact.provider as { user?: { name: string; imageUrl?: string; email: string } })?.user ?? contact.seeker;
 }
 
-function getLastMessage(contact: ProviderContact): string {
+function getLastMessage(contact: IProviderContact): string {
     const lastReply = contact?.replies?.length > 0 ? contact.replies[contact.replies.length - 1] : null;
     if (lastReply) return lastReply.body;
     return contact?.message ?? "No message";
 }
 
-function getLastTime(contact: ProviderContact): Date {
+function getLastTime(contact: IProviderContact): Date {
     const lastReply = contact?.replies?.length > 0 ? contact.replies[contact.replies.length - 1] : null;
     return new Date(lastReply ? lastReply.createdAt : contact?.createdAt ?? Date.now());
 }
@@ -69,7 +69,7 @@ function ConversationItem({
     myUserId,
     onSelect,
 }: {
-    contact: ProviderContact;
+    contact: IProviderContact;
     isActive: boolean;
     myUserId: string;
     onSelect: () => void;
@@ -151,7 +151,7 @@ function ConversationDetail({
     onBack,
     onDeleted,
 }: {
-    contact: ProviderContact;
+    contact: IProviderContact;
     myUserId: string;
     onBack: () => void;
     onDeleted: () => void;
@@ -359,12 +359,12 @@ export default function MyProviderContactsPanel() {
     });
     const { data: sentData, isLoading: loadingSent } = useGetMySentContactsQuery();
 
-    const receivedContacts: ProviderContact[] = receivedData?.data ?? [];
-    const sentContacts: ProviderContact[] = sentData?.data ?? [];
+    const receivedContacts: IProviderContact[] = receivedData?.data ?? [];
+    const sentContacts: IProviderContact[] = sentData?.data ?? [];
 
     // Merge and deduplicate (same contact may appear in both if user is both provider+seeker)
     const allIds = new Set<string>();
-    const allContacts: ProviderContact[] = [];
+    const allContacts: IProviderContact[] = [];
     [...receivedContacts, ...sentContacts].forEach((c) => {
         if (!allIds.has(c._id)) { allIds.add(c._id); allContacts.push(c); }
     });
@@ -385,7 +385,7 @@ export default function MyProviderContactsPanel() {
 
     const selected = allContacts.find((c) => c._id === selectedId) ?? null;
 
-    const handleSelect = (contact: ProviderContact) => {
+    const handleSelect = (contact: IProviderContact) => {
         setSelectedId(contact._id);
         setMobileView("detail");
     };

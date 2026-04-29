@@ -1,5 +1,5 @@
+import { IUserProfile } from "@/components/modules/user/user.types";
 import { baseApi } from "./baseApi";
-import { UserProfile } from "./userApi";
 
 export interface GalleryCategory {
   _id: string;
@@ -17,7 +17,7 @@ export interface GalleryImage {
   };
   imageUrl: string;
   imagePublicId: string;
-  uploadedBy: UserProfile;
+  uploadedBy: IUserProfile;
   isPublished: boolean;
   isFeatured: boolean;
   createdAt: string;
@@ -97,7 +97,7 @@ interface GetPublishedGalleriesParams {
 }
 
 export interface TopContributor {
-  user: UserProfile;
+  user: IUserProfile;
   imageCount: number;
 }
 

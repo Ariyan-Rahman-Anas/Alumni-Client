@@ -17,7 +17,7 @@ import {
     RiCloseLine,
     RiMapPin2Line,
 } from "react-icons/ri";
-import { useCreateJobPostMutation, type JobPostType, type CreateJobPostPayload } from "@/redux/apis/jobApi";
+import { useCreateJobPostMutation } from "@/redux/apis/jobApi";
 import { useFormWithToast } from "@/hooks/useFormWithToast";
 import InputField from "@/components/shared/InputField";
 import TextAreaBox from "@/components/shared/TextAreaBox";
@@ -29,8 +29,9 @@ import {
     POST_JOB_FIELD_ORDER,
     postJobSchema,
 } from "./postJobSchema";
+import { TCreateJobPostPayload, TJobPostType } from "@/components/modules/user/job/job.types";
 
-const TYPE_OPTIONS: { value: JobPostType; label: string; description: string; icon: React.ReactNode }[] = [
+const TYPE_OPTIONS: { value: TJobPostType; label: string; description: string; icon: React.ReactNode }[] = [
     { value: "OFFICIAL", label: "Official Job", description: "Post a job opening for your company or organization.", icon: <RiBriefcaseLine className="text-2xl" /> },
     { value: "TUITION", label: "Tuition Seek", description: "Find a tutor for your child or yourself.", icon: <RiBookOpenLine className="text-2xl" /> },
     { value: "PERSONAL", label: "Service Seek", description: "Hire an electrician, plumber, cook, or other professional.", icon: <RiToolsLine className="text-2xl" /> },
@@ -124,7 +125,7 @@ function TagInput({ tags, onAdd, onRemove, placeholder, suggestions }: {
 export default function PostJobPage() {
     const router = useRouter();
     const [step, setStep] = useState(0);
-    const [selectedType, setSelectedType] = useState<JobPostType | null>(null);
+    const [selectedType, setSelectedType] = useState<TJobPostType | null>(null);
     const [createJob, { isLoading }] = useCreateJobPostMutation();
 
     // Array / checkbox state (not managed by react-hook-form)
@@ -232,7 +233,7 @@ export default function PostJobPage() {
         }
 
         try {
-            await createJob(base as CreateJobPostPayload).unwrap();
+            await createJob(base as TCreateJobPostPayload).unwrap();
             router.push("/jobs?posted=1");
         } catch (err: unknown) {
             const message =

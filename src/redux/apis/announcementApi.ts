@@ -1,5 +1,5 @@
+import { IUserProfile } from "@/components/modules/user/user.types";
 import { baseApi } from "./baseApi";
-import type { UserProfile } from "./userApi";
 
 export type AnnouncementStatus = "draft" | "published" | "scheduled" | "archived";
 export type AnnouncementPriority = "urgent" | "high" | "normal";
@@ -24,8 +24,8 @@ export interface Announcement {
   status: AnnouncementStatus;
   priority: AnnouncementPriority;
   type: AnnouncementType;
-  createdBy: UserProfile;
-  updatedBy?: UserProfile;
+  createdBy: IUserProfile;
+  updatedBy?: IUserProfile;
   publishedAt?: string;
   scheduledAt?: string;
   expiresAt?: string;

@@ -22,12 +22,11 @@ import {
     useGetJobApplicationsQuery,
     useSelectApplicantMutation,
     useDeleteJobPostMutation,
-    type JobPost,
-    type JobPostStatus,
 } from "@/redux/apis/jobApi";
 import DeleteAlertModal from "@/components/shared/DeleteAlertModal";
+import { IJobPost, TJobPostStatus } from "../job/job.types";
 
-const STATUS_CONFIG: Record<JobPostStatus, { label: string; className: string; icon: React.ReactNode }> = {
+const STATUS_CONFIG: Record<TJobPostStatus, { label: string; className: string; icon: React.ReactNode }> = {
     PENDING: { label: "Pending", className: "bg-amber-50 text-amber-700 border border-amber-200", icon: <RiTimeLine /> },
     APPROVED: { label: "Active", className: "bg-emerald-50 text-emerald-700 border border-emerald-200", icon: <RiCheckboxCircleLine /> },
     REJECTED: { label: "Rejected", className: "bg-red-50 text-red-700 border border-red-200", icon: <RiCloseCircleLine /> },
@@ -91,7 +90,7 @@ function JobApplicantsPanel({ jobId, isOwner }: { jobId: string; isOwner: boolea
 }
 
 /* ── Job Row ──────────────────────────────────────────── */
-function JobRow({ job }: { job: JobPost }) {
+function JobRow({ job }: { job: IJobPost }) {
     const [expanded, setExpanded] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
     const [deleteJob, { isLoading: isDeleting }] = useDeleteJobPostMutation();

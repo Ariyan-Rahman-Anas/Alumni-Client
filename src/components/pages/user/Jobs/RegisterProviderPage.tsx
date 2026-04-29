@@ -14,7 +14,7 @@ import {
     RiMapPin2Line,
     RiBriefcase4Line,
 } from "react-icons/ri";
-import { useRegisterProviderMutation, type CreateProviderPayload } from "@/redux/apis/jobApi";
+import { useRegisterProviderMutation} from "@/redux/apis/jobApi";
 import { useFormWithToast } from "@/hooks/useFormWithToast";
 import InputField from "@/components/shared/InputField";
 import TextAreaBox from "@/components/shared/TextAreaBox";
@@ -25,6 +25,7 @@ import {
     REGISTER_PROVIDER_FIELD_ORDER,
     registerProviderSchema,
 } from "./registerProviderSchema";
+import { TCreateProviderPayload } from "@/components/modules/user/job/job.types";
 
 const PROVIDER_TYPE_OPTIONS = [
     { label: "Tutor", value: "TUTOR" },
@@ -134,8 +135,8 @@ export default function RegisterProviderPage() {
             return;
         }
 
-        const payload: CreateProviderPayload = {
-            providerType: data.providerType as CreateProviderPayload["providerType"],
+        const payload: TCreateProviderPayload = {
+            providerType: data.providerType as TCreateProviderPayload["providerType"],
             bio: data.bio,
             experience: data.experience,
             gender: data.gender,
@@ -147,7 +148,7 @@ export default function RegisterProviderPage() {
             subjects: isTutor && subjects.length ? subjects : undefined,
             classRange: isTutor && classRange.length ? classRange : undefined,
             availableGenderStudents: data.availableGenderStudents || undefined,
-        } as CreateProviderPayload;
+        } as TCreateProviderPayload;
 
         try {
             await registerProvider({ payload, certificates: certFiles.length ? certFiles : undefined }).unwrap();

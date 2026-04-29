@@ -58,28 +58,30 @@ const AboutSection = () => {
                     {/* Headline */}
                     <h2
                         className="section-heading-text-left mb-6 mt-4 text-primary2-900 dark:text-gunmetal-200 ">
-                        Scattered across the world,{" "}
+                        Scattered Across the World,{" "}
                         <br className="hidden sm:block" />
-                        united by{" "}
+                        United by{" "}
                         <span
                             className="text-primary"
                         >
-                            one address
+                            One Address
                         </span>
                     </h2>
 
                     {/* Description */}
-                    <p className="text-muted-foreground mb-4">
-                        We are not an institution — we are a family. A family born in the
-                        classrooms of Battali Abdul Matin High School and now spread across{" "}
-                        {totalCountries ? `${totalCountries}+ countries` : "the globe"}.
-                        This portal is our shared home online.
-                    </p>
-                    <p className="mb-8 text-muted-foreground">
-                        Built by BAMHSians, for BAMHSians — a place to reconnect with old
-                        friends, celebrate shared milestones, and give back to the community
-                        that shaped who we are.
-                    </p>
+                    <div className="space-y-4 mb-8 text-gunmetal-400 dark:text-gunmetal-300 ">
+                        <p>
+                            We are not an institution — we are a family. A family born in the
+                            classrooms of Battali Abdul Matin High School and now spread across{" "}
+                            {totalCountries ? `${totalCountries}+ countries` : "the globe"}.
+                            This portal is our shared home online.
+                        </p>
+                        <p>
+                            Built by BAMHSians, for BAMHSians — a place to reconnect with old
+                            friends, celebrate shared milestones, and give back to the community
+                            that shaped who we are.
+                        </p>
+                    </div>
 
                     {/* Feature list */}
                     <div className="space-y-4 mb-10">
@@ -93,20 +95,14 @@ const AboutSection = () => {
                                 className="flex items-start gap-4 group"
                             >
                                 <div
-                                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 text-lg transition-transform duration-300 group-hover:scale-110"
-                                    style={{
-                                        background: "var(--color-primary-50)",
-                                        color: "var(--color-primary-600)",
-                                        border: "1px solid var(--color-primary-100)",
-                                    }}
-                                >
+                                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 text-lg transition-transform duration-300 group-hover:scale-110 bg-primary2-50 dark:bg-gunmetal-900 text-primary2-600 dark:text-gunmetal-300 border border-primary2-200 dark:border-gunmetal-500 ">
                                     {icon}
                                 </div>
                                 <div>
-                                    <p className="font-semibold text-sm mb-0.5 text-primary2-700 ">
+                                    <p className="font-semibold text-sm mb-0.5 text-primary2-700 dark:text-gunmetal-200 ">
                                         {title}
                                     </p>
-                                    <p className="text-sm text-muted-foreground leading-relaxed">
+                                    <p className="text-sm text-gunmetal-400 dark:text-gunmetal-300 leading-relaxed">
                                         {desc}
                                     </p>
                                 </div>
