@@ -200,7 +200,7 @@ const HeroSection = () => {
             </motion.div>
 
             {/* ── OVERLAY — darker, more cinematic ── */}
-            <div className="absolute inset-0 bg-gradient-to-t from-primary2-950 via-primary2-950/60 to-primary2-950/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-primary2-950 dark:from-gunmetal-950 via-primary2-950/60 dark:via-gunmetal-950/60 to-primary2-950/40 dark:to-gunmetal-950/40 "/>
 
             {/* vignette */}
             <div className="absolute inset-0 pointer-events-none bg-radial-gradient" />

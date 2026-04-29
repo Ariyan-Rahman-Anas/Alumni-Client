@@ -53,33 +53,35 @@ const AboutSection = () => {
             <div>
                 <FadeUpWrapper>
                     {/* Badge */}
-                    <SectionLabel text="Our Community" variant="pill" icon={<RiSparkling2Line />} align="left" />
+                    <SectionLabel text="Our Community" variant="pill" icon={<RiSparkling2Line />} align="left" className="dark:border-gunmetal-400 dark:text-gunmetal-200 " />
 
                     {/* Headline */}
                     <h2
-                        className="section-heading-text-left mb-6 text-primary2-900 ">
-                        Scattered across the world,{" "}
+                        className="section-heading-text-left mb-6 mt-4 text-primary2-900 dark:text-gunmetal-200 ">
+                        Scattered Across the World,{" "}
                         <br className="hidden sm:block" />
-                        united by{" "}
+                        United by{" "}
                         <span
                             className="text-primary"
                         >
-                            one address
+                            One Address
                         </span>
                     </h2>
 
                     {/* Description */}
-                    <p className="text-muted-foreground mb-4">
-                        We are not an institution — we are a family. A family born in the
-                        classrooms of Battali Abdul Matin High School and now spread across{" "}
-                        {totalCountries ? `${totalCountries}+ countries` : "the globe"}.
-                        This portal is our shared home online.
-                    </p>
-                    <p className="mb-8 text-muted-foreground">
-                        Built by BAMHSians, for BAMHSians — a place to reconnect with old
-                        friends, celebrate shared milestones, and give back to the community
-                        that shaped who we are.
-                    </p>
+                    <div className="space-y-4 mb-8 text-gunmetal-400 dark:text-gunmetal-300 ">
+                        <p>
+                            We are not an institution — we are a family. A family born in the
+                            classrooms of Battali Abdul Matin High School and now spread across{" "}
+                            {totalCountries ? `${totalCountries}+ countries` : "the globe"}.
+                            This portal is our shared home online.
+                        </p>
+                        <p>
+                            Built by BAMHSians, for BAMHSians — a place to reconnect with old
+                            friends, celebrate shared milestones, and give back to the community
+                            that shaped who we are.
+                        </p>
+                    </div>
 
                     {/* Feature list */}
                     <div className="space-y-4 mb-10">
@@ -93,20 +95,14 @@ const AboutSection = () => {
                                 className="flex items-start gap-4 group"
                             >
                                 <div
-                                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 text-lg transition-transform duration-300 group-hover:scale-110"
-                                    style={{
-                                        background: "var(--color-primary-50)",
-                                        color: "var(--color-primary-600)",
-                                        border: "1px solid var(--color-primary-100)",
-                                    }}
-                                >
+                                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 text-lg transition-transform duration-300 group-hover:scale-110 bg-primary2-50 dark:bg-gunmetal-900 text-primary2-600 dark:text-gunmetal-300 border border-primary2-200 dark:border-gunmetal-500 ">
                                     {icon}
                                 </div>
                                 <div>
-                                    <p className="font-semibold text-sm mb-0.5 text-primary2-700 ">
+                                    <p className="font-semibold text-sm mb-0.5 text-primary2-700 dark:text-gunmetal-200 ">
                                         {title}
                                     </p>
-                                    <p className="text-sm text-muted-foreground leading-relaxed">
+                                    <p className="text-sm text-gunmetal-400 dark:text-gunmetal-300 leading-relaxed">
                                         {desc}
                                     </p>
                                 </div>
@@ -123,10 +119,7 @@ const AboutSection = () => {
                             href="/login"
                             variant="default"
                             iconSide2="right"
-                            style={{
-                                background: "linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-800) 100%)",
-                                color: "#FDFAF2",
-                            }}
+                            className="dark:bg-gunmetal-200  dark:text-gunmetal-900"
                         />
                         <PrimaryButton
                             type="button"
@@ -135,6 +128,7 @@ const AboutSection = () => {
                             href="/about"
                             variant="outline"
                             iconSide2="right"
+                            className="dark:bg-gunmetal-900 dark:text-gunmetal-200 dark:border-gunmetal-400"
                         />
                     </div>
                 </FadeUpWrapper>
@@ -150,13 +144,7 @@ const AboutSection = () => {
                         whileInView={{ scale: 1, opacity: 1 }}
                         viewport={{ once: true, margin: "-60px" }}
                         transition={{ duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
-                        className="relative rounded-3xl overflow-hidden"
-                        style={{
-                            background: "linear-gradient(145deg, #0F3C24 0%, #051F15 100%)",
-                            border: "1px solid rgba(46,139,87,0.22)",
-                            boxShadow: "0 24px 60px rgba(5,31,21,0.45), 0 0 0 1px rgba(46,139,87,0.10) inset",
-                        }}
-                    >
+                        className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[#0F3C24] dark:from-gunmetal-500 to-[#051F15] dark:to-gunmetal-800" >
                         {/* Decorative grid overlay */}
                         <div
                             className="absolute inset-0 pointer-events-none"
@@ -180,23 +168,17 @@ const AboutSection = () => {
                             {/* Card header */}
                             <div className="flex items-center justify-between mb-8">
                                 <div>
-                                    <p className="text-xs tracking-[0.15em] text-primary2-300 mb-1"
+                                    <p className="text-xs tracking-[0.15em] text-primary2-300 dark:text-gunmetal-300 mb-1"
                                     >
                                         Alumni Community Portal
                                     </p>
-                                    <p className="font-display font-bold text-xl"
-                                        style={{ color: "var(--color-primary-100)" }}>
+                                    <p className="font-display font-bold text-xl text-primary2-100 dark:text-gunmetal-200 "
+                                    >
                                         BAMHS Alumni
                                     </p>
                                 </div>
                                 <div
-                                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl"
-                                    style={{
-                                        background: "rgba(46,139,87,0.18)",
-                                        border: "1px solid rgba(46,139,87,0.28)",
-                                        color: "var(--color-primary-300)",
-                                    }}
-                                >
+                                    className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl text-primary2-300 dark:text-gunmetal-300 ">
                                     <RiSparkling2Line />
                                 </div>
                             </div>
@@ -205,11 +187,7 @@ const AboutSection = () => {
                             <div className="relative pl-6 space-y-6 mb-8">
                                 {/* Vertical accent line */}
                                 <div
-                                    className="absolute left-0 top-1 bottom-1 w-[2px] rounded-full"
-                                    style={{
-                                        background: "linear-gradient(to bottom, var(--color-primary-500), rgba(46,139,87,0.10))",
-                                    }}
-                                />
+                                    className="absolute left-0 top-1 bottom-1 w-[2px] rounded-full bg-gradient-to-b from-primary2-500 to-primary2-500/10 dark:from-gunmetal-200 dark:to-gunmetal-200/10 " />
                                 {[
                                     {
                                         icon: <RiGroupLine />,
@@ -230,25 +208,16 @@ const AboutSection = () => {
                                     <div key={title} className="flex items-start gap-3">
                                         {/* Dot on the line */}
                                         <div
-                                            className="absolute -left-[5px] w-3 h-3 rounded-full border-2 mt-0.5"
-                                            style={{
-                                                background: "#051F15",
-                                                borderColor: "var(--color-primary-400)",
-                                            }}
-                                        />
+                                            className="absolute -left-[5px] w-3 h-3 rounded-full border-2 mt-0.5 bg-primary2-800 dark:bg-gunmetal-800 border-primary2-400 dark:border-gunmetal-200 " />
                                         <span
-                                            className="text-base shrink-0 mt-0.5"
-                                            style={{ color: "var(--color-primary-400)" }}
-                                        >
+                                            className="text-base shrink-0 mt-0.5 text-primary2-400 dark:text-gunmetal-300">
                                             {icon}
                                         </span>
                                         <div>
-                                            <p className="font-semibold text-sm mb-0.5"
-                                                style={{ color: "var(--color-primary-100)" }}>
+                                            <p className="font-semibold text-sm mb-0.5 text-primary2-100 dark:text-gunmetal-200">
                                                 {title}
                                             </p>
-                                            <p className="text-[12px] leading-relaxed"
-                                                style={{ color: "rgba(195,232,206,0.50)" }}>
+                                            <p className="text-[12px] leading-relaxed text-primary2-300 dark:text-gunmetal-300 ">
                                                 {desc}
                                             </p>
                                         </div>
@@ -261,25 +230,21 @@ const AboutSection = () => {
                                 style={{ background: "rgba(46,139,87,0.16)" }} />
 
                             {/* Community quote */}
-                            <div className="flex items-start gap-3">
-                                <RiHeartLine className="text-lg shrink-0 mt-0.5"
-                                    style={{ color: "var(--color-primary-400)" }} />
-                                <p className="text-sm leading-relaxed italic"
-                                    style={{ color: "rgba(195,232,206,0.60)" }}>
+                            <div className="flex items-start gap-3 text-primary2-400 dark:text-gunmetal-300">
+                                <RiHeartLine className="text-lg shrink-0 mt-0.5 " />
+                                <p className="text-sm leading-relaxed italic ">
                                     &ldquo;More than graduates — we are a lifelong family,
                                     united by one school and one shared memory.&rdquo;
                                 </p>
                             </div>
 
                             {/* Card footer */}
-                            <div className="flex items-center justify-between mt-6 pt-5"
-                                style={{ borderTop: "1px solid rgba(46,139,87,0.12)" }}>
-                                <p className="text-xs font-medium tracking-widest uppercase text-primary2-400 "
+                            <div className="flex items-center justify-between mt-6 pt-5 text-xs font-semibold text-primary2-400 dark:text-gunmetal-300">
+                                <p className="tracking-widest uppercase"
                                 >
                                     Est. 1966 · Battali.
                                 </p>
-                                <span className="text-xs text-primary2-400 font-semibold"
-                                >
+                                <span>
                                     {yearsOfExcellence ?? 0}+ yrs
                                 </span>
                             </div>
@@ -313,13 +278,10 @@ const AboutSection = () => {
                                 }}
                             >
                                 <span
-                                    className="text-base transition-transform duration-200 group-hover:scale-110"
-                                    style={{ color: "var(--color-primary-500)" }}
-                                >
+                                    className="text-base transition-transform duration-200 group-hover:scale-110 text-primary2-400 dark:text-gunmetal-200">
                                     {icon}
                                 </span>
-                                <span className="text-[10px] font-semibold tracking-wide text-center leading-tight"
-                                    style={{ color: "var(--color-text-secondary)" }}>
+                                <span className="text-[10px] font-semibold tracking-wide text-center leading-tight text-primary2-500 dark:text-gunmetal-300">
                                     {label}
                                 </span>
                             </div>

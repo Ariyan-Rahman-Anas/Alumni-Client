@@ -2,11 +2,11 @@
 
 import { motion } from "framer-motion";
 import { RiMailLine } from "react-icons/ri";
-import type { UserProfile } from "@/redux/apis/userApi";
 import UserProfileAvatar from "./UserProfileAvatar";
+import { IUserProfile } from "../user.types";
 
 interface ProfileHeroProps {
-    user: UserProfile;
+    user: IUserProfile;
     pendingImage: File | null;
     onImageChange: (file: File | null) => void;
 }

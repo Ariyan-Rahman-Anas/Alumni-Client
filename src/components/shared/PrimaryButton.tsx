@@ -34,16 +34,14 @@ const PrimaryButton = ({
     );
 
     const buttonClassName =
-        `rounded-md py-4 px-4 ${isFullWidth ? "w-full" : "min-w-24 md:min-w-28 "} ${!title && !loadingTitle ? "p-2" : ""} ${className}`.trim();
+        `rounded-full py-[19px] px-5 dark:bg-gunmetal-500 dark:text-gunmetal-100 ${isFullWidth ? "w-full" : "min-w-24 md:min-w-28 "} ${!title && !loadingTitle ? "p-2" : ""} ${className}`.trim();
     const isButtonDisabled = isDisabled || isLoading;
 
     return href && !isLoading ? (
         <Link
-            // href={!isDisabled && href}
             href={ href}
             target={isNewTab ? "_blank" : "_self"}
             rel={isNewTab ? "noopener noreferrer" : undefined}
-            // className={isFullWidth ? "w-full block" : "inline-block" }
             className={cn(isFullWidth ? "w-full block" : "inline-block", isDisabled ? "pointer-events-none" : "")}
         >
             <Button

@@ -9,15 +9,11 @@ import DeleteAlertModal from "@/components/shared/DeleteAlertModal";
 import AdminUserViewModal from "./AdminUserViewModal";
 import { Button } from "@/components/ui/button";
 import type { TableColumn } from "@/types";
-import {
-    useGetAllUsersQuery,
-    useApproveUserMutation,
-    useDeleteUserMutation,
-    type UserProfile,
-} from "@/redux/apis/userApi";
 import Image from "next/image";
 import { AdminUsersTableProps } from "@/types/admin/users.types";
 import DateFormatter from "@/lib/DateFormatter";
+import { IUserProfile } from "../../user/user.types";
+import { useApproveUserMutation, useDeleteUserMutation, useGetAllUsersQuery } from "@/redux/apis/userApi";
 
 const AdminUsersTable = ({
     page,
@@ -33,7 +29,7 @@ const AdminUsersTable = ({
     isVerified,
     emptyMessage = "No users found",
 }: AdminUsersTableProps) => {
-    const [viewUser, setViewUser] = useState<UserProfile | null>(null);
+    const [viewUser, setViewUser] = useState<IUserProfile | null>(null);
     const [deleteUserId, setDeleteUserId] = useState<string | null>(null);
 
     const { data, isLoading, isError } = useGetAllUsersQuery({
@@ -72,7 +68,7 @@ const AdminUsersTable = ({
         }
     };
 
-    const columns: TableColumn<UserProfile>[] = [
+    const columns: TableColumn<IUserProfile>[] = [
         {
             key: "index", label: "#"
         },
@@ -186,7 +182,7 @@ const AdminUsersTable = ({
 
     return (
         <>
-            <DataTable<UserProfile>
+            <DataTable<IUserProfile>
                 data={data?.data ?? []}
                 columns={columns}
                 isLoading={isLoading}

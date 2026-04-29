@@ -16,9 +16,9 @@ import {
 import {
     useGetMyProviderProfileQuery,
     useDeleteProviderProfileMutation,
-    type ServiceProvider,
 } from "@/redux/apis/jobApi";
 import DeleteAlertModal from "@/components/shared/DeleteAlertModal";
+import { IServiceProvider } from "../job/job.types";
 
 /* ── Helpers ───────────────────────────────────────────── */
 const STATUS_CONFIG: Record<string, { label: string; className: string; icon: React.ReactNode }> = {
@@ -27,7 +27,7 @@ const STATUS_CONFIG: Record<string, { label: string; className: string; icon: Re
     REJECTED: { label: "Rejected", className: "bg-red-50 text-red-700 border border-red-200", icon: <RiCloseCircleLine /> },
 };
 
-function ProviderAvatar({ provider }: { provider: ServiceProvider }) {
+function ProviderAvatar({ provider }: { provider: IServiceProvider }) {
     const user = provider.user;
     if (user.imageUrl) {
         return (
@@ -60,7 +60,7 @@ function TagList({ items }: { items: string[] }) {
 }
 
 /* ── Profile card ──────────────────────────────────────── */
-function ProviderCard({ provider }: { provider: ServiceProvider }) {
+function ProviderCard({ provider }: { provider: IServiceProvider }) {
     const status = STATUS_CONFIG[provider.status] ?? STATUS_CONFIG.PENDING;
     const rates = [
         provider.hourlyRate && `৳${provider.hourlyRate}/hr`,

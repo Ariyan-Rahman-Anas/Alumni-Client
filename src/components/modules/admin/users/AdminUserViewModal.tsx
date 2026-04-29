@@ -6,10 +6,10 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import type { UserProfile } from "@/redux/apis/userApi";
+import { IUserProfile } from "../../user/user.types";
 
 interface AdminUserViewModalProps {
-    user: UserProfile | null;
+    user: IUserProfile | null;
     onClose: () => void;
     onApprove: (id: string) => void;
     isApproving?: boolean;

@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { format, formatDistanceToNow } from "date-fns";
 import { RiFileListLine, RiCheckboxCircleLine, RiCloseCircleLine, RiTimeLine, RiExternalLinkLine, RiBriefcaseLine } from "react-icons/ri";
-import { useGetMyApplicationsQuery, type ApplicationStatus } from "@/redux/apis/jobApi";
+import { useGetMyApplicationsQuery } from "@/redux/apis/jobApi";
+import { TApplicationStatus } from "../job/job.types";
 
-const STATUS_CONFIG: Record<ApplicationStatus, { label: string; className: string; icon: React.ReactNode }> = {
+const STATUS_CONFIG: Record<TApplicationStatus, { label: string; className: string; icon: React.ReactNode }> = {
     PENDING: { label: "Pending", className: "bg-amber-50 text-amber-700 border border-amber-200", icon: <RiTimeLine /> },
     SELECTED: { label: "Selected", className: "bg-emerald-50 text-emerald-700 border border-emerald-200", icon: <RiCheckboxCircleLine /> },
     REJECTED: { label: "Rejected", className: "bg-red-50 text-red-700 border border-red-200", icon: <RiCloseCircleLine /> },

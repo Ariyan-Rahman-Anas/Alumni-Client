@@ -90,16 +90,14 @@ const BatchCard = ({
                         <div className="flex items-start justify-between mb-5">
                             <div>
                                 <p
-                                    className="font-display font-bold leading-none"
+                                    className="font-display font-bold leading-none text-primary2-100 dark:text-primary "
                                     style={{
                                         fontSize: "clamp(2rem, 4vw, 2.4rem)",
-                                        color: "var(--color-primary-100)",
                                         letterSpacing: "-0.03em",
-                                    }}
-                                >
+                                    }}>
                                     {year}
                                 </p>
-                                <div className="flex items-center gap-1 mt-1 text-primary2-300">
+                                <div className="flex items-center gap-1 mt-1 text-primary2-300 dark:text-gunmetal-300">
                                     <RiGroupLine className="text-xs"
                                     />
                                     <span className="text-xs font-medium"
@@ -127,7 +125,7 @@ const BatchCard = ({
                                                 {icon}
                                             </span>
                                             <span
-                                                className="text-xs text-primary2-400 font-medium"
+                                                className="text-xs text-primary2-400 dark:text-gunmetal-300 font-medium"
                                             >
                                                 {label}
                                             </span>
@@ -142,7 +140,7 @@ const BatchCard = ({
                                 ))}
                             </div>
                         ) : (
-                            <p className="text-xs italic flex-1 text-primary2-400">
+                            <p className="text-xs italic flex-1 text-primary2-400 dark:text-gunmetal-300 ">
                                 No alumni registered yet
                             </p>
                         )}
@@ -184,17 +182,15 @@ const BatchesSection = () => {
                             />
 
                             <h2
-                                className="section-heading-text-left text-primary2-50 mt-5">
+                                className="section-heading-text-left text-primary2-50 dark:text-gunmetal-200 mt-5">
                                 Every year tells{" "}
-                                <span className="text-primary2-300"
+                                <span className="text-primary2-300 dark:text-primary"
                                 >
-                                    a story
+                                    a Story
                                 </span>
                             </h2>
                             <p
-                                className="mt-3 text-base max-w-lg leading-relaxed"
-                                style={{ color: "rgba(195,232,206,0.60)" }}
-                            >
+                                className="mt-3 text-base max-w-lg leading-relaxed text-primary2-300 dark:text-gunmetal-300">
                                 Swipe through graduating classes — explore who studied what, and where
                                 your generation stands in the BAMHS lineage.
                             </p>
@@ -249,18 +245,16 @@ const BatchesSection = () => {
                             <div className="flex items-center justify-between mt-8">
                                 <Link
                                     href="/batches"
-                                    className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200 hover:opacity-80"
-                                    style={{ color: "var(--color-primary-300)" }}
-                                >
+                                    className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200 hover:opacity-80 text-primary2-300 dark:text-gunmetal-300">
                                     Browse all batches <RiArrowRightLine />
                                 </Link>
 
                                 <div className="flex gap-2">
                                     <CarouselPrevious
-                                        className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 bg-primary2-500 hover:bg-primary2-600 hover:text-surface"
+                                        className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 dark:text-gunmetal-200 bg-primary2-500 dark:bg-gunmetal-500 hover:bg-primary2-600 dark:hover:bg-gunmetal-600 hover:text-surface"
                                     />
                                     <CarouselNext
-                                        className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 bg-primary2-500 hover:bg-primary2-600 hover:text-surface"
+                                        className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 dark:text-gunmetal-200 bg-primary2-500 dark:bg-gunmetal-500 hover:bg-primary2-600 dark:hover:bg-gunmetal-600 hover:text-surface"
                                     />
                                 </div>
                             </div>
@@ -288,10 +282,9 @@ const BatchesSection = () => {
                             border: "1px solid rgba(46,139,87,0.14)",
                         }}
                     >
-                        <RiBarChartLine className="text-lg shrink-0" style={{ color: "var(--color-primary-400)" }} />
-                        <p className="text-sm leading-relaxed flex-1"
-                            style={{ color: "rgba(195,232,206,0.55)" }}>
-                            Each batch card shows the <span style={{ color: "var(--color-primary-300)" }}>department split</span> of alumni
+                        <RiBarChartLine className="text-lg shrink-0 text-primary2-200 dark:text-gunmetal-200 " />
+                        <p className="text-sm leading-relaxed flex-1 text-primary2-200 dark:text-gunmetal-200 ">
+                            Each batch card shows the <span className="text-primary2-300 dark:text-gunmetal-300 " >department split</span> of alumni
                             registered on this portal — Science, Commerce &amp; Arts — giving every
                             generation a distinct identity beyond just a graduation year.
                         </p>

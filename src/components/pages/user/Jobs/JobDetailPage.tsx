@@ -42,11 +42,9 @@ import {
     useReactToCommentMutation,
     useReactToReplyMutation,
     useGetMyProviderProfileQuery,
-    type Comment,
-    type JobPost,
-    type CommentReactionType,
 } from "@/redux/apis/jobApi";
 import { useAppSelector } from "@/redux/hooks";
+import { IComment, IJobPost, TCommentReactionType } from "@/components/modules/user/job/job.types";
 
 /* ── Type config ───────────────────────────────────────── */
 const TYPE_CONFIG = {
@@ -78,7 +76,7 @@ function Avatar({ user, size = 32 }: { user: { name: string; imageUrl?: string }
 }
 
 /* ── Reaction config ──────────────────────────────────── */
-const REACTIONS: { type: CommentReactionType; emoji: string; label: string }[] = [
+const REACTIONS: { type: TCommentReactionType; emoji: string; label: string }[] = [
     { type: "LIKE", emoji: "👍", label: "Like" },
     { type: "LOVE", emoji: "❤️", label: "Love" },
     { type: "HAHA", emoji: "😂", label: "Haha" },
@@ -87,14 +85,14 @@ const REACTIONS: { type: CommentReactionType; emoji: string; label: string }[] =
     { type: "DISLIKE", emoji: "👎", label: "Dislike" },
 ];
 
-function groupReactions(reactions: { userId: string; type: CommentReactionType }[]) {
-    const counts: Partial<Record<CommentReactionType, number>> = {};
+function groupReactions(reactions: { userId: string; type: TCommentReactionType }[]) {
+    const counts: Partial<Record<TCommentReactionType, number>> = {};
     for (const r of reactions) counts[r.type] = (counts[r.type] ?? 0) + 1;
-    return Object.entries(counts) as [CommentReactionType, number][];
+    return Object.entries(counts) as [TCommentReactionType, number][];
 }
 
 /* ── Reaction Picker ──────────────────────────────────── */
-function ReactionPicker({ onReact }: { onReact: (type: CommentReactionType) => void }) {
+function ReactionPicker({ onReact }: { onReact: (type: TCommentReactionType) => void }) {
     return (
         <motion.div
             initial={{ opacity: 0, scale: 0.85, y: 4 }}
@@ -118,7 +116,7 @@ function ReactionPicker({ onReact }: { onReact: (type: CommentReactionType) => v
 }
 
 /* ── Reactions Modal ──────────────────────────────────── */
-type ReactorsTab = "LIKE" | "DISLIKE" | CommentReactionType;
+type ReactorsTab = "LIKE" | "DISLIKE" | TCommentReactionType;
 
 function ReactorsModal({
     open,
@@ -207,14 +205,14 @@ function CommentReactionsModal({
 }: {
     open: boolean;
     onClose: () => void;
-    reactions: { userId: string; type: CommentReactionType }[];
+    reactions: { userId: string; type: TCommentReactionType }[];
 }) {
     const groups = REACTIONS.map((r) => ({
         ...r,
         count: reactions.filter((x) => x.type === r.type).length,
     })).filter((g) => g.count > 0);
 
-    const [activeTab, setActiveTab] = useState<CommentReactionType>(groups[0]?.type ?? "LIKE");
+    const [activeTab, setActiveTab] = useState<TCommentReactionType>(groups[0]?.type ?? "LIKE");
     if (!open || groups.length === 0) return null;
 
     return (
@@ -264,7 +262,7 @@ function CommentItem({
     userId,
     role,
 }: {
-    comment: Comment;
+    comment: IComment;
     jobId: string;
     userId: string;
     role: string;
@@ -296,7 +294,7 @@ function CommentItem({
         setVisibleCount((v) => v + 1);
     };
 
-    const handleCommentReact = (type: CommentReactionType) => {
+    const handleCommentReact = (type: TCommentReactionType) => {
         reactToComment({ id: jobId, commentId: comment._id, reactionType: type });
         setShowCommentPicker(false);
     };
@@ -442,12 +440,12 @@ function ReplyItem({
     onDelete,
     onReact,
 }: {
-    reply: Comment["replies"][0];
-    myReplyReaction?: CommentReactionType;
-    replyReactionGroups: [CommentReactionType, number][];
+    reply: IComment["replies"][0];
+    myReplyReaction?: TCommentReactionType;
+    replyReactionGroups: [TCommentReactionType, number][];
     canDelete: boolean;
     onDelete: () => void;
-    onReact: (type: CommentReactionType) => void;
+    onReact: (type: TCommentReactionType) => void;
 }) {
     const [showReactionsModal, setShowReactionsModal] = useState(false);
     return (
@@ -491,7 +489,7 @@ function ReplyItem({
 }
 
 /* ── Reply Reaction Button (inline hover picker) ──────── */
-function ReplyReactionButton({ myReaction, onReact }: { myReaction?: CommentReactionType; onReact: (type: CommentReactionType) => void }) {
+function ReplyReactionButton({ myReaction, onReact }: { myReaction?: TCommentReactionType; onReact: (type: TCommentReactionType) => void }) {
     const [show, setShow] = useState(false);
     return (
         <div className="relative">
@@ -581,7 +579,7 @@ export default function JobDetailPage({ id }: { id: string }) {
     // console.log({myProvider})
     // console.log({isTutorProvider})
 
-    const job = data?.data as JobPost | undefined;
+    const job = data?.data as IJobPost | undefined;
 
     const isOwner = !!job && job.postedBy._id === userId;
     // Admin can see applicants/notes only if they are the owner OR NOT admin — admin is excluded from seeing applicants panel

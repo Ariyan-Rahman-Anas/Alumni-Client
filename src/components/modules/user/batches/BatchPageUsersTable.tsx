@@ -3,11 +3,11 @@
 import DataTable from "@/components/shared/dataTable/DataTable";
 import {
     useGetAllApprovedUsersQuery,
-    type UserProfile,
 } from "@/redux/apis/userApi";
 import Image from "next/image";
 import { TableColumn } from "@/types";
 import { IBatchUsersTableProps } from "@/types/user/batch/batch.types";
+import { IUserProfile } from "../user.types";
 
 const BatchPageUsersTable = ({
     page,
@@ -22,7 +22,7 @@ const BatchPageUsersTable = ({
 
     const { data: allApprovedUsersData, isLoading: isAllApprovedUsersLoading, isError } = useGetAllApprovedUsersQuery({ page, limit, search, bloodGroup, batch, section });
 
-    const columns: TableColumn<UserProfile>[] = [
+    const columns: TableColumn<IUserProfile>[] = [
         {
             key: "index", label: "SN."
         },
@@ -91,7 +91,7 @@ const BatchPageUsersTable = ({
 
     return (
         <>
-            <DataTable<UserProfile>
+            <DataTable<IUserProfile>
                 data={allApprovedUsersData?.data ?? []}
                 columns={columns}
                 isLoading={isAllApprovedUsersLoading}

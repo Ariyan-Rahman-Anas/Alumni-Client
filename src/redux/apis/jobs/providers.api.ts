@@ -1,42 +1,36 @@
+import { IContactListResponse, IJobsQueryParams, IProviderContact, IProviderListResponse, IProviderResponse, TCreateProviderPayload } from "@/components/modules/user/job/job.types";
 import { baseApi } from "../base";
-import type {
-    JobsQueryParams,
-    ProviderListResponse,
-    ProviderResponse,
-    ContactListResponse,
-    CreateProviderPayload,
-} from "./types";
 
 export const providersApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         /* ── Public ── */
-        getApprovedProviders: builder.query<ProviderListResponse, JobsQueryParams>({
+        getApprovedProviders: builder.query<IProviderListResponse, IJobsQueryParams>({
             query: (params) => ({ url: "/jobs/providers", method: "GET", params }),
             providesTags: ["providers"],
         }),
 
-        getProviderById: builder.query<ProviderResponse, string>({
+        getProviderById: builder.query<IProviderResponse, string>({
             query: (id) => ({ url: `/jobs/providers/${id}`, method: "GET" }),
             providesTags: (_r, _e, id) => [{ type: "providers", id }],
         }),
 
         /* ── Authenticated ── */
-        getMyProviderProfile: builder.query<ProviderResponse, void>({
+        getMyProviderProfile: builder.query<IProviderResponse, void>({
             query: () => ({ url: "/jobs/my/provider-profile", method: "GET" }),
             providesTags: ["providers"],
         }),
 
-        getMyProviderContacts: builder.query<ContactListResponse, void>({
+        getMyProviderContacts: builder.query<IContactListResponse, void>({
             query: () => ({ url: "/jobs/my/provider-contacts", method: "GET" }),
             providesTags: ["providerContacts"],
         }),
 
-        getMySentContacts: builder.query<ContactListResponse, void>({
+        getMySentContacts: builder.query<IContactListResponse, void>({
             query: () => ({ url: "/jobs/my/sent-contacts", method: "GET" }),
             providesTags: ["providerContacts"],
         }),
 
-        registerProvider: builder.mutation<ProviderResponse, { payload: CreateProviderPayload; certificates?: File[] }>({
+        registerProvider: builder.mutation<IProviderResponse, { payload: TCreateProviderPayload; certificates?: File[] }>({
             query: ({ payload, certificates }) => {
                 if (certificates?.length) {
                     const formData = new FormData();
@@ -53,7 +47,7 @@ export const providersApi = baseApi.injectEndpoints({
             invalidatesTags: ["providers"],
         }),
 
-        updateProviderProfile: builder.mutation<ProviderResponse, { id: string; payload: Partial<CreateProviderPayload> }>({
+        updateProviderProfile: builder.mutation<IProviderResponse, { id: string; payload: Partial<TCreateProviderPayload> }>({
             query: ({ id, payload }) => ({ url: `/jobs/providers/${id}`, method: "PATCH", body: payload }),
             invalidatesTags: ["providers"],
         }),
@@ -63,7 +57,7 @@ export const providersApi = baseApi.injectEndpoints({
             invalidatesTags: ["providers"],
         }),
 
-        replyToContact: builder.mutation<{ success: boolean; message: string; data: import("./types").ProviderContact }, { id: string; body: string }>({
+        replyToContact: builder.mutation<{ success: boolean; message: string; data: IProviderContact }, { id: string; body: string }>({
             query: ({ id, body }) => ({ url: `/jobs/contacts/${id}/reply`, method: "POST", body: { body } }),
             invalidatesTags: ["providerContacts"],
         }),
@@ -78,23 +72,23 @@ export const providersApi = baseApi.injectEndpoints({
             invalidatesTags: ["providerContacts"],
         }),
 
-        deleteContactReply: builder.mutation<{ success: boolean; message: string; data: import("./types").ProviderContact }, { contactId: string; replyId: string }>({
+        deleteContactReply: builder.mutation<{ success: boolean; message: string; data: IProviderContact }, { contactId: string; replyId: string }>({
             query: ({ contactId, replyId }) => ({ url: `/jobs/contacts/${contactId}/replies/${replyId}`, method: "DELETE" }),
             invalidatesTags: ["providerContacts"],
         }),
 
         /* ── Admin ── */
-        adminGetAllProviders: builder.query<ProviderListResponse, JobsQueryParams>({
+        adminGetAllProviders: builder.query<IProviderListResponse, IJobsQueryParams>({
             query: (params) => ({ url: "/jobs/admin/all-providers", method: "GET", params }),
             providesTags: ["providers"],
         }),
 
-        adminUpdateProviderStatus: builder.mutation<ProviderResponse, { id: string; status: "APPROVED" | "REJECTED"; adminNote: string }>({
+        adminUpdateProviderStatus: builder.mutation<IProviderResponse, { id: string; status: "APPROVED" | "REJECTED"; adminNote: string }>({
             query: ({ id, ...body }) => ({ url: `/jobs/admin/providers/${id}/status`, method: "PATCH", body }),
             invalidatesTags: ["providers"],
         }),
 
-        adminGetAllContactRequests: builder.query<ContactListResponse, JobsQueryParams>({
+        adminGetAllContactRequests: builder.query<IContactListResponse, IJobsQueryParams>({
             query: (params) => ({ url: "/jobs/admin/all-contact-requests", method: "GET", params }),
             providesTags: ["providerContacts"],
         }),

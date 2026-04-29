@@ -25,11 +25,7 @@ import {
     useAdminUpdateJobStatusMutation,
     useAdminGetAllProvidersQuery,
     useAdminUpdateProviderStatusMutation,
-    useGetJobApplicationsQuery,
-    type JobPost,
-    type ServiceProvider,
-    type JobPostStatus,
-    type JobPostType,
+    useGetJobApplicationsQuery
 } from "@/redux/apis/jobApi";
 import { constantsData } from "@/constants";
 import {
@@ -47,9 +43,10 @@ import {
     DialogDescription,
     DialogFooter,
 } from "@/components/ui/dialog";
+import { IJobPost, IServiceProvider, TJobPostStatus, TJobPostType } from "@/components/modules/user/job/job.types";
 
 /* â”€â”€ Config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-const TYPE_ICONS: Record<JobPostType, React.ReactNode> = {
+const TYPE_ICONS: Record<TJobPostType, React.ReactNode> = {
     OFFICIAL: <RiBriefcaseLine />,
     TUITION: <RiBookOpenLine />,
     PERSONAL: <RiToolsLine />,
@@ -68,7 +65,7 @@ const TABS: { key: TabKey; label: string }[] = [
     { key: "providers", label: "Service Providers" },
 ];
 
-type StatusFilterType = "all" | JobPostStatus;
+type StatusFilterType = "all" | TJobPostStatus;
 const STATUS_FILTERS: { label: string; value: StatusFilterType }[] = [
     { label: "All", value: "all" },
     { label: "Pending", value: "PENDING" },
@@ -96,7 +93,7 @@ function Avatar({ user, size = 32 }: { user: { name: string; imageUrl?: string }
 function JobStatusDialog({
     job, open, onClose, onSubmit, isLoading,
 }: {
-    job: JobPost | null; open: boolean; onClose: () => void;
+    job: IJobPost | null; open: boolean; onClose: () => void;
     onSubmit: (status: "APPROVED" | "REJECTED" | "CLOSED", adminNote: string, rejectedReason?: string) => void;
     isLoading: boolean;
 }) {
@@ -141,7 +138,7 @@ function JobStatusDialog({
 function ProviderStatusDialog({
     provider, open, onClose, onSubmit, isLoading,
 }: {
-    provider: ServiceProvider | null; open: boolean; onClose: () => void;
+    provider: IServiceProvider | null; open: boolean; onClose: () => void;
     onSubmit: (status: "APPROVED" | "REJECTED", adminNote: string) => void;
     isLoading: boolean;
 }) {
@@ -175,7 +172,7 @@ function ProviderStatusDialog({
 
 /* â”€â”€ Job Detail Sheet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function JobDetailSheet({ job, open, onClose, onUpdateStatus }: {
-    job: JobPost | null; open: boolean; onClose: () => void; onUpdateStatus: () => void;
+    job: IJobPost | null; open: boolean; onClose: () => void; onUpdateStatus: () => void;
 }) {
     const { data: appsData } = useGetJobApplicationsQuery(job?._id ?? "", { skip: !job || job.type === "OFFICIAL" });
     const apps = appsData?.data ?? [];
@@ -301,7 +298,7 @@ function JobDetailSheet({ job, open, onClose, onUpdateStatus }: {
 
 /* â”€â”€ Provider Detail Sheet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function ProviderDetailSheet({ provider, open, onClose, onUpdateStatus }: {
-    provider: ServiceProvider | null; open: boolean; onClose: () => void; onUpdateStatus: () => void;
+    provider: IServiceProvider | null; open: boolean; onClose: () => void; onUpdateStatus: () => void;
 }) {
     if (!provider) return null;
     return (
@@ -406,10 +403,10 @@ export default function AdminJobsPage() {
     const [page, setPage] = useState(1);
     const [providerPage, setProviderPage] = useState(1);
     const [statusFilter, setStatusFilter] = useState<StatusFilterType>("all");
-    const [sheetJob, setSheetJob] = useState<JobPost | null>(null);
-    const [sheetProvider, setSheetProvider] = useState<ServiceProvider | null>(null);
-    const [dialogJob, setDialogJob] = useState<JobPost | null>(null);
-    const [dialogProvider, setDialogProvider] = useState<ServiceProvider | null>(null);
+    const [sheetJob, setSheetJob] = useState<IJobPost | null>(null);
+    const [sheetProvider, setSheetProvider] = useState<IServiceProvider | null>(null);
+    const [dialogJob, setDialogJob] = useState<IJobPost | null>(null);
+    const [dialogProvider, setDialogProvider] = useState<IServiceProvider | null>(null);
 
     const { data: jobsData, isLoading: jobsLoading } = useAdminGetAllJobsQuery({
         page, limit: constantsData.TABLE_PAGE_SIZE, status: statusFilter === "all" ? undefined : statusFilter,
