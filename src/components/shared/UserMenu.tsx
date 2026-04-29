@@ -58,14 +58,14 @@ const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
             <DropdownMenuTrigger asChild>
                 <button
                     type="button"
-                    className="flex items-center gap-2 rounded-full ring-2 ring-primary2-300 ring-offset1 bg-primary text-primary2-100 transition-all duration-200 hover:ring-primary2-500 focus:outline-none focus-visible:ring-primary2-500 pr-0 md:pr-3"
+                    className="flex items-center gap-2 rounded-full border-2 border-primary2-500 dark:border-gunmetal-200 bg-white dark:bg-gunmetal-600 transition-all duration-200 hover:ring-primary2-500 pr-0 md:pr-3"
                     aria-label="User menu"
                 >
-                    <Avatar className={`${avatarSize} shrink-0`}>
+                    <Avatar className={`${avatarSize} shrink-0 border-2 border-primary2-500 dark:border-gunmetal-200`}>
                         {user?.imageUrl && (
                             <AvatarImage src={user.imageUrl} alt={user.name} />
                         )}
-                        <AvatarFallback className="bg-primary2-100 text-primary2-700 text-xs font-semibold">
+                        <AvatarFallback className="bg-primary2-100 text-xs font-semibold">
                             {user?.imageUrl
                                 ? null
                                 : initials || <RiUserLine className="size-4" />
@@ -73,7 +73,7 @@ const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
                         </AvatarFallback>
                     </Avatar>
                     {user?.name && (
-                        <span className="hidden md:block text-sm font-medium max-w-[150px] truncate">
+                        <span className="hidden md:block text-sm font-medium max-w-[150px] truncate text-primary2-500 dark:text-gunmetal-200">
                             {user.name}
                         </span>
                     )}
@@ -83,8 +83,8 @@ const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
             <DropdownMenuContent align={align} sideOffset={8} className="w-56">
                 {/* User info header */}
                 <DropdownMenuLabel className="px-3 py-2.5">
-                    <p className="text-sm font-semibold text-accent-foreground truncate">{user?.name}</p>
-                    <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                    <p className="text-sm font-semibold truncate text-primary2-700 dark:text-gunmetal-200 ">{user?.name}</p>
+                    <p className="text-xs truncate">{user?.email}</p>
                 </DropdownMenuLabel>
 
                 <DropdownMenuSeparator />

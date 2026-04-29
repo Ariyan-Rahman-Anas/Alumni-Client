@@ -59,7 +59,7 @@ function DropdownMenuContent({
       <DropdownMenuPrimitive.Content
         sideOffset={sideOffset}
         className={cn(
-          "z-50 min-w-40 overflow-hidden rounded-xl border border-border bg-white p-1 shadow-lg text-accent-foreground",
+          "z-50 min-w-40 overflow-hidden rounded-xl border border-border bg-white dark:bg-gunmetal-600 p-1 shadow-lg text-accent-foreground",
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -85,7 +85,7 @@ function DropdownMenuItem({
   return (
     <DropdownMenuPrimitive.Item
       className={cn(
-        "relative flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-2 text-sm outline-none transition-colors",
+        "relative text-primary2-500 flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-2 text-sm outline-none transition-colors",
         "focus:bg-primary2-50 data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
         variant === "destructive" && "text-danger focus:bg-red-50 focus:text-danger",
         inset && "pl-8",
