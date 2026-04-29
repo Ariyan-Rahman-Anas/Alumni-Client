@@ -1,48 +1,36 @@
+import { IApplicationListResponse, IApplicationResponse, IComment, IJobApplication, IJobDataMeta, IJobListResponse, IJobsQueryParams, ISingleJobResponse, TCommentReactionType, TCreateJobPostPayload, TJobPostStatus } from "@/components/modules/user/job/job.types";
 import { baseApi } from "../base";
-import type {
-    JobsQueryParams,
-    JobListResponse,
-    SingleJobResponse,
-    ApplicationListResponse,
-    ApplicationResponse,
-    CreateJobPostPayload,
-    Comment,
-    CommentReactionType,
-    JobPostStatus,
-    Meta,
-    JobApplication,
-} from "./types";
 
 export const jobPostsApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         /* ── Public ── */
-        getApprovedJobs: builder.query<JobListResponse, JobsQueryParams>({
+        getApprovedJobs: builder.query<IJobListResponse, IJobsQueryParams>({
             query: (params) => ({ url: "/jobs", method: "GET", params }),
             providesTags: ["jobs"],
         }),
 
-        getJobById: builder.query<SingleJobResponse, string>({
+        getJobById: builder.query<ISingleJobResponse, string>({
             query: (id) => ({ url: `/jobs/${id}`, method: "GET" }),
             providesTags: (_r, _e, id) => [{ type: "jobs", id }],
         }),
 
         /* ── Authenticated ── */
-        getMyJobs: builder.query<JobListResponse, JobsQueryParams>({
+        getMyJobs: builder.query<IJobListResponse, IJobsQueryParams>({
             query: (params) => ({ url: "/jobs/my/posts", method: "GET", params }),
             providesTags: ["jobs"],
         }),
 
-        getMyApplications: builder.query<{ success: boolean; message: string; data: JobApplication[]; meta: Meta }, JobsQueryParams>({
+        getMyApplications: builder.query<{ success: boolean; message: string; data: IJobApplication[]; meta: IJobDataMeta }, IJobsQueryParams>({
             query: (params) => ({ url: "/jobs/my/applications", method: "GET", params }),
             providesTags: ["jobApplications"],
         }),
 
-        createJobPost: builder.mutation<SingleJobResponse, CreateJobPostPayload>({
+        createJobPost: builder.mutation<ISingleJobResponse, TCreateJobPostPayload>({
             query: (payload) => ({ url: "/jobs", method: "POST", body: payload }),
             invalidatesTags: ["jobs"],
         }),
 
-        updateJobPost: builder.mutation<SingleJobResponse, { id: string; payload: Partial<CreateJobPostPayload> }>({
+        updateJobPost: builder.mutation<ISingleJobResponse, { id: string; payload: Partial<TCreateJobPostPayload> }>({
             query: ({ id, payload }) => ({ url: `/jobs/${id}`, method: "PATCH", body: payload }),
             invalidatesTags: (_r, _e, { id }) => ["jobs", { type: "jobs", id }],
         }),
@@ -57,12 +45,12 @@ export const jobPostsApi = baseApi.injectEndpoints({
             invalidatesTags: (_r, _e, { id }) => [{ type: "jobs", id }],
         }),
 
-        addComment: builder.mutation<{ success: boolean; message: string; data: Comment[] }, { id: string; body: string }>({
+        addComment: builder.mutation<{ success: boolean; message: string; data: IComment[] }, { id: string; body: string }>({
             query: ({ id, body }) => ({ url: `/jobs/${id}/comments`, method: "POST", body: { body } }),
             invalidatesTags: (_r, _e, { id }) => [{ type: "jobs", id }],
         }),
 
-        addReply: builder.mutation<{ success: boolean; message: string; data: Comment[] }, { id: string; commentId: string; body: string }>({
+        addReply: builder.mutation<{ success: boolean; message: string; data: IComment[] }, { id: string; commentId: string; body: string }>({
             query: ({ id, commentId, body }) => ({ url: `/jobs/${id}/comments/${commentId}/replies`, method: "POST", body: { body } }),
             invalidatesTags: (_r, _e, { id }) => [{ type: "jobs", id }],
         }),
@@ -77,22 +65,22 @@ export const jobPostsApi = baseApi.injectEndpoints({
             invalidatesTags: (_r, _e, { id }) => [{ type: "jobs", id }],
         }),
 
-        reactToComment: builder.mutation<{ success: boolean; message: string; data: Comment[] }, { id: string; commentId: string; reactionType: CommentReactionType }>({
+        reactToComment: builder.mutation<{ success: boolean; message: string; data: IComment[] }, { id: string; commentId: string; reactionType: TCommentReactionType }>({
             query: ({ id, commentId, reactionType }) => ({ url: `/jobs/${id}/comments/${commentId}/react`, method: "PATCH", body: { reactionType } }),
             invalidatesTags: (_r, _e, { id }) => [{ type: "jobs", id }],
         }),
 
-        reactToReply: builder.mutation<{ success: boolean; message: string; data: Comment[] }, { id: string; commentId: string; replyId: string; reactionType: CommentReactionType }>({
+        reactToReply: builder.mutation<{ success: boolean; message: string; data: IComment[] }, { id: string; commentId: string; replyId: string; reactionType: TCommentReactionType }>({
             query: ({ id, commentId, replyId, reactionType }) => ({ url: `/jobs/${id}/comments/${commentId}/replies/${replyId}/react`, method: "PATCH", body: { reactionType } }),
             invalidatesTags: (_r, _e, { id }) => [{ type: "jobs", id }],
         }),
 
-        applyToJob: builder.mutation<ApplicationResponse, { id: string; message?: string }>({
+        applyToJob: builder.mutation<IApplicationResponse, { id: string; message?: string }>({
             query: ({ id, message }) => ({ url: `/jobs/${id}/apply`, method: "POST", body: { message } }),
             invalidatesTags: ["jobApplications"],
         }),
 
-        getJobApplications: builder.query<ApplicationListResponse, string>({
+        getJobApplications: builder.query<IApplicationListResponse, string>({
             query: (id) => ({ url: `/jobs/${id}/applications`, method: "GET" }),
             providesTags: (_r, _e, id) => [{ type: "jobApplications", id }],
         }),
@@ -103,17 +91,17 @@ export const jobPostsApi = baseApi.injectEndpoints({
         }),
 
         /* ── Admin ── */
-        adminGetAllJobs: builder.query<JobListResponse, JobsQueryParams>({
+        adminGetAllJobs: builder.query<IJobListResponse, IJobsQueryParams>({
             query: (params) => ({ url: "/jobs/admin/all-jobs", method: "GET", params }),
             providesTags: ["jobs"],
         }),
 
-        adminUpdateJobStatus: builder.mutation<SingleJobResponse, { id: string; status: JobPostStatus; adminNote: string; rejectedReason?: string }>({
+        adminUpdateJobStatus: builder.mutation<ISingleJobResponse, { id: string; status: TJobPostStatus; adminNote: string; rejectedReason?: string }>({
             query: ({ id, ...body }) => ({ url: `/jobs/admin/${id}/status`, method: "PATCH", body }),
             invalidatesTags: ["jobs"],
         }),
 
-        adminGetAllApplications: builder.query<{ success: boolean; message: string; data: JobApplication[]; meta: Meta }, JobsQueryParams>({
+        adminGetAllApplications: builder.query<{ success: boolean; message: string; data: IJobApplication[]; meta: IJobDataMeta }, IJobsQueryParams>({
             query: (params) => ({ url: "/jobs/admin/all-applications", method: "GET", params }),
             providesTags: ["jobApplications"],
         }),

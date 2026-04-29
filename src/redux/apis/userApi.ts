@@ -1,56 +1,5 @@
+import { UpdateUserPayload, UserListResponse, UserProfileResponse } from "@/components/modules/user/user.types";
 import { baseApi } from "./baseApi";
-
-export interface UserProfile {
-    _id: string;
-    userId: string;
-    name: string;
-    email: string;
-    phone?: string;
-    batch?: number;
-    section?: string;
-    country?: string;
-    bloodGroup?: string;
-    dob?: string;
-    currentAddress?: string;
-    permanentAddress?: string;
-    workplace?: string;
-    position?: string;
-    imageUrl?: string;
-    alumniProofUrl?: string;
-    role: string;
-    approvalStatus: string;
-    isVerified: boolean;
-}
-
-interface UserProfileResponse {
-    success: boolean;
-    message: string;
-    data: UserProfile;
-}
-
-interface UserListResponse {
-    success: boolean;
-    message: string;
-    meta: {
-        page: number;
-        limit: number;
-        total: number;
-        totalPage: number;
-    };
-    data: UserProfile[];
-}
-
-export interface UpdateUserPayload {
-    name?: string;
-    phone?: string;
-    batch?: number;
-    bloodGroup?: string;
-    dob?: string;
-    currentAddress?: string;
-    permanentAddress?: string;
-    workplace?: string;
-    position?: string;
-}
 
 export const userApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({

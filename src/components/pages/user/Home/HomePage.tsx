@@ -18,11 +18,13 @@ export const FadeUpWrapper = ({
     delay = 0,
     className = "", 
     style = {},
+    onClick,
 }: {
     children: React.ReactNode;
     delay?: number;
     className?: string;
     style?: React.CSSProperties;
+    onClick?: () => void;
 }) => {
     const ref = useRef(null);
     const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -42,6 +44,7 @@ export const FadeUpWrapper = ({
             }}
             className={className}
             style={style}
+            onClick={onClick}
         >
             {children}
         </motion.div>
