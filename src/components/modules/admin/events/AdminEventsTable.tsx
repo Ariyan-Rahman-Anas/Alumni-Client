@@ -7,6 +7,7 @@ import {
     RiEyeLine,
     RiEyeOffLine,
     RiMedalLine,
+    RiGroupLine,
 } from "react-icons/ri";
 
 import DataTable from "@/components/shared/dataTable/DataTable";
@@ -28,6 +29,7 @@ interface AdminEventsTableProps {
     onPageChange: (page: number) => void;
     onEdit: (event: IEvent) => void;
     onDelete: (id: string) => void;
+    onViewRegistrations: (event: IEvent) => void;
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -55,6 +57,7 @@ const AdminEventsTable = ({
     onPageChange,
     onEdit,
     onDelete,
+    onViewRegistrations,
 }: AdminEventsTableProps) => {
     const [togglePublish, { isLoading: isTogglingPublish }] = useToggleEventPublishMutation();
     const [toggleFeature, { isLoading: isTogglingFeature }] = useToggleEventFeatureMutation();
@@ -191,6 +194,15 @@ const AdminEventsTable = ({
             label: "Actions",
             render: (e) => (
                 <div className="flex items-center gap-1.5">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => onViewRegistrations(e)}
+                        className="h-7 w-7 p-0 text-sky-600 hover:text-sky-700 hover:bg-sky-50"
+                        title="View registrations"
+                    >
+                        <RiGroupLine className="text-base" />
+                    </Button>
                     <Button
                         variant="ghost"
                         size="sm"

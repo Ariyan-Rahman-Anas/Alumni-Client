@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import {
     RiMapPin2Line,
     RiTimeLine,
@@ -12,6 +13,10 @@ import { MdOutlineVideocam } from "react-icons/md"
 import DateFormatter from "@/lib/DateFormatter"
 import PrimaryButton from "@/components/shared/PrimaryButton"
 import { IEvent, PriceTier } from "@/types/common/events.types"
+import { useGetMyRegistrationsQuery } from "@/redux/apis/eventApi"
+import { useAppSelector } from "@/redux/hooks"
+import { selectCurrentUser, selectIsInitialized } from "@/redux/slice/authSlice"
+import { RiCheckboxCircleLine } from "react-icons/ri"
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 const TIER_COLORS = [
@@ -86,8 +91,18 @@ const LOCATION_CONFIG: Record<string, {
 const EventPageEventCard = ({ event }: { event: IEvent }) => {
     const { _id, locationType, startDateTime, slug, status, coverImage, title, isFree, category, priceTiers, venue, maxAttendees,
         // allowGuests, collectsTShirtSize, createdAt, description, eventFlow, guestFee, isFeatured, isRegistrationRequired, maxGuestsPerAlumni, updatedAt, contactInfo, coverImagePublicId, endDateTime, meetingLink, organizer, registrationDeadline, registrationOpensAt 
-        
+
     } = event || {}
+
+    const authUser = useAppSelector(selectCurrentUser);
+    const isInitialized = useAppSelector(selectIsInitialized);
+    const { data: myRegsData } = useGetMyRegistrationsQuery(undefined, {
+        skip: !isInitialized || !authUser,
+    });
+    const alreadyRegistered = myRegsData?.data?.some((r) => {
+        const evId = typeof r.eventId === "object" ? String(r.eventId._id) : String(r.eventId);
+        return evId === String(_id) && r.status !== "CANCELLED";
+    }) ?? false;
 
     const isCancelled = status === "CANCELLED"
     const statusConfig = STATUS_CONFIG[status] ?? STATUS_CONFIG.UPCOMING
@@ -214,7 +229,7 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                             {/* {priceTiers.slice(0, 2).map((tier: any, i: number) => ( */}
                             {priceTiers.map((tier: PriceTier, i: number) => (
                                 <div
-                                    key={i+tier.label}
+                                    key={i + tier.label}
                                     className="flex items-center justify-between rounded-xl border border-surface-200 bg-surface-50 px-3.5 py-2.5"
                                 >
                                     <div className="flex items-center gap-3">
@@ -235,15 +250,25 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
 
                 {/* Action row */}
                 <div className="flex items-center gap-3">
-                    <PrimaryButton
-                        isDisabled={isCancelled}
-                        isFullWidth
-                        title={isCancelled ? "Cancelled" : "Register Now"}
-                        icon={<RiArrowRightLine className="transition-transform group-hover:translate-x-0.5" />}
-                        iconSide2="right"
-                        className="py-[19px] rounded-xl"
-                        href={`/events/${slug || _id}`}
-                    />
+                    {alreadyRegistered ? (
+                        <Link
+                            href={`/events/${slug || _id}`}
+                            className="flex items-center justify-center gap-2 w-full rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm font-semibold text-emerald-700 hover:bg-emerald-100 transition-colors"
+                        >
+                            <RiCheckboxCircleLine className="text-base flex-shrink-0" />
+                            Already Registered — View Details
+                        </Link>
+                    ) : (
+                        <PrimaryButton
+                            isDisabled={isCancelled}
+                            isFullWidth
+                            title={isCancelled ? "Cancelled" : "Register Now"}
+                            icon={<RiArrowRightLine className="transition-transform group-hover:translate-x-0.5" />}
+                            iconSide2="right"
+                            className="py-[19px] rounded-xl"
+                            href={`/events/${slug || _id}`}
+                        />
+                    )}
                 </div>
             </div>
         </article>

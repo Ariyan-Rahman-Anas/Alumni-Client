@@ -22,14 +22,22 @@ export const initSockets = (token: string): void => {
   if (!contactsSocket) {
     contactsSocket = io(`${SERVER_URL}/contacts`, buildOpts(token));
   } else {
-    // Update auth on existing socket so next reconnect uses the fresh token
+    const tokenChanged = (contactsSocket.auth as { token?: string }).token !== token;
     contactsSocket.auth = { token };
+    // Force reconnect so the new token is sent immediately (not deferred to next auto-reconnect)
+    if (tokenChanged && contactsSocket.connected) {
+      contactsSocket.disconnect().connect();
+    }
   }
 
   if (!batchSocket) {
     batchSocket = io(`${SERVER_URL}/batch`, buildOpts(token));
   } else {
+    const tokenChanged = (batchSocket.auth as { token?: string }).token !== token;
     batchSocket.auth = { token };
+    if (tokenChanged && batchSocket.connected) {
+      batchSocket.disconnect().connect();
+    }
   }
 
   if (!contactsSocket.connected) contactsSocket.connect();

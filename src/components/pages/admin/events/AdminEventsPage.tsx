@@ -13,6 +13,7 @@ import {
 import AdminEventFormModal from "@/components/modules/admin/events/AdminEventFormModal";
 import AdminEventsTable from "@/components/modules/admin/events/AdminEventsTable";
 import AdminPageHead from "@/components/shared/admin/AdminPageHead";
+import AdminEventRegistrationsPanel from "@/components/modules/admin/events/AdminEventRegistrationsPanel";
 import { IEvent } from "@/types/common/events.types";
 import { constantsData } from "@/constants";
 
@@ -32,6 +33,7 @@ const AdminEventsPage = () => {
     const [formOpen, setFormOpen] = useState(false);
     const [editEvent, setEditEvent] = useState<IEvent | null>(null);
     const [deleteEventId, setDeleteEventId] = useState<string | null>(null);
+    const [viewRegsEvent, setViewRegsEvent] = useState<IEvent | null>(null);
 
     const { data, isLoading, isError } = useGetAllEventsAdminQuery({
         page,
@@ -113,6 +115,7 @@ const AdminEventsPage = () => {
                     setFormOpen(true);
                 }}
                 onDelete={setDeleteEventId}
+                onViewRegistrations={setViewRegsEvent}
             />
 
             {/* Form Sheet */}
@@ -134,6 +137,15 @@ const AdminEventsPage = () => {
                 title="Delete Event"
                 description="This will permanently delete the event and all associated data. This action cannot be undone."
             />
+
+            {/* Registrations Panel */}
+            {viewRegsEvent && (
+                <AdminEventRegistrationsPanel
+                    eventId={viewRegsEvent._id}
+                    eventTitle={viewRegsEvent.title}
+                    onClose={() => setViewRegsEvent(null)}
+                />
+            )}
         </div>
     );
 };

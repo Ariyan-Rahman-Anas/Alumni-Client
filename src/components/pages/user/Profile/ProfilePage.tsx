@@ -14,6 +14,7 @@ import { selectCurrentUser } from "@/redux/slice/authSlice";
 import MyPostedJobsPanel from "@/components/modules/user/profile/MyPostedJobsPanel";
 import MyProviderContactsPanel from "@/components/modules/user/profile/MyProviderContactsPanel";
 import MyProviderProfilePanel from "@/components/modules/user/profile/MyProviderProfilePanel";
+import MyEventRegistrationsPanel from "@/components/modules/user/profile/MyEventRegistrationsPanel";
 
 const ProfileSkeleton = () => (
     <div className="flex flex-col gap-5 animate-pulse">
@@ -75,6 +76,10 @@ const ProfilePage = () => {
 
         if (activeSection === "my-provider-profile") {
             return <MyProviderProfilePanel />;
+        }
+
+        if (activeSection === "my-event-registrations") {
+            return <MyEventRegistrationsPanel />;
         }
 
         return (

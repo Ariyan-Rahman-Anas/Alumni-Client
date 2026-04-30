@@ -84,7 +84,11 @@ const ClientAuthGuard = ({
 
     // While auth is loading OR a redirect is pending, render nothing to avoid flash
     // if (isLoading) return null;
-    if (!isInitialized) return null
+    if (!isInitialized) return (
+        <div className="flex-1 flex items-center justify-center min-h-[40vh]">
+            <div className="w-6 h-6 rounded-full border-2 border-primary2-300 border-t-primary2-600 animate-spin" />
+        </div>
+    );
     if (requireAuth && !user) return null;
     if (requireRole && user?.role !== requireRole) return null;
     if (requireGuest && user) return null;

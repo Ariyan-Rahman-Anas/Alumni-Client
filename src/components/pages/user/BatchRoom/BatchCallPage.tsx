@@ -51,6 +51,7 @@ export default function BatchCallPage() {
     const [peers, setPeers] = useState<Map<string, { name: string; stream: MediaStream | null }>>(new Map());
     const [micOn, setMicOn] = useState(true);
     const [camOn, setCamOn] = useState(hasVideo);
+    const [camAvailable, setCamAvailable] = useState(hasVideo); // false if camera not accessible
     const [inCall, setInCall] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
 
@@ -109,11 +110,15 @@ export default function BatchCallPage() {
             if (!localStreamRef.current) return;
             // Prefer name from offer payload (server now sends it), fall back to cache
             const peerName = name || peerNamesRef.current.get(fromSocketId) || `Peer-${fromSocketId.slice(0, 6)}`;
-            const pc = createPc(fromSocketId, peerName);
-            await pc.setRemoteDescription(new RTCSessionDescription(offer as RTCSessionDescriptionInit));
-            const answer = await pc.createAnswer();
-            await pc.setLocalDescription(answer);
-            sendAnswer(fromSocketId, answer);
+            try {
+                const pc = createPc(fromSocketId, peerName);
+                await pc.setRemoteDescription(new RTCSessionDescription(offer as RTCSessionDescriptionInit));
+                const answer = await pc.createAnswer();
+                await pc.setLocalDescription(answer);
+                sendAnswer(fromSocketId, answer);
+            } catch (err) {
+                console.error("[BatchCall] onCallOffer error:", err);
+            }
         },
         onCallAnswer: async ({ fromSocketId, answer }) => {
             const pc = pcRefs.current.get(fromSocketId);
@@ -126,10 +131,12 @@ export default function BatchCallPage() {
             }
         },
         onCallPeerLeft: ({ socketId }) => {
+            const peerName = peerNamesRef.current.get(socketId);
             const pc = pcRefs.current.get(socketId);
             pc?.close();
             pcRefs.current.delete(socketId);
             setPeers((prev) => { const next = new Map(prev); next.delete(socketId); return next; });
+            toast.info(`${peerName ?? "A participant"} left the call`);
         },
         onCallIncoming: ({ from, fromSocketId, name: callerName }) => {
             // Store the name so onCallOffer can look it up
@@ -142,7 +149,7 @@ export default function BatchCallPage() {
                 pc.createOffer().then((offer) => {
                     pc.setLocalDescription(offer);
                     sendOffer(fromSocketId, offer);
-                }).catch(() => { });
+                }).catch((err) => { console.error("[BatchCall] createOffer error:", err); });
             }
         },
     } as Parameters<typeof useBatchSocket>[1]);
@@ -174,6 +181,7 @@ export default function BatchCallPage() {
                 if (hasVideo && e.name !== "NotAllowedError" && e.name !== "PermissionDeniedError") {
                     stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
                     setCamOn(false);
+                    setCamAvailable(false); // hide cam toggle — device not accessible
                     // Silent fallback — camera in use by another tab or not available
                     console.info("[BatchCall] Camera unavailable, falling back to audio-only:", e.name);
                 } else {
@@ -219,9 +227,14 @@ export default function BatchCallPage() {
         if (!myBatch || joinedRef.current) return;
         joinedRef.current = true;
         joinCall();
-        // Cleanup: stop media tracks only — don't call leaveCall (avoids strict-mode false "ended")
+        // Capture refs to avoid stale closure issues
+        const pcs = pcRefs.current;
+        const localStream = localStreamRef.current;
+        // Cleanup: close all peer connections and stop media tracks on unmount
         return () => {
-            localStreamRef.current?.getTracks().forEach((t) => t.stop());
+            pcs.forEach((pc) => pc.close());
+            pcs.clear();
+            localStream?.getTracks().forEach((t) => t.stop());
         };
     }, [myBatch, joinCall]);
 
@@ -288,7 +301,7 @@ export default function BatchCallPage() {
                     className={`p-4 rounded-full transition-colors ${micOn ? "bg-neutral-700 text-white hover:bg-neutral-600" : "bg-red-600 text-white hover:bg-red-700"}`}>
                     {micOn ? <RiMicLine className="text-xl" /> : <RiMicOffLine className="text-xl" />}
                 </button>
-                {hasVideo && (
+                {hasVideo && camAvailable && (
                     <button onClick={toggleCam}
                         className={`p-4 rounded-full transition-colors ${camOn ? "bg-neutral-700 text-white hover:bg-neutral-600" : "bg-red-600 text-white hover:bg-red-700"}`}>
                         {camOn ? <RiVideoLine className="text-xl" /> : <RiVideoOffLine className="text-xl" />}

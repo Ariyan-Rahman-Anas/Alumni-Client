@@ -29,8 +29,10 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { Badge } from "@/components/ui/badge";
 import { IEvent, PriceTier } from "@/types/common/events.types";
 import { format, formatDistanceToNow, isPast, isWithinInterval, addDays } from "date-fns";
-import { useGetEventBySlugQuery } from "@/redux/apis/eventApi";
+import { useGetEventBySlugQuery, useGetMyRegistrationsQuery } from "@/redux/apis/eventApi";
 import PrimaryButton from "@/components/shared/PrimaryButton";
+import { useAppSelector } from "@/redux/hooks";
+import { selectCurrentUser, selectIsInitialized } from "@/redux/slice/authSlice";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -202,7 +204,7 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 
 // ─── Sticky Registration Sidebar ─────────────────────────────────────────────
 
-function RegisterSidebar({ event }: { event: IEvent }) {
+function RegisterSidebar({ event, alreadyRegistered }: { event: IEvent; alreadyRegistered: boolean }) {
   const status = getStatusConfig(event);
   const countdown = getCountdown(event.startDateTime);
   const regCountdown = event.registrationDeadline ? getCountdown(event.registrationDeadline) : null;
@@ -297,14 +299,21 @@ function RegisterSidebar({ event }: { event: IEvent }) {
             </div>
           )}
 
-          {/* Register CTA */}
-          <PrimaryButton
-            title="Register Now"
-            isDisabled={isDisabled}
-            icon={<RiUserAddLine className="text-base" />}
-            icon2={<RiArrowRightLine className="text-base" />}
-            href={!isDisabled && `/events/${event.slug}/register`} isFullWidth className="py-[19px]"
-          />
+          {/* Register CTA — only for events that require registration */}
+          {event.isRegistrationRequired && (alreadyRegistered ? (
+            <div className="flex items-center gap-2 rounded-2xl bg-emerald-50 border border-emerald-200 px-4 py-3.5 text-sm font-semibold text-emerald-700">
+              <RiCheckboxCircleLine className="text-lg flex-shrink-0" />
+              Already Registered
+            </div>
+          ) : (
+            <PrimaryButton
+              title="Register Now"
+              isDisabled={isDisabled}
+              icon={<RiUserAddLine className="text-base" />}
+              icon2={<RiArrowRightLine className="text-base" />}
+              href={!isDisabled && `/events/${event.slug}/register`} isFullWidth className="py-[19px]"
+            />
+          ))}
 
           {/* Secondary actions */}
           <div className="grid grid-cols-2 gap-2">
@@ -704,6 +713,16 @@ const EventDetailsPage = () => {
   const { data, isLoading, isError } = useGetEventBySlugQuery(slug, { skip: !slug });
   const event: IEvent | undefined = data?.data;
 
+  const authUser = useAppSelector(selectCurrentUser);
+  const isInitialized = useAppSelector(selectIsInitialized);
+  const { data: myRegsData } = useGetMyRegistrationsQuery(undefined, {
+    skip: !isInitialized || !authUser,
+  });
+  const alreadyRegistered = myRegsData?.data?.some((r) => {
+    const evId = typeof r.eventId === "object" ? String(r.eventId._id) : String(r.eventId);
+    return event && evId === String(event._id) && r.status !== "CANCELLED";
+  }) ?? false;
+
   if (isLoading) return <EventDetailsSkeleton />;
   if (isError || !event) return notFound();
 
@@ -816,21 +835,28 @@ const EventDetailsPage = () => {
             </div>
           </FadeUp>
 
-          {/* Bottom CTA (mobile-visible, hidden on lg) */}
+          {/* Bottom CTA (mobile-visible, hidden on lg) — only for events that require registration */}
           <FadeUp className="lg:hidden">
-            <PrimaryButton
-              title="Register Now"
-              icon={<RiUserAddLine className="text-base" />}
-              icon2={<RiArrowRightLine className="text-base" />}
-              href={`/events/${event.slug}/register`}
-              isFullWidth className="py-[19px]"
-            />
+            {event.isRegistrationRequired && (alreadyRegistered ? (
+              <div className="flex items-center gap-2 rounded-2xl bg-emerald-50 border border-emerald-200 px-4 py-3.5 text-sm font-semibold text-emerald-700 w-full justify-center">
+                <RiCheckboxCircleLine className="text-lg flex-shrink-0" />
+                Already Registered
+              </div>
+            ) : (
+              <PrimaryButton
+                title="Register Now"
+                icon={<RiUserAddLine className="text-base" />}
+                icon2={<RiArrowRightLine className="text-base" />}
+                href={`/events/${event.slug}/register`}
+                isFullWidth className="py-[19px]"
+              />
+            ))}
           </FadeUp>
         </div>
 
         {/* ── Right Column — Sticky Sidebar ───────────── */}
         <div className="hidden lg:block">
-          <RegisterSidebar event={event} />
+          <RegisterSidebar event={event} alreadyRegistered={alreadyRegistered} />
         </div>
       </div>
     </div>

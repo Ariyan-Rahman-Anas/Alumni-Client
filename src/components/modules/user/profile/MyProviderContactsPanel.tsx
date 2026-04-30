@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import {
     RiArrowLeftLine,
     RiBuilding2Line,
-    RiCheckDoubleLine,
     RiDeleteBin6Line,
     RiGraduationCapLine,
     RiMailLine,
@@ -108,7 +107,7 @@ function ConversationItem({
 function Bubble({ body, time, isMine, authorName, authorImage, onDelete, isDeletable,
     // seenByOther, seenBy
 
- }: {
+}: {
     body: string; time: string; isMine: boolean; authorName: string; authorImage?: string;
     onDelete?: () => void; isDeletable?: boolean; seenByOther?: string; seenBy?: string[];
 }) {
@@ -163,11 +162,13 @@ function ConversationDetail({
     myUserId,
     onBack,
     onDeleted,
+    onReplyReceived,
 }: {
     contact: ProviderContact;
     myUserId: string;
     onBack: () => void;
     onDeleted: () => void;
+    onReplyReceived: (contactId: string, reply: ContactReply) => void;
 }) {
     const [contact, setContact] = useState<ProviderContact>(initialContact);
     const [deleteContact, { isLoading: deletingContact }] = useDeleteContactMutation();
@@ -177,10 +178,8 @@ function ConversationDetail({
     const [text, setText] = useState("");
     const [sending, setSending] = useState(false);
     const [confirmDelete, setConfirmDelete] = useState(false);
-    const [seenInfo, setSeenInfo] = useState<{ seenBy: string; seenAt: string } | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const msgContainerRef = useRef<HTMLDivElement>(null);
-    // accessToken dep ensures socket effect re-runs after SocketProvider initializes sockets
     const accessToken = useAppSelector((s) => s.auth.accessToken);
 
     // Keep contact in sync when parent prop updates (e.g. from RTK cache refresh)
@@ -211,6 +210,7 @@ function ConversationDetail({
                     ? prev.replies
                     : [...prev.replies, data.reply],
             }));
+            onReplyReceived(data.contactId, data.reply);
         };
 
         const onReplyDeleted = (data: { contactId: string; replyId: string }) => {
@@ -231,9 +231,10 @@ function ConversationDetail({
             onDeleted();
         };
 
-        const onSeen = (data: { contactId: string; seenBy: string; seenAt: string }) => {
-            if (data.contactId !== contact._id || data.seenBy === myUserId) return;
-            setSeenInfo(data);
+        const onSeen = (
+            // _data: { contactId: string; seenBy: string; seenAt: string }
+        ) => {
+            // seen indicator removed — handler kept to avoid socket errors
         };
 
         sock.on("message:new", onNewMsg);
@@ -402,11 +403,6 @@ function ConversationDetail({
                 {messages.length === 0 && (
                     <p className="text-sm text-muted-foreground text-center py-8">No messages yet.</p>
                 )}
-                {seenInfo && (
-                    <p className="text-[10px] text-right text-primary2-400 flex items-center justify-end gap-1">
-                        <RiCheckDoubleLine /> Seen {formatDistanceToNow(new Date(seenInfo.seenAt), { addSuffix: true })}
-                    </p>
-                )}
                 <div ref={messagesEndRef} />
             </div>
 
@@ -461,13 +457,34 @@ export default function MyProviderContactsPanel() {
 
     // Merge and deduplicate (same contact may appear in both if user is both provider+seeker)
     const allIds = new Set<string>();
-    const allContacts: ProviderContact[] = [];
+    const baseContacts: ProviderContact[] = [];
     [...receivedContacts, ...sentContacts].forEach((c) => {
-        if (!allIds.has(c._id)) { allIds.add(c._id); allContacts.push(c); }
+        if (!allIds.has(c._id)) { allIds.add(c._id); baseContacts.push(c); }
+    });
+
+    // Override: track latest reply per contact so the list updates in real-time
+    // (RTK cache only refreshes on invalidation; socket updates only local ConversationDetail state)
+    const [latestReplies, setLatestReplies] = useState<Record<string, { body: string; createdAt: string }>>({});
+
+    const allContacts = baseContacts.map((c) => {
+        const override = latestReplies[c._id];
+        if (!override) return c;
+        // Inject the latest reply so getLastMessage/getLastTime show the real latest
+        const fakeReply = { _id: "live", body: override.body, createdAt: override.createdAt, author: c.seeker, seenBy: [] } as unknown as ContactReply;
+        const filtered = c.replies.filter((r) => r._id !== "live");
+        return { ...c, replies: [...filtered, fakeReply] };
     });
 
     // Sort by latest activity
     allContacts.sort((a, b) => getLastTime(b).getTime() - getLastTime(a).getTime());
+
+    const handleReplyReceived = (contactId: string, reply: ContactReply) => {
+        setLatestReplies((prev) => {
+            const existing = prev[contactId];
+            if (existing && new Date(existing.createdAt) >= new Date(reply.createdAt)) return prev;
+            return { ...prev, [contactId]: { body: reply.body, createdAt: reply.createdAt } };
+        });
+    };
 
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [mobileView, setMobileView] = useState<"list" | "detail">("list");
@@ -554,6 +571,7 @@ export default function MyProviderContactsPanel() {
                         myUserId={myUserId}
                         onBack={() => setMobileView("list")}
                         onDeleted={() => { setSelectedId(null); setMobileView("list"); }}
+                        onReplyReceived={handleReplyReceived}
                     />
                 ) : (
                     <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-surface-50/50">
