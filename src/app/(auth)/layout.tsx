@@ -1,14 +1,16 @@
 import Navbar from "@/components/Navbar";
-// import Footer from "@/components/Footer";
+import ClientAuthGuard from "@/components/shared/ClientAuthGuard";
 
+/** Auth layout — redirects already-logged-in users away */
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     return (
         <div className="flex flex-col justify-between min-h-screen">
             <Navbar />
             <main className="flex-1">
-                {children}
+                <ClientAuthGuard requireGuest>
+                    {children}
+                </ClientAuthGuard>
             </main>
-            {/* <Footer /> */}
         </div>
     );
 }

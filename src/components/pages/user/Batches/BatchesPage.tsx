@@ -9,7 +9,10 @@ import {
     RiStackLine,
     RiTeamLine,
     RiTrophyLine,
+    RiChat4Line as RiChatLine,
+    RiArrowRightLine,
 } from "react-icons/ri";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -226,6 +229,33 @@ const BatchesPage = () => {
                 />
             </div>
 
+
+            {/* ═══ 1.5 BATCH ROOM CTA ═══════════════════════════ */}
+            <FadeUp>
+                <div className="rounded-3xl border border-primary2-200/60 overflow-hidden"
+                    style={{ background: "linear-gradient(135deg, rgba(46,139,87,0.08) 0%, rgba(126,158,37,0.06) 100%)" }}>
+                    <div className="px-7 py-8 sm:px-10 sm:py-10 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                        <div className="h-14 w-14 rounded-2xl bg-primary2-700 flex items-center justify-center text-white text-2xl flex-shrink-0">
+                            <RiChatLine />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <h2 className="text-xl sm:text-2xl font-bold text-primary2-900">Batch Room</h2>
+                            <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed max-w-xl">
+                                Connect with your batch in real-time. Chat, share media, run polls, vote for your coordinator, and join voice or video calls — all in one dedicated space for your graduation year.
+                            </p>
+                            <div className="flex flex-wrap gap-2 mt-3">
+                                {["💬 Group chat", "🗳️ Polls & elections", "📷 Media sharing", "📞 Voice & video calls"].map((f) => (
+                                    <span key={f} className="text-xs bg-primary2-100 text-primary2-800 border border-primary2-200 rounded-full px-3 py-1">{f}</span>
+                                ))}
+                            </div>
+                        </div>
+                        <Link href="/batch-room"
+                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary2-700 text-white text-sm font-medium hover:bg-primary2-800 transition-colors flex-shrink-0">
+                            Go to Batch Room <RiArrowRightLine />
+                        </Link>
+                    </div>
+                </div>
+            </FadeUp>
 
             {/* ═══ 2. DECADE NAVIGATOR (shadcn Carousel) ══════════ */}
             <FadeUp>

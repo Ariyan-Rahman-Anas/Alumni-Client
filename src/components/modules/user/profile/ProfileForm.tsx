@@ -21,6 +21,7 @@ import DatePickerSingle from "@/components/shared/DatePickerSingle";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import { useUpdateUserMutation } from "@/redux/apis/userApi";
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/hooks";
 import type { AppDispatch } from "@/redux/store";
 import { setUser } from "@/redux/slice/authSlice";
 import { IUpdateUserPayload, IUserProfile } from "../user.types";
@@ -94,6 +95,7 @@ interface IProfileFormProps {
 
 const ProfileForm = ({ user, pendingImage, onImageSaved }: IProfileFormProps) => {
     const dispatch = useDispatch<AppDispatch>();
+    const accessToken = useAppSelector((s) => s.auth.accessToken) ?? "";
     const [updateUser, { isLoading: isSaving }] = useUpdateUserMutation();
 
     const {
@@ -154,17 +156,20 @@ const ProfileForm = ({ user, pendingImage, onImageSaved }: IProfileFormProps) =>
                 image: pendingImage,
             }).unwrap();
 
-            // Sync auth slice with updated fields
+            // Sync auth slice with updated fields (preserve existing accessToken)
             dispatch(
                 setUser({
-                    _id: result.data._id,
-                    name: result.data.name,
-                    email: result.data.email,
-                    role: result.data.role,
-                    approvalStatus: result.data.approvalStatus,
-                    isVerified: result.data.isVerified,
-                    imageUrl: result.data.imageUrl,
-                    batch: result.data.batch,
+                    user: {
+                        _id: result.data._id,
+                        name: result.data.name,
+                        email: result.data.email,
+                        role: result.data.role,
+                        approvalStatus: result.data.approvalStatus,
+                        isVerified: result.data.isVerified,
+                        imageUrl: result.data.imageUrl,
+                        batch: result.data.batch,
+                    },
+                    accessToken,
                 })
             );
 

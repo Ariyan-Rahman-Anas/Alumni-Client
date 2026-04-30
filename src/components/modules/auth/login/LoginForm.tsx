@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -24,7 +23,6 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const LoginForm = () => {
-    const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
     const [showPassword, setShowPassword] = useState(false);
     const [loginUser, { isLoading }] = useLoginUserMutation();
@@ -41,9 +39,10 @@ const LoginForm = () => {
         try {
             const payload: LoginPayload = { email: data.email, password: data.password };
             const result = await loginUser(payload).unwrap();
-            dispatch(setUser(result.data.user));
+            dispatch(setUser({ user: result.data.user, accessToken: result.data.accessToken }));
             toast.success(result.message);
-            router.push("/");
+            // ClientAuthGuard (requireGuest) detects the user in Redux and
+            // redirects to ?next (or /) — no explicit router.push needed here.
         } catch (err: unknown) {
             const message =
                 (err as { data?: { message?: string } })?.data?.message ||

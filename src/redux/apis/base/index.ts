@@ -21,6 +21,10 @@ export const baseApi = createApi({
         "jobApplications",
         "providers",
         "providerContacts",
+        "batchRoom",
+        "batchMessages",
+        "batchPolls",
+        "coordinatorApplications",
     ],
     endpoints: () => ({}),
 });

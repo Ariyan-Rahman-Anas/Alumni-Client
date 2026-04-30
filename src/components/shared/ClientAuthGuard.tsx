@@ -72,7 +72,12 @@ const ClientAuthGuard = ({
         }
 
         if (requireGuest && user) {
-            router.replace("/");
+            // Redirect to ?next if present (e.g. after login), otherwise home.
+            // Uses window.location.search to avoid requiring a Suspense boundary.
+            const params = new URLSearchParams(window.location.search);
+            const next = params.get("next");
+            const to = next && next.startsWith("/") ? next : "/";
+            router.replace(to);
             return;
         }
     }, [isInitialized, user, requireAuth, requireRole, requireGuest, router, pathname]);
