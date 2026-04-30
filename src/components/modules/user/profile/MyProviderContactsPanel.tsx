@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import {
     RiArrowLeftLine,
     RiBuilding2Line,
+    RiCheckDoubleLine,
     RiDeleteBin6Line,
     RiGraduationCapLine,
     RiMailLine,
@@ -15,18 +16,19 @@ import {
     RiPhoneLine,
     RiSendPlaneLine,
 } from "react-icons/ri";
-
 import {
     useGetMyProviderContactsQuery,
     useGetMySentContactsQuery,
-    useReplyToContactMutation,
     useGetMyProviderProfileQuery,
     useDeleteContactMutation,
     useDeleteContactReplyMutation,
+    useDeleteInitialMessageMutation,
+    useReplyToContactMutation,
 } from "@/redux/apis/jobApi";
+import type { IProviderContact as ProviderContact, IContactReply as ContactReply } from "@/components/modules/user/job/job.types";
 import { useAppSelector } from "@/redux/hooks";
 import { cn } from "@/lib/utils";
-import { IProviderContact } from "../job/job.types";
+import { getContactsSocket } from "@/lib/socket";
 
 /* ── Avatar ──────────────────────────────────────────────── */
 function Av({ name, imageUrl, size = 40 }: { name: string; imageUrl?: string; size?: number }) {
@@ -45,19 +47,19 @@ function Av({ name, imageUrl, size = 40 }: { name: string; imageUrl?: string; si
 }
 
 /* ── Helpers ─────────────────────────────────────────────── */
-function getOtherPerson(contact: IProviderContact, myUserId: string) {
+function getOtherPerson(contact: ProviderContact, myUserId: string) {
     const providerUserId = (contact.provider as { user?: { _id?: string } })?.user?._id ?? contact.provider?._id ?? "";
     const isIAmProvider = providerUserId === myUserId;
     return isIAmProvider ? contact.seeker : (contact.provider as { user?: { name: string; imageUrl?: string; email: string } })?.user ?? contact.seeker;
 }
 
-function getLastMessage(contact: IProviderContact): string {
+function getLastMessage(contact: ProviderContact): string {
     const lastReply = contact?.replies?.length > 0 ? contact.replies[contact.replies.length - 1] : null;
     if (lastReply) return lastReply.body;
     return contact?.message ?? "No message";
 }
 
-function getLastTime(contact: IProviderContact): Date {
+function getLastTime(contact: ProviderContact): Date {
     const lastReply = contact?.replies?.length > 0 ? contact.replies[contact.replies.length - 1] : null;
     return new Date(lastReply ? lastReply.createdAt : contact?.createdAt ?? Date.now());
 }
@@ -69,7 +71,7 @@ function ConversationItem({
     myUserId,
     onSelect,
 }: {
-    contact: IProviderContact;
+    contact: ProviderContact;
     isActive: boolean;
     myUserId: string;
     onSelect: () => void;
@@ -103,9 +105,12 @@ function ConversationItem({
 }
 
 /* ── Chat Bubble ─────────────────────────────────────────── */
-function Bubble({ body, time, isMine, authorName, authorImage, onDelete, isDeletable }: {
+function Bubble({ body, time, isMine, authorName, authorImage, onDelete, isDeletable,
+    // seenByOther, seenBy
+
+ }: {
     body: string; time: string; isMine: boolean; authorName: string; authorImage?: string;
-    onDelete?: () => void; isDeletable?: boolean;
+    onDelete?: () => void; isDeletable?: boolean; seenByOther?: string; seenBy?: string[];
 }) {
     const [hovered, setHovered] = useState(false);
     return (
@@ -144,28 +149,118 @@ function Bubble({ body, time, isMine, authorName, authorImage, onDelete, isDelet
     );
 }
 
-/* ── Conversation Detail ─────────────────────────────────── */
+/* ── Seen indicator ──────────────────────────────────────── */
+// function SeenDots({ seenBy, myUserId, otherUserId }: { seenBy?: string[]; myUserId: string; otherUserId: string }) {
+//     const otherSeen = seenBy?.includes(otherUserId);
+//     return otherSeen ? (
+//         <RiCheckDoubleLine className="inline text-primary2-400 text-xs ml-1" title="Seen" />
+//     ) : null;
+// }
+
+/* ── Conversation Detail (socket-based) ──────────────────── */
 function ConversationDetail({
-    contact,
+    contact: initialContact,
     myUserId,
     onBack,
     onDeleted,
 }: {
-    contact: IProviderContact;
+    contact: ProviderContact;
     myUserId: string;
     onBack: () => void;
     onDeleted: () => void;
 }) {
-    const other = getOtherPerson(contact, myUserId);
-    const [replyToContact, { isLoading: sending }] = useReplyToContactMutation();
+    const [contact, setContact] = useState<ProviderContact>(initialContact);
     const [deleteContact, { isLoading: deletingContact }] = useDeleteContactMutation();
-    const [deleteReply] = useDeleteContactReplyMutation();
+    const [deleteInitialMessage] = useDeleteInitialMessageMutation();
+    const [replyToContact] = useReplyToContactMutation();
+    const [deleteContactReply] = useDeleteContactReplyMutation();
     const [text, setText] = useState("");
+    const [sending, setSending] = useState(false);
     const [confirmDelete, setConfirmDelete] = useState(false);
+    const [seenInfo, setSeenInfo] = useState<{ seenBy: string; seenAt: string } | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const msgContainerRef = useRef<HTMLDivElement>(null);
+    // accessToken dep ensures socket effect re-runs after SocketProvider initializes sockets
+    const accessToken = useAppSelector((s) => s.auth.accessToken);
+
+    // Keep contact in sync when parent prop updates (e.g. from RTK cache refresh)
+    useEffect(() => { setContact(initialContact); }, [initialContact._id]); // eslint-disable-line
+
+    const other = getOtherPerson(contact, myUserId);
+    const otherUserId = (other as { _id?: string })?._id ?? "";
+
+    /* ── Socket setup (receive-only) ──────────────────── */
+    useEffect(() => {
+        let sock: ReturnType<typeof getContactsSocket>;
+        try { sock = getContactsSocket(); } catch { return; } // not initialized yet
+
+        // Use named function so we can properly remove it on cleanup
+        const joinRoom = () => sock.emit("join:conversation", contact._id);
+
+        // Join now if connected, otherwise join on every (re)connect
+        if (sock.connected) joinRoom();
+        // Register on "connect" (not "once") so reconnects also re-join the room
+        sock.on("connect", joinRoom);
+        if (!sock.connected) sock.connect();
+
+        const onNewMsg = (data: { contactId: string; reply: ContactReply }) => {
+            if (data.contactId !== contact._id) return;
+            setContact((prev) => ({
+                ...prev,
+                replies: prev.replies.some((r) => r._id === data.reply._id)
+                    ? prev.replies
+                    : [...prev.replies, data.reply],
+            }));
+        };
+
+        const onReplyDeleted = (data: { contactId: string; replyId: string }) => {
+            if (data.contactId !== contact._id) return;
+            setContact((prev) => ({
+                ...prev,
+                replies: prev.replies.filter((r) => r._id !== data.replyId),
+            }));
+        };
+
+        const onInitialDeleted = (data: { contactId: string }) => {
+            if (data.contactId !== contact._id) return;
+            setContact((prev) => ({ ...prev, message: undefined }));
+        };
+
+        const onConvDeleted = (data: { contactId: string }) => {
+            if (data.contactId !== contact._id) return;
+            onDeleted();
+        };
+
+        const onSeen = (data: { contactId: string; seenBy: string; seenAt: string }) => {
+            if (data.contactId !== contact._id || data.seenBy === myUserId) return;
+            setSeenInfo(data);
+        };
+
+        sock.on("message:new", onNewMsg);
+        sock.on("message:deleted", onReplyDeleted);
+        sock.on("message:initialDeleted", onInitialDeleted);
+        sock.on("conversation:deleted", onConvDeleted);
+        sock.on("conversation:seen", onSeen);
+
+        return () => {
+            sock.emit("leave:conversation", contact._id);
+            sock.off("connect", joinRoom);
+            sock.off("message:new", onNewMsg);
+            sock.off("message:deleted", onReplyDeleted);
+            sock.off("message:initialDeleted", onInitialDeleted);
+            sock.off("conversation:deleted", onConvDeleted);
+            sock.off("conversation:seen", onSeen);
+        };
+    }, [contact._id, myUserId, accessToken]); // eslint-disable-line
+
+    /* ── Auto-scroll ───────────────────────────────────── */
+    useEffect(() => {
+        const c = msgContainerRef.current;
+        if (c) c.scrollTop = c.scrollHeight;
+    }, [contact.replies.length]);
 
     const details = [
-        "email" in other && other.email && { icon: RiMailLine, text: (other as { email: string }).email },
+        "email" in other && (other as { email: string }).email && { icon: RiMailLine, text: (other as { email: string }).email },
         "phone" in other && (other as { phone?: string }).phone && { icon: RiPhoneLine, text: (other as { phone: string }).phone },
         (("batch" in other && (other as { batch?: number }).batch) || ("section" in other && (other as { section?: string }).section)) && {
             icon: RiGraduationCapLine,
@@ -184,9 +279,8 @@ function ConversationDetail({
     ].filter(Boolean) as { icon: React.ElementType; text: string }[];
 
     // Build chronological message timeline
-    type Msg = { id: string; body: string; time: string; authorId: string; authorName: string; authorImage?: string; isReply: boolean };
+    type Msg = { id: string; body: string; time: string; authorId: string; authorName: string; authorImage?: string; isReply: boolean; replyObj?: ContactReply };
     const messages: Msg[] = [
-        // Initial message from seeker
         ...(contact.message ? [{
             id: `init-${contact._id}`,
             body: contact.message,
@@ -196,7 +290,6 @@ function ConversationDetail({
             authorImage: contact.seeker.imageUrl,
             isReply: false,
         }] : []),
-        // Replies in order
         ...(contact?.replies ?? []).map((r) => ({
             id: r._id,
             body: r.body,
@@ -205,22 +298,50 @@ function ConversationDetail({
             authorName: r.author.name,
             authorImage: r.author.imageUrl,
             isReply: true,
+            replyObj: r,
         })),
     ].sort((a, b) => new Date(a.time).getTime() - new Date(b.time).getTime());
-
-    useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [contact?.replies?.length]);
 
     const handleSend = async () => {
         const trimmed = text.trim();
         if (!trimmed || sending) return;
+        setSending(true);
         try {
-            await replyToContact({ id: contact._id, body: trimmed }).unwrap();
+            const res = await replyToContact({ id: contact._id, body: trimmed }).unwrap();
             setText("");
-        } catch {
-            toast.error("Failed to send reply.");
+            // Optimistic update from REST response
+            if (res?.data) {
+                const newReply = res.data.replies[res.data.replies.length - 1];
+                if (newReply) {
+                    setContact((prev) => ({
+                        ...prev,
+                        replies: prev.replies.some((r) => r._id === newReply._id)
+                            ? prev.replies
+                            : [...prev.replies, newReply],
+                    }));
+                }
+            }
+        } catch (err) {
+            toast.error((err as { data?: { message?: string } })?.data?.message ?? "Failed to send message.");
+        } finally {
+            setSending(false);
         }
+    };
+
+    const handleDeleteReply = async (replyId: string) => {
+        setContact((prev) => ({ ...prev, replies: prev.replies.filter((r) => r._id !== replyId) }));
+        try {
+            await deleteContactReply({ contactId: contact._id, replyId }).unwrap();
+        } catch {
+            toast.error("Failed to delete message.");
+        }
+    };
+
+    const handleDeleteInitialMessage = async () => {
+        try {
+            await deleteInitialMessage(contact._id).unwrap();
+            setContact((prev) => ({ ...prev, message: undefined }));
+        } catch { toast.error("Failed to delete message."); }
     };
 
     const handleDeleteContact = async () => {
@@ -228,30 +349,15 @@ function ConversationDetail({
             await deleteContact(contact._id).unwrap();
             toast.success("Conversation deleted.");
             onDeleted();
-        } catch {
-            toast.error("Failed to delete conversation.");
-        } finally {
-            setConfirmDelete(false);
-        }
-    };
-
-    const handleDeleteReply = async (replyId: string) => {
-        try {
-            await deleteReply({ contactId: contact._id, replyId }).unwrap();
-        } catch {
-            toast.error("Failed to delete message.");
-        }
+        } catch { toast.error("Failed to delete conversation."); }
+        finally { setConfirmDelete(false); }
     };
 
     return (
         <div className="flex-1 flex flex-col min-h-0">
             {/* Header */}
             <div className="flex items-center gap-3 px-4 py-3 border-b border-surface-200 bg-white flex-shrink-0 sticky top-0 z-10">
-                <button
-                    onClick={onBack}
-                    className="md:hidden text-primary2-700 hover:text-primary2-900 p-1 -ml-1 rounded transition-colors"
-                    aria-label="Back"
-                >
+                <button onClick={onBack} className="md:hidden text-primary2-700 hover:text-primary2-900 p-1 -ml-1 rounded transition-colors" aria-label="Back">
                     <RiArrowLeftLine className="text-xl" />
                 </button>
                 <Av name={other.name} imageUrl={other.imageUrl} size={36} />
@@ -261,37 +367,24 @@ function ConversationDetail({
                         <p className="text-xs text-muted-foreground truncate">{(other as { email: string }).email}</p>
                     )}
                 </div>
-                {/* Delete conversation */}
                 {!confirmDelete ? (
-                    <button
-                        onClick={() => setConfirmDelete(true)}
-                        title="Delete conversation"
-                        className="p-2 rounded-lg text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-colors flex-shrink-0"
-                    >
+                    <button onClick={() => setConfirmDelete(true)} title="Delete conversation"
+                        className="p-2 rounded-lg text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-colors flex-shrink-0">
                         <RiMoreLine className="text-lg" />
                     </button>
                 ) : (
                     <div className="flex items-center gap-1 flex-shrink-0">
                         <span className="text-xs text-red-600 font-medium">Delete chat?</span>
-                        <button
-                            onClick={handleDeleteContact}
-                            disabled={deletingContact}
-                            className="px-2 py-1 rounded text-xs bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
-                        >
-                            Yes
-                        </button>
-                        <button
-                            onClick={() => setConfirmDelete(false)}
-                            className="px-2 py-1 rounded text-xs bg-surface-100 text-neutral-700 hover:bg-surface-200 transition-colors"
-                        >
-                            No
-                        </button>
+                        <button onClick={handleDeleteContact} disabled={deletingContact}
+                            className="px-2 py-1 rounded text-xs bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 transition-colors">Yes</button>
+                        <button onClick={() => setConfirmDelete(false)}
+                            className="px-2 py-1 rounded text-xs bg-surface-100 text-neutral-700 hover:bg-surface-200 transition-colors">No</button>
                     </div>
                 )}
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-4 py-5 space-y-3 bg-surface-50/60">
+            <div ref={msgContainerRef} className="flex-1 overflow-y-auto px-4 py-5 space-y-3 bg-surface-50/60" data-lenis-prevent style={{ minHeight: 0 }}>
                 {messages.map((msg) => (
                     <Bubble
                         key={msg.id}
@@ -300,12 +393,19 @@ function ConversationDetail({
                         isMine={msg.authorId === myUserId}
                         authorName={msg.authorName}
                         authorImage={msg.authorImage}
-                        isDeletable={msg.isReply && msg.authorId === myUserId}
-                        onDelete={msg.isReply ? () => handleDeleteReply(msg.id) : undefined}
+                        isDeletable={msg.authorId === myUserId}
+                        seenByOther={msg.isReply && msg.authorId === myUserId ? otherUserId : undefined}
+                        seenBy={msg.replyObj?.seenBy}
+                        onDelete={msg.isReply ? () => handleDeleteReply(msg.id) : () => handleDeleteInitialMessage()}
                     />
                 ))}
                 {messages.length === 0 && (
                     <p className="text-sm text-muted-foreground text-center py-8">No messages yet.</p>
+                )}
+                {seenInfo && (
+                    <p className="text-[10px] text-right text-primary2-400 flex items-center justify-end gap-1">
+                        <RiCheckDoubleLine /> Seen {formatDistanceToNow(new Date(seenInfo.seenAt), { addSuffix: true })}
+                    </p>
                 )}
                 <div ref={messagesEndRef} />
             </div>
@@ -333,11 +433,8 @@ function ConversationDetail({
                     placeholder="Type a message…"
                     className="flex-1 text-sm px-4 py-2.5 rounded-full border border-surface-200 bg-surface-50 focus:outline-none focus:ring-2 focus:ring-primary2-300 focus:border-primary2-300 transition-colors"
                 />
-                <button
-                    onClick={handleSend}
-                    disabled={sending || !text.trim()}
-                    className="p-2.5 bg-primary2-600 text-white rounded-full hover:bg-primary2-700 disabled:opacity-50 transition-colors flex-shrink-0"
-                >
+                <button onClick={handleSend} disabled={sending || !text.trim()}
+                    className="p-2.5 bg-primary2-600 text-white rounded-full hover:bg-primary2-700 disabled:opacity-50 transition-colors flex-shrink-0">
                     <RiSendPlaneLine className="text-lg" />
                 </button>
             </div>
@@ -359,12 +456,12 @@ export default function MyProviderContactsPanel() {
     });
     const { data: sentData, isLoading: loadingSent } = useGetMySentContactsQuery();
 
-    const receivedContacts: IProviderContact[] = receivedData?.data ?? [];
-    const sentContacts: IProviderContact[] = sentData?.data ?? [];
+    const receivedContacts: ProviderContact[] = receivedData?.data ?? [];
+    const sentContacts: ProviderContact[] = sentData?.data ?? [];
 
     // Merge and deduplicate (same contact may appear in both if user is both provider+seeker)
     const allIds = new Set<string>();
-    const allContacts: IProviderContact[] = [];
+    const allContacts: ProviderContact[] = [];
     [...receivedContacts, ...sentContacts].forEach((c) => {
         if (!allIds.has(c._id)) { allIds.add(c._id); allContacts.push(c); }
     });
@@ -385,7 +482,7 @@ export default function MyProviderContactsPanel() {
 
     const selected = allContacts.find((c) => c._id === selectedId) ?? null;
 
-    const handleSelect = (contact: IProviderContact) => {
+    const handleSelect = (contact: ProviderContact) => {
         setSelectedId(contact._id);
         setMobileView("detail");
     };
@@ -419,7 +516,7 @@ export default function MyProviderContactsPanel() {
     }
 
     return (
-        <div className="bg-white rounded-2xl border border-surface-200 overflow-hidden flex" style={{ minHeight: 560 }}>
+        <div className="bg-white rounded-2xl border border-surface-200 overflow-hidden flex" style={{ height: 600 }}>
             {/* LEFT — conversation list */}
             <div className={cn(
                 "w-full md:w-72 lg:w-80 md:flex-shrink-0 border-r border-surface-200 flex flex-col",
@@ -432,7 +529,7 @@ export default function MyProviderContactsPanel() {
                         <span className="ml-auto text-xs text-muted-foreground">{allContacts.length}</span>
                     </div>
                 </div>
-                <div className="flex-1 overflow-y-auto">
+                <div className="flex-1 overflow-y-auto" data-lenis-prevent>
                     {allContacts.map((contact) => (
                         <ConversationItem
                             key={contact._id}

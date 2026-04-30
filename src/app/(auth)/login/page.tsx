@@ -1,13 +1,4 @@
 import LoginPage from '@/components/pages/auth/LoginPage'
-import ClientAuthGuard from '@/components/shared/ClientAuthGuard'
 
-// ClientAuthGuard: requireGuest — redirect logged-in users away from login.
-// WHEN CUSTOM DOMAIN: middleware handles this too. Keep guard for defence-in-depth.
-const Login = () => {
-    return (
-        <ClientAuthGuard requireGuest>
-            <LoginPage />
-        </ClientAuthGuard>
-    )
-}
+const Login = () => <LoginPage />
 export default Login

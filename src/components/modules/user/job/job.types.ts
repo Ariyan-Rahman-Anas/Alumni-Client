@@ -146,6 +146,7 @@ export interface IContactReply {
     author: IUserProfile;
     body: string;
     createdAt: string;
+    seenBy?: string[];
 }
 
 export interface IProviderContact {

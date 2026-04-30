@@ -75,6 +75,11 @@ export const batchApi = baseApi.injectEndpoints({
             query: (id) => ({ url: `/batches/${id}/toggle`, method: "PATCH" }),
             invalidatesTags: ["batches"],
         }),
+
+        getBatchById: builder.query<BatchResponse, string>({
+            query: (id) => ({ url: `/batches/${id}`, method: "GET" }),
+            providesTags: (_r, _e, id) => [{ type: "batches", id }],
+        }),
     }),
     overrideExisting: false,
 });
@@ -86,4 +91,5 @@ export const {
     useUpdateBatchMutation,
     useDeleteBatchMutation,
     useToggleBatchActiveMutation,
+    useGetBatchByIdQuery,
 } = batchApi;

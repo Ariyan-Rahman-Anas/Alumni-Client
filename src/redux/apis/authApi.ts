@@ -45,7 +45,13 @@ export interface RegisterPayload {
 interface LoginResponse {
     success: boolean;
     message: string;
-    data: { user: AuthUser };
+    data: { user: AuthUser; accessToken: string };
+}
+
+interface RefreshTokenResponse {
+    success: boolean;
+    message: string;
+    data: { accessToken: string; user: AuthUser } | null;
 }
 
 interface GetMeResponse {
@@ -108,6 +114,11 @@ export const authApi = baseApi.injectEndpoints({
             }),
         }),
 
+        // Called on every page load to restore in-memory access token from httpOnly refresh cookie
+        restoreSession: builder.query<RefreshTokenResponse, void>({
+            query: () => ({ url: "/auth/refresh-token", method: "POST" }),
+        }),
+
         getMe: builder.query<GetMeResponse, void>({
             query: () => ({ url: "/auth/me", method: "GET" }),
         }),
@@ -131,6 +142,7 @@ export const {
     useResendOtpMutation,
     useLoginUserMutation,
     useLogoutUserMutation,
+    useRestoreSessionQuery,
     useGetMeQuery,
     useChangePasswordMutation,
 } = authApi;

@@ -1,4 +1,5 @@
-﻿import { RiDeleteBinLine, RiEditLine, RiToggleFill, RiToggleLine } from "react-icons/ri";
+﻿import { RiDeleteBinLine, RiEditLine, RiEyeLine, RiToggleFill, RiToggleLine } from "react-icons/ri";
+import { useRouter } from "next/navigation";
 
 import DataTable from "@/components/shared/dataTable/DataTable";
 import { Badge } from "@/components/ui/badge";
@@ -32,6 +33,7 @@ const AdminBatchesTable = ({
     onToggle,
     isToggling,
 }: AdminBatchesTableProps) => {
+    const router = useRouter();
     const columns: TableColumn<Batch>[] = [
         { key: "index", label: "#", },
         { key: "year", label: "Batch Year", },
@@ -120,6 +122,15 @@ const AdminBatchesTable = ({
             label: "Actions",
             render: (b) => (
                 <div className="flex items-center justify-center gap-1.5">
+                    <Button
+                        size="icon"
+                        variant="ghost"
+                        title="View detail"
+                        onClick={() => router.push(`/admin/batches/${b._id}`)}
+                        className="h-8 w-8 text-neutral-600 hover:bg-surface-100"
+                    >
+                        <RiEyeLine className="text-base" />
+                    </Button>
                     <button
                         title={b.isActive ? "Deactivate" : "Activate"}
                         disabled={isToggling}

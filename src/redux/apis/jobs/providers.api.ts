@@ -58,8 +58,8 @@ export const providersApi = baseApi.injectEndpoints({
         }),
 
         replyToContact: builder.mutation<{ success: boolean; message: string; data: IProviderContact }, { id: string; body: string }>({
+            // No invalidatesTags — state updated optimistically in MyProviderContactsPanel
             query: ({ id, body }) => ({ url: `/jobs/contacts/${id}/reply`, method: "POST", body: { body } }),
-            invalidatesTags: ["providerContacts"],
         }),
 
         contactProvider: builder.mutation<{ success: boolean; message: string }, { id: string; message?: string }>({
@@ -72,9 +72,14 @@ export const providersApi = baseApi.injectEndpoints({
             invalidatesTags: ["providerContacts"],
         }),
 
-        deleteContactReply: builder.mutation<{ success: boolean; message: string; data: IProviderContact }, { contactId: string; replyId: string }>({
-            query: ({ contactId, replyId }) => ({ url: `/jobs/contacts/${contactId}/replies/${replyId}`, method: "DELETE" }),
+        deleteInitialMessage: builder.mutation<{ success: boolean; message: string }, string>({
+            query: (id) => ({ url: `/jobs/contacts/${id}/initial`, method: "DELETE" }),
             invalidatesTags: ["providerContacts"],
+        }),
+
+        deleteContactReply: builder.mutation<{ success: boolean; message: string; data: IProviderContact }, { contactId: string; replyId: string }>({
+            // No invalidatesTags — deleted optimistically in MyProviderContactsPanel
+            query: ({ contactId, replyId }) => ({ url: `/jobs/contacts/${contactId}/replies/${replyId}`, method: "DELETE" }),
         }),
 
         /* ── Admin ── */
@@ -107,6 +112,7 @@ export const {
     useReplyToContactMutation,
     useContactProviderMutation,
     useDeleteContactMutation,
+    useDeleteInitialMessageMutation,
     useDeleteContactReplyMutation,
     useAdminGetAllProvidersQuery,
     useAdminUpdateProviderStatusMutation,
