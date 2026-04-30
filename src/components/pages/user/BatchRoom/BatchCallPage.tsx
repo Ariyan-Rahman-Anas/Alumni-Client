@@ -56,6 +56,8 @@ export default function BatchCallPage() {
 
     const pcRefs = useRef<Map<string, RTCPeerConnection>>(new Map());
     const localStreamRef = useRef<MediaStream | null>(null);
+    // Maps socketId → display name so onCallOffer can use the real name
+    const peerNamesRef = useRef<Map<string, string>>(new Map());
 
     // Outgoing dial tone — synthesised via Web Audio API (no file needed).
     // Plays from the moment the caller joins until the first peer connects.
@@ -68,7 +70,8 @@ export default function BatchCallPage() {
         diallingRef.current = true;
         if (!dialCtxRef.current) dialCtxRef.current = new AudioContext();
         const ctx = dialCtxRef.current;
-        if (ctx.state === "suspended") void ctx.resume();
+        // Resume in case browser suspended it (autoplay policy)
+        const resume = ctx.state === "suspended" ? ctx.resume() : Promise.resolve();
         const tick = () => {
             if (!diallingRef.current) return;
             // Outgoing ring: single 1-second burst of 440+480 Hz, then 2 s silence
@@ -86,7 +89,7 @@ export default function BatchCallPage() {
             });
             dialTimerRef.current = setTimeout(tick, 3000);
         };
-        tick();
+        void resume.then(tick);
     }, []);
 
     const stopDialTone = useCallback(() => {
@@ -102,9 +105,11 @@ export default function BatchCallPage() {
     }, [stopDialTone]);
 
     const { sendOffer, sendAnswer, sendIce, endCall, startCall } = useBatchSocket(myBatch, {
-        onCallOffer: async ({ fromSocketId, offer }) => {
+        onCallOffer: async ({ fromSocketId, offer, name }) => {
             if (!localStreamRef.current) return;
-            const pc = createPc(fromSocketId, `Peer-${fromSocketId.slice(0, 6)}`);
+            // Prefer name from offer payload (server now sends it), fall back to cache
+            const peerName = name || peerNamesRef.current.get(fromSocketId) || `Peer-${fromSocketId.slice(0, 6)}`;
+            const pc = createPc(fromSocketId, peerName);
             await pc.setRemoteDescription(new RTCSessionDescription(offer as RTCSessionDescriptionInit));
             const answer = await pc.createAnswer();
             await pc.setLocalDescription(answer);
@@ -127,10 +132,13 @@ export default function BatchCallPage() {
             setPeers((prev) => { const next = new Map(prev); next.delete(socketId); return next; });
         },
         onCallIncoming: ({ from, fromSocketId, name: callerName }) => {
+            // Store the name so onCallOffer can look it up
+            const displayName = callerName || from;
+            peerNamesRef.current.set(fromSocketId, displayName);
             // New peer joined — initiate offer to them
-            setPeers((prev) => new Map(prev).set(fromSocketId, { name: callerName ?? from, stream: null }));
+            setPeers((prev) => new Map(prev).set(fromSocketId, { name: displayName, stream: null }));
             if (localStreamRef.current) {
-                const pc = createPc(fromSocketId, callerName ?? from);
+                const pc = createPc(fromSocketId, displayName);
                 pc.createOffer().then((offer) => {
                     pc.setLocalDescription(offer);
                     sendOffer(fromSocketId, offer);
@@ -156,14 +164,41 @@ export default function BatchCallPage() {
 
     const joinCall = useCallback(async () => {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: hasVideo });
+            let stream: MediaStream;
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: hasVideo });
+            } catch (firstErr) {
+                const e = firstErr as DOMException;
+                // If video was requested but the device isn't available (not a permission issue),
+                // fall back gracefully to audio-only.
+                if (hasVideo && e.name !== "NotAllowedError" && e.name !== "PermissionDeniedError") {
+                    stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                    setCamOn(false);
+                    // Silent fallback — camera in use by another tab or not available
+                    console.info("[BatchCall] Camera unavailable, falling back to audio-only:", e.name);
+                } else {
+                    throw firstErr;
+                }
+            }
             localStreamRef.current = stream;
             setLocalStream(stream);
             setInCall(true);
             startCall(hasVideo);
             startDialTone();   // ring until a peer picks up
-        } catch {
-            toast.error("Could not access camera/microphone. Please allow permissions and try again.");
+        } catch (err) {
+            const e = err as DOMException;
+            console.error("[BatchCall] getUserMedia failed:", e.name, e.message);
+            if (e.name === "NotAllowedError" || e.name === "PermissionDeniedError") {
+                toast.error("Microphone/camera permission was denied. Please allow access in your browser settings and reload.");
+            } else if (e.name === "NotFoundError" || e.name === "DevicesNotFoundError") {
+                toast.error("No microphone found. Please connect one and try again.");
+            } else if (e.name === "NotReadableError" || e.name === "TrackStartError") {
+                toast.error("Microphone is in use by another app. Please close it and try again.");
+            } else if (e.name === "OverconstrainedError") {
+                toast.error("Your device doesn't support the required audio/video settings.");
+            } else {
+                toast.error(`Could not start media: ${e.message || e.name}`);
+            }
         }
     }, [hasVideo, startCall, startDialTone]);
 
