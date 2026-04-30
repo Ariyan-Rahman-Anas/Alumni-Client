@@ -17,10 +17,11 @@ export interface BatchSocketHandlers {
     /** Server emits individual typing events: { userId, userName, typing } */
     onTypingUpdate?: (data: { userId: string; userName: string; typing: boolean }) => void;
     onCallIncoming?: (data: IncomingCall) => void;
-    onCallOffer?: (data: { from: string; fromSocketId: string; offer: unknown }) => void;
+    onCallOffer?: (data: { from: string; fromSocketId: string; name?: string; offer: unknown }) => void;
     onCallAnswer?: (data: { from: string; fromSocketId: string; answer: unknown }) => void;
     onCallIce?: (data: { from: string; fromSocketId: string; candidate: unknown }) => void;
     onCallPeerLeft?: (data: { socketId: string }) => void;
+    onCallEnded?: () => void;
 }
 
 /** Returns the batch socket if initialized, null otherwise */
@@ -54,10 +55,16 @@ export function useBatchSocket(batchYear: number | undefined, handlers: BatchSoc
             on<{ pollId: string }>("poll:deleted", "onPollDeleted"),
             on<{ userId: string; userName: string; typing: boolean }>("typing:update", "onTypingUpdate"),
             on<IncomingCall>("call:incoming", "onCallIncoming"),
-            on<{ from: string; fromSocketId: string; offer: unknown }>("call:offer", "onCallOffer"),
+            on<{ from: string; fromSocketId: string; name?: string; offer: unknown }>("call:offer", "onCallOffer"),
             on<{ from: string; fromSocketId: string; answer: unknown }>("call:answer", "onCallAnswer"),
             on<{ from: string; fromSocketId: string; candidate: unknown }>("call:ice", "onCallIce"),
             on<{ socketId: string }>("call:peerLeft", "onCallPeerLeft"),
+            // No-arg event — use a wrapper so the generic helper works
+            (() => {
+                const fn = () => handlersRef.current.onCallEnded?.();
+                sock.on("call:ended", fn);
+                return () => sock.off("call:ended", fn);
+            })(),
         ];
 
         return () => { cleanups.forEach((off) => off()); };

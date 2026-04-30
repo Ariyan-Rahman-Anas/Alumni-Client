@@ -446,7 +446,7 @@ function VoiceMessageBubble({ url, isMine }: { url: string; isMine: boolean }) {
 }
 
 /* ── Type helpers ───────────────────────────────────────── */
-type CallSystemMsg = { _id: string; callerName: string; hasVideo: boolean; createdAt: string };
+type CallSystemMsg = { _id: string; callerName: string; hasVideo: boolean; createdAt: string; type: "started" | "joined"; endedAt?: string };
 type PendingImage = { id: string; preview: string; file: File; failed: boolean };
 
 /* ── Main Page ───────────────────────────────────────────── */
@@ -552,12 +552,16 @@ export default function BatchRoomPage() {
         if (ringTimerRef.current) clearTimeout(ringTimerRef.current);
     }, []);
 
-    // Pre-unlock AudioContext on first click so it's ready when a call arrives
+    // Pre-unlock AudioContext on first user interaction so it's ready when a call arrives
     useEffect(() => {
         const unlock = () => { getRingCtx(); };
         document.addEventListener("click", unlock, { once: true });
+        document.addEventListener("keydown", unlock, { once: true });
+        document.addEventListener("pointerdown", unlock, { once: true });
         return () => {
             document.removeEventListener("click", unlock);
+            document.removeEventListener("keydown", unlock);
+            document.removeEventListener("pointerdown", unlock);
             stopRingtone();
             ringCtxRef.current?.close();
         };
@@ -577,17 +581,42 @@ export default function BatchRoomPage() {
             });
         },
         onCallIncoming: (data) => {
-            // Ignore if we started the call ourselves (our batch-room socket
-            // receives call:incoming emitted by our call-tab socket) or if
-            // we've already joined a call from this page.
-            if (data.from === myUserId || isInCall) return;
+            // Always ignore our own events (call-tab socket fires call:start → our batch-room socket receives it)
+            if (data.from === myUserId) return;
+
+            if (ongoingCall) {
+                // Call is already ongoing — this person is joining, not starting
+                setCallSystemMsgs((prev) => [
+                    ...prev,
+                    { _id: `call-sys-${Date.now()}`, callerName: data.name, hasVideo: data.hasVideo, createdAt: new Date().toISOString(), type: "joined" },
+                ]);
+                return; // no popup, no ringtone
+            }
+
+            if (isInCall) return; // safety guard
+
+            // Fresh call — show incoming popup and ring
             setIncomingCall(data);
             setOngoingCall(data);
             setCallSystemMsgs((prev) => [
                 ...prev,
-                { _id: `call-sys-${Date.now()}`, callerName: data.name, hasVideo: data.hasVideo, createdAt: new Date().toISOString() },
+                { _id: `call-sys-${Date.now()}`, callerName: data.name, hasVideo: data.hasVideo, createdAt: new Date().toISOString(), type: "started" },
             ]);
             startRingtone();
+        },
+        onCallEnded: () => {
+            // All participants left — reset call state so the header shows normal icons
+            stopRingtone();
+            setIncomingCall(null);
+            setOngoingCall(null);
+            setIsInCall(false);
+            // Stamp the last "started" message with an endedAt for duration display
+            setCallSystemMsgs((prev) => {
+                const idx = [...prev].reverse().findIndex((m) => m.type === "started" && !m.endedAt);
+                if (idx === -1) return prev;
+                const realIdx = prev.length - 1 - idx;
+                return prev.map((m, i) => i === realIdx ? { ...m, endedAt: new Date().toISOString() } : m);
+            });
         },
     });
 
@@ -722,7 +751,17 @@ export default function BatchRoomPage() {
         stopRingtone();
         setIncomingCall(null);
         setIsInCall(true);
-        window.open(`/batch-room/call?video=${hasVideo}&batch=${myBatch}`, "_blank", "width=1200,height=800,menubar=no,toolbar=no,location=no");
+        const callerName = authUser?.name ?? "You";
+        const isJoining = !!ongoingCall; // receiver clicking "Join call" vs caller starting new call
+        if (!isJoining) {
+            // Caller starts a new call — show the header "Join call" button for themselves too
+            setOngoingCall({ from: myUserId, name: callerName, hasVideo });
+        }
+        setCallSystemMsgs((prev) => [
+            ...prev,
+            { _id: `call-sys-${Date.now()}`, callerName, hasVideo: isJoining ? ongoingCall!.hasVideo : hasVideo, createdAt: new Date().toISOString(), type: isJoining ? "joined" : "started" },
+        ]);
+        window.open(`/batch-room/call?video=${isJoining ? ongoingCall!.hasVideo : hasVideo}&batch=${myBatch}`, "_blank", "width=1200,height=800,menubar=no,toolbar=no,location=no");
     };
 
     if (!myBatch) {
@@ -894,6 +933,15 @@ export default function BatchRoomPage() {
                         {allChatItems.map((item) => {
                             /* ── Call system event ── */
                             if ("callerName" in item) {
+                                const durationMs = item.endedAt
+                                    ? new Date(item.endedAt).getTime() - new Date(item.createdAt).getTime()
+                                    : null;
+                                const durationLabel = durationMs !== null ? (() => {
+                                    const s = Math.round(durationMs / 1000);
+                                    const m = Math.floor(s / 60);
+                                    const sec = s % 60;
+                                    return m > 0 ? `${m}m ${sec > 0 ? `${sec}s` : ""}`.trim() : `${sec}s`;
+                                })() : null;
                                 return (
                                     <div key={item._id} className="flex justify-center my-1">
                                         <div className="bg-surface-100 border border-surface-200 rounded-full px-4 py-1 flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -902,10 +950,17 @@ export default function BatchRoomPage() {
                                                 : <RiPhoneLine className="text-green-500 flex-shrink-0" />}
                                             <span>
                                                 <strong className="text-neutral-700">{item.callerName}</strong>
-                                                {" started a "}{item.hasVideo ? "video" : "voice"}{" call"}
+                                                {item.type === "joined" ? " joined the " : " started a "}
+                                                {item.hasVideo ? "video" : "voice"}{" call"}
                                             </span>
                                             <span className="text-surface-300">·</span>
                                             <span>{formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}</span>
+                                            {durationLabel && (
+                                                <>
+                                                    <span className="text-surface-300">·</span>
+                                                    <span>{durationLabel}</span>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                 );
