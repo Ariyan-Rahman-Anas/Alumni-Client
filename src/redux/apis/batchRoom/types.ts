@@ -12,9 +12,11 @@ export interface BatchMessage {
     _id: string;
     batchYear: number;
     author: UserProfile;
+    type: "text" | "call_started" | "call_joined";
     body?: string;
     imageUrl?: string;
     imagePublicId?: string;
+    callMeta?: { hasVideo: boolean; endedAt?: string };
     isDeleted: boolean;
     seenBy: string[];
     createdAt: string;

@@ -1,11 +1,11 @@
 ﻿"use client";
 
 import { motion } from "framer-motion";
-import { RiArrowRightSLine, RiLockPasswordLine, RiProfileLine, RiWallet3Line, RiFileListLine, RiBriefcaseLine, RiMessage2Line, RiUserStarLine } from "react-icons/ri";
+import { RiArrowRightSLine, RiLockPasswordLine, RiProfileLine, RiWallet3Line, RiFileListLine, RiBriefcaseLine, RiMessage2Line, RiUserStarLine, RiTicketLine } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
-export type ProfileSectionKey = "profile-info" | "transactions" | "change-password" | "my-applications" | "my-posted-jobs" | "my-provider-contacts" | "my-provider-profile";
+export type ProfileSectionKey = "profile-info" | "transactions" | "change-password" | "my-applications" | "my-posted-jobs" | "my-provider-contacts" | "my-provider-profile" | "my-event-registrations";
 
 interface SidebarItem {
     id: ProfileSectionKey;
@@ -22,6 +22,7 @@ const sidebarItems: SidebarItem[] = [
     { id: "my-posted-jobs", label: "My Posted Jobs", description: "View your posts & applicants", icon: <RiBriefcaseLine /> },
     { id: "my-provider-contacts", label: "Contacts", description: "Messages from people who found you", icon: <RiMessage2Line /> },
     { id: "my-provider-profile", label: "Provider Profile", description: "Manage your provider registration", icon: <RiUserStarLine /> },
+    { id: "my-event-registrations", label: "Event Registrations", description: "Track your event sign-ups", icon: <RiTicketLine /> },
 ];
 
 interface ProfileSidebarProps {

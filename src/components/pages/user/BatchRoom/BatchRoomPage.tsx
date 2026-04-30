@@ -446,7 +446,7 @@ function VoiceMessageBubble({ url, isMine }: { url: string; isMine: boolean }) {
 }
 
 /* ── Type helpers ───────────────────────────────────────── */
-type CallSystemMsg = { _id: string; callerName: string; hasVideo: boolean; createdAt: string; type: "started" | "joined"; endedAt?: string };
+// type CallSystemMsg = { _id: string; callerName: string; hasVideo: boolean; createdAt: string; type: "started" | "joined"; endedAt?: string };
 type PendingImage = { id: string; preview: string; file: File; failed: boolean };
 
 /* ── Main Page ───────────────────────────────────────────── */
@@ -481,7 +481,6 @@ export default function BatchRoomPage() {
     const [isInCall, setIsInCall] = useState(false);
     const [incomingCall, setIncomingCall] = useState<{ from: string; name: string; hasVideo: boolean } | null>(null);
     const [pendingImages, setPendingImages] = useState<PendingImage[]>([]);
-    const [callSystemMsgs, setCallSystemMsgs] = useState<CallSystemMsg[]>([]);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const msgContainerRef = useRef<HTMLDivElement>(null);
     const typingTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -489,6 +488,7 @@ export default function BatchRoomPage() {
     const ringCtxRef = useRef<AudioContext | null>(null);
     const ringTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const ringingRef = useRef(false);
+    const incomingCallTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const room = roomData?.data;
     const coordinatorId = (room?.coordinator as { _id?: string })?._id;
@@ -507,6 +507,14 @@ export default function BatchRoomPage() {
 
     useEffect(() => { if (messagesData?.data) setMessages(messagesData.data); }, [messagesData]);
     useEffect(() => { if (pollsData?.data) setPolls(pollsData.data); }, [pollsData]);
+    // Restore text draft from sessionStorage (survives token refresh / page reload)
+    useEffect(() => {
+        if (!myBatch) return;
+        try {
+            const saved = sessionStorage.getItem(`batch-draft-${myBatch}`);
+            if (saved) setText(saved);
+        } catch { /* ignore */ }
+    }, [myBatch]);
     useEffect(() => {
         const c = msgContainerRef.current;
         if (c) c.scrollTop = c.scrollHeight;
@@ -585,48 +593,49 @@ export default function BatchRoomPage() {
             if (data.from === myUserId) return;
 
             if (ongoingCall) {
-                // Call is already ongoing — this person is joining, not starting
-                setCallSystemMsgs((prev) => [
-                    ...prev,
-                    { _id: `call-sys-${Date.now()}`, callerName: data.name, hasVideo: data.hasVideo, createdAt: new Date().toISOString(), type: "joined" },
-                ]);
-                return; // no popup, no ringtone
+                // Call already ongoing — this person is joining, not starting a new call
+                return; // message:new from server already added the call_joined message
             }
 
-            if (isInCall) return; // safety guard
+            if (isInCall) return;
 
             // Fresh call — show incoming popup and ring
             setIncomingCall(data);
             setOngoingCall(data);
-            setCallSystemMsgs((prev) => [
-                ...prev,
-                { _id: `call-sys-${Date.now()}`, callerName: data.name, hasVideo: data.hasVideo, createdAt: new Date().toISOString(), type: "started" },
-            ]);
             startRingtone();
+            // Auto-dismiss popup after 30 seconds (unanswered call)
+            if (incomingCallTimerRef.current) clearTimeout(incomingCallTimerRef.current);
+            incomingCallTimerRef.current = setTimeout(() => {
+                setIncomingCall(null);
+                stopRingtone();
+            }, 30000);
         },
-        onCallEnded: () => {
+        onCallEnded: ({ callMsgId, endedAt }) => {
             // All participants left — reset call state so the header shows normal icons
             stopRingtone();
+            if (incomingCallTimerRef.current) clearTimeout(incomingCallTimerRef.current);
             setIncomingCall(null);
             setOngoingCall(null);
             setIsInCall(false);
-            // Stamp the last "started" message with an endedAt for duration display
-            setCallSystemMsgs((prev) => {
-                const idx = [...prev].reverse().findIndex((m) => m.type === "started" && !m.endedAt);
-                if (idx === -1) return prev;
-                const realIdx = prev.length - 1 - idx;
-                return prev.map((m, i) => i === realIdx ? { ...m, endedAt: new Date().toISOString() } : m);
-            });
+            // Stamp the call_started message with endedAt so duration shows
+            if (callMsgId) {
+                setMessages((prev) => prev.map((m) =>
+                    m._id === callMsgId
+                        ? { ...m, callMeta: { ...(m.callMeta ?? { hasVideo: false }), endedAt } }
+                        : m
+                ));
+            }
         },
     });
 
     // Merge regular messages with call-system events, sorted by time
-    const allChatItems = useMemo<(BatchMessage | CallSystemMsg)[]>(
-        () => [...messages, ...callSystemMsgs].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()),
-        [messages, callSystemMsgs]
+    const allChatItems = useMemo(
+        () => [...messages].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()),
+        [messages]
     );
 
     const handleSend = () => {
+        if (isSending) return; // guard against double-fire (e.g. Enter + button click)
         if (recording) {
             setIsSending(true);
             stopRecording().then((file) => {
@@ -651,6 +660,8 @@ export default function BatchRoomPage() {
             .then((res) => {
                 if (res.data) setMessages((prev) => prev.some((m) => m._id === res.data._id) ? prev : [...prev, res.data]);
                 setText("");
+                // Clear persisted draft on successful send
+                try { sessionStorage.removeItem(`batch-draft-${myBatch}`); } catch { /* ignore */ }
             })
             .catch((err) => toast.error((err as { data?: { message?: string } })?.data?.message ?? "Failed to send message."))
             .finally(() => setIsSending(false));
@@ -658,6 +669,8 @@ export default function BatchRoomPage() {
 
     const handleTextChange = (value: string) => {
         setText(value);
+        // Persist draft to sessionStorage so it survives token refresh
+        try { sessionStorage.setItem(`batch-draft-${myBatch}`, value); } catch { /* ignore */ }
         startTyping();
         if (typingTimerRef.current) clearTimeout(typingTimerRef.current);
         typingTimerRef.current = setTimeout(stopTyping, 2000);
@@ -686,6 +699,7 @@ export default function BatchRoomPage() {
         fd.append("image", file);
         sendMediaMessage({ year: myBatch!, formData: fd }).unwrap()
             .then((res) => {
+                URL.revokeObjectURL(preview); // release object URL — image is now on Cloudinary
                 setPendingImages((prev) => prev.filter((p) => p.id !== pendingId));
                 if (res.data) setMessages((prev) => prev.some((m) => m._id === res.data._id) ? prev : [...prev, res.data]);
             })
@@ -700,6 +714,7 @@ export default function BatchRoomPage() {
         fd.append("image", pending.file);
         sendMediaMessage({ year: myBatch!, formData: fd }).unwrap()
             .then((res) => {
+                URL.revokeObjectURL(pending.preview); // release object URL
                 setPendingImages((prev) => prev.filter((p) => p.id !== pendingId));
                 if (res.data) setMessages((prev) => prev.some((m) => m._id === res.data._id) ? prev : [...prev, res.data]);
             })
@@ -749,19 +764,17 @@ export default function BatchRoomPage() {
 
     const openCallTab = (hasVideo: boolean) => {
         stopRingtone();
+        if (incomingCallTimerRef.current) clearTimeout(incomingCallTimerRef.current);
         setIncomingCall(null);
         setIsInCall(true);
-        const callerName = authUser?.name ?? "You";
         const isJoining = !!ongoingCall; // receiver clicking "Join call" vs caller starting new call
+        const callHasVideo = isJoining ? ongoingCall!.hasVideo : hasVideo;
         if (!isJoining) {
-            // Caller starts a new call — show the header "Join call" button for themselves too
-            setOngoingCall({ from: myUserId, name: callerName, hasVideo });
+            // Caller starts a new call — show "Join call" in their own header too
+            setOngoingCall({ from: myUserId, name: authUser?.name ?? "You", hasVideo });
         }
-        setCallSystemMsgs((prev) => [
-            ...prev,
-            { _id: `call-sys-${Date.now()}`, callerName, hasVideo: isJoining ? ongoingCall!.hasVideo : hasVideo, createdAt: new Date().toISOString(), type: isJoining ? "joined" : "started" },
-        ]);
-        window.open(`/batch-room/call?video=${isJoining ? ongoingCall!.hasVideo : hasVideo}&batch=${myBatch}`, "_blank", "width=1200,height=800,menubar=no,toolbar=no,location=no");
+        // message:new from server will add the persisted call event — no local state needed
+        window.open(`/batch-room/call?video=${callHasVideo}&batch=${myBatch}`, "_blank", "width=1200,height=800,menubar=no,toolbar=no,location=no");
     };
 
     if (!myBatch) {
@@ -932,26 +945,29 @@ export default function BatchRoomPage() {
                     <div ref={msgContainerRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-2 bg-surface-50/40" data-lenis-prevent style={{ minHeight: 0 }}>
                         {allChatItems.map((item) => {
                             /* ── Call system event ── */
-                            if ("callerName" in item) {
-                                const durationMs = item.endedAt
-                                    ? new Date(item.endedAt).getTime() - new Date(item.createdAt).getTime()
+                            if (item.type === "call_started" || item.type === "call_joined") {
+                                const hasVideo = item.callMeta?.hasVideo ?? false;
+                                const endedAt = item.callMeta?.endedAt;
+                                const callerName = (item.author as { name?: string }).name ?? "Unknown";
+                                const durationMs = endedAt
+                                    ? new Date(endedAt).getTime() - new Date(item.createdAt).getTime()
                                     : null;
                                 const durationLabel = durationMs !== null ? (() => {
                                     const s = Math.round(durationMs / 1000);
                                     const m = Math.floor(s / 60);
                                     const sec = s % 60;
-                                    return m > 0 ? `${m}m ${sec > 0 ? `${sec}s` : ""}`.trim() : `${sec}s`;
+                                    return m > 0 ? `${m}m${sec > 0 ? ` ${sec}s` : ""}` : `${sec}s`;
                                 })() : null;
                                 return (
                                     <div key={item._id} className="flex justify-center my-1">
                                         <div className="bg-surface-100 border border-surface-200 rounded-full px-4 py-1 flex items-center gap-1.5 text-xs text-muted-foreground">
-                                            {item.hasVideo
+                                            {hasVideo
                                                 ? <RiVideoLine className="text-blue-500 flex-shrink-0" />
                                                 : <RiPhoneLine className="text-green-500 flex-shrink-0" />}
                                             <span>
-                                                <strong className="text-neutral-700">{item.callerName}</strong>
-                                                {item.type === "joined" ? " joined the " : " started a "}
-                                                {item.hasVideo ? "video" : "voice"}{" call"}
+                                                <strong className="text-neutral-700">{callerName}</strong>
+                                                {item.type === "call_joined" ? " joined the " : " started a "}
+                                                {hasVideo ? "video" : "voice"}{" call"}
                                             </span>
                                             <span className="text-surface-300">·</span>
                                             <span>{formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}</span>
@@ -1024,7 +1040,7 @@ export default function BatchRoomPage() {
                                 {typingUsers.map((u) => u.name).join(", ")} {typingUsers.length === 1 ? "is" : "are"} typing…
                             </p>
                         )}
-                        {messages.length === 0 && pendingImages.length === 0 && callSystemMsgs.length === 0 && (
+                        {messages.length === 0 && pendingImages.length === 0 && (
                             <p className="text-sm text-muted-foreground text-center py-12">No messages yet. Say hello! 👋</p>
                         )}
                         {/* Uploading images — optimistic UI */}
@@ -1047,7 +1063,10 @@ export default function BatchRoomPage() {
                                                     className="px-3 py-1 bg-white text-neutral-800 text-xs rounded-full hover:bg-neutral-100 transition-colors font-medium flex items-center gap-1">
                                                     <RiRefreshLine className="text-xs" /> Resend
                                                 </button>
-                                                <button onClick={() => setPendingImages((prev) => prev.filter((p) => p.id !== pending.id))}
+                                                <button onClick={() => {
+                                                    URL.revokeObjectURL(pending.preview);
+                                                    setPendingImages((prev) => prev.filter((p) => p.id !== pending.id));
+                                                }}
                                                     className="px-3 py-1 bg-red-500 text-white text-xs rounded-full hover:bg-red-600 transition-colors">
                                                     Delete
                                                 </button>

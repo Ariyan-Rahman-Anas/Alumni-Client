@@ -21,7 +21,7 @@ export interface BatchSocketHandlers {
     onCallAnswer?: (data: { from: string; fromSocketId: string; answer: unknown }) => void;
     onCallIce?: (data: { from: string; fromSocketId: string; candidate: unknown }) => void;
     onCallPeerLeft?: (data: { socketId: string }) => void;
-    onCallEnded?: () => void;
+    onCallEnded?: (data: { callMsgId: string | null; endedAt: string }) => void;
 }
 
 /** Returns the batch socket if initialized, null otherwise */
@@ -41,8 +41,14 @@ export function useBatchSocket(batchYear: number | undefined, handlers: BatchSoc
         if (!sock) return;
         if (!sock.connected) sock.connect();
 
+        // Unmount guard: prevent handlers from firing after cleanup
+        let mounted = true;
+
         const on = <T>(event: string, key: keyof BatchSocketHandlers) => {
-            const fn = (data: T) => (handlersRef.current[key] as ((d: T) => void) | undefined)?.(data);
+            const fn = (data: T) => {
+                if (!mounted) return;
+                (handlersRef.current[key] as ((d: T) => void) | undefined)?.(data);
+            };
             sock.on(event, fn);
             return () => sock.off(event, fn);
         };
@@ -61,13 +67,16 @@ export function useBatchSocket(batchYear: number | undefined, handlers: BatchSoc
             on<{ socketId: string }>("call:peerLeft", "onCallPeerLeft"),
             // No-arg event — use a wrapper so the generic helper works
             (() => {
-                const fn = () => handlersRef.current.onCallEnded?.();
+                const fn = (data: { callMsgId: string | null; endedAt: string }) => handlersRef.current.onCallEnded?.(data);
                 sock.on("call:ended", fn);
                 return () => sock.off("call:ended", fn);
             })(),
         ];
 
-        return () => { cleanups.forEach((off) => off()); };
+        return () => {
+            mounted = false;
+            cleanups.forEach((off) => off());
+        };
     }, [batchYear, accessToken]);
 
     const emit = useCallback((event: string, ...args: unknown[]) => {

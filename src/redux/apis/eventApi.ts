@@ -1,4 +1,16 @@
-import { EventListResponse, EventResponse, ToggleResponse } from "@/types/common/events.types";
+import {
+    EventListResponse,
+    EventResponse,
+    ToggleResponse,
+    EventRegistrationResponse,
+    MyRegistrationsResponse,
+    EventRegistrationsListResponse,
+    RegisterForEventPayload,
+    CancelRequestResponse,
+    CancelRequestListResponse,
+    SubmitCancelRequestPayload,
+    ProcessCancelRequestPayload,
+} from "@/types/common/events.types";
 import { baseApi } from "./baseApi";
 
 
@@ -77,6 +89,77 @@ export const eventApi = baseApi.injectEndpoints({
             query: (id) => ({ url: `/events/${id}/feature`, method: "PATCH" }),
             invalidatesTags: ["events"],
         }),
+
+        /* ── Registration endpoints ── */
+        registerForEvent: builder.mutation<
+            EventRegistrationResponse,
+            { eventId: string; body: RegisterForEventPayload }
+        >({
+            query: ({ eventId, body }) => ({ url: `/events/${eventId}/register`, method: "POST", body }),
+            invalidatesTags: ["events", "eventRegistrations"],
+        }),
+
+        getMyRegistrations: builder.query<MyRegistrationsResponse, void>({
+            query: () => ({ url: "/events/my-registrations" }),
+            providesTags: ["eventRegistrations"],
+        }),
+
+        cancelMyRegistration: builder.mutation<{ success: boolean; message: string }, string>({
+            query: (id) => ({ url: `/events/registrations/${id}/cancel`, method: "PATCH" }),
+            invalidatesTags: ["eventRegistrations"],
+        }),
+
+        /* ── Admin: registrations per event ── */
+        getRegistrationsByEvent: builder.query<EventRegistrationsListResponse, string>({
+            query: (eventId) => ({ url: `/events/${eventId}/registrations` }),
+            providesTags: ["eventRegistrations"],
+        }),
+
+        verifyPayment: builder.mutation<
+            EventRegistrationResponse,
+            { id: string; paymentStatus: "PAID" | "WAIVED"; paymentMethod?: string; bankName?: string; transactionId?: string }
+        >({
+            query: ({ id, ...body }) => ({ url: `/events/registrations/${id}/verify-payment`, method: "PATCH", body }),
+            invalidatesTags: ["eventRegistrations"],
+        }),
+
+        /* ── Cancel requests (user) ── */
+        submitCancelRequest: builder.mutation<CancelRequestResponse, { registrationId: string; body: SubmitCancelRequestPayload }>({
+            query: ({ registrationId, body }) => ({
+                url: `/events/registrations/${registrationId}/cancel-request`,
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: ["eventRegistrations", "cancelRequests"],
+        }),
+
+        getMyCancelRequest: builder.query<CancelRequestResponse, string>({
+            query: (registrationId) => ({ url: `/events/registrations/${registrationId}/cancel-request` }),
+            providesTags: ["cancelRequests"],
+        }),
+
+        getMyCancelRequests: builder.query<CancelRequestListResponse, void>({
+            query: () => ({ url: "/events/my-cancel-requests" }),
+            providesTags: ["cancelRequests"],
+        }),
+
+        /* ── Cancel requests (admin) ── */
+        getAllCancelRequests: builder.query<CancelRequestListResponse, { status?: string } | void>({
+            query: (params) => ({
+                url: "/events/cancel-requests",
+                params: params && (params as { status?: string }).status ? { status: (params as { status?: string }).status } : {},
+            }),
+            providesTags: ["cancelRequests"],
+        }),
+
+        processCancelRequest: builder.mutation<CancelRequestResponse, { id: string; body: ProcessCancelRequestPayload }>({
+            query: ({ id, body }) => ({
+                url: `/events/cancel-requests/${id}/process`,
+                method: "PATCH",
+                body,
+            }),
+            invalidatesTags: ["eventRegistrations", "cancelRequests"],
+        }),
     }),
     overrideExisting: false,
 });
@@ -91,4 +174,14 @@ export const {
     useDeleteEventMutation,
     useToggleEventPublishMutation,
     useToggleEventFeatureMutation,
+    useRegisterForEventMutation,
+    useGetMyRegistrationsQuery,
+    useCancelMyRegistrationMutation,
+    useGetRegistrationsByEventQuery,
+    useVerifyPaymentMutation,
+    useSubmitCancelRequestMutation,
+    useGetMyCancelRequestQuery,
+    useGetMyCancelRequestsQuery,
+    useGetAllCancelRequestsQuery,
+    useProcessCancelRequestMutation,
 } = eventApi;
