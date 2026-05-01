@@ -1,46 +1,53 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
+import { Controller, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { toast } from "sonner";
-import { RiArrowRightLine, RiEyeLine, RiEyeOffLine, RiLock2Line, RiMailLine } from "react-icons/ri";
+import { RiArrowRightLine, RiMailLine } from "react-icons/ri";
 
 import InputField from "@/components/shared/InputField";
 import PrimaryButton from "@/components/shared/PrimaryButton";
-import { LoginPayload, useLoginUserMutation } from "@/redux/apis/authApi";
+import { useLoginUserMutation } from "@/redux/apis/authApi";
 import type { AppDispatch } from "@/redux/store";
 import { setUser } from "@/redux/slice/authSlice";
-
-const loginSchema = z.object({
-    email: z.string().trim().email("Please enter a valid email address"),
-    password: z.string().min(1, "Password is required"),
-});
-
-type LoginFormValues = z.infer<typeof loginSchema>;
+import { useFormWithToast } from "@/hooks/useFormWithToast";
+import { LOGIN_FIELD_ORDER, LoginFormValues, loginSchema } from "./loginSchema";
+import PasswordField from "@/components/shared/PasswordField";
+import { ILoginPayload } from "@/app/(auth)/auth.types";
 
 const LoginForm = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const [showPassword, setShowPassword] = useState(false);
     const [loginUser, { isLoading }] = useLoginUserMutation();
+
+    const methods = useFormWithToast<LoginFormValues>(
+        {
+            resolver: zodResolver(loginSchema),
+            defaultValues: {
+                email: "",
+                password: "",
+            },
+        },
+        { fieldOrder: LOGIN_FIELD_ORDER }
+    );
 
     const {
         register,
+        control,
         handleSubmit,
+        reset,
         formState: { errors },
-    } = useForm<LoginFormValues>({
-        resolver: zodResolver(loginSchema),
-    });
+    } = methods;
 
     const onSubmit = async (data: LoginFormValues) => {
         try {
-            const payload: LoginPayload = { email: data.email, password: data.password };
+            const payload: ILoginPayload = { email: data.email, password: data.password };
+            console.log({ data })
             const result = await loginUser(payload).unwrap();
             dispatch(setUser({ user: result.data.user, accessToken: result.data.accessToken }));
             toast.success(result.message);
+            reset();
             // ClientAuthGuard (requireGuest) detects the user in Redux and
             // redirects to ?next (or /) — no explicit router.push needed here.
         } catch (err: unknown) {
@@ -52,67 +59,56 @@ const LoginForm = () => {
     };
 
     return (
-        <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
-            <InputField
-                {...register("email")}
-                id="login-email"
-                type="email"
-                label="Email Address"
-                placeholder="you@example.com"
-                icon={<RiMailLine />}
-                error={errors.email?.message}
-                required
-            />
+        <FormProvider {...methods}>
+            <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
+                <InputField
+                    {...register("email")}
+                    id="login-email"
+                    type="email"
+                    label="Email Address"
+                    placeholder="you@example.com"
+                    icon={<RiMailLine />}
+                    error={errors.email?.message}
+                    required
+                />
 
-            <div className="flex flex-col gap-1.5">
-                <label htmlFor="login-password" className="block text-xs">
-                    Password <span className="text-danger">*</span>
-                </label>
-                <div className="relative">
-                    <RiLock2Line
-                        className={`pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-lg ${errors.password ? "text-danger" : "text-primary2-500"}`}
-                    />
-                    <input
-                        {...register("password")}
-                        id="login-password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Enter your password"
-                        className={`h-10 w-full rounded-lg border bg-white pl-10 pr-10 text-sm text-accent-foreground outline-none transition focus-visible:border-primary2-500 ${errors.password ? "border-danger" : ""}`}
-                    />
-                    <button
-                        type="button"
-                        onClick={() => setShowPassword((p) => !p)}
-                        className={`absolute right-3 top-1/2 -translate-y-1/2 text-lg ${errors.password ? "text-danger" : "text-primary2-500"}`}
-                        aria-label={showPassword ? "Hide password" : "Show password"}
+                <Controller
+                    name="password"
+                    control={control}
+                    render={({ field }) => (
+                        <PasswordField
+                            id="login-password"
+                            name={field.name}
+                            label="Password"
+                            value={field.value}
+                            onBlur={field.onBlur}
+                            onChange={field.onChange}
+                            error={errors.password?.message}
+                            required
+                        />
+                    )}
+                />
+
+                <div className="flex items-center justify-end pt-0.5">
+                    <Link
+                        href="/forgot-password"
+                        className="text-xs font-medium text-primary2-600 dark:text-primary hover:underline"
                     >
-                        {showPassword ? <RiEyeOffLine /> : <RiEyeLine />}
-                    </button>
+                        Forgot password?
+                    </Link>
                 </div>
-                {errors.password && (
-                    <p className="text-xs text-danger">{errors.password.message}</p>
-                )}
-            </div>
 
-            <div className="flex items-center justify-end pt-0.5">
-                <Link
-                    href="/forgot-password"
-                    className="text-xs font-medium text-primary2-600 hover:underline"
-                >
-                    Forgot password?
-                </Link>
-            </div>
-
-            <PrimaryButton
-                type="submit"
-                title="Sign In"
-                icon2={<RiArrowRightLine />}
-                iconSide2="right"
-                isFullWidth
-                isLoading={isLoading} className="py-5"
-                loadingTitle="Signing in..."
-            />
-        </form>
+                <PrimaryButton
+                    type="submit"
+                    title="Sign In"
+                    icon2={<RiArrowRightLine />}
+                    iconSide2="right"
+                    isFullWidth
+                    isLoading={isLoading} className="py-5"
+                    loadingTitle="Signing in..."
+                />
+            </form>
+        </FormProvider>
     );
 };
-
 export default LoginForm;

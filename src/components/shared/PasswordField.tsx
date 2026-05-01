@@ -26,15 +26,14 @@ const PasswordField = ({
         <div className="flex flex-col gap-1.5">
             <label
                 htmlFor={inputId}
-                className="block text-xs"
-            >
+                className={`block text-xs ${hasError ? "text-danger" : "text-primary2-800 dark:text-gunmetal-300"}`}>
                 {label}
-                {required && <span className="ml-1 text-danger">*</span>}
+                {required && <span className="text-danger">*</span>}
             </label>
 
             <div className="relative">
                 <RiLock2Line
-                    className={`pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-lg ${hasError ? "text-danger" : "text-primary2-500"}`}
+                    className={`pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-lg ${hasError ? "text-danger" : "text-primary2-500 dark:text-gunmetal-300"}`}
                 />
 
                 <input
@@ -46,17 +45,17 @@ const PasswordField = ({
                     onBlur={onBlur}
                     placeholder={placeholder}
                     className={cn(
-                        "h-10 w-full rounded-lg border bg-white pl-10 pr-10 text-sm text-accent-foreground outline-none transition",
+                        "h-10 w-full rounded-lg border bg-white dark:bg-gunmetal-600 pl-10 pr-10 text-sm outline-none transition",
                         hasError
-                            ? "border-danger focus:border-danger"
-                            : "focus:border-primary2-500"
+                            ? "border-danger focus:border-danger text-danger"
+                            : "focus:border-primary2-500 dark:focus:border-gunmetal-300 text-primary2-500 dark:text-gunmetal-300"
                     )}
                 />
 
                 <button
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
-                    className={`absolute right-3 top-1/2 -translate-y-1/2 text-lg ${hasError ? "text-danger" : "text-primary2-500"}`}
+                    className={`absolute right-3 top-1/2 -translate-y-1/2 text-lg ${hasError ? "text-danger" : "text-primary2-500 dark:text-gunmetal-300"}`}
                     aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                     {showPassword ? <RiEyeOffLine /> : <RiEyeLine />}

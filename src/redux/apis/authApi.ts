@@ -1,79 +1,15 @@
-import { AuthUser } from "../slice/authSlice";
+import { IGetMeResponse, ILoginPayload, ILoginResponse, IRefreshTokenResponse, IRegisterPayload, IRegisterResponse, IResendOtpResponse, IVerifyOtpResponse } from "@/app/(auth)/auth.types";
 import { baseApi } from "./baseApi";
-
-interface RegisterResponse {
-    success: boolean;
-    message: string;
-    data: {
-        user: {
-            _id: string;
-            name: string;
-            email: string;
-        };
-        email: string;
-    };
-}
-
-interface VerifyOtpResponse {
-    success: boolean;
-    message: string;
-    data: { isVerified: boolean };
-}
-
-interface ResendOtpResponse {
-    success: boolean;
-    message: string;
-    data: null;
-}
-
-export interface RegisterPayload {
-    name: string;
-    email: string;
-    phone: string;
-    country: string;
-    batch: number;
-    section: string;
-    bloodGroup: string;
-    dob: string;
-    currentAddress: string;
-    permanentAddress: string;
-    workplace?: string;
-    position?: string;
-    password: string;
-}
-
-interface LoginResponse {
-    success: boolean;
-    message: string;
-    data: { user: AuthUser; accessToken: string };
-}
-
-interface RefreshTokenResponse {
-    success: boolean;
-    message: string;
-    data: { accessToken: string; user: AuthUser } | null;
-}
-
-interface GetMeResponse {
-    success: boolean;
-    message: string;
-    data: AuthUser;
-}
-
-export interface LoginPayload {
-    email: string;
-    password: string;
-}
 
 export const authApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         registerUser: builder.mutation<
-            RegisterResponse,
-            { payload: RegisterPayload; image?: File | null; alumniProof?: File | null }
+            IRegisterResponse,
+            { payload: IRegisterPayload; image?: File | null; alumniProof?: File | null }
         >({
             query: ({ payload, image, alumniProof }) => {
                 const formData = new FormData();
-                (Object.keys(payload) as (keyof RegisterPayload)[]).forEach((key) => {
+                (Object.keys(payload) as (keyof IRegisterPayload)[]).forEach((key) => {
                     const val = payload[key];
                     if (val != null) formData.append(key, String(val));
                 });
@@ -83,7 +19,7 @@ export const authApi = baseApi.injectEndpoints({
             },
         }),
 
-        verifyOtp: builder.mutation<VerifyOtpResponse, { email: string; otp: string }>({
+        verifyOtp: builder.mutation<IVerifyOtpResponse, { email: string; otp: string }>({
             query: (body) => ({
                 url: "/auth/verify-email",
                 method: "POST",
@@ -91,7 +27,7 @@ export const authApi = baseApi.injectEndpoints({
             }),
         }),
 
-        resendOtp: builder.mutation<ResendOtpResponse, { email: string }>({
+        resendOtp: builder.mutation<IResendOtpResponse, { email: string }>({
             query: (body) => ({
                 url: "/auth/resend-otp",
                 method: "POST",
@@ -99,7 +35,7 @@ export const authApi = baseApi.injectEndpoints({
             }),
         }),
 
-        loginUser: builder.mutation<LoginResponse, LoginPayload>({
+        loginUser: builder.mutation<ILoginResponse, ILoginPayload>({
             query: (body) => ({
                 url: "/auth/login",
                 method: "POST",
@@ -115,11 +51,11 @@ export const authApi = baseApi.injectEndpoints({
         }),
 
         // Called on every page load to restore in-memory access token from httpOnly refresh cookie
-        restoreSession: builder.query<RefreshTokenResponse, void>({
+        restoreSession: builder.query<IRefreshTokenResponse, void>({
             query: () => ({ url: "/auth/refresh-token", method: "POST" }),
         }),
 
-        getMe: builder.query<GetMeResponse, void>({
+        getMe: builder.query<IGetMeResponse, void>({
             query: () => ({ url: "/auth/me", method: "GET" }),
         }),
 
