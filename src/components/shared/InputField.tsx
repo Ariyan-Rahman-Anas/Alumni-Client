@@ -111,7 +111,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             <div className={cn("flex flex-col gap-1.5", containerClassName)}>
                 {/* Label */}
                 {label && (
-                    <label htmlFor={inputId} className="block text-xs">
+                    <label htmlFor={inputId} className={`block text-xs ${hasError ? "text-danger" : "text-primary2-800 dark:text-gunmetal-300"}`}>
                         {label}
                         {required && <span className="ml-1 text-danger">*</span>}
                     </label>
@@ -124,7 +124,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
                         <span
                             className={cn(
                                 "pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-lg",
-                                hasError ? "text-danger" : "text-primary2-500"
+                                hasError ? "text-danger" : "text-primary2-500 dark:text-gunmetal-300"
                             )}
                         >
                             {icon}
@@ -141,7 +141,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
                             iconRight ? "pr-10" : "pr-4",
                             hasError
                                 ? "border-danger focus:border-danger text-danger"
-                                : "focus:border-primary2-500 text-primary2-500",
+                                : "focus:border-primary2-500 dark:focus:border-gunmetal-300 text-primary2-500 dark:text-gunmetal-300",
                             className
                         )}
                         {...props}

@@ -4,7 +4,7 @@ import ClientAuthGuard from "@/components/shared/ClientAuthGuard";
 /** Auth layout — redirects already-logged-in users away */
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="relative flex flex-col justify-between min-h-screen three-xl-section-setup">
+        <div className="relative flex flex-col items-center justify-center min-h-screen">
             <Navbar />
 
             <div
@@ -21,7 +21,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 }}
             />
 
-            <main className="flex-1">
+            <main className="flex items-center justify-center">
                 <ClientAuthGuard requireGuest>
                     {children}
                 </ClientAuthGuard>

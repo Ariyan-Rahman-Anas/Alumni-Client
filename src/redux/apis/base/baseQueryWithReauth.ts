@@ -1,7 +1,7 @@
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { clearUser, setUser } from "../../slice/authSlice";
-import type { AuthUser } from "../../slice/authSlice";
 import { rawBaseQuery } from "./rawBaseQuery";
+import { IAuthUser } from "@/app/(auth)/auth.types";
 
 // Module-level flag: prevents concurrent 401 handlers from each triggering a refresh.
 let isRefreshing = false;
@@ -48,7 +48,7 @@ export const baseQueryWithReauth: BaseQueryFn<
                     api.dispatch(clearUser());
                     resolveWaiters(null);
                 } else {
-                    const refreshData = refreshResult.data as { data?: { accessToken: string; user: AuthUser } };
+                    const refreshData = refreshResult.data as { data?: { accessToken: string; user: IAuthUser } };
                     if (refreshData?.data?.accessToken && refreshData?.data?.user) {
                         api.dispatch(setUser({ user: refreshData.data.user, accessToken: refreshData.data.accessToken }));
                         resolveWaiters(refreshData.data.accessToken);
