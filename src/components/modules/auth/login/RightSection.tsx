@@ -20,11 +20,11 @@ const RightSection = () => {
 
             <LoginForm />
 
-            <p className="mt-6 text-center text-sm text-neutral-500">
+            <p className="mt-6 text-center text-sm text-gunmetal-300">
                 Not registered yet?{" "}
                 <Link
                     href="/registration"
-                    className="inline-flex items-center gap-1 font-semibold text-primary2-700 hover:underline"
+                    className="inline-flex items-center gap-1 font-semibold text-primary2-600 dark:text-primary hover:underline"
                 >
                     Register as alumni <RiUserAddLine />
                 </Link>

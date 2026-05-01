@@ -113,7 +113,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
                 {label && (
                     <label htmlFor={inputId} className={`block text-xs ${hasError ? "text-danger" : "text-primary2-800 dark:text-gunmetal-300"}`}>
                         {label}
-                        {required && <span className="ml-1 text-danger">*</span>}
+                        {required && <span className="text-danger">*</span>}
                     </label>
                 )}
 

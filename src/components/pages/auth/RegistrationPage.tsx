@@ -2,7 +2,7 @@ import LeftSection from "@/components/modules/auth/registration/LeftSection";
 import RightSection from "@/components/modules/auth/registration/RightSection";
 
 const RegistrationPage = () => {
-    return <section className="relative overflow-hidden py-24sm:py-28">
+    return <section className="relative overflow-hidden three-xl-section-setup">
         {/* <div
             className="absolute inset-0"
             style={{ background: "linear-gradient(165deg, #041a12 0%, #0a3d2b 52%, #051f15 100%)" }}
