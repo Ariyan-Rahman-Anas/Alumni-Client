@@ -22,7 +22,7 @@ import PrimaryButton from "@/components/shared/PrimaryButton";
 import SingleSelect from "@/components/shared/SingleSelect";
 import TextAreaBox from "@/components/shared/TextAreaBox";
 import { useFormWithToast } from "@/hooks/useFormWithToast";
-import { RegisterPayload, useRegisterUserMutation } from "@/redux/apis/authApi";
+import { useRegisterUserMutation } from "@/redux/apis/authApi";
 import { useGetActiveBatchesQuery } from "@/redux/apis/batchApi";
 import {
     REGISTRATION_FIELD_ORDER,
@@ -30,6 +30,7 @@ import {
     registrationSchema,
 } from "./registrationSchema";
 import { constantsData } from "@/constants";
+import { IRegisterPayload } from "@/app/(auth)/auth.types";
 
 
 const RegistrationForm = () => {
@@ -106,7 +107,7 @@ const RegistrationForm = () => {
         }
         setAlumniProofError(undefined);
 
-        const payload: RegisterPayload = {
+        const payload: IRegisterPayload = {
             name: data.name,
             email: data.email,
             phone: combinedPhone,

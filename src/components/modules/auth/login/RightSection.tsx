@@ -8,7 +8,7 @@ import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 const RightSection = () => {
     return (
         <FadeUpWrapper delay={0.1}
-            className="rounded-b-3xl md:rounded-l-none md:rounded-r-3xl bg-gradient-to-tl from-surface to-surface p-6 sm:p-8"
+            className="rounded-b-3xl md:rounded-l-none md:rounded-r-3xl bg-surface  dark:bg-gunmetal-500 p-6 sm:p-8"
             style={{ boxShadow: "0 24px 65px rgba(5,31,21,0.22)" }}
         >
             <h2 className="text-2xl font-semibold text-primary2-900">
