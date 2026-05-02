@@ -34,7 +34,7 @@ const LeftSection = () => {
                 initial={{ opacity: 0, y: 26 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.65, ease: [0.19, 1, 0.22, 1] }}
-                className="relative overflow-hidden rounded-3xl rounded-b-none md:rounded-bl-3xl md:rounded-r-none border-2 border-white dark:border-gunmetal-600 border-b-0 md:border-b-2 md:border-r-0 p-6 sm:p-8 flex flex-col"
+                className="relative overflow-hidden rounded-3xl rounded-b-none lg:rounded-bl-3xl lg:rounded-r-none border-2 border-white dark:border-gunmetal-600 border-b-0 lg:border-b-2 lg:border-r-0 p-6 sm:p-8 flex flex-col"
             >
                 {/* Badge */}
                 <SectionLabel text="BAMHS Alumni Registration" align="left" icon={<RiShieldCheckLine />}

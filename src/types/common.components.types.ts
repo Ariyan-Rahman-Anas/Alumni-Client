@@ -1,3 +1,4 @@
+import { constantsData } from "@/constants";
 import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
 
 export interface PrimaryButtonI {
@@ -136,4 +137,25 @@ export interface StatCardProps {
     icon: React.ReactNode;
     color: string;
     isLoading: boolean;
+}
+
+type TAcceptedMime = (typeof constantsData.ACCEPTED_MIME)[number];
+export interface IImageUploadFieldProps {
+    /** Controlled: current File (null = cleared) */
+    value?: File | null;
+    /** Called when the user picks / clears a file */
+    onChange?: (file: File | null) => void;
+    /** Existing image URL (e.g. server-side preview on edit forms) */
+    previewUrl?: string;
+    label?: string;
+    helperText?: string;
+    /** External field-level error (e.g. from react-hook-form) */
+    error?: string;
+    /** Max allowed file size in MB (default 5) */
+    maxSizeMB?: number;
+    /** Accepted MIME types (default: jpg/png/webp) */
+    accept?: TAcceptedMime[];
+    required?: boolean;
+    id?: string;
+    containerClassName?: string;
 }

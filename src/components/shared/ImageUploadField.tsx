@@ -5,29 +5,9 @@ import { ImagePlus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import PrimaryButton from "./PrimaryButton";
+import { constantsData } from "@/constants";
+import { IImageUploadFieldProps } from "@/types/common.components.types";
 
-const ACCEPTED_MIME = ["image/jpeg", "image/png", "image/webp"] as const;
-type AcceptedMime = (typeof ACCEPTED_MIME)[number];
-
-export interface ImageUploadFieldProps {
-    /** Controlled: current File (null = cleared) */
-    value?: File | null;
-    /** Called when the user picks / clears a file */
-    onChange?: (file: File | null) => void;
-    /** Existing image URL (e.g. server-side preview on edit forms) */
-    previewUrl?: string;
-    label?: string;
-    helperText?: string;
-    /** External field-level error (e.g. from react-hook-form) */
-    error?: string;
-    /** Max allowed file size in MB (default 5) */
-    maxSizeMB?: number;
-    /** Accepted MIME types (default: jpg/png/webp) */
-    accept?: AcceptedMime[];
-    required?: boolean;
-    id?: string;
-    containerClassName?: string;
-}
 
 const ImageUploadField = ({
     value,
@@ -37,11 +17,11 @@ const ImageUploadField = ({
     helperText = "JPG, PNG or WEBP — square or portrait photo works best.",
     error,
     maxSizeMB = 5,
-    accept = [...ACCEPTED_MIME],
+    accept = [...constantsData.ACCEPTED_MIME],
     required = false,
     id,
     containerClassName,
-}: ImageUploadFieldProps) => {
+}: IImageUploadFieldProps) => {
     const generatedId = useId();
     const inputId = id ?? `image-upload-${generatedId}`;
     const inputRef = useRef<HTMLInputElement>(null);
@@ -169,7 +149,7 @@ const ImageUploadField = ({
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
             >
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                <div className="flex gap-4">
                     {/* Preview */}
                     <button
                         type="button"
@@ -206,29 +186,28 @@ const ImageUploadField = ({
                             className="mt-0.5 text-xs text-gunmetal-300 ">
                             {helperText}
                         </p>}
-
-                        <div className="mt-2.5 flex flex-wrap gap-2">
-                            <PrimaryButton
-                                type="button"
-                                variant="outline"
-                                onClick={() => inputRef.current?.click()}
-                                title={currentFile || previewUrl ? "Change" : "Upload image"}
-                                className="py-3"
-                                icon={<ImagePlus className="size-3" />}
-                            />
-
-                            {(currentFile || previewUrl) && (
-                                <PrimaryButton
-                                    type="button"
-                                    variant="destructive"
-                                    onClick={handleClear}
-                                    title="Remove"
-                                    className="py-3"
-                                    icon={<X className="size-3" />}
-                                />
-                            )}
-                        </div>
                     </div>
+                </div>
+                <div className="mt-2.5 flex flex-wrap gap-2">
+                    <PrimaryButton
+                        type="button"
+                        variant="outline"
+                        onClick={() => inputRef.current?.click()}
+                        title={currentFile || previewUrl ? "Change" : "Upload image"}
+                        className="py-3"
+                        icon={<ImagePlus className="size-3" />}
+                    />
+
+                    {(currentFile || previewUrl) && (
+                        <PrimaryButton
+                            type="button"
+                            variant="destructive"
+                            onClick={handleClear}
+                            title="Remove"
+                            className="py-3"
+                            icon={<X className="size-3" />}
+                        />
+                    )}
                 </div>
             </div>
 

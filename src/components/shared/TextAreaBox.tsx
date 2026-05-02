@@ -27,10 +27,10 @@ const TextAreaBox = forwardRef<HTMLTextAreaElement, TextAreaBoxProps>(
                 {label && (
                     <label
                         htmlFor={areaId}
-                        className="block text-xs"
+                        className={`block text-xs ${hasError ? "text-danger" : "text-primary2-800 dark:text-gunmetal-300"}`}
                     >
                         {label}
-                        {required && <span className="ml-1 text-danger">*</span>}
+                        {required && <span className="text-danger">*</span>}
                     </label>
                 )}
 
@@ -38,7 +38,7 @@ const TextAreaBox = forwardRef<HTMLTextAreaElement, TextAreaBoxProps>(
                     {icon && (
                         <div className={cn(
                             "pointer-events-none absolute left-3 top-3 text-lg",
-                            hasError ? "text-danger" : "text-primary2-500"
+                            hasError ? "text-danger" : "text-primary2-500 dark:text-gunmetal-300"
                         )}>
                             {icon}
                         </div>
@@ -49,7 +49,7 @@ const TextAreaBox = forwardRef<HTMLTextAreaElement, TextAreaBoxProps>(
                         name={name}
                         rows={rows}
                         className={cn(
-                            "min-h-28 w-full rounded-lg border bg-white pr-4 py-3 text-sm text-accent-foreground outline-none transition",
+                            "min-h-28 w-full rounded-lg border bg-white dark:bg-gunmetal-600 text-primary2-600 dark:text-gunmetal-300 pr-4 py-3 text-sm outline-none transition",
                             icon ? "pl-10" : "px-4",
                             hasError
                                 ? "border-danger focus:border-danger"
