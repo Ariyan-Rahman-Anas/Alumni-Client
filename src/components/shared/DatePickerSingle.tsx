@@ -88,9 +88,10 @@ const DatePickerSingle = ({
     return (
         <div className="flex flex-col gap-1.5">
             {label && (
-                <label htmlFor={pickerId} className="block text-xs">
+                <label htmlFor={pickerId}
+                    className={`block text-xs ${hasError ? "text-danger" : "text-primary2-800 dark:text-gunmetal-300"}`}>
                     {label}
-                    {required && <span className="ml-1 text-danger">*</span>}
+                    {required && <span className="text-danger">*</span>}
                 </label>
             )}
 
@@ -100,12 +101,12 @@ const DatePickerSingle = ({
                         id={pickerId}
                         type="button"
                         className={cn(
-                            "flex h-10 w-full items-center justify-start rounded-lg border bg-white px-4 text-left text-sm font-normal text-accent-foreground transition focus:outline-none focus-visible:border-primary2-500",
+                            "flex h-10 w-full items-center justify-start rounded-lg border bg-white dark:bg-gunmetal-600 px-4 text-left text-sm font-normal text-primary2-600 dark:text-gunmetal-300 transition focus:outline-none focus-visible:border-primary2-500",
                             hasError ? "border-danger focus-visible:border-danger" : "",
                             !displayText && "text-muted-foreground"
                         )}
                     >
-                        <CalendarIcon className="mr-2 size-4 shrink-0 opacity-60" />
+                        <CalendarIcon className="mr-2 size-4 shrink-0 text-primary2-500 dark:text-gunmetal-300" />
                         {displayText ?? placeholder}
                     </button>
                 </PopoverTrigger>
@@ -121,16 +122,17 @@ const DatePickerSingle = ({
                         initialFocus
                         startMonth={startMonth}
                         endMonth={endMonth}
+                        // classNames="bg-white dark:bg-gunmetal-600"
                     />
                     {includeTime && (
-                        <div className="border-t border-border px-3 py-2.5 flex items-center gap-2 bg-white">
+                        <div className="border-t border-border px-3 py-2.5 flex items-center gap-2 bg-white dark:bg-gunmetal-600">
                             <Clock className="size-4 text-muted-foreground shrink-0" />
                             <span className="text-xs text-muted-foreground">Time</span>
                             <input
                                 type="time"
                                 value={localTime}
                                 onChange={(e) => handleTimeChange(e.target.value)}
-                                className="ml-auto h-8 rounded-md border border-input bg-white px-2 text-sm outline-none focus:border-primary2-500 transition"
+                                className="ml-auto h-8 rounded-md border border-input bg-white dark:bg-gunmetal-600 text-primary2-600 dark:text-gunmetal-300 px-2 text-sm outline-none focus:border-primary2-500 transition"
                             />
                         </div>
                     )}
@@ -138,12 +140,11 @@ const DatePickerSingle = ({
             </Popover>
 
             {error ? (
-                <p className="text-xs text-red-500">{error}</p>
+                <p className="text-xs text-danger">{error}</p>
             ) : helperText ? (
                 <p className="text-xs text-muted-foreground">{helperText}</p>
             ) : null}
         </div>
     );
 };
-
 export default DatePickerSingle;

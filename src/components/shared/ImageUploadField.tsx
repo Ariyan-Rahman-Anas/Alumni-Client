@@ -3,29 +3,11 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { ImagePlus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import PrimaryButton from "./PrimaryButton";
+import { constantsData } from "@/constants";
+import { IImageUploadFieldProps } from "@/types/common.components.types";
 
-const ACCEPTED_MIME = ["image/jpeg", "image/png", "image/webp"] as const;
-type AcceptedMime = (typeof ACCEPTED_MIME)[number];
-
-export interface ImageUploadFieldProps {
-    /** Controlled: current File (null = cleared) */
-    value?: File | null;
-    /** Called when the user picks / clears a file */
-    onChange?: (file: File | null) => void;
-    /** Existing image URL (e.g. server-side preview on edit forms) */
-    previewUrl?: string;
-    label?: string;
-    helperText?: string;
-    /** External field-level error (e.g. from react-hook-form) */
-    error?: string;
-    /** Max allowed file size in MB (default 5) */
-    maxSizeMB?: number;
-    /** Accepted MIME types (default: jpg/png/webp) */
-    accept?: AcceptedMime[];
-    required?: boolean;
-    id?: string;
-    containerClassName?: string;
-}
 
 const ImageUploadField = ({
     value,
@@ -35,11 +17,11 @@ const ImageUploadField = ({
     helperText = "JPG, PNG or WEBP — square or portrait photo works best.",
     error,
     maxSizeMB = 5,
-    accept = [...ACCEPTED_MIME],
+    accept = [...constantsData.ACCEPTED_MIME],
     required = false,
     id,
     containerClassName,
-}: ImageUploadFieldProps) => {
+}: IImageUploadFieldProps) => {
     const generatedId = useId();
     const inputId = id ?? `image-upload-${generatedId}`;
     const inputRef = useRef<HTMLInputElement>(null);
@@ -155,46 +137,39 @@ const ImageUploadField = ({
                     className="block text-xs"
                 >
                     {label}
-                    {required && <span className="ml-1 text-red-500">*</span>}
+                    {required && <span className="text-danger">*</span>}
                 </label>
             )}
 
             <div
                 className={cn(
                     "rounded-2xl border p-4 transition",
-                    hasError ? "border-red-400 bg-red-50/30" : "bg-white/80"
+                    hasError ? "border-danger bg-red-50/30" : "bg-white dark:bg-gunmetal-600 dark:border-gunmetal-400 ",
                 )}
-                style={{
-                    borderColor: hasError ? undefined : "rgba(46,139,87,0.18)",
-                }}
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
             >
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                <div className="flex gap-4">
                     {/* Preview */}
                     <button
                         type="button"
                         onClick={() => inputRef.current?.click()}
                         className={cn(
-                            "flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-primary-200,#9DD8AE)]"
+                            "flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl border dark:border-gunmetal-500 transition hover:bg-primary2-50 focus:outline-none"
                         )}
-                        style={{
-                            borderColor: "var(--color-border)",
-                            background: "rgba(46,139,87,0.06)",
-                        }}
                         aria-label="Select profile image"
                     >
                         {previewSrc ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
+                            <Image
                                 src={previewSrc}
                                 alt="Selected preview"
                                 className="h-full w-full object-cover"
+                                width={500}
+                                height={500}
                             />
                         ) : (
                             <ImagePlus
-                                className="size-8"
-                                style={{ color: "var(--color-primary-400, #4DB472)", opacity: 0.6 }}
+                                className="size-8 text-primary2-300 dark:text-gunmetal-300 opacity-60"
                             />
                         )}
                     </button>
@@ -205,42 +180,34 @@ const ImageUploadField = ({
                             className="truncate text-sm font-medium"
                             style={{ color: "var(--color-text-primary)" }}
                         >
-                            {currentFile?.name ?? (previewUrl ? "Current image" : "No image selected")}
+                            {currentFile?.name ?? (previewUrl ? "Current image" : "")}
                         </p>
-                        <p
-                            className="mt-0.5 text-xs"
-                            style={{ color: "var(--color-text-muted)" }}
-                        >
+                        {!currentFile && <p
+                            className="mt-0.5 text-xs text-gunmetal-300 ">
                             {helperText}
-                        </p>
-
-                        <div className="mt-2.5 flex flex-wrap gap-2">
-                            <button
-                                type="button"
-                                onClick={() => inputRef.current?.click()}
-                                className="rounded-lg border px-3 py-1.5 text-xs font-medium transition hover:opacity-80 focus:outline-none"
-                                style={{
-                                    borderColor: "var(--color-primary-300, #72C48C)",
-                                    color: "var(--color-primary-700)",
-                                    background: "rgba(46,139,87,0.07)",
-                                }}
-                            >
-                                <ImagePlus className="mr-1.5 inline size-3" />
-                                {currentFile || previewUrl ? "Change" : "Upload image"}
-                            </button>
-
-                            {(currentFile || previewUrl) && (
-                                <button
-                                    type="button"
-                                    onClick={handleClear}
-                                    className="flex items-center gap-1 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-500 transition hover:bg-red-100 focus:outline-none"
-                                >
-                                    <X className="size-3" />
-                                    Remove
-                                </button>
-                            )}
-                        </div>
+                        </p>}
                     </div>
+                </div>
+                <div className="mt-2.5 flex flex-wrap gap-2">
+                    <PrimaryButton
+                        type="button"
+                        variant="outline"
+                        onClick={() => inputRef.current?.click()}
+                        title={currentFile || previewUrl ? "Change" : "Upload image"}
+                        className="py-3"
+                        icon={<ImagePlus className="size-3" />}
+                    />
+
+                    {(currentFile || previewUrl) && (
+                        <PrimaryButton
+                            type="button"
+                            variant="destructive"
+                            onClick={handleClear}
+                            title="Remove"
+                            className="py-3"
+                            icon={<X className="size-3" />}
+                        />
+                    )}
                 </div>
             </div>
 
@@ -254,7 +221,7 @@ const ImageUploadField = ({
                 onChange={handleInputChange}
             />
 
-            {displayError && <p className="text-xs text-red-500">{displayError}</p>}
+            {displayError && <p className="text-xs text-danger">{displayError}</p>}
         </div>
     );
 };

@@ -148,24 +148,26 @@ const RegistrationForm = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 noValidate
             >
-                <ImageUploadField
-                    value={imageFile}
-                    onChange={setImageFile}
-                    label="Profile Image"
-                    helperText="JPG, PNG or WEBP — square or portrait photo works best"
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <ImageUploadField
+                        value={imageFile}
+                        onChange={setImageFile}
+                        label="Profile Image"
+                        helperText="JPG, PNG or WEBP — square or portrait photo works best"
+                    />
 
-                <ImageUploadField
-                    value={alumniProofFile}
-                    onChange={(file) => {
-                        setAlumniProofFile(file);
-                        if (file) setAlumniProofError(undefined);
-                    }}
-                    label="Alumni Proof"
-                    helperText="Upload your student ID, certificate, Testimonial, Marks sheet or any proof of alumni status (JPG, PNG or WEBP)"
-                    error={alumniProofError}
-                    required
-                />
+                    <ImageUploadField
+                        value={alumniProofFile}
+                        onChange={(file) => {
+                            setAlumniProofFile(file);
+                            if (file) setAlumniProofError(undefined);
+                        }}
+                        label="Alumni Proof"
+                        helperText="Upload your student ID, certificate, Testimonial, Marks sheet or any proof of alumni status (JPG, PNG or WEBP)"
+                        error={alumniProofError}
+                        required
+                    />
+                </div>
 
                 <InputField
                     {...register("name")}
@@ -177,7 +179,7 @@ const RegistrationForm = () => {
                     required
                 />
 
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-4 md:grid-cols-2">
                     <InputField
                         {...register("email")}
                         id="reg-email"
@@ -190,8 +192,10 @@ const RegistrationForm = () => {
                     />
 
                     <div className="flex flex-col gap-1.5">
-                        <label className="block text-xs">
-                            Phone Number <span className="text-danger">*</span>
+                        <label
+                            className={`block text-xs ${errors.phone ? "text-danger" : "text-primary2-800 dark:text-gunmetal-300"}`}
+                        >
+                            Phone Number<span className="text-danger">*</span>
                         </label>
                         <div className="space-y-1.5">
                             <div className="grid gap-2 grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
@@ -382,26 +386,22 @@ const RegistrationForm = () => {
                 </div>
 
                 <div
-                    className="rounded-2xl border px-4 py-3 text-sm text-muted-foreground"
-                    style={{
-                        borderColor: "rgba(46,139,87,0.18)",
-                        background: "rgba(46,139,87,0.05)",
-                    }}
-                >
-                    After registration, your account stays pending until admin approval and email
+                    className="rounded-2xl border px-4 py-3 text-sm bg-primary2-50 dark:bg-gunmetal-600 text-gunmetal-300">
+                    <strong>Note:</strong> After registration, your account stays pending until admin approval and email
                     verification are completed.
                 </div>
 
-                <PrimaryButton
-                    type="submit"
-                    title="Submit Registration"
-                    icon2={<RiArrowRightLine />}
-                    iconSide2="right"
-                    isFullWidth
-                    isLoading={isLoading}
-                    loadingTitle="Submitting..."
-                    className="py-5"
-                />
+                <div className="w-full sm:w-fit mx-auto">
+                    <PrimaryButton
+                        type="submit"
+                        title="Submit Registration"
+                        icon2={<RiArrowRightLine />}
+                        iconSide2="right"
+                        isFullWidth
+                        isLoading={isLoading}
+                        loadingTitle="Submitting..."
+                    />
+                </div>
             </form>
         </FormProvider>
     );

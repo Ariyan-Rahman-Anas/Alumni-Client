@@ -7,7 +7,7 @@ import { RiLock2Line } from "react-icons/ri"
 const LeftSection = () => {
     return (
         <FadeUpWrapper delay={0.1} className="p-6 sm:p-8 w-full">
-            <SectionLabel text="Alumni Portal" icon={<RiLock2Line />} align="left" className="text-primary2-200 dark:text-gunmetal-300 border-primary2-600 dark:border-gunmetal-500" />
+            <SectionLabel text="Alumni Portal" icon={<RiLock2Line />} align="left" className="text-primary2-200 dark:text-gunmetal-300 border-primary2-600 dark:border-gunmetal-500 capitalize" />
 
             <h1 className="mb-5 mt-3 text-4xl font-semibold leading-tight text-white dark:text-gunmetal-100 sm:text-5xl">
                 Welcome back,

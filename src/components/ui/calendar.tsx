@@ -30,7 +30,7 @@ function Calendar({
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      className={cn("group/calendar bg-white p-3", className)}
+      className={cn("group/calendar bg-white dark:bg-gunmetal-600 text-primary2-600 dark:text-gunmetal-300 p-3", className)}
       captionLayout={captionLayout}
       locale={locale}
       formatters={{
@@ -72,7 +72,7 @@ function Calendar({
           defaultClassNames.dropdown_root
         ),
         dropdown: cn(
-          "absolute inset-0 bg-white opacity-0",
+          "absolute inset-0 bg-white dark:bg-gunmetal-600 opacity-0",
           defaultClassNames.dropdown
         ),
         caption_label: cn(

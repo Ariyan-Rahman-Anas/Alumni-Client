@@ -26,6 +26,12 @@ export const registrationSchema = object({
 }).refine((values) => values.password === values.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
+}).refine((values)=>values.phone.length >= 11 && values.phone.length <= 16, {
+    message: "Phone must be 11–16 digits including country code",
+    path: ["phone"],
+}).refine((values)=>values.dob && !isNaN(Date.parse(values.dob)) && new Date(values.dob) <= new Date() && new Date(values.dob).getFullYear() < Number(values.batch), {
+    message: "Please enter a valid date of birth in the past", 
+    path: ["dob"],
 });
 
 export type RegistrationFormValues = z.infer<typeof registrationSchema>;
