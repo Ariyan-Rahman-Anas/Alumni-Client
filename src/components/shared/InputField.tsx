@@ -141,7 +141,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
                             iconRight ? "pr-10" : "pr-4",
                             hasError
                                 ? "border-danger focus:border-danger text-danger"
-                                : "focus:border-primary2-500 dark:focus:border-gunmetal-300 text-primary2-500 dark:text-gunmetal-300",
+                                : "focus:border-primary2-500 dark:focus:border-gunmetal-300 text-primary2-600 dark:text-gunmetal-300",
                             className
                         )}
                         {...props}
@@ -157,7 +157,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
 
                 {/* Error message */}
                 {isShowErrorMessage && error && (
-                    <p className="text-xs text-red-500">{error}</p>
+                    <p className="text-xs text-danger">{error}</p>
                 )}
 
                 {/* Helper text */}
