@@ -485,7 +485,7 @@ html.lenis {
 @layer components {
 
   .badge {
-    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-pill text-xs font-medium;
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium;
   }
 
   /* Role badges — static colors (same in both modes) */
@@ -497,7 +497,7 @@ html.lenis {
   }
 
   .badge-alumni {
-    @apply badge;
+    @apply badge dark:bg-transparent dark:border-gunmetal-400 dark:text-gunmetal-300;
     background: #FFFBEB;
     color: #92400E;
     border: 1px solid #FCD34D;
@@ -526,7 +526,7 @@ html.lenis {
 
   /* Status badges */
   .badge-success {
-    @apply badge;
+    @apply badge dark:bg-transparent dark:border-gunmetal-500 dark:text-gunmetal-300;
     background: #D1FAE5;
     color: #065F46;
     border: 1px solid #6EE7B7;

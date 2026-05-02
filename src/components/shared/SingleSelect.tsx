@@ -156,7 +156,7 @@ const SingleSelect = ({
                 >
                     <Command>
                         {searchable && (
-                            <CommandInput placeholder={searchPlaceholder} className="h-9" />
+                            <CommandInput placeholder={searchPlaceholder} className="h-9 text-primary2-600 dark:text-gunmetal-300" />
                         )}
 
                         <CommandList>
