@@ -92,11 +92,12 @@ const SingleSelect = ({
             {label && (
                 <label
                     htmlFor={selectId}
-                    className="block text-xs"
+                    className={`block text-xs ${hasError ? "text-danger" : "text-primary2-800 dark:text-gunmetal-300"}`}
+                    // className="block text-xs"
                 >
                     {label}
                     {required && isRequiredSign && (
-                        <span className="ml-1 text-danger">*</span>
+                        <span className="text-danger">*</span>
                     )}
                 </label>
             )}

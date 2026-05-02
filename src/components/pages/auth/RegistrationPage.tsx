@@ -1,32 +1,10 @@
 import LeftSection from "@/components/modules/auth/registration/LeftSection";
 import RightSection from "@/components/modules/auth/registration/RightSection";
+import { FadeUpWrapper } from "../user/Home/HomePage";
 
 const RegistrationPage = () => {
-    return <section className="relative overflow-hidden three-xl-section-setup">
-        {/* <div
-            className="absolute inset-0"
-            style={{ background: "linear-gradient(165deg, #041a12 0%, #0a3d2b 52%, #051f15 100%)" }}
-        /> */}
-
-        {/* <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-                backgroundImage:
-                    "linear-gradient(rgba(46,139,87,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.08) 1px, transparent 1px)",
-                backgroundSize: "52px 52px",
-            }}
-        />
-
-        <div
-            className="absolute -top-20 -left-20 h-80 w-80 rounded-full blur-3xl"
-            style={{ background: "rgba(77,180,114,0.22)" }}
-        />
-        <div
-            className="absolute -bottom-24 -right-12 h-96 w-96 rounded-full blur-3xl"
-            style={{ background: "rgba(245,158,11,0.16)" }}
-        /> */}
-
-        <div className="pagesetup relative z-10 flex flex-col md:flex-row gap-8">
+    return <FadeUpWrapper className="relative overflow-hidden three-xl-section-setup md:pt-30 pb-18 md:pb-10">
+        <div className="relative z-10 flex flex-col md:flex-row">
             <div className="flex-1">
                 <LeftSection />
             </div>
@@ -34,7 +12,6 @@ const RegistrationPage = () => {
                 <RightSection />
             </div>
         </div>
-    </section>;
+    </FadeUpWrapper>;
 };
-
 export default RegistrationPage;
