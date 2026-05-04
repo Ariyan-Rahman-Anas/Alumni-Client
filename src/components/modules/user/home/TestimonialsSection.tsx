@@ -78,7 +78,7 @@ const TestimonialsSection = () => {
                 style={{
                     backgroundImage:
                         "linear-gradient(rgba(46,139,87,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.06) 1px, transparent 1px)",
-                    backgroundSize: "56px 56px",
+                    backgroundSize: "60px 60px",
                 }}
             />
 

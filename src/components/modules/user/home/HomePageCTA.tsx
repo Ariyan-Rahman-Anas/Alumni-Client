@@ -34,18 +34,16 @@ const HomePageCTA = () => (
             <div
                 className="relative rounded-3xl overflow-hidden"
                 style={{
-                    // background: "linear-gradient(160deg, #041810 0%, #071F14 35%, #0A3D2B 100%)",
                     background: "linear-gradient(160deg, #093121 0%, #0c412a 35%, #0A3D2B 100%)",
-                }}
-            >
+                }}>
 
-                {/* ── Decorative grid ─────────────────────────────────── */}
+                {/* ── Decorative grid  */}
                 <div
                     className="absolute inset-0 pointer-events-none"
                     style={{
                         backgroundImage:
                             "linear-gradient(rgba(46,139,87,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.06) 1px, transparent 1px)",
-                        backgroundSize: "56px 56px",
+                        backgroundSize: "60px 60px",
                     }}
                 />
 
@@ -63,17 +61,18 @@ const HomePageCTA = () => (
                 <div className="z-10px-sm:px-12md:px-16lg:px24 relative z-10 p-8 sm:p-12 md:p-16 lg:p-20">
 
                     {/* Badge */}
-                    <FadeUpWrapper className="flex justify-center mb-6">
-                        <SectionLabel text="BAMHS Alumni Community" icon={<RiSparkling2Line />} className="border-primary2-600 text-primary2-200 bg-transparent" />
+                    <FadeUpWrapper className="flex justify-center mb-5">
+                        <SectionLabel text="BAMHS Alumni Community"
+                            icon={<RiSparkling2Line />}
+                            className="border-primary2-600 text-primary2-200 bg-transparent dark:border-gunmetal-400 dark:text-gunmetal-200" />
                     </FadeUpWrapper>
 
                     {/* Headline */}
                     <FadeUpWrapper delay={0.08} className="text-center mb-6">
                         <h2
-                            className="font-display font-bold leading-[1.1] text-balance"
+                            className="font-display font-bold leading-[1.1] text-balance text-white dark:text-gunmetal-200"
                             style={{
                                 fontSize: "clamp(2.4rem, 6vw, 4.2rem)",
-                                color: "var(--color-primary-50)",
                                 letterSpacing: "-0.03em",
                             }}
                         >
@@ -86,7 +85,7 @@ const HomePageCTA = () => (
                                     backgroundClip: "text",
                                 }}
                             >
-                                home
+                                Home
                             </span>{" "}
                             here
                         </h2>
@@ -95,9 +94,7 @@ const HomePageCTA = () => (
                     {/* Subtext */}
                     <FadeUpWrapper delay={0.14} className="text-center mb-12">
                         <p
-                            className="text-base sm:text-lg leading-relaxed max-w-2xl mx-auto"
-                            style={{ color: "rgba(195,232,206,0.68)" }}
-                        >
+                            className="text-base sm:text-lg leading-relaxed max-w-2xl mx-auto text-gunmetal-300">
                             Whether you graduated last year or three decades ago — BAMHSian remembers you.
                             Join thousands of alumni and stay connected with your roots.
                         </p>
@@ -116,20 +113,19 @@ const HomePageCTA = () => (
                                     }}
                                 >
                                     <span
-                                        className="w-9 h-9 shrink-0 rounded-xl flex items-center justify-center text-base"
+                                        className="w-9 h-9 shrink-0 rounded-xl flex items-center justify-center text-base text-green-600 "
                                         style={{
                                             background: "rgba(46,139,87,0.20)",
-                                            color: "var(--color-primary-300)",
                                             border: "1px solid rgba(46,139,87,0.28)",
                                         }}
                                     >
                                         {icon}
                                     </span>
                                     <div>
-                                        <p className="font-semibold text-sm" style={{ color: "var(--color-primary-100)" }}>
+                                        <p className="font-semibold text-sm text-primary2-100 dark:text-gunmetal-200">
                                             {title}
                                         </p>
-                                        <p className="text-xs mt-0.5 leading-snug" style={{ color: "rgba(195,232,206,0.55)" }}>
+                                        <p className="text-xs mt-0.5 leading-snug text-primary2-300 dark:text-gunmetal-300">
                                             {desc}
                                         </p>
                                     </div>
@@ -154,7 +150,7 @@ const HomePageCTA = () => (
 
                     {/* Bottom trust note */}
                     <FadeUpWrapper delay={0.32} className="text-center mt-8">
-                        <p className="text-xs text-primary2-300 ">
+                        <p className="text-xs text-gunmetal-300 ">
                             Free forever for all BAMHS alumni · No spam · Verified community
                         </p>
                     </FadeUpWrapper>
@@ -162,7 +158,5 @@ const HomePageCTA = () => (
             </ div>
         </FadeUpWrapper>
     </section>
-
 );
-
 export default HomePageCTA;

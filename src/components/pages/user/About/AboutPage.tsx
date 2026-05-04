@@ -88,7 +88,7 @@ export default function AboutPage() {
                 <div className="absolute inset-0 pointer-events-none"
                     style={{
                         backgroundImage: "linear-gradient(rgba(46,139,87,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.07) 1px, transparent 1px)",
-                        backgroundSize: "56px 56px",
+                        backgroundSize: "60px 60px",
                     }} />
                 <div className="absolute top-20 left-1/3 w-96 h-96 rounded-full blur-3xl opacity-20"
                     style={{ background: "var(--color-primary-500)" }} />
@@ -377,7 +377,7 @@ export default function AboutPage() {
                 <div className="absolute inset-0 pointer-events-none"
                     style={{
                         backgroundImage: "linear-gradient(rgba(46,139,87,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.06) 1px, transparent 1px)",
-                        backgroundSize: "56px 56px",
+                        backgroundSize: "60px 60px",
                     }} />
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full blur-3xl opacity-20"
                     style={{ background: "var(--color-primary-500)" }} />
