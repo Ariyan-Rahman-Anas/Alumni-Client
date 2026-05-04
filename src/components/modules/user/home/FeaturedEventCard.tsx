@@ -64,10 +64,10 @@ const FeaturedEventCard = ({ event }: { event: IEvent }) => {
                                     <RiTimeLine /> Starts {countdown}
                                 </p>
                             )}
-                            <h3 className="font-display font-bold text-2xl md:text-3xl leading-tight mb-3" style={{ color: "#FDFAF2" }}>
+                            <h3 className="font-display font-bold text-2xl md:text-3xl leading-tight mb-3 text-white dark:text-gunmetal-200 ">
                                 {event.title}
                             </h3>
-                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm" style={{ color: "rgba(253,250,242,0.80)" }}>
+                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gunmetal-200 dark:text-gunmetal-300 ">
                                 <span className="flex items-center gap-1.5"><RiCalendarEventLine />{formatEventDate(event.startDateTime)}</span>
                                 <span className="flex items-center gap-1.5"><RiTimeLine />{formatEventTime(event.startDateTime)}</span>
                                 {event.venue && <span className="flex items-center gap-1.5"><RiMapPinLine />{event.venue}</span>}
@@ -77,15 +77,15 @@ const FeaturedEventCard = ({ event }: { event: IEvent }) => {
                     </div>
 
                     {/* Card Body */}
-                    <div className="p-6" style={{ background: "var(--color-surface)" }}>
-                        <p className="text-sm leading-relaxed line-clamp-2 mb-5" style={{ color: "var(--color-text-secondary)" }}>
+                    <div className="p-6  text-gunmetal-400 dark:text-gunmetal-200">
+                        <p className="text-sm leading-relaxed line-clamp-2 mb-5 ">
                             {event.description}
                         </p>
 
                         {/* Price Tiers */}
                         {event.priceTiers && event.priceTiers.length > 0 && (
                             <div className="mb-5">
-                                <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--color-primary2-600)" }}>
+                                <p className="text-xs font-semibold uppercase tracking-wider mb-2">
                                     Registration Fee
                                 </p>
                                 <div className="flex flex-wrap gap-2">
@@ -117,23 +117,21 @@ const FeaturedEventCard = ({ event }: { event: IEvent }) => {
                         {/* Event Flow */}
                         {event.eventFlow && event.eventFlow.length > 0 && (
                             <div className="mb-5">
-                                <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: "var(--color-primary2-600)" }}>
+                                <p className="text-xs font-semibold uppercase tracking-wider mb-2">
                                     Program Highlights
                                 </p>
                                 <div className="flex flex-col gap-1">
                                     {event.eventFlow.slice(0, 3).map((item, i) => (
-                                        <div key={i} className="flex items-start gap-2 text-xs" style={{ color: "var(--color-text-secondary)" }}>
+                                        <div key={i} className="flex items-start gap-2 text-xs">
                                             <span
-                                                className="mt-0.5 flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold"
-                                                style={{ background: "var(--color-primary2-100)", color: "var(--color-primary2-700)" }}
-                                            >
+                                                className="mt-0.5 flex-shrink-0 w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold">
                                                 {i + 1}
                                             </span>
                                             {item}
                                         </div>
                                     ))}
                                     {event.eventFlow.length > 3 && (
-                                        <span className="text-xs" style={{ color: "var(--color-text-muted)" }}>
+                                        <span className="text-xs">
                                             +{event.eventFlow.length - 3} more
                                         </span>
                                     )}
@@ -142,8 +140,8 @@ const FeaturedEventCard = ({ event }: { event: IEvent }) => {
                         )}
 
                         {/* Footer */}
-                        <div className="flex items-center justify-between pt-4" style={{ borderTop: "1px solid var(--color-border)" }}>
-                            <div className="flex items-center gap-4 text-xs" style={{ color: "var(--color-text-muted)" }}>
+                        <div className="flex items-center justify-between pt-4 border-t">
+                            <div className="flex items-center gap-4 text-xs">
                                 {event.organizer && <span className="flex items-center gap-1"><RiUserLine /> {event.organizer}</span>}
                                 {event.registrationDeadline && (
                                     <span className="flex items-center gap-1">
@@ -152,9 +150,7 @@ const FeaturedEventCard = ({ event }: { event: IEvent }) => {
                                 )}
                             </div>
                             <span
-                                className="inline-flex items-center gap-1 text-xs font-semibold transition-all duration-200 group-hover:gap-2"
-                                style={{ color: "var(--color-primary2-600)" }}
-                            >
+                                className="inline-flex items-center gap-1 text-xs font-semibold transition-all duration-200 group-hover:gap-2 dark:text-primary ">
                                 View Details <HiArrowUpRight />
                             </span>
                         </div>
