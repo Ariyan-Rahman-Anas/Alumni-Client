@@ -177,10 +177,9 @@ const BatchesSection = () => {
                     <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 ">
                         <div>
                             <SectionLabel
-                                text="Generations of BAMHSians" className="text-primary2-100 "
-                                icon={<RiFlaskLine />} align="left"
-                            />
-
+                                text="Generations of BAMHSians"
+                                className="text-primary2-100 border-primary2-700 dark:border-gunmetal-400 dark:text-gunmetal-200 "
+                                icon={<RiFlaskLine />} align="left"/>
                             <h2
                                 className="section-heading-text-left text-primary2-50 dark:text-gunmetal-200 mt-5">
                                 Every year tells{" "}

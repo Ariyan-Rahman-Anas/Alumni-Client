@@ -123,10 +123,9 @@ const TestimonialsSection = () => {
                     <SectionLabel
                         text="Alumni Voices"
                         className="text-primary2-100 border-primary2-700 dark:text-gunmetal-300 dark:border-gunmetal-500 "
-                        icon={<RiDoubleQuotesL />}
-                    />
+                        icon={<RiDoubleQuotesL />}/>
                     <h2
-                        className="section-heading-text-center text-white dark:text-gunmetal-200 mt-6">
+                        className="section-heading-text-center text-white dark:text-gunmetal-200 mt-5">
                         What BAMHSians Say
                     </h2>
                     <p

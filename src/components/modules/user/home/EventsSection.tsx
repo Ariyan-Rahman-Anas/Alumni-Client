@@ -124,7 +124,7 @@ const EventsSection = () => {
         <section className="three-xl-section-setup">
             <FadeUpWrapper delay={0.1} className="text-left w-fit mb-8">
                 <SectionLabel text="What's Happening" align="left" icon={<RiCalendarEventLine />} className="dark:text-gunmetal-300 dark:border-gunmetal-500 " />
-                <h2 className="section-heading-text-left mt-3 text-primary2-800 dark:text-primary">
+                <h2 className="section-heading-text-left mt-5 text-primary2-800 dark:text-primary">
                     Events &amp; Initiatives
                 </h2>
                 <p className="text-gunmetal-300 mt-2">

@@ -57,7 +57,7 @@ const AboutSection = () => {
 
                     {/* Headline */}
                     <h2
-                        className="section-heading-text-left mb-6 mt-4 text-primary2-900 dark:text-gunmetal-200 ">
+                        className="section-heading-text-left mb-6 mt-5 text-primary2-900 dark:text-gunmetal-200 ">
                         Scattered Across the World,{" "}
                         <br className="hidden sm:block" />
                         United by{" "}
