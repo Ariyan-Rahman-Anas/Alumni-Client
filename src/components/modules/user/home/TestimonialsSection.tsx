@@ -9,7 +9,7 @@ import {
     CarouselPrevious,
     type CarouselApi,
 } from "@/components/ui/carousel";
-import { RiDoubleQuotesL} from "react-icons/ri";
+import { RiDoubleQuotesL } from "react-icons/ri";
 import { BsStarFill } from "react-icons/bs";
 import SectionLabel from "@/components/shared/SectionLabel";
 
@@ -38,14 +38,6 @@ const testimonials = [
         batch: "Batch of 2010",
         role: "Teacher, Cumilla Govt. College",
     },
-];
-
-/* Gradient colours per card for the avatar ring */
-const avatarGradients = [
-    "linear-gradient(135deg, #2E8B57, #4DB472)",
-    "linear-gradient(135deg, #257048, #72C48C)",
-    "linear-gradient(135deg, #1A5436, #2E8B57)",
-    "linear-gradient(135deg, #4DB472, #9DD8AE)",
 ];
 
 const TestimonialsSection = () => {
@@ -86,7 +78,7 @@ const TestimonialsSection = () => {
                 style={{
                     backgroundImage:
                         "linear-gradient(rgba(46,139,87,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.06) 1px, transparent 1px)",
-                    backgroundSize: "56px 56px",
+                    backgroundSize: "60px 60px",
                 }}
             />
 
@@ -128,17 +120,16 @@ const TestimonialsSection = () => {
 
                 {/* Header */}
                 <FadeUpWrapper className="text-center mb-14">
-                    <SectionLabel text="Alumni Voices" className="text-primary2-100" icon={<RiDoubleQuotesL />} />
+                    <SectionLabel
+                        text="Alumni Voices"
+                        className="text-primary2-100 border-primary2-700 dark:text-gunmetal-300 dark:border-gunmetal-500 "
+                        icon={<RiDoubleQuotesL />}/>
                     <h2
-                        className="section-heading mt-6"
-                        style={{ color: "var(--color-primary-50)" }}
-                    >
+                        className="section-heading-text-center text-white dark:text-gunmetal-200 mt-5">
                         What BAMHSians Say
                     </h2>
                     <p
-                        className="mt-4 text-sm sm:text-base max-w-xl mx-auto leading-relaxed"
-                        style={{ color: "var(--color-primary-400)" }}
-                    >
+                        className="mt-4 text-sm sm:text-base max-w-xl mx-auto leading-relaxed text-primary2-400 dark:text-gunmetal-300 ">
                         Voices from across decades — sharing the legacy that BAMHS instilled in every student.
                     </p>
                 </FadeUpWrapper>
@@ -183,9 +174,7 @@ const TestimonialsSection = () => {
                                                 }}
                                             >
                                                 <RiDoubleQuotesL
-                                                    className="text-lg sm:text-xl"
-                                                    style={{ color: "var(--color-primary-400)" }}
-                                                />
+                                                    className="text-lg sm:text-xl text-primary2-500" />
                                             </div>
                                             <div className="flex items-center gap-0.5 mt-1">
                                                 {Array.from({ length: 5 }).map((_, s) => (
@@ -200,9 +189,7 @@ const TestimonialsSection = () => {
 
                                         {/* Quote */}
                                         <p
-                                            className="font-serif italic text-base sm:text-lg md:text-xl leading-relaxed flex-1"
-                                            style={{ color: "var(--color-primary-100)" }}
-                                        >
+                                            className="font-serif italic text-base sm:text-lg md:text-xl leading-relaxed text-center flex-1 text-primary2-100 dark:text-gunmetal-300">
                                             &ldquo;{t.quote}&rdquo;
                                         </p>
 
@@ -217,28 +204,16 @@ const TestimonialsSection = () => {
                                         {/* Author */}
                                         <div className="flex items-center gap-4">
                                             <div
-                                                className="w-11 h-11 sm:w-13 sm:h-13 rounded-full flex items-center justify-center font-bold text-sm sm:text-base flex-shrink-0"
-                                                style={{
-                                                    background: avatarGradients[i % avatarGradients.length],
-                                                    color: "#FDFAF2",
-                                                    boxShadow: "0 0 0 3px rgba(46,139,87,0.25), 0 0 0 6px rgba(46,139,87,0.08)",
-                                                    minWidth: "2.75rem",
-                                                    minHeight: "2.75rem",
-                                                }}
-                                            >
+                                                className="w-11 min-w-[2.75rem] h-11 min-h-[2.75rem] sm:w-13 sm:h-13 rounded-full flex items-center justify-center font-bold text-sm sm:text-base flex-shrink-0 bg-primary2-500 text-white dark:text-gunmetal-900 shadow ">
                                                 {t.name.charAt(0)}
                                             </div>
                                             <div className="min-w-0">
                                                 <p
-                                                    className="font-semibold text-sm sm:text-base leading-tight truncate"
-                                                    style={{ color: "var(--color-primary-100)" }}
-                                                >
+                                                    className="font-semibold text-sm sm:text-base leading-tight truncate text-primary2-100 dark:text-gunmetal-300">
                                                     {t.name}
                                                 </p>
                                                 <p
-                                                    className="text-xs mt-0.5 truncate"
-                                                    style={{ color: "var(--color-primary-400)" }}
-                                                >
+                                                    className="text-xs mt-0.5 truncate text-primary2-400 dark:text-gunmetal-300 ">
                                                     {t.batch}&nbsp;·&nbsp;{t.role}
                                                 </p>
                                             </div>
@@ -250,7 +225,7 @@ const TestimonialsSection = () => {
 
                         <div className="flex items-center justify-center gap-5 mt-8 sm:mt-10">
                             <CarouselPrevious
-                                className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 bg-primary2-500 hover:bg-primary2-600 hover:text-surface"
+                                className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 bg-primary2-500 hover:bg-primary2-600 dark:bg-gunmetal-300 dark:hover:bg-primary hover:text-surface"
                             />
 
                             {/* Dots */}
@@ -260,14 +235,10 @@ const TestimonialsSection = () => {
                                         key={i}
                                         aria-label={`Go to testimonial ${i + 1}`}
                                         onClick={() => api?.scrollTo(i)}
-                                        className="rounded-full transition-all duration-300 focus-visible:outline-none"
+                                        className={`rounded-full transition-all duration-300 focus-visible:outline-none ${i === current ? "bg-primary2-400 dark:bg-gunmetal-300" : "bg-primary2-300 dark:bg-gunmetal-400"}`}
                                         style={{
                                             width: i === current ? "28px" : "8px",
                                             height: "8px",
-                                            background:
-                                                i === current
-                                                    ? "var(--color-primary-400)"
-                                                    : "rgba(46,139,87,0.30)",
                                             boxShadow:
                                                 i === current
                                                     ? "0 0 8px rgba(77,180,114,0.6)"
@@ -278,10 +249,9 @@ const TestimonialsSection = () => {
                             </div>
 
                             <CarouselNext
-                                className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 bg-primary2-500 hover:bg-primary2-600 hover:text-surface"
+                                className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 bg-primary2-500 hover:bg-primary2-600 dark:bg-gunmetal-300 dark:hover:bg-primary hover:text-surface"
                             />
                         </div>
-
                     </Carousel>
                 </FadeUpWrapper>
             </div>

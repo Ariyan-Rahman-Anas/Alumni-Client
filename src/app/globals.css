@@ -395,8 +395,8 @@ html.lenis {
 @layer components {
 
   .section-heading-text-center {
-    @apply text-3xl md:text-4xl xl:text-5xl font-bold text-center;
-    color: var(--foreground);
+    @apply text-3xl md:text-4xl xl:text-5xl font-bold text-center dark:text-gunmetal-200;
+    /* color: var(--foreground); */
     letter-spacing: -0.02em;
   }
 
@@ -406,8 +406,8 @@ html.lenis {
   }
 
   .section-heading-text-left {
-    @apply text-3xl md:text-4xl xl:text-5xl font-bold text-left;
-    color: var(--foreground);
+    @apply text-3xl md:text-4xl xl:text-5xl font-bold text-left dark:text-gunmetal-200;
+    /* color: var(--foreground); */
     letter-spacing: -0.02em;
   }
 
@@ -722,7 +722,7 @@ html.lenis {
     background:
       linear-gradient(rgba(46,139,87,0.04) 1px, transparent 1px),
       linear-gradient(90deg, rgba(46,139,87,0.04) 1px, transparent 1px);
-    background-size: 56px 56px;
+    background-size: 60px 60px;
   }
 
   .mesh-bg {

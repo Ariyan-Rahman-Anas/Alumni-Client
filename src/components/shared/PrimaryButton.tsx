@@ -34,7 +34,7 @@ const PrimaryButton = ({
     );
 
     const buttonClassName =
-        `rounded-full py-[19px] px-5 dark:bg-gunmetal-500 dark:text-gunmetal-100 ${isFullWidth ? "w-full" : "min-w-24 md:min-w-28 "} ${!title && !loadingTitle ? "p-2" : ""} ${className}`.trim();
+        `rounded-full py-[19px] px-5 dark:bg-primary dark:text-gunmetal-100 ${isFullWidth ? "w-full" : "min-w-24 md:min-w-28 "} ${!title && !loadingTitle ? "p-2" : ""} ${className}`.trim();
     const isButtonDisabled = isDisabled || isLoading;
 
     return href && !isLoading ? (

@@ -99,9 +99,9 @@ const ViewAllCard = ({ item, className = "" }: { item: GalleryImage | null | und
             >
                 <RiImageLine className="text-white text-xl" />
             </span>
-            <p className="text-white font-bold text-sm leading-tight tracking-wide">View All Photos</p>
+            <p className="text-white font-bold text-sm leading-tight tracking-wide dark:text-gunmetal-200">View All Photos</p>
             <p
-                className="text-[11px] mt-0.5 transition-colors duration-300"
+                className="text-[11px] mt-0.5 transition-colors duration-300 dark:text-gunmetal-300"
                 style={{ color: "rgba(195,232,206,0.75)" }}
             >
                 Explore the full gallery →
@@ -154,20 +154,17 @@ const GallerySection = () => {
             {/* ── Header ───────────────────────────────────────────── */}
             <FadeUpWrapper delay={0.14} className="text-center mb-12">
                 {/* Pill badge */}
-                <SectionLabel text="Captured Memories" icon={<RiGalleryLine className="text-sm" />} />
+                <SectionLabel text="Captured Memories" icon={<RiGalleryLine className="text-sm" />}
+                    className="dark:border-gunmetal-400 dark:text-gunmetal-200 "
+                />
 
-                <h2 className="section-heading text-primary2-900 ">
+                <h2 className="section-heading-text-center text-primary2-900 mt-5 ">
                     Our Gallery
                 </h2>
 
-                {/* Decorative line + subtext */}
-                <div className="flex items-center justify-center gap-4 mt-4">
-                    <span className="block h-px w-12 rounded-full" style={{ background: "var(--color-primary-300)" }} />
-                    <p className="text-sm md:text-base" style={{ color: "var(--color-text-secondary)" }}>
-                        Moments frozen in time — from dusty playgrounds to proud graduations.
-                    </p>
-                    <span className="block h-px w-12 rounded-full" style={{ background: "var(--color-primary-300)" }} />
-                </div>
+                <p className="text-sm md:text-base text-gunmetal-300 mt-2" >
+                    Moments frozen in time — from dusty playgrounds to proud graduations.
+                </p>
             </FadeUpWrapper>
 
             <FadeUpWrapper delay={0.2}>
