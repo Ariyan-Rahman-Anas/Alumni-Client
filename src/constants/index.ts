@@ -1,9 +1,9 @@
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 const SECTIONS = [
-    { label: "Science",  value: "Science"  },
-    { label: "Commerce", value: "Commerce" },
-    { label: "Arts",     value: "Arts"     },
+    { label: "Science",  value: "SCIENCE"  },
+    { label: "Commerce", value: "COMMERCE" },
+    { label: "Arts",     value: "ARTS"     },
 ];
 
 const TABLE_PAGE_SIZE = 10

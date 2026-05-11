@@ -22,11 +22,11 @@ const VerifyEmailPage = () => {
         <div className="flex min-h-[80vh] items-center justify-center px-4"
         >
             <div
-                className="w-full max-w-md rounded-3xl border p-8"
+                className="w-full max-w-md rounded-3xl bg-white dark:bg-gunmetal-600 p-8"
                 style={{
-                    background: "linear-gradient(140deg, #fffef8 0%, #f7f3e8 100%)",
-                    borderColor: "rgba(200,188,160,0.56)",
-                    boxShadow: "0 24px 65px rgba(5,31,21,0.18)",
+                    // background: "linear-gradient(140deg, #fffef8 0%, #f7f3e8 100%)",
+                    // borderColor: "rgba(200,188,160,0.56)",
+                    // boxShadow: "0 24px 65px rgba(5,31,21,0.18)",
                 }}
             >
                 {/* Header */}

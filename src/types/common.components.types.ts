@@ -159,3 +159,9 @@ export interface IImageUploadFieldProps {
     id?: string;
     containerClassName?: string;
 }
+
+export interface IGoBackwardProps {
+  text?: string;
+  // className?: string;
+  // onClick?: () => void;
+}

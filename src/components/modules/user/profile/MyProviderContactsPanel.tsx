@@ -27,7 +27,6 @@ import {
 import type { IProviderContact as ProviderContact, IContactReply as ContactReply } from "@/components/modules/user/job/job.types";
 import { useAppSelector } from "@/redux/hooks";
 import { cn } from "@/lib/utils";
-import { getContactsSocket } from "@/lib/socket";
 
 /* ── Avatar ──────────────────────────────────────────────── */
 function Av({ name, imageUrl, size = 40 }: { name: string; imageUrl?: string; size?: number }) {
@@ -162,7 +161,6 @@ function ConversationDetail({
     myUserId,
     onBack,
     onDeleted,
-    onReplyReceived,
 }: {
     contact: ProviderContact;
     myUserId: string;
@@ -181,78 +179,13 @@ function ConversationDetail({
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const msgContainerRef = useRef<HTMLDivElement>(null);
     const accessToken = useAppSelector((s) => s.auth.accessToken);
+    void accessToken; // kept for future use
 
     // Keep contact in sync when parent prop updates (e.g. from RTK cache refresh)
     useEffect(() => { setContact(initialContact); }, [initialContact._id]); // eslint-disable-line
 
     const other = getOtherPerson(contact, myUserId);
     const otherUserId = (other as { _id?: string })?._id ?? "";
-
-    /* ── Socket setup (receive-only) ──────────────────── */
-    useEffect(() => {
-        let sock: ReturnType<typeof getContactsSocket>;
-        try { sock = getContactsSocket(); } catch { return; } // not initialized yet
-
-        // Use named function so we can properly remove it on cleanup
-        const joinRoom = () => sock.emit("join:conversation", contact._id);
-
-        // Join now if connected, otherwise join on every (re)connect
-        if (sock.connected) joinRoom();
-        // Register on "connect" (not "once") so reconnects also re-join the room
-        sock.on("connect", joinRoom);
-        if (!sock.connected) sock.connect();
-
-        const onNewMsg = (data: { contactId: string; reply: ContactReply }) => {
-            if (data.contactId !== contact._id) return;
-            setContact((prev) => ({
-                ...prev,
-                replies: prev.replies.some((r) => r._id === data.reply._id)
-                    ? prev.replies
-                    : [...prev.replies, data.reply],
-            }));
-            onReplyReceived(data.contactId, data.reply);
-        };
-
-        const onReplyDeleted = (data: { contactId: string; replyId: string }) => {
-            if (data.contactId !== contact._id) return;
-            setContact((prev) => ({
-                ...prev,
-                replies: prev.replies.filter((r) => r._id !== data.replyId),
-            }));
-        };
-
-        const onInitialDeleted = (data: { contactId: string }) => {
-            if (data.contactId !== contact._id) return;
-            setContact((prev) => ({ ...prev, message: undefined }));
-        };
-
-        const onConvDeleted = (data: { contactId: string }) => {
-            if (data.contactId !== contact._id) return;
-            onDeleted();
-        };
-
-        const onSeen = (
-            // _data: { contactId: string; seenBy: string; seenAt: string }
-        ) => {
-            // seen indicator removed — handler kept to avoid socket errors
-        };
-
-        sock.on("message:new", onNewMsg);
-        sock.on("message:deleted", onReplyDeleted);
-        sock.on("message:initialDeleted", onInitialDeleted);
-        sock.on("conversation:deleted", onConvDeleted);
-        sock.on("conversation:seen", onSeen);
-
-        return () => {
-            sock.emit("leave:conversation", contact._id);
-            sock.off("connect", joinRoom);
-            sock.off("message:new", onNewMsg);
-            sock.off("message:deleted", onReplyDeleted);
-            sock.off("message:initialDeleted", onInitialDeleted);
-            sock.off("conversation:deleted", onConvDeleted);
-            sock.off("conversation:seen", onSeen);
-        };
-    }, [contact._id, myUserId, accessToken]); // eslint-disable-line
 
     /* ── Auto-scroll ───────────────────────────────────── */
     useEffect(() => {

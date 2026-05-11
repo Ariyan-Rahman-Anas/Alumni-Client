@@ -265,11 +265,11 @@ const RegistrationForm = () => {
                         render={({ field }) => (
                             <SingleSelect
                                 id="reg-section"
-                                label="Section"
+                                label="Group" //section
                                 value={field.value || ""}
                                 onValueChange={field.onChange}
                                 options={sectionOptions}
-                                placeholder="Select your section"
+                                placeholder="Select your group"
                                 searchable={false}
                                 error={errors.section?.message}
                                 required

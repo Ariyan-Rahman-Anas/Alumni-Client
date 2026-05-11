@@ -82,8 +82,9 @@ const OtpVerifyForm = ({ email }: OtpVerifyFormProps) => {
                 return;
             }
             try {
-                await verifyOtp({ email, otp: code }).unwrap();
-                toast.success("Email verified! You can now log in once your account is approved.");
+                const verifyRes = await verifyOtp({ email, otp: code }).unwrap();
+                // toast.success("Email verified! You can now log in once your account is approved.");
+                toast.success(verifyRes.message);
                 router.push("/login");
             } catch (err: unknown) {
                 const message =
@@ -100,8 +101,8 @@ const OtpVerifyForm = ({ email }: OtpVerifyFormProps) => {
 
     const handleResend = async () => {
         try {
-            await resendOtp({ email }).unwrap();
-            toast.success("A new verification code has been sent.");
+            const resendRes = await resendOtp({ email }).unwrap();
+            toast.success(resendRes.message);
             setCountdown(RESEND_COOLDOWN);
             setOtp(Array(OTP_LENGTH).fill(""));
             focusInput(0);
@@ -142,7 +143,7 @@ const OtpVerifyForm = ({ email }: OtpVerifyFormProps) => {
                         onChange={(e) => handleChange(i, e.target.value)}
                         onKeyDown={(e) => handleKeyDown(i, e)}
                         onFocus={(e) => e.target.select()}
-                        className={`h-12 w-11 rounded-lg border bg-white text-center text-lg font-semibold text-accent-foreground outline-none transition focus:border-primary2-500 ${digit ? "border-primary2-400" : "border-border"}`}
+                        className={`h-12 w-11 rounded-lg border-[2.5px] bg-white dark:bg-gunmetal-600 text-center text-black dark:text-gunmetal-200 text-lg font-semibold text-accent-foreground outline-none transition focus:border-primary2-500 dark:focus:border-gunmetal-200 ${digit ? "border-primary2-400 dark:border-gunmetal-300" : "border-border dark:border-gunmetal-400"}`}
                         aria-label={`Digit ${i + 1}`}
                         autoComplete={i === 0 ? "one-time-code" : "off"}
                     />
