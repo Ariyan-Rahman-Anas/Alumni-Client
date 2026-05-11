@@ -8,12 +8,12 @@ export interface PrimaryButtonI {
   onClick?: (e: React.MouseEvent) => void;
   href?: string | any;
   variant?:
-    | "link"
-    | "default"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | "ghost";
+  | "link"
+  | "default"
+  | "destructive"
+  | "outline"
+  | "secondary"
+  | "ghost";
   icon?: ReactNode;
   icon2?: ReactNode;
   isDisabled?: boolean;
@@ -63,27 +63,27 @@ export interface SingleSelectPropsI {
 
 
 export interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-    label?: string;
-    icon?: ReactNode;
-    iconRight?: ReactNode;
+  label?: string;
+  icon?: ReactNode;
+  iconRight?: ReactNode;
   error?: string;
   isShowErrorMessage?: boolean;
-    helperText?: string;
-    containerClassName?: string;
+  helperText?: string;
+  containerClassName?: string;
 }
 
 export interface TextAreaBoxProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-    label?: string;
-    error?: string;
-    helperText?: string;
+  label?: string;
+  error?: string;
+  helperText?: string;
   containerClassName?: string;
   icon?: ReactNode;
 }
 
 export interface UserMenuProps {
-    /** Size of the avatar button */
-    size?: "sm" | "md";
-    align?: "start" | "center" | "end";
+  /** Size of the avatar button */
+  size?: "sm" | "md";
+  align?: "start" | "center" | "end";
 }
 
 export interface DeleteAlertModalProps {
@@ -97,71 +97,79 @@ export interface DeleteAlertModalProps {
 
 
 export interface DatePickerSinglePropsI {
-    value?: string;
-    onChange?: (value: string) => void;
-    label?: string;
-    placeholder?: string;
-    required?: boolean;
-    error?: string;
-    helperText?: string;
-    id?: string;
-    /** When true, shows a time picker below the calendar and emits "yyyy-MM-dd'T'HH:mm" */
-    includeTime?: boolean;
-    /** Disable dates before this date */
-    minDate?: Date;
-    /** Disable dates after this date (default: today for date-only, +5 years for includeTime) */
-    maxDate?: Date;
+  value?: string;
+  onChange?: (value: string) => void;
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
+  error?: string;
+  helperText?: string;
+  id?: string;
+  /** When true, shows a time picker below the calendar and emits "yyyy-MM-dd'T'HH:mm" */
+  includeTime?: boolean;
+  /** Disable dates before this date */
+  minDate?: Date;
+  /** Disable dates after this date (default: today for date-only, +5 years for includeTime) */
+  maxDate?: Date;
 }
 
 export interface PasswordFieldPropsI {
-    value?: string;
-    onChange?: (value: string) => void;
-    onBlur?: () => void;
-    label?: string;
-    placeholder?: string;
-    required?: boolean;
-    error?: string;
-    helperText?: string;
-    id?: string;
-    name?: string;
+  value?: string;
+  onChange?: (value: string) => void;
+  onBlur?: () => void;
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
+  error?: string;
+  helperText?: string;
+  id?: string;
+  name?: string;
 }
 
 export interface AdminPageHeadProps {
-    title: string;
-    description?: string;
+  title: string;
+  description?: string;
 }
 
 export interface StatCardProps {
-    label: string;
-    value: number | undefined;
-    icon: React.ReactNode;
-    color: string;
-    isLoading: boolean;
+  label: string;
+  value: number | undefined;
+  icon: React.ReactNode;
+  color: string;
+  isLoading: boolean;
 }
 
 type TAcceptedMime = (typeof constantsData.ACCEPTED_MIME)[number];
 export interface IImageUploadFieldProps {
-    /** Controlled: current File (null = cleared) */
-    value?: File | null;
-    /** Called when the user picks / clears a file */
-    onChange?: (file: File | null) => void;
-    /** Existing image URL (e.g. server-side preview on edit forms) */
-    previewUrl?: string;
-    label?: string;
-    helperText?: string;
-    /** External field-level error (e.g. from react-hook-form) */
-    error?: string;
-    /** Max allowed file size in MB (default 5) */
-    maxSizeMB?: number;
-    /** Accepted MIME types (default: jpg/png/webp) */
-    accept?: TAcceptedMime[];
-    required?: boolean;
-    id?: string;
-    containerClassName?: string;
+  /** Controlled: current File (null = cleared) */
+  value?: File | null;
+  /** Called when the user picks / clears a file */
+  onChange?: (file: File | null) => void;
+  /** Existing image URL (e.g. server-side preview on edit forms) */
+  previewUrl?: string;
+  label?: string;
+  helperText?: string;
+  /** External field-level error (e.g. from react-hook-form) */
+  error?: string;
+  /** Max allowed file size in MB (default 5) */
+  maxSizeMB?: number;
+  /** Accepted MIME types (default: jpg/png/webp) */
+  accept?: TAcceptedMime[];
+  required?: boolean;
+  id?: string;
+  containerClassName?: string;
 }
 
 export interface IGoBackwardProps {
   text?: string;
   // className?: string;
   // onClick?: () => void;
+}
+
+export interface IServerErrorRes {
+  status: number;
+  data: {
+    success: boolean;
+    message: string;
+  }
 }

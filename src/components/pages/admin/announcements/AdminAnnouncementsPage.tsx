@@ -14,12 +14,12 @@ import {
     useGetAllAnnouncementsAdminQuery,
     useDeleteAnnouncementMutation,
     useToggleAnnouncementPinMutation,
-    type Announcement,
-    type AnnouncementStatus,
 } from "@/redux/apis/announcementApi";
 import { constantsData } from "@/constants";
+import { IAnnouncement, TAnnouncementStatus } from "@/components/modules/user/announcements/announcement.types";
+import { IServerErrorRes } from "@/types/common.components.types";
 
-type StatusFilter = "ALL" | AnnouncementStatus;
+type StatusFilter = "ALL" | TAnnouncementStatus;
 
 const STATUS_TABS: { label: string; value: StatusFilter }[] = [
     { label: "All", value: "ALL" },
@@ -33,7 +33,7 @@ const AdminAnnouncementsPage = () => {
     const [page, setPage] = useState(1);
     const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
     const [formOpen, setFormOpen] = useState(false);
-    const [editItem, setEditItem] = useState<Announcement | null>(null);
+    const [editItem, setEditItem] = useState<IAnnouncement | null>(null);
     const [deleteId, setDeleteId] = useState<string | null>(null);
 
     const { data, isLoading, isError } = useGetAllAnnouncementsAdminQuery({
@@ -52,17 +52,18 @@ const AdminAnnouncementsPage = () => {
             toast.success("Announcement deleted");
             setDeleteId(null);
         } catch (err: unknown) {
-            toast.error(
-                (err as { data?: { message?: string } })?.data?.message ?? "Failed to delete",
-            );
+            const error = err as IServerErrorRes;
+            toast.error(error.data.message || "Failed to delete announcement");
         }
     };
 
     const handleTogglePin = async (id: string) => {
         try {
-            await togglePin(id).unwrap();
-        } catch {
-            toast.error("Failed to update pin status");
+            const toggleRes = await togglePin(id).unwrap();
+            toast.success(toggleRes.message);
+        } catch (error: unknown) {
+            const err = error as IServerErrorRes
+            toast.error(err.data.message || "Failed to toggle pin");
         }
     };
 
@@ -102,8 +103,8 @@ const AdminAnnouncementsPage = () => {
                             setPage(1);
                         }}
                         className={`relative px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors ${statusFilter === value
-                                ? "text-primary2-700"
-                                : "text-muted-foreground hover:text-gray-700"
+                            ? "text-primary2-700"
+                            : "text-muted-foreground hover:text-gray-700"
                             }`}
                     >
                         {label}

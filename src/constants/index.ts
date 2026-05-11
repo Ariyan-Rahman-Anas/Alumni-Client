@@ -1,3 +1,10 @@
+const USER_ROLE = {
+    SUPER_ADMIN: "SUPER_ADMIN",
+    ADMIN: "ADMIN",
+    USER: "USER"
+}   
+export type TUserRole = typeof USER_ROLE[keyof typeof USER_ROLE]
+
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 const SECTIONS = [
@@ -122,6 +129,7 @@ const COUNTRY_CODES = [
 ];
 
 export const constantsData = {
+    USER_ROLE,
     BLOOD_GROUPS,
     SECTIONS,
     TABLE_PAGE_SIZE,

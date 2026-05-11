@@ -7,13 +7,15 @@ import { RiCheckLine, RiDeleteBinLine, RiEyeLine } from "react-icons/ri";
 import DataTable from "@/components/shared/dataTable/DataTable";
 import DeleteAlertModal from "@/components/shared/DeleteAlertModal";
 import AdminUserViewModal from "./AdminUserViewModal";
-import { Button } from "@/components/ui/button";
 import type { TableColumn } from "@/types";
 import Image from "next/image";
 import { AdminUsersTableProps } from "@/types/admin/users.types";
 import DateFormatter from "@/lib/DateFormatter";
 import { IUserProfile } from "../../user/user.types";
 import { useApproveUserMutation, useDeleteUserMutation, useGetAllUsersQuery } from "@/redux/apis/userApi";
+import { MdAdminPanelSettings } from "react-icons/md";
+import { constantsData } from "@/constants";
+import { FaRegUser } from "react-icons/fa";
 
 const AdminUsersTable = ({
     page,
@@ -70,30 +72,36 @@ const AdminUsersTable = ({
 
     const columns: TableColumn<IUserProfile>[] = [
         {
-            key: "index", label: "#"
+            key: "index", label: "#",
         },
         {
             key: "userId", label: "User ID"
         },
         {
-            key: "name", label: "Name"
-        },
-        {
-            key: "imageUrl", label: "Image",
+            key: "imageUrl", label: "Image & Name",
             width: "0%",
             render: (u) => (
-                <div className="h-14 w-14 overflow-hidden flex items-center justify-center rounded-full border border-primary2-700">
-                    <Image src={u.imageUrl ?? ""} alt={u.name.slice(0, 2).toUpperCase()} width={800} height={800}/>
+                <div className="flex items-center w-fit gap-3">
+                    <div className="h-20 w-20 rounded-full border-2 border-surface-200 flex items-center justify-center overflow-hidden">
+                        {u.imageUrl ? <Image src={u.imageUrl ?? ""} alt={u.name.slice(0, 5)} width={500} height={500} /> : <div className="h-20 w-20 bg-gray-200 rounded-full flex items-center justify-center">{u.name.slice(0, 2).toUpperCase()}</div>}
+                    </div>
+                    <div className="text-left">
+                        <p>{u.name}</p>
+                        {u.role === constantsData.USER_ROLE.SUPER_ADMIN || u.role === constantsData.USER_ROLE.ADMIN ? <p className="text-xs mt-0.5 opacity-80" >{u.role === constantsData.USER_ROLE.SUPER_ADMIN ? "Super Admin" : "Admin"}</p> : null}
+                    </div>
                 </div>
             )
         },
         {
-            key: "email",
-            label: "Email",
-        },
-        {
-            key: "phone",
-            label: "Phone",
+            key: "contact",
+            label: "Contact",
+            render: (u) => (
+                <div>
+                    <p>{u.phone}</p>
+                    <p>{u.email}</p>
+
+                </div>
+            )
         },
         {
             key: "dob",
@@ -103,6 +111,17 @@ const AdminUsersTable = ({
         {
             key: "batch",
             label: "Batch",
+            render: (u) => (
+                <div>
+                    <p>{u.batch}</p>
+                    <p>{u.section}</p>
+
+                </div>
+            )
+        },
+        {
+            key: "bloodGroup",
+            label: "Blood Group",
         },
         {
             key: "isVerified",
@@ -137,39 +156,49 @@ const AdminUsersTable = ({
         {
             key: "actions",
             label: "Actions",
-            // width: "130px",
             render: (u) => (
-                <div className="flex items-center justify-center gap-1">
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        title="View profile"
-                        onClick={() => setViewUser(u)}
-                        className="h-8 w-8 text-blue-600 hover:bg-blue-50"
-                    >
-                        <RiEyeLine className="text-base" />
-                    </Button>
+                <div className="flex items-center justify-center gap-3">
+                    {u.role !== constantsData.USER_ROLE.SUPER_ADMIN &&
+                    //     <Button
+                    //     size="icon"
+                    //     variant="ghost"
+                    //     title="View profile"
+                    //     onClick={() => setViewUser(u)}
+                    //     className="h-8 w-8 text-blue-600 hover:bg-blue-50"
+                    // >
+                        <RiEyeLine className="text-base" size={20} />
+                    // {/* </Button> */}
+                    }
                     {u.approvalStatus === "PENDING" && (
-                        <Button
-                            size="icon"
-                            variant="ghost"
-                            title="Approve"
-                            disabled={isApproving}
-                            onClick={() => handleApprove(u._id)}
-                            className="h-8 w-8 text-emerald-600 hover:bg-emerald-50"
-                        >
-                            <RiCheckLine className="text-base" />
-                        </Button>
+                        // <Button
+                        //     size="icon"
+                        //     variant="ghost"
+                        //     title="Approve"
+                        //     disabled={isApproving}
+                        //     onClick={() => handleApprove(u._id)}
+                        //     className="h-8 w-8 text-emerald-600 hover:bg-emerald-50"
+                        // >
+                        <RiCheckLine className="text-base" size={20} />
+                        // {/* </Button> */}
                     )}
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        title="Delete"
-                        onClick={() => setDeleteUserId(u._id)}
-                        className="h-8 w-8 text-red-500 hover:bg-red-50"
-                    >
-                        <RiDeleteBinLine className="text-base" />
-                    </Button>
+
+                    {
+                        u.role !== constantsData.USER_ROLE.SUPER_ADMIN && <div>
+                            {u.role === constantsData.USER_ROLE.ADMIN ? <MdAdminPanelSettings size={20} /> : <FaRegUser size={20} />}
+                        </div>
+                    }
+
+                    {u.role !== constantsData.USER_ROLE.SUPER_ADMIN &&
+                    //     <Button
+                    //     size="icon"
+                    //     variant="ghost"
+                    //     title="Delete"
+                    //     onClick={() => setDeleteUserId(u._id)}
+                    //     className="h-8 w-8 text-red-500 hover:bg-red-50"
+                    // >
+                        <RiDeleteBinLine className="text-base" size={20} />
+                        // {/* </Button> */}
+                    }
                 </div>
             ),
         },
