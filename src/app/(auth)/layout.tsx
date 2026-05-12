@@ -21,7 +21,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 }}
             />
 
-            <main className="flex items-center justify-center">
+            <main className="relative z-10 flex items-center justify-center">
                 <ClientAuthGuard requireGuest>
                     {children}
                 </ClientAuthGuard>

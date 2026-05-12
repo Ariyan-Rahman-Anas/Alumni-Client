@@ -11,7 +11,7 @@ interface TableRowProps<T> {
 
 const TableRow = <T,>({ item, columns, rowIndex }: TableRowProps<T>) => {
   return (
-    <ShadcnTableRow className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors">
+    <ShadcnTableRow className="border-b border-gray-100 dark:border-gray-600 hover:bg-gunmetal-50 dark:hover:bg-gunmetal-900 text-gunmetal-500 dark:text-gunmetal-300 transition-colors">
       {columns.map((column, columnIndex) => (
         <TableCell
           key={columnIndex}
@@ -25,15 +25,15 @@ const TableRow = <T,>({ item, columns, rowIndex }: TableRowProps<T>) => {
         >
           <div className="overflow-hidden">
             {column.key === "index" ? (
-              <span className="text-sm text-gray-700 font-medium">
+              <span className="text-sm font-medium">
                 {rowIndex + 1}
               </span>
             ) : column.render ? (
-              <span className="text-muted-foreground ">
+              <span>
                 {column.render(item)}
               </span>
             ) : (
-              <span className="text-sm text-muted-foreground block truncate">
+              <span className="block truncate">
                 {String(item[column.key as keyof T] ?? "")}
               </span>
             )}

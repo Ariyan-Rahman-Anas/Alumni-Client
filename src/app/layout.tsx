@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import StoreProvider from "@/providers/StoreProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
-import SocketProvider from "@/providers/SocketProvider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "sonner";
 import { Sanchez, Splash } from "next/font/google";
@@ -75,12 +74,10 @@ export default function RootLayout({
         ">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <StoreProvider>
-            <SocketProvider>
               <TooltipProvider>
                 <SmoothScroller>{children}</SmoothScroller>
                 <Toaster richColors position="top-right" />
               </TooltipProvider>
-            </SocketProvider>
           </StoreProvider>
         </ThemeProvider>
       </body>

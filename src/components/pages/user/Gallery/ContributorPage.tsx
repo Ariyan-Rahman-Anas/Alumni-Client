@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Masonry from "react-masonry-css";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
@@ -19,7 +18,6 @@ import {
 } from "@/redux/apis/galleryApi";
 import { constantsData } from "@/constants";
 import {
-    RiArrowLeftLine,
     RiCalendarLine,
     RiDropLine,
     RiGlobalLine,
@@ -28,6 +26,7 @@ import {
     RiMedalLine,
     RiZoomInLine,
 } from "react-icons/ri";
+import GoBackward from "@/components/shared/GoBackward";
 
 /* ── helpers ──────────────────────────────────────────────── */
 const getInitials = (name: string) =>
@@ -182,7 +181,6 @@ const DetailChip = ({
 
 /* ── Main component ───────────────────────────────────────── */
 const ContributorPage = ({ userId }: { userId: string }) => {
-    const router = useRouter();
     const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
 
     const { data: userRes, isLoading: userLoading } = useGetUserProfileQuery(userId);
@@ -190,15 +188,8 @@ const ContributorPage = ({ userId }: { userId: string }) => {
 
     return (
         <div className="three-xl-section-setup pb-20 space-y-12">
-            {/* ── Back ─────────────────────────────────────────────── */}
-            <button
-                type="button"
-                onClick={() => router.back()}
-                className="inline-flex items-center gap-1.5 text-sm text-primary2-600 hover:text-primary2-900 transition-colors"
-            >
-                <RiArrowLeftLine />
-                Back to Gallery
-            </button>
+            {/* ── Back */}
+            <GoBackward text="Gallery" />
 
             {/* ── User Profile Card ─────────────────────────────────── */}
             <FadeUpWrapper delay={0.1}>

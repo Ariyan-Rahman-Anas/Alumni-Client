@@ -31,6 +31,7 @@ import {
 } from "./registrationSchema";
 import { constantsData } from "@/constants";
 import { IRegisterPayload } from "@/app/(auth)/auth.types";
+import { IServerErrorRes } from "@/types/common.components.types";
 
 
 const RegistrationForm = () => {
@@ -134,10 +135,9 @@ const RegistrationForm = () => {
             setAlumniProofError(undefined);
             router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
         } catch (error: unknown) {
-            const message =
-                (error as { data?: { message?: string } })?.data?.message ||
-                "Registration failed. Please try again.";
-            toast.error(message);
+            const err = error as IServerErrorRes
+            toast.error(err.data.message ||
+                "Registration failed. Please try again!");
         }
     };
 
@@ -265,11 +265,11 @@ const RegistrationForm = () => {
                         render={({ field }) => (
                             <SingleSelect
                                 id="reg-section"
-                                label="Section"
+                                label="Group" //section
                                 value={field.value || ""}
                                 onValueChange={field.onChange}
                                 options={sectionOptions}
-                                placeholder="Select your section"
+                                placeholder="Select your group"
                                 searchable={false}
                                 error={errors.section?.message}
                                 required

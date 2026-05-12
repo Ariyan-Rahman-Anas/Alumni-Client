@@ -20,6 +20,7 @@ import type { AppDispatch } from "@/redux/store";
 import type { UserMenuProps } from "@/types/common.components.types";
 import { clearUser, selectCurrentUser } from "@/redux/slice/authSlice";
 import { MdDashboard } from "react-icons/md";
+import { constantsData } from "@/constants";
 
 const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
     const router = useRouter();
@@ -88,7 +89,7 @@ const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
                     </Link>
                 </DropdownMenuItem>
 
-                {user?.role === "ADMIN" && (
+                {(user?.role === constantsData.USER_ROLE.ADMIN || user?.role === constantsData.USER_ROLE.SUPER_ADMIN) && (
                     <>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>

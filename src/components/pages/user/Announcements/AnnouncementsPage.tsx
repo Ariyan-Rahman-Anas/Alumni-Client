@@ -24,16 +24,13 @@ import {
     RiErrorWarningLine,
     RiSparkling2Line,
 } from "react-icons/ri";
-import {
-    useGetPublishedAnnouncementsQuery,
-    type Announcement,
-    type AnnouncementType,
-} from "@/redux/apis/announcementApi";
+import { useGetPublishedAnnouncementsQuery } from "@/redux/apis/announcementApi";
 import { format, formatDistanceToNow } from "date-fns";
 import { useDebounce } from "@/hooks/useDebounce";
 import AnnouncementsPageHead from "@/components/modules/user/announcements/AnnouncementsPageHead";
 import SectionLabel from "@/components/shared/SectionLabel";
 import { FadeUpWrapper } from "../Home/HomePage";
+import { IAnnouncement, TAnnouncementType } from "@/components/modules/user/announcements/announcement.types";
 
 /* ─── FadeUp utility ────────────────────────────────────── */
 function FadeUp({
@@ -93,7 +90,7 @@ const TYPE: Record<string, { soft: string; icon: React.ReactNode; label: string 
 };
 
 /* ─── Type filter tabs ──────────────────────────────────── */
-const TYPE_FILTERS: { label: string; value: AnnouncementType | "all"; icon?: React.ReactNode }[] = [
+const TYPE_FILTERS: { label: string; value: TAnnouncementType | "all"; icon?: React.ReactNode }[] = [
     { label: "All", value: "all" },
     { label: "General", value: "general", icon: <RiMegaphoneLine /> },
     { label: "Notice", value: "notice", icon: <RiInformationLine /> },
@@ -106,7 +103,7 @@ const TYPE_FILTERS: { label: string; value: AnnouncementType | "all"; icon?: Rea
 /* ═══════════════════════════════════════════════════════════
    FEATURED CARD  — big horizontal spotlight
 ═══════════════════════════════════════════════════════════ */
-function FeaturedCard({ item }: { item: Announcement }) {
+function FeaturedCard({ item }: { item: IAnnouncement }) {
     const router = useRouter();
     const t = TYPE[item.type] ?? TYPE.general;
 
@@ -182,7 +179,7 @@ function FeaturedCard({ item }: { item: Announcement }) {
 /* ═══════════════════════════════════════════════════════════
    ANNOUNCEMENT CARD
 ═══════════════════════════════════════════════════════════ */
-function AnnouncementCard({ item, idx }: { item: Announcement; idx: number }) {
+function AnnouncementCard({ item, idx }: { item: IAnnouncement; idx: number }) {
     const router = useRouter();
     const p = PRIORITY[item.priority];
     const t = TYPE[item.type] ?? TYPE.general;
@@ -291,7 +288,7 @@ function CardSkeleton() {
 ═══════════════════════════════════════════════════════════ */
 const AnnouncementsPage = () => {
     const router = useRouter();
-    const [typeFilter, setTypeFilter] = useState<AnnouncementType | "all">("all");
+    const [typeFilter, setTypeFilter] = useState<TAnnouncementType | "all">("all");
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
     const debouncedSearch = useDebounce(search, 400);
@@ -310,7 +307,7 @@ const AnnouncementsPage = () => {
     const featuredItem = announcements.find((a) => a.isFeatured);
     const gridItems = announcements.filter((a) => !a.isFeatured || announcements.indexOf(a) !== 0);
 
-    const handleFilterChange = (val: AnnouncementType | "all") => {
+    const handleFilterChange = (val: TAnnouncementType | "all") => {
         setTypeFilter(val);
         setPage(1);
     };

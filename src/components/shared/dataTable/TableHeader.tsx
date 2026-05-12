@@ -14,11 +14,11 @@ interface TableHeaderProps<T> {
 const TableHeader = <T,>({ columns }: TableHeaderProps<T>) => {
   return (
     <ShadcnTableHeader>
-      <TableRow className="border-b border-gray-200">
+      <TableRow className="border-b border-gray-200 dark:border-gray-500">
         {columns.map((column, idx) => (
           <TableHead
             key={idx}
-            className={`px-1 py-4 text-sm font-medium ${
+            className={`px-1 py-4 text-sm font-semibold text-gunmetal-700 dark:text-gunmetal-200 ${
               column.align === "left" ? "text-left" : column.align === "right" ? "text-right" : "text-center"
             } ${column.headerClassName || ""}`}
             style={{

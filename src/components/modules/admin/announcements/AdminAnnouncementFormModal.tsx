@@ -26,27 +26,24 @@ import { RiCloseLine } from "react-icons/ri";
 import {
     useCreateAnnouncementMutation,
     useUpdateAnnouncementMutation,
-    type Announcement,
-    type AnnouncementStatus,
-    type AnnouncementPriority,
-    type AnnouncementType,
 } from "@/redux/apis/announcementApi";
+import { IAnnouncement, TAnnouncementPriority, TAnnouncementStatus, TAnnouncementType } from "../../user/announcements/announcement.types";
 
 /* ── Options ───────────────────────────────────────────────── */
-const STATUS_OPTIONS: { label: string; value: AnnouncementStatus }[] = [
+const STATUS_OPTIONS: { label: string; value: TAnnouncementStatus }[] = [
     { label: "Draft", value: "draft" },
     { label: "Published", value: "published" },
     { label: "Scheduled", value: "scheduled" },
     { label: "Archived", value: "archived" },
 ];
 
-const PRIORITY_OPTIONS: { label: string; value: AnnouncementPriority }[] = [
+const PRIORITY_OPTIONS: { label: string; value: TAnnouncementPriority }[] = [
     { label: "Normal", value: "normal" },
     { label: "High", value: "high" },
     { label: "Urgent", value: "urgent" },
 ];
 
-const TYPE_OPTIONS: { label: string; value: AnnouncementType }[] = [
+const TYPE_OPTIONS: { label: string; value: TAnnouncementType }[] = [
     { label: "General", value: "general" },
     { label: "Notice", value: "notice" },
     { label: "Event", value: "event" },
@@ -79,7 +76,7 @@ type FormValues = z.infer<typeof formSchema>;
 interface AdminAnnouncementFormModalProps {
     open: boolean;
     onClose: () => void;
-    announcement?: Announcement | null;
+    announcement?: IAnnouncement | null;
 }
 
 /* ── Component ──────────────────────────────────────────────── */

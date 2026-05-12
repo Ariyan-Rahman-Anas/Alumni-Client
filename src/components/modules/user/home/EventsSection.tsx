@@ -1,10 +1,8 @@
 "use client";
 
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
-import { Button } from "@/components/ui/button";
 import { useGetAllPublishedEventsQuery } from "@/redux/apis/eventApi";
 import { IEvent } from "@/types/common/events.types";
-import Link from "next/link";
 import {
     RiArrowRightLine,
     RiCalendarEventLine,
@@ -13,6 +11,7 @@ import { format, formatDistanceToNow, isPast, isWithinInterval, addDays } from "
 import SectionLabel from "@/components/shared/SectionLabel";
 import FeaturedEventCard from "./FeaturedEventCard";
 import EventCard from "./EventCard";
+import PrimaryButton from "@/components/shared/PrimaryButton";
 
 // ─── Helpers 
 export function getStatusMeta(event: IEvent) {
@@ -176,11 +175,7 @@ const EventsSection = () => {
 
             {!isLoading && (
                 <FadeUpWrapper className="text-right">
-                    <Button asChild className="rounded-xl font-medium px-7 py-5 shadow-md hover:shadow-lg transition-shadow duration-200">
-                        <Link href="/events">
-                            Browse All Events <RiArrowRightLine className="ml-1.5" />
-                        </Link>
-                    </Button>
+                    <PrimaryButton type="button" title="Browse All Events" href={"/events"} className="bg-primary2-600 text-white" icon2={<RiArrowRightLine />} />
                 </FadeUpWrapper>
             )}
         </section>

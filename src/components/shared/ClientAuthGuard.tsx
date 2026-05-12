@@ -35,7 +35,7 @@ interface ClientAuthGuardProps {
     /** Redirect to /login if not authenticated */
     requireAuth?: boolean;
     /** Redirect to / if user doesn't have this role */
-    requireRole?: string;
+    requireRole?: string | string[];
     /** Redirect to / if already authenticated (login/register pages) */
     requireGuest?: boolean;
 }
@@ -64,7 +64,7 @@ const ClientAuthGuard = ({
             return;
         }
 
-        if (requireRole && user?.role !== requireRole) {
+        if (requireRole && user?.role !== requireRole && (!Array.isArray(requireRole) || !requireRole.includes(user?.role || ""))) {
             // Logged in but wrong role → home
             // Not logged in → login
             router.replace(user ? "/" : `/login?next=${encodeURIComponent(pathname)}`);
@@ -90,7 +90,7 @@ const ClientAuthGuard = ({
         </div>
     );
     if (requireAuth && !user) return null;
-    if (requireRole && user?.role !== requireRole) return null;
+    if (requireRole && user?.role !== requireRole && (!Array.isArray(requireRole) || !requireRole.includes(user?.role || ""))) return null;
     if (requireGuest && user) return null;
 
     return <>{children}</>;

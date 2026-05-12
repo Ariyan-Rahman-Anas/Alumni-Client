@@ -48,13 +48,14 @@ const BloodSection = () => (
                         {/* Left: copy */}
                         <FadeUpWrapper delay={0.14} className="flex-1 min-w-0" >
                             {/* Badge */}
-                            <SectionLabel text="Blood Donation" className="text-danger-light border-danger-light/30" icon={<RiHeartPulseLine />} align="left" />
-
+                            <SectionLabel text="Blood Donation"
+                                icon={<RiHeartPulseLine />} align="left" className="text-danger-light/70 border-danger-light/30 dark:text-danger-light/60" />
+ 
                             <FadeUpWrapper delay={0.18}>
                                 <h2
-                                    className="font-display font-bold text-white my-4"
+                                    className="section-heading-text-left font-bold text-white mt-5 mb-4"
                                     style={{
-                                        fontSize: "clamp(1.9rem, 4vw, 3rem)",
+                                        // fontSize: "clamp(1.9rem, 4vw, 3rem)",
                                         letterSpacing: "-0.025em",
                                         lineHeight: 1.15,
                                     }}
@@ -76,9 +77,7 @@ const BloodSection = () => (
 
                             <FadeUpWrapper delay={0.22}>
                                 <p
-                                    className="text-base leading-relaxed mb-8 max-w-lg"
-                                    style={{ color: "rgba(254,202,202,0.78)" }}
-                                >
+                                    className="text-base leading-relaxed mb-8 max-w-lg text-danger-light/70 dark:text-danger-light/50">
                                     Our alumni blood bank connects verified donors with those in need —
                                     across Bangladesh, around the clock. One registration. Countless lives touched.
                                 </p>
@@ -86,11 +85,9 @@ const BloodSection = () => (
 
                             {/* CTA buttons */}
                             <FadeUpWrapper delay={0.26} className="flex flex-col items-center sm:flex-row gap-4">
-                                {/* <div className="flex flex-col items-center sm:flex-row gap-4"> */}
-                                <PrimaryButton type="button" title="Register as Donor" href={"/bloobank"} className="bg-danger-light py-[18px] text-danger-dark font-semibold hover:scale-[1.05] transition-transform duration-300" icon={<RiUserAddLine />} />
+                                <PrimaryButton type="button" title="Register as Donor" href={"/bloodbank"} className="bg-danger-light dark:bg-danger-light/20 text-danger-dark dark:text-gunmetal-200 font-semibold hover:scale-[1.05] transition-transform duration-300" icon={<RiUserAddLine />} />
 
-                                <PrimaryButton type="button" title="Find a Donor" href={"/bloobank"} className=" py-[18px] bg-transparent text-danger-light border border-danger-light/50 hover:scale-[1.05] transition-transform duration-300" icon={<RiSearchLine />} />
-                                {/* </div> */}
+                                <PrimaryButton type="button" title="Find a Donor" href={"/bloodbank"} className=" py-[18px] bg-transparent dark:bg-transparent text-danger-light dark:text-danger-light/80 border border-danger-light/50 hover:scale-[1.05] transition-transform duration-300" icon={<RiSearchLine />} />
                             </FadeUpWrapper>
                         </FadeUpWrapper>
 
@@ -118,7 +115,7 @@ const BloodSection = () => (
                                         {icon}
                                     </span>
                                     <div>
-                                        <p className="text-white font-bold text-sm leading-none">{value}</p>
+                                        <p className="text-white dark:text-danger-light/80 font-bold text-sm leading-none">{value}</p>
                                         <p className="text-[11px] mt-0.5" style={{ color: "rgba(254,202,202,0.60)" }}>{label}</p>
                                     </div>
                                 </div>
@@ -130,11 +127,11 @@ const BloodSection = () => (
                     <FadeUpWrapper delay={0.3}
                         className="mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3"
                     >
-                        <p className="text-xs text-center sm:text-left" style={{ color: "rgba(254,202,202,0.45)" }}>
+                        <p className="text-sm text-center sm:text-left" style={{ color: "rgba(254,202,202,0.45)" }}>
                             All donors are verified BAMHS alumni. Your information stays private and secure.
                         </p>
                         <span
-                            className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase px-3 bg-danger-light/10 text-danger-light py-1 rounded-full shrink-0 border border-danger-light/50"
+                            className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase px-3 bg-danger-light/10 text-danger-light dark:text-danger-light/80 py-1 rounded-full shrink-0 border border-danger-light/50"
                         >
                             <RiShieldCheckLine />
                             Trusted & Verified

@@ -1,9 +1,16 @@
+const USER_ROLE = {
+    SUPER_ADMIN: "SUPER_ADMIN",
+    ADMIN: "ADMIN",
+    USER: "USER"
+}   
+export type TUserRole = typeof USER_ROLE[keyof typeof USER_ROLE]
+
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 const SECTIONS = [
-    { label: "Science",  value: "Science"  },
-    { label: "Commerce", value: "Commerce" },
-    { label: "Arts",     value: "Arts"     },
+    { label: "Science",  value: "SCIENCE"  },
+    { label: "Commerce", value: "COMMERCE" },
+    { label: "Arts",     value: "ARTS"     },
 ];
 
 const TABLE_PAGE_SIZE = 10
@@ -122,6 +129,7 @@ const COUNTRY_CODES = [
 ];
 
 export const constantsData = {
+    USER_ROLE,
     BLOOD_GROUPS,
     SECTIONS,
     TABLE_PAGE_SIZE,
