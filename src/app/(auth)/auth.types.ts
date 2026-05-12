@@ -7,6 +7,9 @@ export interface IAuthUser {
     isVerified: boolean;
     imageUrl?: string;
     batch?: number;
+    isInterestedToDonateBlood?: boolean;
+    bloodDonateCount?: number;
+    lastBloodDonationDate?: string;
 }
 
 export interface IAuthState {

@@ -1,7 +1,5 @@
 import { Checkbox } from "../ui/checkbox";
 
-// import { CheckBoxI } from "@/types";
-
 const CheckBox = ({
   name,
   value,
@@ -23,7 +21,7 @@ const CheckBox = ({
     <div className="flex items-center space-x-0.5">
       <Checkbox
         id={checkboxId}
-        {...register(name)}
+        {...(register && name ? register(name) : {})}
         checked={isChecked}
         disabled={isDisabled || !isSelectable}
         isSelectable={isSelectable}

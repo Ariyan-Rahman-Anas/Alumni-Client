@@ -6,7 +6,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { IUserProfile } from "../../user/user.types";
+import { IUserProfile } from "../../user/profile/user-profile.types";
 
 interface AdminUserViewModalProps {
     user: IUserProfile | null;

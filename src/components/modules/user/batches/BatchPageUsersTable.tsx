@@ -7,7 +7,7 @@ import {
 import Image from "next/image";
 import { TableColumn } from "@/types";
 import { IBatchUsersTableProps } from "@/types/user/batch/batch.types";
-import { IUserProfile } from "../user.types";
+import { IUserProfile } from "../profile/user-profile.types";
 
 const BatchPageUsersTable = ({
     page,

@@ -1,4 +1,4 @@
-import { IUserProfile } from "../user.types";
+import { IUserProfile } from "../profile/user-profile.types";
 
 export type TTab = "all" | TJobPostType | "providers";
 

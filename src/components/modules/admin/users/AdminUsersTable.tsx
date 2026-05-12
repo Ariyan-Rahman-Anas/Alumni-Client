@@ -11,11 +11,11 @@ import type { TableColumn } from "@/types";
 import Image from "next/image";
 import { AdminUsersTableProps } from "@/types/admin/users.types";
 import DateFormatter from "@/lib/DateFormatter";
-import { IUserProfile } from "../../user/user.types";
 import { useApproveUserMutation, useDeleteUserMutation, useGetAllUsersQuery, useMakeAdminMutation, useMakeAdminToUserMutation } from "@/redux/apis/userApi";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { constantsData } from "@/constants";
 import { LuUserRound } from "react-icons/lu";
+import { IUserProfile } from "../../user/profile/user-profile.types";
 
 const AdminUsersTable = ({
     page,

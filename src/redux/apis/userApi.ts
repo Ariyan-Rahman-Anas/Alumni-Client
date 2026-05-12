@@ -1,4 +1,4 @@
-import { IUpdateUserPayload, IUserListResponse, IUserProfileResponse } from "@/components/modules/user/user.types";
+import { IUpdateUserPayload, IUserListResponse, IUserProfileResponse } from "@/components/modules/user/profile/user-profile.types";
 import { baseApi } from "./baseApi";
 
 export const userApi = baseApi.injectEndpoints({

@@ -42,11 +42,13 @@ const AdminGalleryImagesTable = ({
 
     const { register } = useForm()
 
-    const [deleteGallery] = useDeleteGalleryMutation();
-    const [deleteMultiple] = useDeleteMultipleGalleriesMutation();
-    const [togglePublish] = useToggleGalleryPublishMutation();
-    const [toggleGalleryFeatured] = useToggleGalleryFeaturedMutation();
-    const [togglePublishMultiple] = useToggleGalleryPublishMultipleMutation();
+    const [deleteGallery, { isLoading: isDeleting }] = useDeleteGalleryMutation();
+    const [deleteMultiple, { isLoading: isDeletingMultiple }] = useDeleteMultipleGalleriesMutation();
+    const [togglePublish, { isLoading: isTogglingPublish }] = useToggleGalleryPublishMutation();
+    const [toggleGalleryFeatured, { isLoading: isTogglingFeatured }] = useToggleGalleryFeaturedMutation();
+    const [togglePublishMultiple, { isLoading: isTogglingPublishMultiple }] = useToggleGalleryPublishMultipleMutation();
+
+    const isAnyLoading = isDeleting || isDeletingMultiple || isTogglingPublish || isTogglingFeatured || isTogglingPublishMultiple;
 
     const allIds = galleries.map((g) => g._id);
     const isAllSelected = allIds.length > 0 && selectedIds.length === allIds.length;
@@ -66,11 +68,7 @@ const AdminGalleryImagesTable = ({
             const deleteRes = await deleteGallery(id).unwrap();
             toast.success(deleteRes.message ?? "Image deleted");
             setSelectedIds((prev) => prev.filter((x) => x !== id));
-        } catch (error) {
-            toast.error(
-                (error as { data?: { message?: string } })?.data?.message ?? "Failed to delete"
-            );
-        }
+        } catch {}
     };
 
     const handleBulkDelete = async () => {
@@ -79,33 +77,21 @@ const AdminGalleryImagesTable = ({
             const res = await deleteMultiple(selectedIds).unwrap();
             toast.success(res.message ?? `${selectedIds.length} image(s) deleted`);
             setSelectedIds([]);
-        } catch (error) {
-            toast.error(
-                (error as { data?: { message?: string } })?.data?.message ?? "Failed to delete"
-            );
-        }
+        } catch {}
     };
 
     const handleTogglePublish = async (id: string) => {
         try {
             const publishRes = await togglePublish(id).unwrap();
             toast.success(publishRes.message ?? "Image updated");
-        } catch (error) {
-            toast.error(
-                (error as { data?: { message?: string } })?.data?.message ?? "Failed to update"
-            );
-        }
+        } catch {}
     };
     
     const handleToggleFeatured = async (id: string) => {
         try {
             const featuredRes = await toggleGalleryFeatured(id).unwrap();
             toast.success(featuredRes.message ?? "Image updated");
-        } catch (error) {
-            toast.error(
-                (error as { data?: { message?: string } })?.data?.message ?? "Failed to update"
-            );
-        }
+        } catch {}
     };
 
     const handleBulkTogglePublish = async () => {
@@ -114,11 +100,7 @@ const AdminGalleryImagesTable = ({
             const res = await togglePublishMultiple(selectedIds).unwrap();
             toast.success(res.message ?? `${selectedIds.length} image(s) updated`);
             setSelectedIds([]);
-        } catch (error) {
-            toast.error(
-                (error as { data?: { message?: string } })?.data?.message ?? "Failed to update"
-            );
-        }
+        } catch {}
     };
 
     const columns: TableColumn<GalleryImage>[] = [
@@ -203,6 +185,7 @@ const AdminGalleryImagesTable = ({
                         : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                         }`}
                     onClick={() => handleTogglePublish(item._id)}
+                    disabled={isAnyLoading}
                 >
                     {item.isPublished ? "Yes" : "No"}
                 </Button>
@@ -219,6 +202,7 @@ const AdminGalleryImagesTable = ({
                         : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                         }`}
                     onClick={() => handleToggleFeatured(item._id)}
+                    disabled={isAnyLoading}
                 >
                     {item.isFeatured ? "Yes" : "No"}
                 </Button>
@@ -239,6 +223,7 @@ const AdminGalleryImagesTable = ({
                         variant="outline"
                         className="px-2 py-1 text-xs"
                         onClick={() => setEditItem(item)}
+                        disabled={isAnyLoading}
                     >
                         <Edit />
                     </Button>
@@ -246,6 +231,7 @@ const AdminGalleryImagesTable = ({
                         size="sm"
                         className="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600"
                         onClick={() => handleDelete(item._id)}
+                        disabled={isAnyLoading}
                     >
                         <Trash2 />
                     </Button>
@@ -268,6 +254,7 @@ const AdminGalleryImagesTable = ({
                             variant="outline"
                             className="text-xs gap-1.5"
                             onClick={handleBulkTogglePublish}
+                            disabled={isAnyLoading}
                         >
                             <ToggleLeft className="size-3.5" />
                             Toggle Publish
@@ -276,6 +263,7 @@ const AdminGalleryImagesTable = ({
                             size="sm"
                             className="bg-red-500 text-white text-xs hover:bg-red-600 gap-1.5"
                             onClick={handleBulkDelete}
+                            disabled={isAnyLoading}
                         >
                             <Trash2 className="size-3.5" />
                             Delete
@@ -285,6 +273,7 @@ const AdminGalleryImagesTable = ({
                             variant="ghost"
                             className="text-xs text-gray-500"
                             onClick={() => setSelectedIds([])}
+                            disabled={isAnyLoading}
                         >
                             Clear
                         </Button>

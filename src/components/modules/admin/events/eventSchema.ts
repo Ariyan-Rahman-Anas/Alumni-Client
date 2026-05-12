@@ -15,7 +15,7 @@ export const eventSchema = z
     .object({
         title: string().min(3, "Title must be at least 3 characters"),
         description: string().min(10, "Description must be at least 10 characters"),
-        category: zEnum(EVENT_CATEGORIES, { error: "Category is required" }),
+        category: zEnum(EVENT_CATEGORIES, { error: "Please select a category" }),
         status: zEnum(EVENT_STATUSES).optional(),
 
         startDateTime: string().min(1, "Start date/time is required"),
