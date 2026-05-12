@@ -98,7 +98,8 @@ const RegistrationForm = () => {
         []
     );
 
-    const sectionOptions = useMemo(() => constantsData.SECTIONS, []);
+    // const sectionOptions = useMemo(() => constantsData.SECTIONS, []);
+    const sectionOptions = Object.values(constantsData.SECTIONS).map((section) => ({ label: section, value: section }));
 
     const onSubmit = async (data: RegistrationFormValues) => {
         if (!alumniProofFile) {

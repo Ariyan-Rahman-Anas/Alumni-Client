@@ -5,13 +5,21 @@ const USER_ROLE = {
 }   
 export type TUserRole = typeof USER_ROLE[keyof typeof USER_ROLE]
 
+const APPROVAL_STATUS = {
+    PENDING: "PENDING",
+    REJECTED: "REJECTED",
+    APPROVED: "APPROVED"
+}
+export type TApprovalStatus = typeof APPROVAL_STATUS[keyof typeof APPROVAL_STATUS]
+
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
-const SECTIONS = [
-    { label: "Science",  value: "SCIENCE"  },
-    { label: "Commerce", value: "COMMERCE" },
-    { label: "Arts",     value: "ARTS"     },
-];
+const SECTIONS = {
+    SCIENCE: "SCIENCE",
+    COMMERCE: "COMMERCE",
+    ARTS: "ARTS"
+}
+export type TSection = keyof typeof SECTIONS
 
 const TABLE_PAGE_SIZE = 10
 const GALLERY_PAGE_SIZE = 10
@@ -130,6 +138,7 @@ const COUNTRY_CODES = [
 
 export const constantsData = {
     USER_ROLE,
+    APPROVAL_STATUS,
     BLOOD_GROUPS,
     SECTIONS,
     TABLE_PAGE_SIZE,

@@ -103,7 +103,7 @@ const BatchesPage = () => {
     const batches = allActiveBatchesData?.data?.map(b => ({ label: b.year.toString(), value: b.year.toString() })) ?? [];
     const batchOptions = [{ label: "All batches", value: "" }, ...batches];
 
-    const sections = constantsData.SECTIONS.map(s => ({ label: s.label, value: s.value }));
+    const sections = Object.values(constantsData.SECTIONS).map(section => ({ label: section, value: section }));
     const sectionOptions = [{ label: "All sections", value: "" }, ...sections];
 
     return (

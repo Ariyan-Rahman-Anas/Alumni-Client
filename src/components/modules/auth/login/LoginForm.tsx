@@ -50,12 +50,7 @@ const LoginForm = () => {
             reset();
             // ClientAuthGuard (requireGuest) detects the user in Redux and
             // redirects to ?next (or /) — no explicit router.push needed here.
-        } catch (err: unknown) {
-            const message =
-                (err as { data?: { message?: string } })?.data?.message ||
-                "Login failed. Please check your credentials.";
-            toast.error(message);
-        }
+        } catch {}
     };
 
     return (

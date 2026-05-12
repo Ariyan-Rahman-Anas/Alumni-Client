@@ -49,11 +49,11 @@ const TextAreaBox = forwardRef<HTMLTextAreaElement, TextAreaBoxProps>(
                         name={name}
                         rows={rows}
                         className={cn(
-                            "min-h-28 w-full rounded-lg border bg-white dark:bg-gunmetal-600 text-primary2-600 dark:text-gunmetal-300 pr-4 py-3 text-sm outline-none transition",
+                            "min-h-28 w-full rounded-lg border bg-white dark:bg-gunmetal-600 pr-4 py-3 text-sm outline-none transition",
                             icon ? "pl-10" : "px-4",
                             hasError
-                                ? "border-danger focus:border-danger"
-                                : "focus:border-primary2-500",
+                                ? "border-danger focus:border-danger text-danger"
+                                : "focus:border-primary2-500 dark:focus:border-gunmetal-300 text-primary2-600 dark:text-gunmetal-300",
                             className
                         )}
                         {...props}

@@ -14,13 +14,15 @@ import { useUpdateGalleryMutation, type GalleryImage, type UpdateGalleryPayload 
 import { useGetAllPublishedImageCategoriesQuery } from "@/redux/apis/imageCategoryApi";
 import { toast } from "sonner";
 import PrimaryButton from "@/components/shared/PrimaryButton";
+import ImageUploadField from "@/components/shared/ImageUploadField";
 
 const editGallerySchema = object({
   title: string().min(1, "Title is required").max(100, "Title too long"),
   innerTitle: string().max(100, "Inner title too long").optional(),
-  category: string().min(1, "Category is required"),
+  category: string({ error: "Please select a category" }).min(3, "Category must be at least 3 characters"),
   description: string().max(500, "Description too long").optional(),
   isPublished: boolean().optional(),
+  image: z.instanceof(File).nullable().optional(),
 });
 
 type TEditFormValues = z.infer<typeof editGallerySchema>;
@@ -74,6 +76,7 @@ const AdminGalleryImageEditSheet = ({ item, open, onClose }: AdminGalleryImageEd
         category: getCategoryId(item.category),
         description: item.description ?? "",
         isPublished: item.isPublished ?? false,
+        image: null,
       });
     }
   }, [item, open, reset]);
@@ -92,17 +95,14 @@ const AdminGalleryImageEditSheet = ({ item, open, onClose }: AdminGalleryImageEd
       category: data.category,
       description: data.description || undefined,
       isPublished: data.isPublished,
+
     };
 
     try {
-      await updateGallery({ id: item._id, payload }).unwrap();
-      toast.success("Gallery image updated successfully");
+      const updateRes = await updateGallery({ id: item._id, payload, image: data.image ?? undefined }).unwrap();
+      toast.success(updateRes?.message || "Gallery image updated successfully");
       handleClose();
-    } catch (error) {
-      toast.error(
-        (error as { data?: { message?: string } })?.data?.message ?? "Failed to update image"
-      );
-    }
+    } catch {}
   };
 
   return (
@@ -152,6 +152,31 @@ const AdminGalleryImageEditSheet = ({ item, open, onClose }: AdminGalleryImageEd
             className="flex flex-col flex-1 min-h-0"
           >
             <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+
+              {/* <ImageUploadField
+                value={imageFile}
+                onChange={setImageFile}
+                label="Profile Image"
+                helperText="JPG, PNG or WEBP — square or portrait photo works best"
+              /> */}
+
+
+              <Controller
+                name="image"
+                control={control}
+                render={({ field }) => (
+                  <ImageUploadField
+                    label="Image (optional)"
+                    value={field.value ?? null}
+                    onChange={field.onChange}
+                    previewUrl={item?.imageUrl}
+                    error={errors.image?.message as string}
+                  />
+                )}
+              />
+
+
+
               <InputField
                 label="Title"
                 {...register("title")}

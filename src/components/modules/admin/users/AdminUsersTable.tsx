@@ -11,11 +11,11 @@ import type { TableColumn } from "@/types";
 import Image from "next/image";
 import { AdminUsersTableProps } from "@/types/admin/users.types";
 import DateFormatter from "@/lib/DateFormatter";
-import { IUserProfile } from "../../user/user.types";
-import { useApproveUserMutation, useDeleteUserMutation, useGetAllUsersQuery } from "@/redux/apis/userApi";
+import { useApproveUserMutation, useDeleteUserMutation, useGetAllUsersQuery, useMakeAdminMutation, useMakeAdminToUserMutation } from "@/redux/apis/userApi";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { constantsData } from "@/constants";
-import { FaRegUser } from "react-icons/fa";
+import { LuUserRound } from "react-icons/lu";
+import { IUserProfile } from "../../user/profile/user-profile.types";
 
 const AdminUsersTable = ({
     page,
@@ -49,25 +49,37 @@ const AdminUsersTable = ({
 
     const [approveUser, { isLoading: isApproving }] = useApproveUserMutation();
     const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
+    const [makeAdmin, { isLoading: isMakingAdmin }] = useMakeAdminMutation();
+    const [makeAdminToUser, { isLoading: isMakingAdminToUser }] = useMakeAdminToUserMutation();
 
     const handleApprove = async (userId: string) => {
         try {
-            await approveUser(userId).unwrap();
-            toast.success("User approved successfully");
-        } catch (err: unknown) {
-            toast.error((err as { data?: { message?: string } })?.data?.message ?? "Failed to approve user");
-        }
+            const approveRes = await approveUser(userId).unwrap();
+            toast.success(approveRes.message || "User approved successfully");
+        } catch {}
     };
 
     const handleDelete = async () => {
         if (!deleteUserId) return;
         try {
-            await deleteUser(deleteUserId).unwrap();
-            toast.success("User deleted");
+            const deleteRes = await deleteUser(deleteUserId).unwrap();
+            toast.success(deleteRes.message || "User deleted");
             setDeleteUserId(null);
-        } catch (err: unknown) {
-            toast.error((err as { data?: { message?: string } })?.data?.message ?? "Failed to delete user");
-        }
+        } catch {}
+    };
+
+    const handleMakeAdmin = async (userId: string) => {
+        try {
+            const makeAdminRes = await makeAdmin(userId).unwrap();
+            toast.success(makeAdminRes.message || "User made admin successfully");
+        } catch {}
+    };
+
+    const handleMakeAdminToUser = async (userId: string) => {
+        try {
+            const makeAdminToUserRes = await makeAdminToUser(userId).unwrap();
+            toast.success(makeAdminToUserRes.message || "User made admin successfully");
+        } catch {}
     };
 
     const columns: TableColumn<IUserProfile>[] = [
@@ -114,7 +126,7 @@ const AdminUsersTable = ({
             render: (u) => (
                 <div>
                     <p>{u.batch}</p>
-                    <p>{u.section}</p>
+                    <p className="capitalize">{u.section?.toLowerCase() ?? ""}</p>
 
                 </div>
             )
@@ -157,47 +169,54 @@ const AdminUsersTable = ({
             key: "actions",
             label: "Actions",
             render: (u) => (
-                <div className="flex items-center justify-center gap-3">
+                <div className="flex items-center justify-center gap-3 py-1">
                     {u.role !== constantsData.USER_ROLE.SUPER_ADMIN &&
-                    //     <Button
-                    //     size="icon"
-                    //     variant="ghost"
-                    //     title="View profile"
-                    //     onClick={() => setViewUser(u)}
-                    //     className="h-8 w-8 text-blue-600 hover:bg-blue-50"
-                    // >
-                        <RiEyeLine className="text-base" size={20} />
-                    // {/* </Button> */}
+                        <button
+                            title="View profile"
+                            onClick={() => setViewUser(u)}
+                            className="text-info cursor-pointer hover:scale-125 transition-all duration-300">
+                            <RiEyeLine size={18} />
+                        </button>
                     }
                     {u.approvalStatus === "PENDING" && (
-                        // <Button
-                        //     size="icon"
-                        //     variant="ghost"
-                        //     title="Approve"
-                        //     disabled={isApproving}
-                        //     onClick={() => handleApprove(u._id)}
-                        //     className="h-8 w-8 text-emerald-600 hover:bg-emerald-50"
-                        // >
-                        <RiCheckLine className="text-base" size={20} />
-                        // {/* </Button> */}
+                        <button
+                            title="Approve"
+                            disabled={isApproving}
+                            onClick={() => handleApprove(u._id)}
+                            className="text-primary2-500 cursor-pointer hover:scale-125 transition-all duration-300">
+                            <RiCheckLine size={18} />
+                        </button>
                     )}
 
                     {
-                        u.role !== constantsData.USER_ROLE.SUPER_ADMIN && <div>
-                            {u.role === constantsData.USER_ROLE.ADMIN ? <MdAdminPanelSettings size={20} /> : <FaRegUser size={20} />}
-                        </div>
+                        (u.role !== constantsData.USER_ROLE.SUPER_ADMIN && u.approvalStatus !== constantsData.APPROVAL_STATUS.PENDING) && <>
+                            {u.role === constantsData.USER_ROLE.ADMIN ?
+                                <button
+                                    title="Make User"
+                                    disabled={isMakingAdminToUser}
+                                    onClick={() => handleMakeAdminToUser(u._id)}
+                                    className="text-primary2-500 cursor-pointer hover:scale-125 transition-all duration-300">
+                                    <LuUserRound size={18} />
+                                </button>
+                                :
+                                <button
+                                    title="Make Admin"
+                                    disabled={isMakingAdmin}
+                                    onClick={() => handleMakeAdmin(u._id)}
+                                    className="text-primary2-500 cursor-pointer hover:scale-125 transition-all duration-300">
+                                    <MdAdminPanelSettings size={18} />
+                                </button>
+                            }
+                        </>
                     }
 
                     {u.role !== constantsData.USER_ROLE.SUPER_ADMIN &&
-                    //     <Button
-                    //     size="icon"
-                    //     variant="ghost"
-                    //     title="Delete"
-                    //     onClick={() => setDeleteUserId(u._id)}
-                    //     className="h-8 w-8 text-red-500 hover:bg-red-50"
-                    // >
-                        <RiDeleteBinLine className="text-base" size={20} />
-                        // {/* </Button> */}
+                        <button
+                            title="Delete"
+                            onClick={() => setDeleteUserId(u._id)}
+                            className="text-danger cursor-pointer hover:scale-125 transition-all duration-300">
+                            <RiDeleteBinLine className="text-base" size={18} />
+                        </button>
                     }
                 </div>
             ),

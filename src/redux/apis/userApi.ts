@@ -1,4 +1,4 @@
-import { IUpdateUserPayload, IUserListResponse, IUserProfileResponse } from "@/components/modules/user/user.types";
+import { IUpdateUserPayload, IUserListResponse, IUserProfileResponse } from "@/components/modules/user/profile/user-profile.types";
 import { baseApi } from "./baseApi";
 
 export const userApi = baseApi.injectEndpoints({
@@ -49,6 +49,16 @@ export const userApi = baseApi.injectEndpoints({
             invalidatesTags: ["users"],
         }),
 
+        makeAdmin: builder.mutation<IUserProfileResponse, string>({
+            query: (id) => ({ url: `/users/${id}/make-admin`, method: "PATCH" }),
+            invalidatesTags: ["users"],
+        }),
+
+        makeAdminToUser: builder.mutation<IUserProfileResponse, string>({
+            query: (id) => ({ url: `/users/${id}/make-user`, method: "PATCH" }),
+            invalidatesTags: ["users"],
+        }),
+
         deleteUser: builder.mutation<{ success: boolean; message: string }, string>({
             query: (id) => ({ url: `/users/${id}`, method: "DELETE" }),
             invalidatesTags: ["users"],
@@ -84,6 +94,8 @@ export const {
     useGetAllUsersQuery,
     useGetAllApprovedUsersQuery,
     useApproveUserMutation,
+    useMakeAdminMutation,
+    useMakeAdminToUserMutation,
     useDeleteUserMutation,
     useUpdateUserMutation,
 } = userApi;

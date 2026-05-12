@@ -1,4 +1,4 @@
-import { IUserProfile } from "@/components/modules/user/user.types";
+import { IUserProfile } from "@/components/modules/user/profile/user-profile.types";
 import { baseApi } from "./baseApi";
 
 export interface GalleryCategory {
@@ -148,12 +148,24 @@ export const galleryApi = baseApi.injectEndpoints({
       invalidatesTags: ["galleryImages"],
     }),
 
-    updateGallery: builder.mutation<GalleryResponse, { id: string; payload: UpdateGalleryPayload }>({
-      query: ({ id, payload }) => ({
-        url: `/gallery/${id}`,
-        method: "PATCH",
-        body: payload,
-      }),
+    updateGallery: builder.mutation<GalleryResponse, { id: string; payload: UpdateGalleryPayload, image?: File | null }>({
+      query: ({ id, payload, image }) => {
+        if (image) {
+          const formData = new FormData();
+          (Object.keys(payload) as (keyof UpdateGalleryPayload)[]).forEach((key) => {
+            const val = payload[key];
+            if (val == null) return;
+            if (Array.isArray(val)) {
+              formData.append(key, JSON.stringify(val));
+            } else {
+              formData.append(key, String(val));
+            }
+          });
+          formData.append("image", image);
+          return { url: `/gallery/${id}`, method: "PATCH", body: formData };
+        }
+        return { url: `/gallery/${id}`, method: "PATCH", body: payload };
+      },
       invalidatesTags: ["galleryImages"],
     }),
 

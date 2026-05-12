@@ -1,3 +1,6 @@
+import z from "zod";
+import { profileSchema } from "./user-profiel.schema";
+
 export interface IUserProfile {
     _id: string;
     userId: string;
@@ -18,6 +21,9 @@ export interface IUserProfile {
     role: string;   
     approvalStatus: string;
     isVerified: boolean;
+    isInterestedToDonateBlood?: boolean;
+    bloodDonateCount?: number;
+    lastBloodDonationDate?: string;
 }
 
 export interface IUserProfileResponse {
@@ -48,4 +54,16 @@ export interface IUpdateUserPayload {
     permanentAddress?: string;
     workplace?: string;
     position?: string;
+    isInterestedToDonateBlood?: boolean;
+    bloodDonateCount?: number;
+    lastBloodDonationDate?: string;
+}
+
+export type TProfileFormValues = z.infer<typeof profileSchema>;
+
+export interface ISectionCardProps {
+    title: string;
+    icon: React.ReactNode;
+    index: number;
+    children: React.ReactNode;
 }

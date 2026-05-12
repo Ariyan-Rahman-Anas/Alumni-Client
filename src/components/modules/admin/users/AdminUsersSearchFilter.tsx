@@ -34,7 +34,9 @@ const TABS: { label: string; value: FilterTab }[] = [
 
 const BLOOD_GROUP_OPTIONS = constantsData.BLOOD_GROUPS.map((bg) => ({ label: bg, value: bg }));
 
-const SECTION_OPTIONS = constantsData.SECTIONS;
+// const SECTION_OPTIONS = constantsData.SECTIONS;
+const SECTION_OPTIONS = Object.values(constantsData.SECTIONS).map((value) => ({ label: value, value }));
+
 
 const MONTH_OPTIONS = [
     "January", "February", "March", "April", "May", "June",
@@ -116,7 +118,7 @@ const AdminUsersSearchFilter = ({ onChange, onPageReset }: AdminUsersSearchFilte
                     />
                 </div>
 
-                <div className="flex items-center gap-0 border border-gray-200 rounded-lg p-0.5 w-fit h-10">
+                <div className="flex items-center gap-0 border rounded-full p-0.5 w-fit ">
                     {TABS.map((t) => (
                         <PrimaryButton
                             key={t.value}

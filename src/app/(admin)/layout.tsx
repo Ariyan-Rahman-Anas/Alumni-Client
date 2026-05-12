@@ -24,7 +24,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         // ClientAuthGuard: requireRole="ADMIN" — blocks non-admin + unauthenticated users.
         // WHEN CUSTOM DOMAIN: middleware will handle this. Keep guard for defence-in-depth.
         <ClientAuthGuard requireRole={[constantsData.USER_ROLE.SUPER_ADMIN, constantsData.USER_ROLE.ADMIN]}>
-            <div className={cn(sanchez.variable, "flex h-screen overflow-hidden bg-[#f4f6f5]")}>
+            <div className={cn(sanchez.variable, "flex h-screen overflow-hidden bg-white dark:bg-gunmetal-900")}>
                 <AdminSidebar />
                 <main className="flex-1 min-w-0 h-full overflow-y-auto pt-14 lg:pt-0" data-lenis-prevent>
                     {children}

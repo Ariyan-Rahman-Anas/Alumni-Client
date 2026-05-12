@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { RiMailLine } from "react-icons/ri";
 import UserProfileAvatar from "./UserProfileAvatar";
-import { IUserProfile } from "../user.types";
+import { IUserProfile } from "./user-profile.types";
 
 interface ProfileHeroProps {
     user: IUserProfile;
