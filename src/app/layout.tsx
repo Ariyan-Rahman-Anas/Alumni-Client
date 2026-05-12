@@ -67,8 +67,8 @@ export default function RootLayout({
     >
       <body
         className="
-           antialiased
-          bg-surface darkbgblack
+          antialiased
+          bg-white dark:bg-gunmetal-900
           max-w-full
           min-h-screen h-full
         ">

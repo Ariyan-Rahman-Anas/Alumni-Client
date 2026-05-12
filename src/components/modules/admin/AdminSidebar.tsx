@@ -24,6 +24,7 @@ import { clearUser, selectCurrentUser } from "@/redux/slice/authSlice";
 import type { AppDispatch } from "@/redux/store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MdOutlineCampaign } from "react-icons/md";
+import ThemeSwitch from "@/lib/ThemeSwitch";
 
 const NAV_ITEMS = [
     { label: "Dashboard", href: "/admin/overview", icon: RiBarChartBoxLine },
@@ -61,7 +62,7 @@ function SidebarContent({ onNav }: { onNav?: () => void }) {
 
     return (
         <div className="flex flex-col h-full">
-            <div className="px-5 py-4 border-b border-white/10 shrink-0">
+            <div className="px-5 py-4 border-b border-white/10 shrink-0 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary2-600 shrink-0">
                         <RiShieldCheckLine className="text-white text-lg" />
@@ -71,6 +72,7 @@ function SidebarContent({ onNav }: { onNav?: () => void }) {
                         <p className="text-[11px] text-white/40 mt-0.5">Control Panel</p>
                     </div>
                 </div>
+                <ThemeSwitch />
             </div>
 
             <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">

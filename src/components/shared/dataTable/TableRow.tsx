@@ -15,7 +15,7 @@ const TableRow = <T,>({ item, columns, rowIndex }: TableRowProps<T>) => {
       {columns.map((column, columnIndex) => (
         <TableCell
           key={columnIndex}
-          className={`px-1 py-4 ${
+          className={`p-3 md:p-4 ${
             column.align === "left" ? "text-left" : column.align === "right" ? "text-right" : "text-center"
           } ${column || ""}`}
           style={{

@@ -12,9 +12,9 @@ export const rtkQueryErrorLogger = () => (next: any) => (action: any) => {
     if (!endpointName || !SILENT_ENDPOINTS.has(endpointName)) {
       const message =
         action.payload?.data?.message || "Something went wrong";
+      console.error(`[RTK Error] ${endpointName ?? "unknown"}:`, action.payload);
       toast.error(message);
     }
   }
-
   return next(action);
 };

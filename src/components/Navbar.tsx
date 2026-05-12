@@ -10,13 +10,13 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "./ui/sheet";
-import { Menu, Moon, Sun, X } from "lucide-react";
-import { useTheme } from "next-themes";
+import { Menu, X } from "lucide-react";
 import { useSelector } from "react-redux";
 import PrimaryButton from "./shared/PrimaryButton";
 import UserMenu from "./shared/UserMenu";
 import { selectIsLoggedIn } from "@/redux/slice/authSlice";
 import { cn } from "@/lib/utils";
+import ThemeSwitch from "@/lib/ThemeSwitch";
 
 //  NAV ITEMS
 const navItems = [
@@ -48,9 +48,6 @@ const Navbar = () => {
   // mismatch. Mounting null first makes both server and client agree.
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
-
-  const { resolvedTheme, setTheme } = useTheme();
-  const toggleTheme = () => setTheme(resolvedTheme === "dark" ? "light" : "dark");
 
   return (
     <>
@@ -157,13 +154,7 @@ const Navbar = () => {
             className="flex items-center gap-2"
           >
             {mounted && (
-              <button
-                onClick={toggleTheme}
-                aria-label="Toggle theme"
-                className="flex items-center justify-center w-9 h-9 rounded-full shadow bg-white dark:bg-gunmetal-600 text-primary2-700 dark:text-gunmetal-200 hover:bg-primary2-50 dark:hover:bg-gunmetal-500 transition-colors"
-              >
-                {resolvedTheme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              </button>
+              <ThemeSwitch />
             )}
             {mounted && (isLoggedIn
               ? <UserMenu size="md" align="end" />
@@ -328,13 +319,7 @@ const Navbar = () => {
               {/* Right: Theme toggle + User avatar or Login */}
               <div className="flex items-center gap-2">
                 {mounted && (
-                  <button
-                    onClick={toggleTheme}
-                    aria-label="Toggle theme"
-                    className="flex items-center justify-center w-8 h-8 rounded-full shadow bg-white dark:bg-gunmetal-600 text-primary2-700 dark:text-gunmetal-200 hover:bg-primary2-50 dark:hover:bg-gunmetal-500 transition-colors"
-                  >
-                    {resolvedTheme === "dark" ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
-                  </button>
+                  <ThemeSwitch />
                 )}
                 {mounted && (isLoggedIn
                   ? <UserMenu size="sm" align="end" />
