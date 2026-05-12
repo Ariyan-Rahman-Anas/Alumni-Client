@@ -1,7 +1,6 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import type { Announcement, AnnouncementStatus } from "@/redux/apis/announcementApi";
 import { format } from "date-fns";
 import {
     RiDeleteBinLine,
@@ -10,9 +9,10 @@ import {
     RiPushpinLine,
     RiEyeLine,
 } from "react-icons/ri";
+import { IAnnouncement, TAnnouncementStatus } from "../../user/announcements/announcement.types";
 
 /* ── Badge helpers ────────────────────────────────────────── */
-const STATUS_COLORS: Record<AnnouncementStatus, string> = {
+const STATUS_COLORS: Record<TAnnouncementStatus, string> = {
     draft: "bg-gray-100 text-gray-600 border-gray-200",
     published: "bg-emerald-50 text-emerald-700 border-emerald-200",
     scheduled: "bg-blue-50 text-blue-700 border-blue-200",
@@ -26,13 +26,13 @@ const PRIORITY_COLORS = {
 };
 
 interface AdminAnnouncementsTableProps {
-    data: Announcement[];
+    data: IAnnouncement[];
     isLoading: boolean;
     isError: boolean;
     paginationOptions?: { count: number; current_page: number; num_pages: number };
     pageSize: number;
     onPageChange: (page: number) => void;
-    onEdit: (item: Announcement) => void;
+    onEdit: (item: IAnnouncement) => void;
     onDelete: (id: string) => void;
     onTogglePin: (id: string) => void;
     isTogglingPin?: boolean;
