@@ -32,7 +32,7 @@ interface ProfileSidebarProps {
 
 const ProfileSidebar = ({ activeSection, onSectionChange }: ProfileSidebarProps) => {
     return (
-        <aside className="rounded-3xl border border-surface-300/60 bg-surface md:sticky md:top-24 h-fit">
+        <aside className="rounded-3xl shadow md:sticky md:top-24 h-fit">
             {/* ── Desktop header (hidden on mobile) ─────────── */}
             <div
                 className="hidden md:block rounded-t-3xl px-4 py-3"

@@ -39,7 +39,7 @@ const SectionCard = ({ title, icon, index, children }: ISectionCardProps) => (
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
-        className="rounded-2xl border border-surface-300/40 bg-surface p-6 sm:p-8"
+        className="rounded-3xl shadow p-6 sm:p-8"
     >
         <div className="flex items-center gap-2.5 mb-6">
             <span className="flex items-center justify-center h-8 w-8 rounded-lg bg-primary2-100 text-primary2-700 text-lg">

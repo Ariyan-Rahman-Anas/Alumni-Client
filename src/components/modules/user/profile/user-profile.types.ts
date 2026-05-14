@@ -44,6 +44,29 @@ export interface IUserListResponse {
     data: IUserProfile[];
 }
 
+export interface IEligibleDonor {
+    _id: string;
+    name: string;
+    phone: string;
+    email: string;
+    imageUrl?: string;
+    bloodGroup: string;
+    bloodDonateCount: number;
+    lastBloodDonationDate: string;
+    daysSinceLastDonation: number;
+}
+
+export interface IEligibleDonorGroup {
+    bloodGroup: string;
+    topDonors: IEligibleDonor[];
+}
+
+export interface IEligibleDonorsByBloodGroupResponse {
+    success: boolean;
+    message: string;
+    data: IEligibleDonorGroup[];
+}
+
 export interface IUpdateUserPayload {
     name?: string;
     phone?: string;

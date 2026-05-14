@@ -257,11 +257,11 @@ const AboutSection = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-40px" }}
                         transition={{ duration: 0.55, delay: 0.28, ease: [0.19, 1, 0.22, 1] }}
-                        className="flex items-stretch rounded-2xl border overflow-hidden"
+                        className="flex items-stretch rounded-2xl border shadow overflow-hidden"
                         style={{
-                            background: "var(--color-surface)",
-                            borderColor: "var(--color-border)",
-                            boxShadow: "var(--shadow-sm)",
+                            // background: "var(--color-surface)",
+                            // borderColor: "var(--color-border)",
+                            // boxShadow: "var(--shadow-sm)",
                         }}
                     >
                         {[

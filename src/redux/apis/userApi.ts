@@ -1,4 +1,4 @@
-import { IUpdateUserPayload, IUserListResponse, IUserProfileResponse } from "@/components/modules/user/profile/user-profile.types";
+import { IEligibleDonorsByBloodGroupResponse, IUpdateUserPayload, IUserListResponse, IUserProfileResponse } from "@/components/modules/user/profile/user-profile.types";
 import { baseApi } from "./baseApi";
 
 export const userApi = baseApi.injectEndpoints({
@@ -41,6 +41,27 @@ export const userApi = baseApi.injectEndpoints({
                     ...(batch ? { batch } : {}),
                 },
             }),
+            providesTags: ["users"],
+        }),
+        
+        getInterestedBloodDonors: builder.query<IUserListResponse, { page?: number; limit?: number; search?: string; bloodGroup?: string; section?: string; batch?: string }>({
+            query: ({ page = 1, limit = 10, search, bloodGroup, section, batch } = {}) => ({
+                url: "/users/interested-blood-donors",
+                method: "GET",
+                params: {
+                    page,
+                    limit,
+                    ...(search ? { searchTerm: search } : {}),
+                    ...(bloodGroup ? { bloodGroup } : {}),
+                    ...(section ? { section } : {}),
+                    ...(batch ? { batch } : {}),
+                },
+            }),
+            providesTags: ["users"],
+        }),
+
+        getEligibleDonorsByBloodGroup: builder.query<IEligibleDonorsByBloodGroupResponse, void>({
+            query: () => ({ url: "/users/eligible-donors-by-blood-group", method: "GET" }),
             providesTags: ["users"],
         }),
 
@@ -93,9 +114,11 @@ export const {
     useGetUserProfileQuery,
     useGetAllUsersQuery,
     useGetAllApprovedUsersQuery,
+    useGetInterestedBloodDonorsQuery,
+    useGetEligibleDonorsByBloodGroupQuery,
     useApproveUserMutation,
     useMakeAdminMutation,
-    useMakeAdminToUserMutation,
     useDeleteUserMutation,
+    useMakeAdminToUserMutation,
     useUpdateUserMutation,
 } = userApi;
