@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 import { useGetHomeStatsQuery } from "@/redux/apis/statsApi";
-import { motion, useInView } from "framer-motion";
+import { useInView } from "framer-motion";
 import { RiCalendarEventLine, RiGroupLine, RiMapPin2Line, RiSparkling2Line } from "react-icons/ri";
 
 /* ── Animated Counter */
@@ -41,15 +41,8 @@ const StatCard = ({
     delay: number;
 }) => (
     <FadeUpWrapper delay={delay}>
-        <motion.div
-            whileHover={{ y: -8, transition: { duration: 0.28, ease: "easeOut" } }}
-            className="group relative flex flex-col items-center text-center p-7 rounded-3xl border overflow-hidden"
-            style={{
-                background: "linear-gradient(155deg, var(--color-surface) 0%, var(--color-surface-100) 100%)",
-                borderColor: "var(--color-border)",
-                boxShadow: "var(--shadow-md)",
-            }}
-        >
+        <div
+            className="group relative flex flex-col items-center text-center p-7 rounded-3xl shadow overflow-hidden hover:translate-y-[-8px] transition-transform duration-300">
             {/* Hover glow */}
             <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
@@ -100,7 +93,7 @@ const StatCard = ({
             >
                 {label}
             </span>
-        </motion.div>
+        </div>
     </FadeUpWrapper>
 );
 
