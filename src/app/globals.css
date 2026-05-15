@@ -360,6 +360,9 @@ html.lenis {
   .three-xl-section-setup {
     @apply w-full max-w-screen-3xl mx-auto py-24 px-4;
   }
+  .three-xl-section-padding {
+    @apply px-7 py-12 sm:px-12 sm:py-16;
+  }
 
   .admin-page-setup {
     @apply p-4 sm:p-6 w-full max-w-screen-4xl mx-auto space-y-5;
@@ -490,10 +493,10 @@ html.lenis {
 
   /* Role badges — static colors (same in both modes) */
   .badge-student {
-    @apply badge;
-    background: #E8F5ED;
-    color: #155A3E;
-    border: 1px solid #9DD8AE;
+    @apply badge bg-[#E8F5ED] border-[1px] border-[#9DD8AE] text-[#155A3E];
+    /* background: #E8F5ED; */
+    /* color: #155A3E; */
+    /* border: 1px solid #9DD8AE; */
   }
 
   .badge-alumni {

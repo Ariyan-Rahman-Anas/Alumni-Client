@@ -3,7 +3,6 @@ import PrimaryButton from "@/components/shared/PrimaryButton";
 import SectionLabel from "@/components/shared/SectionLabel";
 import { BsArrowRight } from "react-icons/bs";
 import {
-    RiHandHeartLine,
     RiGroupLine,
     RiMapPin2Line,
     RiShieldCheckLine,
@@ -47,16 +46,6 @@ const HomePageCTA = () => (
                     }}
                 />
 
-                {/* ── Ghost watermark icon ────────────────────────────── */}
-                <RiHandHeartLine
-                    className="absolute -bottom-6 right-8 pointer-events-none select-none"
-                    style={{
-                        fontSize: "clamp(9rem, 20vw, 17rem)",
-                        color: "rgba(46,139,87,0.07)",
-                        lineHeight: 1,
-                    }}
-                />
-
                 {/* ── Content ─────────────────────────────────────────── */}
                 <div className="z-10px-sm:px-12md:px-16lg:px24 relative z-10 p-8 sm:p-12 md:p-16 lg:p-20">
 
@@ -93,8 +82,7 @@ const HomePageCTA = () => (
 
                     {/* Subtext */}
                     <FadeUpWrapper delay={0.14} className="text-center mb-12">
-                        <p
-                            className="text-base sm:text-lg leading-relaxed max-w-2xl mx-auto text-gunmetal-300">
+                        <p className="text-base sm:text-lg leading-relaxed max-w-2xl mx-auto text-gunmetal-300">
                             Whether you graduated last year or three decades ago — BAMHSian remembers you.
                             Join thousands of alumni and stay connected with your roots.
                         </p>
@@ -137,14 +125,14 @@ const HomePageCTA = () => (
                     {/* CTA Buttons */}
                     <FadeUpWrapper delay={0.26} className="flex flex-col sm:flex-row gap-4 justify-center">
                         <PrimaryButton
-                            className="hover:scale-[1.05] transition-transform duration-300 text-primary2-100 font-semibold py-[19px] "
+                            className="hover:scale-[1.05] transition-transform duration-300 text-primary2-100 font-semibold"
                             style={{
                                 background: "linear-gradient(135deg, #2E8B57 0%, #155A3E 100%)",
                                 boxShadow: "0 0 32px rgba(46,139,87,0.45), 0 4px 16px rgba(0,0,0,0.30)",
                             }} icon2={<BsArrowRight />} iconSide2="right"
                             title="Join BAMHS Alumni" href="/login" />
                         <PrimaryButton
-                            className="hover:scale-[1.05] transition-transform duration-300 bg-transparent py-[19px] text-primary2-200 font-semibold border-primary2-700 "
+                            className="hover:scale-[1.05] transition-transform duration-300 bg-transparent text-primary2-200 font-semibold border-primary2-700 "
                             title="Request Access" href="/request" />
                     </FadeUpWrapper>
 

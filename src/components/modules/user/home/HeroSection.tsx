@@ -238,28 +238,18 @@ const HeroSection = () => {
                     initial={{ opacity: 0, y: 40, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
-                    className="font-sanchez text-4xl md:text-7xl font-extrabold pb-1"
+                    className="font-sanchez text-4xl md:text-7xl font-extrabold px-2 pb-4"
                     style={{
+                        fontSize: "clamp(2.5rem, 6vw, 5rem)",
                         background: "linear-gradient(160deg, #f0fdf4 10%, #3df07f 55%, #d1fae5 90%)",
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                         textShadow: "0 0 40px rgba(34,197,94,0.25)",
                     }}
                 >
-                    Battali Abdul Matin High School
+                    {/* “Rooted in Battali - Rising Everywhere” */}
+                    Rooted in Battali - Rising Everywhere
                 </motion.h1>
-
-                {/* SUBTITLE */}
-                <motion.h2
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.9 }}
-                    className="mt-4 text-sm md:text-base uppercase tracking-widest text-yellow-100"
-                >
-                    Where We Learned to Dream
-                    <span className="inline-block w-1 h-1 rounded-full bg-yellow-200/60 mx-2 mb-0.5 align-middle" />
-                    Where We Return to Remember
-                </motion.h2>
 
                 {/* DESCRIPTION */}
                 <motion.p
@@ -268,7 +258,7 @@ const HeroSection = () => {
                     transition={{ delay: 0.35, duration: 0.9 }}
                     className="mt-6 max-w-xl text-white leading-relaxed tracking-wide"
                 >
-                    The official alumni network — reconnect, relive memories, and stay
+                    The official alumni network of Battali Abdul Matin High School. Reconnect, relive memories, and stay
                     bonded across generations.
                 </motion.p>
 
