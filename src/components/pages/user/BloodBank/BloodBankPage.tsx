@@ -1,12 +1,7 @@
 "use client";
 
-import {  useState } from "react";
-import { motion } from "framer-motion";
-import {
-    RiHeartPulseLine,
-    RiTestTubeLine,
-} from "react-icons/ri";
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { RiHeartPulseLine, RiTestTubeLine } from "react-icons/ri";
 import BloodBankPageDonorsTable from "@/components/modules/user/blood-bank/BloodBankPageDonorsTable";
 import EligibleDonorsByBloodGroup from "@/components/modules/user/blood-bank/EligibleDonorsByBloodGroup";
 import { constantsData } from "@/constants";
@@ -17,6 +12,8 @@ import SingleSelect from "@/components/shared/SingleSelect";
 import InputField from "@/components/shared/InputField";
 import { useGetActiveBatchesQuery } from "@/redux/apis/batchApi";
 import { FadeUpWrapper } from "../Home/HomePage";
+import BloodBankPageHead from "@/components/modules/user/blood-bank/BloodBankPageHead";
+import SectionLabel from "@/components/shared/SectionLabel";
 
 const eligibilitySteps = [
     { step: "01", title: "Health Screening", desc: "Basic eligibility check — weight, iron levels, last donation interval." },
@@ -25,9 +22,7 @@ const eligibilitySteps = [
     { step: "04", title: "Dispatch Confirmation", desc: "Real-time confirmation that the unit was received and logged." },
 ];
 
-/* ── Page ─────────────────────────────────────────────────── */
 const BloodBankPage = () => {
-
     const [page, setPage] = useState(1);
     const limit = constantsData.TABLE_PAGE_SIZE;
     const [searchInput, setSearchInput] = useState("");
@@ -60,130 +55,117 @@ const BloodBankPage = () => {
     // if(isLoadingBatches) return 
 
     return (
-        <div className="three-xl-section-setup pb-20 space-y-16">
+        <div className="">
+            {/* ═══ HERO  */}
+            <BloodBankPageHead />
 
-            {/* ═══ 1. HERO ════════════════════════════════════════ */}
-            <section className="relative overflow-hidden rounded-3xl"
-                style={{ background: "linear-gradient(145deg, #2d0a0a 0%, #7f1d1d 50%, #1c0708 100%)" }}>
-                <div className="absolute inset-0 pointer-events-none opacity-20"
-                    style={{
-                        backgroundImage:
-                            "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-                        backgroundSize: "48px 48px",
-                    }}
-                />
-                <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full blur-3xl opacity-30"
-                    style={{ background: "#dc2626" }} />
-                <div className="absolute -bottom-12 -left-12 h-48 w-48 rounded-full blur-3xl opacity-20"
-                    style={{ background: "#f87171" }} />
-
-                <div className="relative z-10 px-7 py-12 sm:px-12 sm:py-16">
-                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}>
-                        <Badge className="mb-5 bg-white/10 text-rose-200 border-rose-400/30 hover:bg-white/10">
-                            <RiHeartPulseLine className="mr-1.5" /> Blood Bank Network
-                        </Badge>
-                        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight max-w-3xl">
-                            Emergency support,{" "}
-                            <span className="text-rose-300">coordinated with precision</span>
-                        </h1>
-                        <p className="mt-5 max-w-2xl text-sm sm:text-lg text-rose-100/75 leading-relaxed">
-                            A rapid-response coordination hub for donor matching, urgent notices, and life-saving alumni action — all in one place.
-                        </p>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* ═══ 2. ELIGIBLE DONORS BY BLOOD GROUP ══════════════ */}
+            {/* ═══ ELIGIBLE DONORS BY BLOOD GROUP  */}
             <EligibleDonorsByBloodGroup />
 
-            {/* ═══ 3. DONOR SEARCH TABLE ══════════════════════════ */}
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-                <div className="flex-1 w-full max-w-2xl">
-                    <InputField
-                        type="text"
-                        label="Search alumni"
-                        placeholder="Search by name, phone, email, profession & address..."
-                        value={searchInput}
-                        onChange={(e) => {
-                            setSearchInput(e.target.value);
-                            setPage(1);
-                        }}
-                    />
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <Controller
-                        name="batch"
-                        control={control}
-                        render={({ field }) => (
-                            <SingleSelect
-                                id="reg-batch"
-                                label="Batch"
-                                value={field.value || ""}
-                                onValueChange={(value) => {
-                                    field.onChange(value);
-                                    setFilters((prev) => ({ ...prev, batch: value || undefined }));
-                                    setPage(1);
-                                }}
-                                options={batchOptions}
-                                placeholder="Select batch"
-                                searchable={false}
-                            />
-                        )}
-                    />
-                    <Controller
-                        name="section"
-                        control={control}
-                        render={({ field }) => (
-                            <SingleSelect
-                                id="reg-section"
-                                label="Section"
-                                value={field.value || ""}
-                                onValueChange={(value) => {
-                                    field.onChange(value);
-                                    setFilters((prev) => ({ ...prev, section: value || undefined }));
-                                    setPage(1);
-                                }}
-                                options={sectionOptions}
-                                placeholder="Select section"
-                                searchable={false}
-                            />
-                        )}
-                    />
-                    <Controller
-                        name="bloodGroup"
-                        control={control}
-                        render={({ field }) => (
-                            <SingleSelect
-                                id="reg-blood-group"
-                                label="Blood Group"
-                                value={field.value || ""}
-                                onValueChange={(value) => {
-                                    field.onChange(value);
-                                    setFilters((prev) => ({ ...prev, bloodGroup: value || undefined }));
-                                    setPage(1);
-                                }}
-                                options={bloodGroupOptions}
-                                placeholder="Select blood group"
-                                searchable={false}
-                            />
-                        )}
-                    />
-                </div>
-            </div>
+            {/* ═══ DONOR SEARCH TABLE  */}
+            <FadeUpWrapper className="three-xl-section-setup ">
+                <FadeUpWrapper delay={0.02} className="text-center mb-4 md:mb-6">
+                    <SectionLabel text="Our blood donors" align="center" className="dark:border-gunmetal-400 dark:text-gunmetal-200 " icon={<RiHeartPulseLine />} />
 
-            <BloodBankPageDonorsTable
-                page={page}
-                limit={limit}
-                onPageChange={setPage}
-                emptyMessage={emptyMessage}
-                search={debouncedSearch || undefined}
-                bloodGroup={filters.bloodGroup}
-                section={filters.section}
-                batch={filters.batch}
-            />
+                    <h2
+                        className="section-heading-text-center mb-2 mt-5 text-primary2-900 dark:text-gunmetal-200 ">
+                        <span className="text-primary">BAMHSian</span>  Blood Bank&apos;s
+                        <span className="text-primary"> Heroes</span>
+                    </h2>
 
-            {/* ═══ ELIGIBILITY STEPS ═══════════════════════════ */}
-            <FadeUpWrapper className="p-6sm:p-8">
+                    <p className="text-gunmetal-400 dark:text-gunmetal-300 ">
+                        A list of dedicated blood donors and volunteers who support the BAMHSian Blood Bank community.
+                    </p>
+                </FadeUpWrapper>
+
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                    <div className="flex-1 w-full max-w-2xl">
+                        <InputField
+                            type="text"
+                            label="Search donors"
+                            placeholder="Search by name, phone, email & address..."
+                            value={searchInput}
+                            onChange={(e) => {
+                                setSearchInput(e.target.value);
+                                setPage(1);
+                            }}
+                        />
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <Controller
+                            name="batch"
+                            control={control}
+                            render={({ field }) => (
+                                <SingleSelect
+                                    id="reg-batch"
+                                    label="Batch"
+                                    value={field.value || ""}
+                                    onValueChange={(value) => {
+                                        field.onChange(value);
+                                        setFilters((prev) => ({ ...prev, batch: value || undefined }));
+                                        setPage(1);
+                                    }}
+                                    options={batchOptions}
+                                    placeholder="Select batch"
+                                    searchable={false}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name="section"
+                            control={control}
+                            render={({ field }) => (
+                                <SingleSelect
+                                    id="reg-section"
+                                    label="Section"
+                                    value={field.value || ""}
+                                    onValueChange={(value) => {
+                                        field.onChange(value);
+                                        setFilters((prev) => ({ ...prev, section: value || undefined }));
+                                        setPage(1);
+                                    }}
+                                    options={sectionOptions}
+                                    placeholder="Select section"
+                                    searchable={false}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name="bloodGroup"
+                            control={control}
+                            render={({ field }) => (
+                                <SingleSelect
+                                    id="reg-blood-group"
+                                    label="Blood Group"
+                                    value={field.value || ""}
+                                    onValueChange={(value) => {
+                                        field.onChange(value);
+                                        setFilters((prev) => ({ ...prev, bloodGroup: value || undefined }));
+                                        setPage(1);
+                                    }}
+                                    options={bloodGroupOptions}
+                                    placeholder="Select blood group"
+                                    searchable={false}
+                                />
+                            )}
+                        />
+                    </div>
+                </div>
+
+                <BloodBankPageDonorsTable
+                    page={page}
+                    limit={limit}
+                    onPageChange={setPage}
+                    emptyMessage={emptyMessage}
+                    search={debouncedSearch || undefined}
+                    bloodGroup={filters.bloodGroup}
+                    section={filters.section}
+                    batch={filters.batch}
+                />
+            </FadeUpWrapper>
+
+            {/* ═══ ELIGIBILITY STEPS */}
+            <FadeUpWrapper className="three-xl-section-setup">
                 <h3 className="text-xl font-bold text-rose-900">Donor Eligibility Flow</h3>
                 <p className="mt-2 text-sm text-muted-foreground">A transparent, step-by-step pipeline from volunteer registration to confirmed dispatch.</p>
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
