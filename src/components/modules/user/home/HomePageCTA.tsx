@@ -82,8 +82,7 @@ const HomePageCTA = () => (
 
                     {/* Subtext */}
                     <FadeUpWrapper delay={0.14} className="text-center mb-12">
-                        <p
-                            className="text-base sm:text-lg leading-relaxed max-w-2xl mx-auto text-gunmetal-300">
+                        <p className="text-base sm:text-lg leading-relaxed max-w-2xl mx-auto text-gunmetal-300">
                             Whether you graduated last year or three decades ago — BAMHSian remembers you.
                             Join thousands of alumni and stay connected with your roots.
                         </p>

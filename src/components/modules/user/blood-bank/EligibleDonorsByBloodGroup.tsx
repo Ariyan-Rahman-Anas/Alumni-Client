@@ -1,8 +1,6 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
 import {
     RiDropFill,
     RiPhoneLine,
@@ -20,8 +18,7 @@ import type {
 import SectionLabel from "@/components/shared/SectionLabel";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 
-/* ─── constants ──────────────────────────────────────── */
-
+/* ─── constants */
 const BLOOD_GROUP_COLORS: Record<
     string,
     {
@@ -124,43 +121,7 @@ const BLOOD_GROUP_COLORS: Record<
     },
 };
 
-/* ─── FadeUp helper ───────────────────────────────────── */
-
-const FadeUp = ({
-    children,
-    delay = 0,
-    className = "",
-}: {
-    children: React.ReactNode;
-    delay?: number;
-    className?: string;
-}) => {
-    const ref = useRef(null);
-
-    const inView = useInView(ref, {
-        once: true,
-        margin: "-60px",
-    });
-
-    return (
-        <motion.div
-            ref={ref}
-            initial={{ opacity: 0, y: 28 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{
-                duration: 0.55,
-                delay,
-                ease: [0.19, 1, 0.22, 1],
-            }}
-            className={className}
-        >
-            {children}
-        </motion.div>
-    );
-};
-
-/* ─── Donor card ──────────────────────────────────────── */
-
+/* ─── Donor card */
 const DonorCard = ({
     donor,
     rank,
@@ -201,7 +162,7 @@ const DonorCard = ({
         rankBadgeStyles[rank] ?? rankBadgeStyles[2];
 
     return (
-        <FadeUp delay={delay}>
+        <FadeUpWrapper delay={delay}>
             <div
                 className={`
                     relative rounded-2xl border
@@ -318,7 +279,7 @@ const DonorCard = ({
                     </span>
                 </a>
             </div>
-        </FadeUp>
+        </FadeUpWrapper>
     );
 };
 
@@ -336,7 +297,7 @@ const BloodGroupCard = ({
         BLOOD_GROUP_COLORS["O+"];
 
     return (
-        <FadeUp delay={index * 0.07} className="flex flex-col gap-3">
+        <FadeUpWrapper delay={index * 0.07} className="flex flex-col gap-3">
             {/* Header */}
             <div className="flex items-center gap-3 text-gunmetal-400 dark:text-gunmetal-300">
                 <div
@@ -387,7 +348,7 @@ const BloodGroupCard = ({
                     />
                 ))}
             </div>
-        </FadeUp>
+        </FadeUpWrapper>
     );
 };
 
@@ -487,7 +448,7 @@ const EligibleDonorsByBloodGroup = () => {
 
             {/* Content */}
             {isError && (
-                <FadeUp>
+                <FadeUpWrapper>
                     <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
                         <RiAlertLine className="text-4xl text-rose-400" />
 
@@ -495,7 +456,7 @@ const EligibleDonorsByBloodGroup = () => {
                             Failed to load eligible donors
                         </p>
                     </div>
-                </FadeUp>
+                </FadeUpWrapper>
             )}
 
             {!isError && (
@@ -505,7 +466,7 @@ const EligibleDonorsByBloodGroup = () => {
                             <SkeletonCard key={i} />
                         ))
                     ) : groups.length === 0 ? (
-                        <FadeUp className="col-span-full">
+                        <FadeUpWrapper className="col-span-full">
                             <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
                                 <BiDonateBlood className="text-5xl text-surface-300 dark:text-surface-600" />
 
@@ -518,7 +479,7 @@ const EligibleDonorsByBloodGroup = () => {
                                     after 3 months
                                 </p>
                             </div>
-                        </FadeUp>
+                        </FadeUpWrapper>
                     ) : (
                         groups.map((group, i) => (
                             <BloodGroupCard
@@ -533,5 +494,4 @@ const EligibleDonorsByBloodGroup = () => {
         </section>
     );
 };
-
 export default EligibleDonorsByBloodGroup;

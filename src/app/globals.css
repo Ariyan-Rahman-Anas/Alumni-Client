@@ -493,10 +493,10 @@ html.lenis {
 
   /* Role badges — static colors (same in both modes) */
   .badge-student {
-    @apply badge;
-    background: #E8F5ED;
-    color: #155A3E;
-    border: 1px solid #9DD8AE;
+    @apply badge bg-[#E8F5ED] border-[1px] border-[#9DD8AE] text-[#155A3E];
+    /* background: #E8F5ED; */
+    /* color: #155A3E; */
+    /* border: 1px solid #9DD8AE; */
   }
 
   .badge-alumni {
