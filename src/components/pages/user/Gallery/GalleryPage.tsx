@@ -73,7 +73,7 @@ const FadeUp = ({
 /* ── Main Page ────────────────────────────────────────────── */
 const GalleryPage = () => {
     return (
-        <div className="three-xl-section-setup pb-20 space-y-16">
+        <div className="three-xl-section-setuppb-20space-y-16">
 
             {/* ═══ 1. CINEMATIC HERO ═══════════════════════════════ */}
             <GalleryPageHead />

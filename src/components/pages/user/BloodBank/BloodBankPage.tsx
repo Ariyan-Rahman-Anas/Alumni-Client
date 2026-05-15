@@ -55,7 +55,7 @@ const BloodBankPage = () => {
     // if(isLoadingBatches) return 
 
     return (
-        <div className="">
+        <div>
             {/* ═══ HERO  */}
             <BloodBankPageHead />
 

@@ -434,7 +434,7 @@ const EligibleDonorsByBloodGroup = () => {
     const groups = data?.data ?? [];
 
     return (
-        <section className="w-full space-y-8 three-xl-section-setup">
+        <section className="w-full space-y-8 three-xl-section-setup  ">
             {/* Section header */}
             <FadeUpWrapper delay={0.02}>
                 <SectionLabel text="Emergency blood donors" align="left" className="dark:border-gunmetal-400 dark:text-gunmetal-200 " icon={<RiHeartPulseLine />} />

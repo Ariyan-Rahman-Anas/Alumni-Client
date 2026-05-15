@@ -18,12 +18,8 @@ const BloodBankPageHead = () => {
             <div className="absolute -bottom-12 -left-12 h-48 w-48 rounded-full blur-3xl opacity-20"
                 style={{ background: "#f87171" }} />
 
-            <div className="relative z-10 px-7 py-12 sm:px-12 sm:py-16">
-                <FadeUpWrapper
-                //   initial={{ opacity: 0, y: 20 }}
-                //   animate={{ opacity: 1, y: 0 }}
-                //   transition={{ duration: 0.55 }}
-                >
+            <div className="relative z-10 three-xl-section-padding">
+                <FadeUpWrapper>
                     <Badge className="mb-5 bg-white/10 text-rose-200 border-rose-400/30 hover:bg-white/10">
                         <RiHeartPulseLine className="mr-1.5" /> Blood Bank Network
                     </Badge>
