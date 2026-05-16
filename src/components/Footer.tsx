@@ -6,13 +6,12 @@ import {
   RiMapPin2Line,
   RiPhoneLine,
   RiMailLine,
-  RiFacebookBoxLine,
-  RiYoutubeLine,
-  RiWhatsappLine,
 } from "react-icons/ri";
 import { HiArrowUpRight } from "react-icons/hi2";
+import FooterHead from "./modules/user/footer/FooterHead";
+import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
 
-/* ── Data ──────────────────────────────────────────────────── */
+/* ── Data */
 const quickLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
@@ -27,27 +26,6 @@ const communityLinks = [
   { label: "Alumni Request", href: "/request" },
   { label: "Alumni Portal", href: "/login" },
   { label: "Alumni Directory", href: "/batches" },
-];
-
-const contactInfo = [
-  {
-    icon: <RiMapPin2Line className="text-base shrink-0 mt-0.5" />,
-    text: "Battali Bazar, Nangalkot, Cumilla, Chattogram, Bangladesh",
-  },
-  {
-    icon: <RiPhoneLine className="text-base shrink-0" />,
-    text: "+880 XXX XXXXXXX",
-  },
-  {
-    icon: <RiMailLine className="text-base shrink-0" />,
-    text: "info@bamhs.edu.bd",
-  },
-];
-
-const socials = [
-  { icon: <RiFacebookBoxLine />, href: "#", label: "Facebook" },
-  { icon: <RiYoutubeLine />, href: "#", label: "YouTube" },
-  { icon: <RiWhatsappLine />, href: "#", label: "WhatsApp" },
 ];
 
 /* ── Helper ────────────────────────────────────────────────── */
@@ -67,6 +45,28 @@ const FooterHeading = ({ children }: { children: React.ReactNode }) => (
 /* ── Component ─────────────────────────────────────────────── */
 const Footer = () => {
   const year = new Date().getFullYear();
+  const { data: websiteManagement } = useGetWebsiteManagementQuery();
+  const { schoolName, area, thana, district, division, postalCode, country, contactNumber, email } = websiteManagement?.data || {};
+
+  const schoolAddress = `${postalCode ?? "3582"} - ${area ?? "Battali"}, ${thana ?? "Nangalkot"}, ${district ?? "Cumilla"}, ${division ?? "Chattogram"}, ${country ?? "Bangladesh"}`;
+  const schoolContactNumber = contactNumber || "01700000000";
+  const schoolEmail = email || "info@bamhsian.org.bd";
+  const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
+
+  const contactInfo = [
+    {
+      icon: <RiMapPin2Line className="text-base shrink-0 mt-0.5" />,
+      text: schoolAddress,
+    },
+    {
+      icon: <RiPhoneLine className="text-base shrink-0" />,
+      text: schoolContactNumber,
+    },
+    {
+      icon: <RiMailLine className="text-base shrink-0" />,
+      text: schoolEmail,
+    },
+  ];
 
   return (
     <footer
@@ -89,135 +89,8 @@ const Footer = () => {
       {/* ══════════════════════════════════════════════════════
           SCHOOL NAME HERO BAND
       ══════════════════════════════════════════════════════ */}
-      <div className="relative py-12 px-3 text-center">
-        {/* Emblem */}
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="flex justify-center mb-5"
-        >
-          <div
-            className="w-18 h-18 rounded-2xl flex items-center justify-center relative overflow-hidden"
-            style={{
-              background: "linear-gradient(135deg, #257048 0%, #0A3D2B 100%)",
-              border: "1px solid rgba(74,222,128,0.30)",
-              boxShadow:
-                "0 0 40px rgba(46,139,87,0.40), 0 0 80px rgba(46,139,87,0.15), inset 0 1px 0 rgba(255,255,255,0.1)",
-            }}
-          >
-            <div
-              className="absolute -top-2 -right-2 w-10 h-10 rounded-full opacity-20"
-              style={{ background: "var(--color-primary-300)" }}
-            />
-            <span
-              className="font-display font-bold text-3xl relative z-10"
-              style={{
-                color: "var(--color-primary-100)",
-                textShadow: "0 0 20px rgba(74,222,128,0.5)",
-              }}
-            >
-              B
-            </span>
-          </div>
-        </motion.div>
+      <FooterHead />
 
-        <motion.h2
-          initial={{ y: 10, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="font-display font-bold text-2xl md:text-4xl mb-2 tracking-tight"
-          style={{
-            background: "linear-gradient(160deg, #f0fdf4 20%, #86efac 60%, #d1fae5 90%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            filter: "drop-shadow(0 2px 16px rgba(46,139,87,0.4))",
-          }}
-        >
-          <span className="text-xl" >Alumni Association of</span> <br />
-          Battali Abdul Matin High School
-        </motion.h2>
-
-        <motion.p
-          initial={{ y: 8, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.18 }}
-          className=" text-xs tracking-[0.22em] mb-4 text-primary2-400 "
-        // style={{ color: "rgba(134,239,172,0.55)" }}
-        >
-          3582 - Battali, Nangalkot, Cumilla, Bangladesh
-        </motion.p>
-
-        {/* Tagline */}
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.28 }}
-          className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mx-auto"
-          style={{
-            background: "rgba(46,139,87,0.10)",
-            border: "1px solid rgba(46,139,87,0.20)",
-          }}
-        >
-          <span
-            className="w-1 h-1 rounded-full"
-            style={{ background: "#f59e0b" }}
-          />
-          <p
-            className="font-serif italic text-sm"
-            style={{ color: "rgba(167,243,208,0.80)" }}
-          >
-            &quot;Where roots run deep, and bonds last forever&quot;
-          </p>
-          <span
-            className="w-1 h-1 rounded-full"
-            style={{ background: "#f59e0b" }}
-          />
-        </motion.div>
-
-        {/* Social links */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.35 }}
-          className="flex justify-center gap-3 mt-6"
-        >
-          {socials.map(({ icon, href, label }) => (
-            <Link
-              key={label}
-              href={href}
-              aria-label={label}
-              className="flex items-center justify-center w-10 h-10 rounded-xl border text-lg transition-all duration-300 hover:-translate-y-1"
-              style={{
-                borderColor: "rgba(46,139,87,0.25)",
-                color: "rgba(134,239,172,0.65)",
-                background: "rgba(46,139,87,0.08)",
-                boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05)",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(74,222,128,0.55)";
-                (e.currentTarget as HTMLElement).style.color = "#f0fdf4";
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 16px rgba(46,139,87,0.40), inset 0 1px 0 rgba(255,255,255,0.08)";
-                (e.currentTarget as HTMLElement).style.background = "rgba(46,139,87,0.18)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(46,139,87,0.25)";
-                (e.currentTarget as HTMLElement).style.color = "rgba(134,239,172,0.65)";
-                (e.currentTarget as HTMLElement).style.boxShadow = "inset 0 1px 0 rgba(255,255,255,0.05)";
-                (e.currentTarget as HTMLElement).style.background = "rgba(46,139,87,0.08)";
-              }}
-            >
-              {icon}
-            </Link>
-          ))}
-        </motion.div>
-      </div>
 
       {/* ══════════════════════════════════════════════════════
           MAIN GRID
@@ -232,12 +105,12 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.05 }}
           >
-            <FooterHeading>About BAMHS Alumni</FooterHeading>
+            <FooterHeading>{`About ${schoolShortName} Alumni`}</FooterHeading>
             <p
               className="text-sm leading-relaxed"
               style={{ color: "rgba(167,243,208,0.65)" }}
             >
-              Connected by shared memories, united by BAMHS. Our alumni
+              Connected by shared memories, united by {schoolShortName}. Our alumni
               association keeps the bonds strong across all batches — celebrating
               our roots, supporting each other, and giving back to the
               institution that shaped us.
@@ -327,7 +200,7 @@ const Footer = () => {
             <FooterHeading>Contact</FooterHeading>
             <ul className="flex flex-col gap-4">
               {contactInfo.map(({ icon, text }) => (
-                <li key={text} className="flex items-start gap-3 group">
+                <li key={text} className="flex items-center gap-3 group">
                   <span
                     className="mt-0.5 p-1.5 rounded-lg flex-shrink-0"
                     style={{
@@ -369,7 +242,7 @@ const Footer = () => {
         <div className="page-setup py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs" style={{ color: "rgba(134,239,172,0.50)" }}>
           {/* Copyright */}
           <p>
-            © {year} BAMHS Alumni Association. All rights reserved.
+            © {year} {schoolShortName} Alumni Association. All rights reserved.
           </p>
 
           {/* Developer credit — inline, professional */}

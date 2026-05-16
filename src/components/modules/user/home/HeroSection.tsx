@@ -166,6 +166,7 @@ import { useRef } from "react"
 import { staticImages } from "@/assets"
 import PrimaryButton from "@/components/shared/PrimaryButton"
 import { BsArrowRight } from "react-icons/bs"
+import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi"
 
 const HeroSection = () => {
     const heroRef = useRef<HTMLDivElement>(null)
@@ -180,6 +181,9 @@ const HeroSection = () => {
     const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
     const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
 
+    const { data: websiteManagementData } = useGetWebsiteManagementQuery()
+    const { bannerUrl, motto, schoolName } = websiteManagementData?.data || {}
+
     return (
         <section
             ref={heroRef}
@@ -191,7 +195,7 @@ const HeroSection = () => {
                 className="absolute inset-0"
             >
                 <Image
-                    src={staticImages.bamhsBackground}
+                    src={bannerUrl || staticImages.bamhsBackground}
                     alt="BAMHS School Ground"
                     fill
                     priority
@@ -247,8 +251,7 @@ const HeroSection = () => {
                         textShadow: "0 0 40px rgba(34,197,94,0.25)",
                     }}
                 >
-                    {/* “Rooted in Battali - Rising Everywhere” */}
-                    Rooted in Battali - Rising Everywhere
+                    {motto || "Rooted in Battali - Rising Everywhere"}
                 </motion.h1>
 
                 {/* DESCRIPTION */}
@@ -258,8 +261,7 @@ const HeroSection = () => {
                     transition={{ delay: 0.35, duration: 0.9 }}
                     className="mt-6 max-w-xl text-white leading-relaxed tracking-wide"
                 >
-                    The official alumni network of Battali Abdul Matin High School. Reconnect, relive memories, and stay
-                    bonded across generations.
+                    {`The official alumni network of ${schoolName || "Battali Abdul Matin High School"}. Reconnect, relive memories, and stay bonded across generations.`}
                 </motion.p>
 
                 {/* BUTTONS */}

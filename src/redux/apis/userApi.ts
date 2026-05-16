@@ -104,7 +104,7 @@ export const userApi = baseApi.injectEndpoints({
                 );
                 return { url: `/users/${id}`, method: "PATCH", body: clean };
             },
-            invalidatesTags: (_result, _err, { id }) => [{ type: "users", id }],
+            invalidatesTags:["users"],
         }),
     }),
     overrideExisting: false,
