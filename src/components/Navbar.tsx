@@ -17,6 +17,7 @@ import UserMenu from "./shared/UserMenu";
 import { selectIsLoggedIn } from "@/redux/slice/authSlice";
 import { cn } from "@/lib/utils";
 import ThemeSwitch from "@/lib/ThemeSwitch";
+import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
 
 //  NAV ITEMS
 const navItems = [
@@ -36,6 +37,10 @@ const Navbar = () => {
   const pathname = usePathname();
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
+
+  const { data: websiteManagementData } = useGetWebsiteManagementQuery()
+  const { schoolName } = websiteManagementData?.data || {}
+  const schoolAlumniName = (schoolName?.split(" ").map((word: string) => word[0]).join("") + "ian") || "BAMHSian";
 
   const isActive = (link: string) =>
     link === "" ? pathname === "/" : pathname.startsWith(`/${link}`);
@@ -78,7 +83,7 @@ const Navbar = () => {
 
                 {/* Text */}
                 <span className="font-serif italic font-semibold text-sm tracking-tight text-primary2-500 dark:text-gunmetal-200">
-                  BAMHSian...
+                  {schoolAlumniName}...
                 </span>
               </div>
             </Link>
@@ -252,10 +257,8 @@ const Navbar = () => {
                               >B</div>
                               <div>
                                 <SheetTitle className="font-display text-base font-semibold leading-tight"
-                                // style={{ color: "var(--color-primary-900)" }}
-                                >BAMHSian...</SheetTitle>
+                                >{schoolAlumniName}...</SheetTitle>
                                 <p className=" text-[10px] tracking-widest uppercase"
-                                // style={{ color: "var(--color-primary-500)" }}
                                 >Unity · Prosperity</p>
                               </div>
                             </div>
@@ -312,7 +315,7 @@ const Navbar = () => {
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2">
                   <span className="font-serif italic text-sm font-semibold"
-                  >BAMHSian</span>
+                  >{schoolAlumniName}</span>
                 </Link>
               </div>
 

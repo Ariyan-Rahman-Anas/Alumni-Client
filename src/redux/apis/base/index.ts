@@ -5,12 +5,6 @@ export const baseApi = createApi({
     reducerPath: "baseApi",
     baseQuery: baseQueryWithReauth,
     tagTypes: [
-        "projects",
-        "certificates",
-        "experiences",
-        "specalities",
-        "skills",
-        "educations",
         "batches",
         "users",
         "events",
@@ -23,6 +17,7 @@ export const baseApi = createApi({
         "providerContacts",
         "eventRegistrations",
         "cancelRequests",
+        "websiteManagement",
     ],
     endpoints: () => ({}),
 });

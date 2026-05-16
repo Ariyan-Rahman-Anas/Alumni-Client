@@ -17,6 +17,7 @@ import {
     RiArrowLeftLine,
     RiExternalLinkLine,
     RiImageLine,
+    RiSettings3Line,
 } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { useLogoutUserMutation } from "@/redux/apis/authApi";
@@ -35,6 +36,7 @@ const NAV_ITEMS = [
     { label: "Image Categories", href: "/admin/image-categories", icon: RiImageLine },
     { label: "Jobs", href: "/admin/jobs", icon: RiExternalLinkLine },
     { label: "Users", href: "/admin/users", icon: RiGroupLine },
+    { label: "Website Settings", href: "/admin/website-management", icon: RiSettings3Line },
 ];
 
 function SidebarContent({ onNav }: { onNav?: () => void }) {
