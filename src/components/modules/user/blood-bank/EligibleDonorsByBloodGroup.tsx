@@ -398,11 +398,11 @@ const EligibleDonorsByBloodGroup = () => {
         <section className="w-full space-y-8 three-xl-section-setup  ">
             {/* Section header */}
             <FadeUpWrapper delay={0.02}>
-                <SectionLabel text="Emergency blood donors" align="left" className="dark:border-gunmetal-400 dark:text-gunmetal-200 " icon={<RiHeartPulseLine />} />
+                <SectionLabel text="Emergency blood donors" align="left" className="text-danger-dark border-danger-dark/30" icon={<RiHeartPulseLine />} />
 
                 <h2
                     className="section-heading-text-left mb-6 mt-5 text-primary2-900 dark:text-gunmetal-200 ">
-                    Donors,  who are <span className="text-primary">
+                    Donors,  who are <span className="text-danger-dark">
                         Highly Eligible {" "}
                     </span>
                     <br className="hidden sm:block" />

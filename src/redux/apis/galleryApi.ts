@@ -108,8 +108,24 @@ interface TopContributorsResponse {
 }
 
 
+interface GalleryMyImagesResponse {
+  success: boolean;
+  message: string;
+  data: GalleryImage[];
+}
+
 export const galleryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getMyGalleryImages: builder.query<GalleryMyImagesResponse, void>({
+      query: () => ({ url: "/gallery/my-images", method: "GET" }),
+      providesTags: ["galleryImages"],
+    }),
+
+    deleteMyGalleryImage: builder.mutation<{ success: boolean; message: string }, string>({
+      query: (id) => ({ url: `/gallery/my-images/${id}`, method: "DELETE" }),
+      invalidatesTags: ["galleryImages"],
+    }),
+
     getTopContributors: builder.query<TopContributorsResponse, void>({
       query: () => ({ url: "/gallery/top-contributors", method: "GET" }),
       providesTags: ["galleryImages"],
@@ -198,6 +214,8 @@ export const galleryApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useGetMyGalleryImagesQuery,
+  useDeleteMyGalleryImageMutation,
   useGetTopContributorsQuery,
   useGetImagesByContributorQuery,
   useGetPublishedImagesQuery,

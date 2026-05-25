@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { RiHeartPulseLine, RiTestTubeLine } from "react-icons/ri";
+import { RiHeartPulseLine } from "react-icons/ri";
 import BloodBankPageDonorsTable from "@/components/modules/user/blood-bank/BloodBankPageDonorsTable";
 import EligibleDonorsByBloodGroup from "@/components/modules/user/blood-bank/EligibleDonorsByBloodGroup";
+import BloodDonationCriteria from "@/components/modules/user/blood-bank/BloodDonationCriteria";
 import { constantsData } from "@/constants";
 import { useDebounce } from "@/hooks/useDebounce";
 import { IBatchUserFilterValues } from "@/types/user/batch/batch.types";
@@ -14,13 +15,6 @@ import { useGetActiveBatchesQuery } from "@/redux/apis/batchApi";
 import { FadeUpWrapper } from "../Home/HomePage";
 import BloodBankPageHead from "@/components/modules/user/blood-bank/BloodBankPageHead";
 import SectionLabel from "@/components/shared/SectionLabel";
-
-const eligibilitySteps = [
-    { step: "01", title: "Health Screening", desc: "Basic eligibility check — weight, iron levels, last donation interval." },
-    { step: "02", title: "Donation History", desc: "Verify last donation date and frequency compliance." },
-    { step: "03", title: "Hospital Coordination", desc: "Match donor with hospital unit, transport, and timing window." },
-    { step: "04", title: "Dispatch Confirmation", desc: "Real-time confirmation that the unit was received and logged." },
-];
 
 const BloodBankPage = () => {
     const [page, setPage] = useState(1);
@@ -65,12 +59,12 @@ const BloodBankPage = () => {
             {/* ═══ DONOR SEARCH TABLE  */}
             <FadeUpWrapper className="three-xl-section-setup ">
                 <FadeUpWrapper delay={0.02} className="text-center mb-4 md:mb-6">
-                    <SectionLabel text="Our blood donors" align="center" className="dark:border-gunmetal-400 dark:text-gunmetal-200 " icon={<RiHeartPulseLine />} />
+                    <SectionLabel text="Our blood donors" align="center" className="text-danger-dark border-danger-dark/30" icon={<RiHeartPulseLine />} />
 
                     <h2
                         className="section-heading-text-center mb-2 mt-5 text-primary2-900 dark:text-gunmetal-200 ">
-                        <span className="text-primary">BAMHSian</span>  Blood Bank&apos;s
-                        <span className="text-primary"> Heroes</span>
+                        <span className="text-danger-dark">BAMHSian</span>  Blood Bank&apos;s
+                        <span className="text-danger-dark"> Heroes</span>
                     </h2>
 
                     <p className="text-gunmetal-400 dark:text-gunmetal-300 ">
@@ -164,23 +158,8 @@ const BloodBankPage = () => {
                 />
             </FadeUpWrapper>
 
-            {/* ═══ ELIGIBILITY STEPS */}
-            <FadeUpWrapper className="three-xl-section-setup">
-                <h3 className="text-xl font-bold text-rose-900">Donor Eligibility Flow</h3>
-                <p className="mt-2 text-sm text-muted-foreground">A transparent, step-by-step pipeline from volunteer registration to confirmed dispatch.</p>
-                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {eligibilitySteps.map(({ step, title, desc }) => (
-                        <div key={step} className="rounded-xl border border-rose-200 bg-rose-50/60 p-4">
-                            <p className="text-3xl font-black text-rose-200">{step}</p>
-                            <div className="flex items-center gap-2 mt-2">
-                                <RiTestTubeLine className="text-rose-700 text-base shrink-0" />
-                                <p className="text-sm font-semibold text-rose-900">{title}</p>
-                            </div>
-                            <p className="mt-2 text-xs text-muted-foreground leading-relaxed">{desc}</p>
-                        </div>
-                    ))}
-                </div>
-            </FadeUpWrapper>
+            {/* ═══ ELIGIBILITY CRITERIA  */}
+            <BloodDonationCriteria />
         </div>
     );
 };
