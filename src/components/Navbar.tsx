@@ -4,7 +4,6 @@ import { AiOutlineHome } from "react-icons/ai";
 import { TiInfoLarge } from "react-icons/ti";
 import { MdOutlineCampaign, MdOutlineBloodtype } from "react-icons/md";
 import { RiBriefcaseLine, RiCalendarEventLine, RiGalleryLine, RiGroupLine } from "react-icons/ri";
-import { HiOutlineHandRaised } from "react-icons/hi2";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -28,9 +27,7 @@ const navItems = [
   { title: "Announcements", link: "announcements", icon: <MdOutlineCampaign /> },
   { title: "Batches", link: "batches", icon: <RiGroupLine /> },
   { title: "Blood Bank", link: "bloodbank", icon: <MdOutlineBloodtype /> },
-  { title: "Request To Admin", link: "request", icon: <HiOutlineHandRaised /> },
   { title: "Jobs", link: "jobs", icon: <RiBriefcaseLine /> },
-
 ];
 
 const Navbar = () => {

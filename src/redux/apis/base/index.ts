@@ -18,6 +18,7 @@ export const baseApi = createApi({
         "eventRegistrations",
         "cancelRequests",
         "websiteManagement",
+        "requests",
     ],
     endpoints: () => ({}),
 });

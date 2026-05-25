@@ -18,6 +18,7 @@ import {
     RiExternalLinkLine,
     RiImageLine,
     RiSettings3Line,
+    RiFileListLine,
 } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { useLogoutUserMutation } from "@/redux/apis/authApi";
@@ -36,6 +37,7 @@ const NAV_ITEMS = [
     { label: "Image Categories", href: "/admin/image-categories", icon: RiImageLine },
     { label: "Jobs", href: "/admin/jobs", icon: RiExternalLinkLine },
     { label: "Users", href: "/admin/users", icon: RiGroupLine },
+    { label: "Requests", href: "/admin/requests", icon: RiFileListLine },
     { label: "Website Settings", href: "/admin/website-management", icon: RiSettings3Line },
 ];
 
