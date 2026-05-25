@@ -5,7 +5,7 @@ import { RiArrowRightSLine, RiLockPasswordLine, RiProfileLine, RiWallet3Line, Ri
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
-export type ProfileSectionKey = "profile-info" | "transactions" | "change-password" | "my-applications" | "my-posted-jobs" | "my-provider-contacts" | "my-provider-profile" | "my-event-registrations";
+export type ProfileSectionKey = "profile-info" | "transactions" | "change-password" | "my-applications" | "my-posted-jobs" | "my-provider-contacts" | "my-provider-profile" | "my-event-registrations" | "my-requests";
 
 interface SidebarItem {
     id: ProfileSectionKey;
@@ -23,6 +23,7 @@ const sidebarItems: SidebarItem[] = [
     { id: "my-provider-contacts", label: "Contacts", description: "Messages from people who found you", icon: <RiMessage2Line /> },
     { id: "my-provider-profile", label: "Provider Profile", description: "Manage your provider registration", icon: <RiUserStarLine /> },
     { id: "my-event-registrations", label: "Event Registrations", description: "Track your event sign-ups", icon: <RiTicketLine /> },
+    { id: "my-requests", label: "My Requests", description: "Track your requests to admin", icon: <RiFileListLine /> },
 ];
 
 interface ProfileSidebarProps {
