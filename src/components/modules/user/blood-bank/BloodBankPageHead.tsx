@@ -1,6 +1,6 @@
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
-import { Badge } from "@/components/ui/badge"
-import { RiHeartPulseLine } from "react-icons/ri"
+import SectionLabel from "@/components/shared/SectionLabel"
+import { RiDropLine } from "react-icons/ri"
 
 const BloodBankPageHead = () => {
     return (<div className="three-xl-section-setup ">
@@ -10,7 +10,7 @@ const BloodBankPageHead = () => {
                 style={{
                     backgroundImage:
                         "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-                    backgroundSize: "48px 48px",
+                    backgroundSize: "60px 60px",
                 }}
             />
             <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full blur-3xl opacity-30"
@@ -20,10 +20,13 @@ const BloodBankPageHead = () => {
 
             <div className="relative z-10 three-xl-section-padding">
                 <FadeUpWrapper>
-                    <Badge className="mb-5 bg-white/10 text-rose-200 border-rose-400/30 hover:bg-white/10">
-                        <RiHeartPulseLine className="mr-1.5" /> Blood Bank Network
-                    </Badge>
-                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight max-w-3xl">
+                    <SectionLabel
+                        text="Blood Bank Network"
+                        align="left"
+                        icon={<RiDropLine />}
+                        className="text-danger border-danger/30"
+                    />
+                    <h1 className="text-3xl sm:text-5xl lg:text-6xl mt-5 font-bold text-white leading-tight max-w-3xl">
                         Emergency support,{" "}
                         <span className="text-rose-300">coordinated with precision</span>
                     </h1>

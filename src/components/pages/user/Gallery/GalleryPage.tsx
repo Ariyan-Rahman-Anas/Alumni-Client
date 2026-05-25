@@ -1,10 +1,8 @@
 "use client";
 
-import { useRef} from "react";
-import { motion, useInView } from "framer-motion";
+import { useState } from "react";
 import {
     RiCameraLensLine,
-    RiFlashlightLine,
     RiUploadCloud2Line,
 } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
@@ -14,6 +12,8 @@ import HorizontalSnapCarousel from "@/components/shared/HorizontalSnapCarousel";
 import GalleryPageHead from "@/components/modules/user/gallery/GalleryPageHead";
 import GalleryPageMasonryGrid from "@/components/modules/user/gallery/GalleryPageMasonryGrid";
 import GalleryPageImagesContributors from "@/components/modules/user/gallery/GalleryPageImagesContributors";
+import { FadeUpWrapper } from "../Home/HomePage";
+import UserContributeGallerySheet from "@/components/modules/user/gallery/UserContributeGallerySheet";
 
 /* ── Static data ──────────────────────────────────────────── */
 const featuredCollections = [
@@ -44,151 +44,113 @@ const featuredCollections = [
     },
 ];
 
-
-/* ── FadeUp helper ────────────────────────────────────────── */
-const FadeUp = ({
-    children,
-    delay = 0,
-    className = "",
-}: {
-    children: React.ReactNode;
-    delay?: number;
-    className?: string;
-}) => {
-    const ref = useRef(null);
-    const inView = useInView(ref, { once: true, margin: "-80px" });
-    return (
-        <motion.div
-            ref={ref}
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.55, delay, ease: [0.19, 1, 0.22, 1] }}
-            className={className}
-        >
-            {children}
-        </motion.div>
-    );
-};
-
 /* ── Main Page ────────────────────────────────────────────── */
 const GalleryPage = () => {
+    const [contributeOpen, setContributeOpen] = useState(false);
     return (
-        <div className="three-xl-section-setuppb-20space-y-16">
+        <>
+            <div className="">
 
-            {/* ═══ 1. CINEMATIC HERO ═══════════════════════════════ */}
-            <GalleryPageHead />
+                {/* ═══ 1. CINEMATIC HERO ═══════════════════════════════ */}
+                <GalleryPageHead />
 
-            {/* ═══ 2. FILTER + MASONRY GRID ════════════════════════ */}
-            <GalleryPageMasonryGrid />
+                {/* ═══ 2. FILTER + MASONRY GRID ════════════════════════ */}
+                <GalleryPageMasonryGrid />
 
 
-            <GalleryPageImagesContributors />
+                <GalleryPageImagesContributors />
 
-            {/* ═══ 3. FEATURED COLLECTIONS ═════════════════════════ */}
-            <FadeUp>
-                <div className="mb-5">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900">
-                        Featured Collections
-                    </h2>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                        Curated albums by moment, era, and community contribution.
-                    </p>
-                </div>
-                <HorizontalSnapCarousel>
-                    {featuredCollections.map((item) => (
-                        <Card
-                            key={item.title}
-                            className="h-full border-primary2-200/60 hover:-translate-y-1 transition-transform duration-200"
-                        >
-                            <CardContent className="p-6">
-                                <div className="h-12 w-12 rounded-2xl flex items-center justify-center bg-primary2-100">
-                                    <RiCameraLensLine className="text-2xl text-primary2-700" />
-                                </div>
-                                <h3 className="mt-5 text-lg font-semibold text-primary2-900 leading-snug">
-                                    {item.title}
+                {/* ═══ 3. FEATURED COLLECTIONS ═════════════════════════ */}
+                <FadeUpWrapper className="three-xl-section-setup">
+                    <div className="mb-5">
+                        <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900">
+                            Featured Collections
+                        </h2>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                            Curated albums by moment, era, and community contribution.
+                        </p>
+                    </div>
+                    <HorizontalSnapCarousel>
+                        {featuredCollections.map((item) => (
+                            <Card
+                                key={item.title}
+                                className="h-full border-primary2-200/60 hover:-translate-y-1 transition-transform duration-200"
+                            >
+                                <CardContent className="p-6">
+                                    <div className="h-12 w-12 rounded-2xl flex items-center justify-center bg-primary2-100">
+                                        <RiCameraLensLine className="text-2xl text-primary2-700" />
+                                    </div>
+                                    <h3 className="mt-5 text-lg font-semibold text-primary2-900 leading-snug">
+                                        {item.title}
+                                    </h3>
+                                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                                        {item.note}
+                                    </p>
+                                    <p className="mt-4 text-xs font-medium text-primary2-600">
+                                        {item.count}
+                                    </p>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </HorizontalSnapCarousel>
+                </FadeUpWrapper>
+
+                {/* ═══ 4. VISUAL STORY STRIPS + CONTRIBUTE ════════════ */}
+                <FadeUpWrapper className="three-xl-section-setup">
+                    <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_0.6fr] gap-5">
+                        <Card className="border-primary2-200/60">
+                            <CardContent className="p-6 sm:p-8">
+                                <h3 className="text-xl font-bold text-primary2-900">
+                                    Visual Story Strips
                                 </h3>
-                                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                                    {item.note}
+                                <p className="mt-2 text-sm text-muted-foreground">
+                                    Sequence memories as mini-documentaries — assembly, classroom,
+                                    reunion, service.
                                 </p>
-                                <p className="mt-4 text-xs font-medium text-primary2-600">
-                                    {item.count}
+                                <Separator className="my-6" />
+                                <div className="grid sm:grid-cols-3 gap-3">
+                                    {[
+                                        { phase: "Then", desc: "1966–1999 archival collection" },
+                                        { phase: "Now", desc: "2000–present digital archive" },
+                                        { phase: "Next", desc: "Upcoming event captures" },
+                                    ].map(({ phase, desc }) => (
+                                        <div
+                                            key={phase}
+                                            className="rounded-xl border border-surface-300/60 bg-primary2-50/50 p-4"
+                                        >
+                                            <p className="text-xs uppercase tracking-[0.14em] text-primary2-600 font-medium">
+                                                {phase}
+                                            </p>
+                                            <p className="mt-2 text-sm text-primary2-900 font-medium">
+                                                {desc}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="border-primary2-200/60">
+                            <CardContent className="p-6 sm:p-8 flex flex-col">
+                                <h3 className="text-xl font-bold text-primary2-900">Contribute</h3>
+                                <p className="mt-2 text-sm text-muted-foreground flex-1">
+                                    Submit your best BAMHS moments with context to enrich the alumni
+                                    archive permanently.
+                                </p>
+                                <Button className="mt-8 w-full bg-primary2-700 hover:bg-primary2-800 text-white" onClick={() => setContributeOpen(true)}>
+                                    <RiUploadCloud2Line className="mr-2 text-base" /> Submit Photos
+                                </Button>
+                                <p className="mt-3 text-xs text-muted-foreground text-center">
+                                    Quality review &amp; curation pipeline ready to connect.
                                 </p>
                             </CardContent>
                         </Card>
-                    ))}
-                </HorizontalSnapCarousel>
-            </FadeUp>
+                    </div>
+                </FadeUpWrapper>
+            </div>
 
-            {/* ═══ 4. VISUAL STORY STRIPS + CONTRIBUTE ════════════ */}
-            <FadeUp>
-                <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_0.6fr] gap-5">
-                    <Card className="border-primary2-200/60">
-                        <CardContent className="p-6 sm:p-8">
-                            <h3 className="text-xl font-bold text-primary2-900">
-                                Visual Story Strips
-                            </h3>
-                            <p className="mt-2 text-sm text-muted-foreground">
-                                Sequence memories as mini-documentaries — assembly, classroom,
-                                reunion, service.
-                            </p>
-                            <Separator className="my-6" />
-                            <div className="grid sm:grid-cols-3 gap-3">
-                                {[
-                                    { phase: "Then", desc: "1966–1999 archival collection" },
-                                    { phase: "Now", desc: "2000–present digital archive" },
-                                    { phase: "Next", desc: "Upcoming event captures" },
-                                ].map(({ phase, desc }) => (
-                                    <div
-                                        key={phase}
-                                        className="rounded-xl border border-surface-300/60 bg-primary2-50/50 p-4"
-                                    >
-                                        <p className="text-xs uppercase tracking-[0.14em] text-primary2-600 font-medium">
-                                            {phase}
-                                        </p>
-                                        <p className="mt-2 text-sm text-primary2-900 font-medium">
-                                            {desc}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="border-primary2-200/60">
-                        <CardContent className="p-6 sm:p-8 flex flex-col">
-                            <h3 className="text-xl font-bold text-primary2-900">Contribute</h3>
-                            <p className="mt-2 text-sm text-muted-foreground flex-1">
-                                Submit your best BAMHS moments with context to enrich the alumni
-                                archive permanently.
-                            </p>
-                            <Button className="mt-8 w-full bg-primary2-700 hover:bg-primary2-800 text-white">
-                                <RiUploadCloud2Line className="mr-2 text-base" /> Submit Photos
-                            </Button>
-                            <p className="mt-3 text-xs text-muted-foreground text-center">
-                                Quality review &amp; curation pipeline ready to connect.
-                            </p>
-                        </CardContent>
-                    </Card>
-                </div>
-            </FadeUp>
-
-            {/* ═══ 5. UPGRADE BANNER ═══════════════════════════════ */}
-            <FadeUp>
-                <div
-                    className="rounded-3xl border border-primary2-200/60 px-6 py-5 flex flex-wrap items-center gap-3"
-                    style={{
-                        background:
-                            "linear-gradient(135deg, rgba(46,139,87,0.07) 0%, rgba(126,158,37,0.05) 100%)",
-                    }}
-                >
-                    <RiFlashlightLine className="text-primary2-700 text-xl shrink-0" />
-                    <p className="text-sm text-primary2-900 flex-1 min-w-0">
-                        <strong>Next upgrade-ready:</strong> AI-assisted photo tagging, year-wise
-                        smart filters, lightbox viewer, and event-based dynamic albums.
-                    </p>
-                </div>
-            </FadeUp>
-        </div>
+            <UserContributeGallerySheet open={contributeOpen} onClose={() => setContributeOpen(false)} />
+        </>
     );
 };
 export default GalleryPage;

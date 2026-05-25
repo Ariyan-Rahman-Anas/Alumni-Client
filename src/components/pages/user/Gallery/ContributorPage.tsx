@@ -5,11 +5,7 @@ import Image from "next/image";
 import Masonry from "react-masonry-css";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-    Dialog,
-    DialogContent,
-    DialogTitle,
-} from "@/components/ui/dialog";
+
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import { useGetUserProfileQuery } from "@/redux/apis/userApi";
 import {
@@ -27,6 +23,7 @@ import {
     RiZoomInLine,
 } from "react-icons/ri";
 import GoBackward from "@/components/shared/GoBackward";
+import GalleryImageCarouselModal from "@/components/modules/user/gallery/GalleryImageCarouselModal";
 
 /* ── helpers ──────────────────────────────────────────────── */
 const getInitials = (name: string) =>
@@ -48,7 +45,7 @@ const ContributorMasonryGrid = ({
     onImageClick,
 }: {
     userId: string;
-    onImageClick: (img: GalleryImage) => void;
+    onImageClick: (img: GalleryImage, index: number, images: GalleryImage[]) => void;
 }) => {
     const masonryBreakpoints = { default: 3, 1024: 3, 768: 2, 640: 1 };
     const [cursor, setCursor] = useState<string | undefined>(undefined);
@@ -97,11 +94,11 @@ const ContributorMasonryGrid = ({
                     className="masonry-grid"
                     columnClassName="masonry-grid_column"
                 >
-                    {allImages.map((img) => (
+                    {allImages.map((img, index) => (
                         <div
                             key={img._id}
                             className="group relative overflow-hidden rounded-2xl border border-surface-300/60 bg-surface mb-3 cursor-pointer"
-                            onClick={() => onImageClick(img)}
+                            onClick={() => onImageClick(img, index, allImages)}
                         >
                             <Image
                                 src={img.imageUrl}
@@ -181,7 +178,15 @@ const DetailChip = ({
 
 /* ── Main component ───────────────────────────────────────── */
 const ContributorPage = ({ userId }: { userId: string }) => {
-    const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
+    const [carouselOpen, setCarouselOpen] = useState(false);
+    const [carouselImages, setCarouselImages] = useState<GalleryImage[]>([]);
+    const [carouselStartIndex, setCarouselStartIndex] = useState(0);
+
+    const handleImageClick = (_img: GalleryImage, index: number, images: GalleryImage[]) => {
+        setCarouselImages(images);
+        setCarouselStartIndex(index);
+        setCarouselOpen(true);
+    };
 
     const { data: userRes, isLoading: userLoading } = useGetUserProfileQuery(userId);
     const user = userRes?.data;
@@ -288,49 +293,17 @@ const ContributorPage = ({ userId }: { userId: string }) => {
                 </div>
                 <ContributorMasonryGrid
                     userId={userId}
-                    onImageClick={setSelectedImage}
+                    onImageClick={handleImageClick}
                 />
             </FadeUpWrapper>
 
-            {/* ── Image Dialog ──────────────────────────────────────── */}
-            <Dialog
-                open={!!selectedImage}
-                onOpenChange={(open) => {
-                    if (!open) setSelectedImage(null);
-                }}
-            >
-                <DialogContent
-                    className="w-full min-w-[90vw] p-0 overflow-hidden bg-black/95 border-none"
-                dialogCloseClassName="text-danger border-2 border-danger hover:bg-surface hover:text-danger hover:border-surface"
-                >
-                    <DialogTitle className="sr-only">
-                        {selectedImage?.innerTitle || selectedImage?.title || "Image Preview"}
-                    </DialogTitle>
-                    {selectedImage && (
-                        <div className="relative">
-                            <Image
-                                src={selectedImage.imageUrl}
-                                alt={selectedImage.innerTitle || selectedImage.title}
-                                width={1200}
-                                height={900}
-                                className="w-full h-auto max-h-[85vh] object-contain"
-                            />
-                            {(selectedImage.innerTitle || selectedImage.title) && (
-                                <div className="absolute bottom-0 left-0 right-0 px-5 py-4 bg-gradient-to-t from-black/80 to-transparent">
-                                    <p className="text-white text-sm font-medium">
-                                        {selectedImage.innerTitle || selectedImage.title}
-                                    </p>
-                                    {typeof selectedImage.category === "object" && (
-                                        <p className="text-white/60 text-xs mt-0.5">
-                                            {selectedImage.category.name}
-                                        </p>
-                                    )}
-                                </div>
-                            )}
-                        </div>
-                    )}
-                </DialogContent>
-            </Dialog>
+            {/* ── Image Carousel Modal ──────────────────────────────── */}
+            <GalleryImageCarouselModal
+                images={carouselImages}
+                startIndex={carouselStartIndex}
+                open={carouselOpen}
+                onClose={() => setCarouselOpen(false)}
+            />
         </div>
     );
 };

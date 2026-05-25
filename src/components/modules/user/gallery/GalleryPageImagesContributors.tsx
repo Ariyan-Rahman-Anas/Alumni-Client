@@ -26,7 +26,7 @@ const GalleryPageImagesContributors = () => {
             .toUpperCase();
 
     return (
-        <FadeUpWrapper delay={0.1}>
+        <FadeUpWrapper delay={0.1} className="three-xl-section-setup">
             <section className="py-10">
                 <FadeUpWrapper delay={0.15}>
                     <div className="mb-6">
