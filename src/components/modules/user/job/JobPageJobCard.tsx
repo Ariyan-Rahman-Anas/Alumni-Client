@@ -93,8 +93,6 @@ const JobPageJobCard = ({ job, index }: { job: IJobPost; index: number }) => {
                     <RiHeartLine /> {job.likes.length}
                 </span>
             </div>
-
-            <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-primary2-500 to-accent2-500 rounded-b-2xl scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
         </FadeUpWrapper>
     )
 }

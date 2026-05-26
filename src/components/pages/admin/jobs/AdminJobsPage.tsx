@@ -17,6 +17,8 @@ import {
     RiAlertLine,
     RiShieldCheckLine,
     RiStickyNoteLine,
+    RiFileListLine,
+    RiExternalLinkLine,
 } from "react-icons/ri";
 import { format, formatDistanceToNow } from "date-fns";
 import AdminPageHead from "@/components/shared/admin/AdminPageHead";
@@ -303,7 +305,7 @@ function ProviderDetailSheet({ provider, open, onClose, onUpdateStatus }: {
     if (!provider) return null;
     return (
         <Sheet open={open} onOpenChange={(v) => { if (!v) onClose(); }}>
-            <SheetContent side="right" className="w-full sm:max-w-lg overflow-y-auto">
+            <SheetContent side="right" className="w-full sm:max-w-lg overflow-y-auto p-6">
                 <SheetHeader className="mb-5">
                     <div className="flex gap-4 items-start">
                         {provider.user.imageUrl ? (
@@ -354,6 +356,27 @@ function ProviderDetailSheet({ provider, open, onClose, onUpdateStatus }: {
                             <><p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Class Range</p>
                                 <div className="flex flex-wrap gap-2">{provider.classRange.map((c) => <span key={c} className="bg-blue-50 text-blue-700 border border-blue-100 text-xs px-2.5 py-1 rounded-full">{c}</span>)}</div></>
                         ) : null}
+                    </div>
+                )}
+
+                {provider.certificates?.length > 0 && (
+                    <div className="mb-4 bg-white rounded-xl border border-surface-200 p-4">
+                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">Certificates & Documents</p>
+                        <div className="space-y-2">
+                            {provider.certificates.map((cert, i) => (
+                                <a
+                                    key={i}
+                                    href={cert.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-3 p-3 rounded-xl border border-surface-200 hover:border-primary2-300 hover:bg-primary2-50 transition-colors group"
+                                >
+                                    <RiFileListLine className="text-primary2-600 text-lg flex-shrink-0" />
+                                    <span className="text-sm text-neutral-700 font-medium group-hover:text-primary2-700 flex-1 truncate">{cert.name}</span>
+                                    <RiExternalLinkLine className="text-muted-foreground text-sm flex-shrink-0" />
+                                </a>
+                            ))}
+                        </div>
                     </div>
                 )}
 

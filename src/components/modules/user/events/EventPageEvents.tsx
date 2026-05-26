@@ -83,7 +83,7 @@ const EventPageEvents = () => {
                             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-white md:text-5xl">
                                 Discover <span className="text-gold-400">Events</span>
                             </h1>
-                            <p className="max-w-md text-sm sm:text-lg leading-relaxed text-primary2-200/80">
+                            <p className="text-base sm:text-lg leading-relaxed max-w-4xl text-gunmetal-300 mb-12 mt-5">
                                 Connect, grow, and celebrate. Find events crafted for every member of our community.
                             </p>
                         </div>
