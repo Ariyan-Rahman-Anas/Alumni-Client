@@ -1,5 +1,6 @@
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import SectionLabel from "@/components/shared/SectionLabel";
+import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
 import { RiSparkling2Line } from "react-icons/ri"
 
 const AboutPageHead = () => {
@@ -7,8 +8,12 @@ const AboutPageHead = () => {
         { value: "৳8L+", label: "Scholarship fund raised" },
         { value: "200+", label: "Blood donations facilitated" },
         { value: "12", label: "Reunions organized" },
-        { value: "50+", label: "Mentorships active" },
+        { value: "50+", label: "Mentorship active" },
     ];
+
+    const { data: websiteManagement } = useGetWebsiteManagementQuery();
+    const { schoolName } = websiteManagement?.data || {};
+    const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
 
     return (
         <FadeUpWrapper className="three-xl-section-setup">
@@ -35,7 +40,7 @@ const AboutPageHead = () => {
                         </span>
                     </h2>
 
-                    <p className="text-base sm:text-lg leading-relaxed max-w-4xl mx-auto text-gunmetal-300 mb-12"> BAMHS Alumni is not an organization — it is a feeling. The smell of chalk,
+                    <p className="text-base sm:text-lg leading-relaxed max-w-4xl mx-auto text-gunmetal-300 mb-12"> {schoolShortName} Alumni is not an organization — it is a feeling. The smell of chalk,
                         the echo of the morning assembly, the warmth of a teacher&apos;s words.
                         This portal is our way of keeping that feeling alive, forever.</p>
 

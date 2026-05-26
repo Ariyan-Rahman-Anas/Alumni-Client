@@ -1,134 +1,141 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
 import {
-    RiCalendarEventLine,
-    RiGlobalLine,
-    RiMicLine,
-    RiTeamLine,
-    RiTimerLine,
-    RiUserHeartLine,
+    RiCalendarCheckLine,
+    RiLoginCircleLine,
+    RiSearch2Line,
+    RiArrowRightLine,
 } from "react-icons/ri";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import HorizontalSnapCarousel from "@/components/shared/HorizontalSnapCarousel";
+import { FadeUpWrapper } from "../Home/HomePage";
 import EventPageEvents from "@/components/modules/user/events/EventPageEvents";
+import { useGetAllPublishedEventsQuery } from "@/redux/apis/eventApi";
 
-/* ── FadeUp ─────────────────────────────────────────────── */
-const FadeUp = ({
-    children,
-    delay = 0,
-    className = "",
-}: {
-    children: React.ReactNode;
-    delay?: number;
-    className?: string;
-}) => {
-    const ref = useRef(null);
-    const inView = useInView(ref, { once: true, margin: "-80px" });
-    return (
-        <motion.div
-            ref={ref}
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.55, delay, ease: [0.19, 1, 0.22, 1] }}
-            className={className}
-        >
-            {children}
-        </motion.div>
-    );
-};
-
-
-const experienceMoments = [
-    { icon: <RiMicLine />, title: "Stage Reveals", desc: "Award walks, batch introductions, and MC-led live storytelling format." },
-    { icon: <RiTeamLine />, title: "Batch Roll-Call", desc: "Year-wise assembly in the auditorium floor for nostalgic connection." },
-    { icon: <RiUserHeartLine />, title: "Teacher Tribute", desc: "Structured felicitation and gratitude sessions for mentors and educators." },
-    { icon: <RiGlobalLine />, title: "Career Booth", desc: "Live job, startup, and scholarship showcase by senior alumni." },
-    { icon: <RiTimerLine />, title: "Acoustic Closing", desc: "Nighttime musical close with a collaborative alumni performance." },
-];
-
-const operationLanes = [
-    { lane: "Host", detail: "MC lineup + stage slot schedule" },
-    { lane: "Guest", detail: "RSVP tracking + welcome kit flow" },
-    { lane: "Volunteer", detail: "Role mapping + fallback coverage" },
-    { lane: "Logistics", detail: "Venue, transport, catering plan" },
-    { lane: "Media", detail: "Photography, livestream, archive" },
-    { lane: "Emergency", detail: "Medical, security, rapid response" },
+const HOW_IT_WORKS = [
+    {
+        step: "01",
+        icon: <RiSearch2Line />,
+        title: "Browse & Filter",
+        desc: "Explore upcoming reunions, career fairs, cultural nights, and community drives — filtered by category, format, or status.",
+    },
+    {
+        step: "02",
+        icon: <RiCalendarCheckLine />,
+        title: "Register Your Spot",
+        desc: "Secure your place with a single click. Registered events appear in your profile dashboard for easy tracking.",
+    },
+    {
+        step: "03",
+        icon: <RiLoginCircleLine />,
+        title: "Show Up & Connect",
+        desc: "Attend in-person or join online. Reconnect with batchmates, build new bridges, and carry the BAMHS spirit forward.",
+    },
 ];
 
 /* ── Page ─────────────────────────────────────────────────── */
 const EventsPage = () => {
+    const { data: upcomingData } = useGetAllPublishedEventsQuery({ page: 1, limit: 1, status: "UPCOMING" });
+    const { data: totalData } = useGetAllPublishedEventsQuery({ page: 1, limit: 1 });
+
+    const upcomingCount = upcomingData?.meta?.total ?? 0;
+    const totalCount = totalData?.meta?.total ?? 0;
+
     return (
         <div className="three-xl-section-setup pb-20 space-y-16">
 
-            {/* ═══ 2. UPCOMING EVENTS ═════════════════════════════ */}
+            {/* ═══ 1. UPCOMING EVENTS ═════════════════════════════ */}
             <EventPageEvents />
 
-            {/* ═══ 3. EXPERIENCE CAROUSEL (shadcn) ════════════════ */}
-            <FadeUp>
-                <div className="mb-5">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900">Event Experience Arc</h2>
-                    <p className="mt-1 text-sm text-muted-foreground">Swipe through the segments that build a complete reunion memory.</p>
-                </div>
-                <HorizontalSnapCarousel>
-                    {experienceMoments.map((item) => (
-                        <Card key={item.title} className="h-full border-surface-300/60 hover:-translate-y-1 transition-transform duration-200">
-                            <CardContent className="p-6">
-                                <div className="h-12 w-12 rounded-2xl bg-violet-100 flex items-center justify-center text-violet-700 text-2xl">
-                                    {item.icon}
-                                </div>
-                                <h3 className="mt-5 text-base font-semibold text-primary2-900">{item.title}</h3>
-                                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </HorizontalSnapCarousel>
-            </FadeUp>
+            {/* ═══ 2. HOW TO PARTICIPATE ══════════════════════════ */}
+            <FadeUpWrapper>
+                <div className="space-y-8">
+                    <div>
+                        <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900 dark:text-gunmetal-100">
+                            How to Participate
+                        </h2>
+                        <p className="mt-1.5 text-sm text-muted-foreground max-w-lg">
+                            Three simple steps to go from discovering an event to being part of the memory.
+                        </p>
+                    </div>
 
-            {/* ═══ 4. OPERATION BLUEPRINT ════════════════════════ */}
-            <FadeUp>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                    <Card className="border-surface-300/60">
-                        <CardContent className="p-6 sm:p-8">
-                            <h3 className="text-xl font-bold text-primary2-900">Operations Blueprint</h3>
-                            <p className="mt-2 text-sm text-muted-foreground">Run sheet across all lanes — stage, hospitality, media, and emergency — in one command view.</p>
-                            <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-3">
-                                {operationLanes.map(({ lane, detail }) => (
-                                    <div key={lane} className="rounded-xl border border-surface-300/60 bg-primary2-50/50 p-4">
-                                        <p className="text-sm font-semibold text-primary2-900">{lane}</p>
-                                        <p className="mt-1 text-xs text-muted-foreground">{detail}</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {HOW_IT_WORKS.map(({ step, icon, title, desc }) => (
+                            <div
+                                key={step}
+                                className="relative rounded-2xl border border-surface-300/70 dark:border-gunmetal-500/50 bg-white dark:bg-gunmetal-800 p-6 flex flex-col gap-4"
+                            >
+                                <div className="flex items-start justify-between">
+                                    <div className="w-11 h-11 rounded-xl bg-primary2-50 dark:bg-primary2-900/40 flex items-center justify-center text-primary2-600 dark:text-primary2-400 text-xl">
+                                        {icon}
                                     </div>
-                                ))}
+                                    <span className="text-4xl font-black text-primary2-100 dark:text-gunmetal-600 leading-none select-none">
+                                        {step}
+                                    </span>
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-primary2-900 dark:text-gunmetal-100">{title}</h3>
+                                    <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{desc}</p>
+                                </div>
                             </div>
-                        </CardContent>
-                    </Card>
+                        ))}
+                    </div>
+                </div>
+            </FadeUpWrapper>
 
-                    <Card className="border-surface-300/60">
-                        <CardContent className="p-6 sm:p-8 flex flex-col">
-                            <h3 className="text-xl font-bold text-primary2-900">Volunteer Matrix</h3>
-                            <p className="mt-2 text-sm text-muted-foreground flex-1">
-                                Rapid role assignment across registration desks, stage support, logistics, and emergency response.
+            {/* ═══ 3. STAY CONNECTED CTA ══════════════════════════ */}
+            <FadeUpWrapper>
+                <div
+                    className="relative overflow-hidden rounded-3xl px-8 py-10 sm:px-12 sm:py-12"
+                    style={{ background: "linear-gradient(135deg, #041a12 0%, #0c4a34 60%, #1a5436 100%)" }}
+                >
+                    {/* Background texture */}
+                    <div
+                        className="absolute inset-0 pointer-events-none opacity-20"
+                        style={{
+                            backgroundImage:
+                                "linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px)",
+                            backgroundSize: "48px 48px",
+                        }}
+                    />
+                    <div className="absolute -top-16 -right-16 h-56 w-56 rounded-full blur-3xl opacity-15" style={{ background: "rgba(46,139,87,1)" }} />
+
+                    <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-8">
+                        {/* Left */}
+                        <div className="max-w-lg">
+                            <h2 className="text-2xl sm:text-3xl font-bold text-white leading-snug">
+                                Events built on{" "}
+                                <span className="text-primary2-300">real alumni bonds</span>
+                            </h2>
+                            <p className="mt-3 text-sm text-gunmetal-300 leading-relaxed">
+                                Every gathering here is an opportunity to mentor, to reconnect, and to give back to the school that shaped you.
                             </p>
-                            <Button className="mt-8 w-full bg-primary2-700 hover:bg-primary2-800 text-white">
-                                Open Volunteer Setup
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </div>
-            </FadeUp>
+                        </div>
 
-            {/* ═══ 5. UPGRADE BANNER ═══════════════════════════════ */}
-            <FadeUp>
-                <div className="rounded-3xl border border-primary2-200/60 px-6 py-5 flex flex-wrap items-center gap-3"
-                    style={{ background: "linear-gradient(135deg, rgba(109,40,217,0.07) 0%, rgba(46,139,87,0.05) 100%)" }}>
-                    <RiCalendarEventLine className="text-primary2-700 text-xl shrink-0" />
-                    <p className="text-sm text-primary2-900 flex-1 min-w-0">
-                        <strong>Next upgrade-ready:</strong> Ticketing integration, RSVP scoring, seating orchestration, and event analytics heatmap.
-                    </p>
+                        {/* Right — live stats */}
+                        <div className="flex gap-4 shrink-0">
+                            {[
+                                { value: totalCount > 0 ? `${totalCount}+` : "—", label: "Events hosted" },
+                                { value: upcomingCount > 0 ? `${upcomingCount}` : "—", label: "Upcoming" },
+                            ].map(({ value, label }) => (
+                                <div
+                                    key={label}
+                                    className="rounded-2xl min-w-28 border px-5 py-4 text-center"
+                                    style={{ background: "rgba(255,255,255,0.06)", borderColor: "rgba(255,255,255,0.12)" }}
+                                >
+                                    <p className="text-2xl font-bold text-white">{value}</p>
+                                    <p className="mt-0.5 text-xs text-gunmetal-300">{label}</p>
+                                </div>
+                            ))}
+                            <div
+                                className="hidden sm:flex rounded-2xl min-w-28 border px-5 py-4 text-center items-center justify-center"
+                                style={{ background: "rgba(255,255,255,0.06)", borderColor: "rgba(255,255,255,0.12)" }}
+                            >
+                                <RiArrowRightLine className="text-2xl text-primary2-300" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </FadeUp>
+            </FadeUpWrapper>
+
         </div>
     );
 };

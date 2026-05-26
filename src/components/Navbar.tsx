@@ -54,9 +54,8 @@ const Navbar = () => {
   return (
     <>
       <div className="fixed top-0 left-0 right-0 z-nav pointer-events-none">
-
         {/* ══════════════════════════════════════════════DESKTOP*/}
-        <div className="hidden md:flex justify-between pt-4 pointer-events-auto px-6 max-w-12xl mx-auto">
+        <div className="hidden lg:flex justify-between pt-4 pointer-events-auto px-6 max-w-12xl mx-auto">
           <motion.div
             initial={{ y: -72, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -166,7 +165,7 @@ const Navbar = () => {
 
 
         {/* MOBILE — Top Header Island */}
-        <div className="md:hidden fixed top-3 left-0 right-0 px-4 pointer-events-auto">
+        <div className="lg:hidden fixed top-3 left-0 right-0 px-4 pointer-events-auto">
           <motion.div
             initial={{ y: -56, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -331,14 +330,14 @@ const Navbar = () => {
 
 
         {/* MOBILE — Bottom Icon Dock */}
-        <div className="md:hidden fixed bottom-2 left-0 right-0 px-2 pointer-events-auto">
+        <div className="lg:hidden fixed bottom-2 left-0 right-0 px-2 pointer-events-auto ">
           <motion.div
             initial={{ y: 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 220, damping: 26, delay: 0.18 }}
           >
             <div
-              className="relative flex items-center justify-between gap-0.5 px-2 py-2.5 rounded-lg shadow shadow-primary2-500 dark:shadow-gunmetal-400 bg-white dark:bg-gunmetal-600 dark:text-gunmetal-200 "
+              className="relative flex items-center justify-between gap-0.5 px-2 py-2.5 rounded-lg shadow bg-white dark:bg-gunmetal-600 dark:text-gunmetal-200 "
             >
               <div className="absolute top-0 left-4 right-4 h-px rounded-full z-10"
               // style={{ background: "rgba(255,255,255,0.98)" }}
@@ -392,7 +391,6 @@ const Navbar = () => {
             </div>
           </motion.div>
         </div>
-
       </div>
     </>
   );

@@ -36,7 +36,7 @@ function DropdownMenuSubContent({ className, ...props }: React.ComponentProps<ty
   return (
     <DropdownMenuPrimitive.SubContent
       className={cn(
-        "z-50 min-w-32 overflow-hidden rounded-xl border bg-white p-1 shadow-lg",
+        "z-modal min-w-32 overflow-hidden rounded-xl border bg-white p-1 shadow-lg",
         "data-[state=open]:animate-in data-[state=closed]:animate-out",
         "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
         "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
@@ -59,7 +59,7 @@ function DropdownMenuContent({
       <DropdownMenuPrimitive.Content
         sideOffset={sideOffset}
         className={cn(
-          "z-50 min-w-40 overflow-hidden rounded-xl border border-border bg-white dark:bg-gunmetal-600 p-1 shadow-lg text-accent-foreground",
+          "z-modal min-w-40 overflow-hidden rounded-xl border border-border bg-white dark:bg-gunmetal-600 p-1 shadow-lg text-accent-foreground",
           "data-[state=open]:animate-in data-[state=closed]:animate-out",
           "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
           "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
