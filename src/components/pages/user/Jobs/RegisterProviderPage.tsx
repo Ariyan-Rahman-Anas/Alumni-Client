@@ -2,24 +2,27 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 import { Controller, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import {
-    RiArrowLeftLine,
     RiCheckboxCircleLine,
     RiUploadLine,
     RiCloseLine,
     RiAddLine,
-    RiMapPin2Line,
-    RiBriefcase4Line,
+    RiHourglassLine,
+    RiErrorWarningLine,
+    RiExternalLinkLine,
 } from "react-icons/ri";
-import { useRegisterProviderMutation} from "@/redux/apis/jobApi";
+import { useRegisterProviderMutation, useGetMyProviderProfileQuery } from "@/redux/apis/jobApi";
+import { selectIsLoggedIn } from "@/redux/slice/authSlice";
 import { useFormWithToast } from "@/hooks/useFormWithToast";
 import InputField from "@/components/shared/InputField";
 import TextAreaBox from "@/components/shared/TextAreaBox";
 import SingleSelect from "@/components/shared/SingleSelect";
 import PrimaryButton from "@/components/shared/PrimaryButton";
+import Link from "next/link";
 import {
     RegisterProviderFormValues,
     REGISTER_PROVIDER_FIELD_ORDER,
@@ -56,7 +59,7 @@ const SUBJECTS_LIST = ["Mathematics", "Physics", "Chemistry", "Biology", "Englis
 const CLASS_RANGE = ["Class 1–5", "Class 6–8", "Class 9–10", "SSC", "HSC", "University"];
 const DAYS = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
-const inputCls = "w-full px-4 py-2.5 rounded-xl border border-surface-200 bg-surface-50 text-sm text-primary2-900 focus:outline-none focus:ring-2 focus:ring-primary2-300 focus:border-primary2-300 placeholder:text-muted-foreground";
+const inputCls = "w-full px-4 py-2.5 rounded-lg border border-surface-200 bg-surface-50 text-sm text-primary2-900 focus:outline-none focus:border-primary2-500 placeholder:text-muted-foreground";
 
 function TagInput({ tags, onAdd, onRemove, placeholder, suggestions }: { tags: string[]; onAdd: (v: string) => void; onRemove: (v: string) => void; placeholder?: string; suggestions?: string[] }) {
     const [val, setVal] = useState("");
@@ -72,7 +75,7 @@ function TagInput({ tags, onAdd, onRemove, placeholder, suggestions }: { tags: s
             </div>
             <div className="flex gap-2">
                 <input value={val} onChange={(e) => setVal(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); add(val); } }} placeholder={placeholder} className={inputCls} />
-                <button type="button" onClick={() => add(val)} className="px-3 py-2 bg-primary2-50 text-primary2-700 border border-primary2-200 rounded-xl hover:bg-primary2-100 transition-colors"><RiAddLine /></button>
+                <button type="button" onClick={() => add(val)} className="px-3 py-2 rounded-lg bg-primary2-50 text-primary2-700 border border-primary2-500 hover:bg-primary2-100 transition-colors"><RiAddLine /></button>
             </div>
             {suggestions && (
                 <div className="flex flex-wrap gap-1.5 mt-2">
@@ -87,9 +90,14 @@ function TagInput({ tags, onAdd, onRemove, placeholder, suggestions }: { tags: s
 
 export default function RegisterProviderPage() {
     const router = useRouter();
+    const isLoggedIn = useSelector(selectIsLoggedIn);
+    const { data: existingProfileData, isLoading: profileLoading } = useGetMyProviderProfileQuery(undefined, {
+        skip: !isLoggedIn,
+    });
+
     const [registerProvider, { isLoading }] = useRegisterProviderMutation();
 
-    // State for array/file fields not managed by react-hook-form
+    // All hooks must be declared before any early returns
     const [availability, setAvailability] = useState<string[]>([]);
     const [qualifications, setQualifications] = useState<string[]>([]);
     const [subjects, setSubjects] = useState<string[]>([]);
@@ -123,6 +131,88 @@ export default function RegisterProviderPage() {
 
     const providerType = watch("providerType");
     const isTutor = providerType === "TUTOR";
+
+    /* ── Guard: already has a profile ──────────────────────── */
+    if (isLoggedIn && profileLoading) {
+        return (
+            <div className="three-xl-section-setup py-24 flex items-center justify-center">
+                <div className="text-center">
+                    <div className="h-8 w-8 border-2 border-primary2-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <p className="text-sm text-muted-foreground">Checking your profile…</p>
+                </div>
+            </div>
+        );
+    }
+
+    const existingProfile = existingProfileData?.data;
+
+    if (existingProfile) {
+        const status = existingProfile.status;
+        const config = {
+            PENDING: {
+                icon: <RiHourglassLine className="text-3xl text-amber-500" />,
+                title: "Your application is under review",
+                desc: "An admin is reviewing your provider profile. You'll be notified once a decision is made. Check back soon.",
+                bg: "bg-amber-50 border-amber-200",
+                badge: "bg-amber-100 text-amber-700 border-amber-300",
+                badgeText: "Pending Review",
+                action: null,
+            },
+            APPROVED: {
+                icon: <RiCheckboxCircleLine className="text-3xl text-emerald-500" />,
+                title: "You're an active provider!",
+                desc: "Your provider profile is live and visible to alumni looking for your services. You can view and manage your public profile.",
+                bg: "bg-emerald-50 border-emerald-200",
+                badge: "bg-emerald-100 text-emerald-700 border-emerald-300",
+                badgeText: "Approved",
+                action: { label: "View My Provider Profile", href: `/jobs/providers/${existingProfile._id}` },
+            },
+            REJECTED: {
+                icon: <RiErrorWarningLine className="text-3xl text-red-500" />,
+                title: "Your application was rejected",
+                desc: "Unfortunately your previous provider profile application was not approved. Please contact an admin for more details before reapplying.",
+                bg: "bg-red-50 border-red-200",
+                badge: "bg-red-100 text-red-700 border-red-300",
+                badgeText: "Rejected",
+                action: null,
+            },
+        }[status];
+
+        return (
+            <div className="three-xl-section-setup pb-24 pt-10 max-w-lg">
+                <div className={`rounded-2xl border p-8 text-center space-y-5 ${config.bg}`}>
+                    <div className="flex justify-center">{config.icon}</div>
+
+                    <div>
+                        <span className={`inline-block text-xs font-semibold px-3 py-1 rounded-full border mb-3 ${config.badge}`}>
+                            {config.badgeText}
+                        </span>
+                        <h1 className="text-xl font-bold text-primary2-900">{config.title}</h1>
+                        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{config.desc}</p>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        {config.action && (
+                            <Link
+                                href={config.action.href}
+                                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-primary2-700 hover:bg-primary2-800 text-white text-sm font-semibold rounded-xl transition-colors"
+                            >
+                                {config.action.label} <RiExternalLinkLine />
+                            </Link>
+                        )}
+                        <button
+                            type="button"
+                            onClick={() => router.push("/jobs")}
+                            className="px-5 py-2.5 border border-surface-300 rounded-xl text-sm text-muted-foreground hover:border-surface-400 transition-colors"
+                        >
+                            Back to Jobs Board
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    /* ── /Guard ─────────────────────────────────────────────── */
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = Array.from(e.target.files ?? []);
@@ -162,18 +252,14 @@ export default function RegisterProviderPage() {
     };
 
     return (
-        <div className="three-xl-section-setup pb-24 pt-10 max-w-2xl">
-            <div className="mb-8">
-                <button type="button" onClick={() => router.push("/jobs")} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary2-700 mb-4 transition-colors">
-                    <RiArrowLeftLine /> Back to Jobs
-                </button>
+        <div className="three-xl-section-setup max-w-2xl">
+            <div className="mb-5">
                 <h1 className="text-3xl font-extrabold text-primary2-900">Register as Provider</h1>
                 <p className="text-muted-foreground mt-1">Create your provider profile. Admin will review and approve it.</p>
             </div>
 
             <FormProvider {...methods}>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate className="bg-white rounded-2xl border border-surface-200 p-6 space-y-6">
-
                     <Controller
                         name="providerType"
                         control={control}
@@ -199,7 +285,6 @@ export default function RegisterProviderPage() {
                         placeholder="Tell alumni about yourself, your background, and what makes you the right choice..."
                         rows={4}
                         error={errors.bio?.message}
-                        helperText="Describe your expertise, experience, and teaching/service style."
                         required
                     />
 
@@ -208,7 +293,6 @@ export default function RegisterProviderPage() {
                         id="provider-experience"
                         label="Years of Experience"
                         placeholder="e.g. 5 years as math tutor / 3 years as electrician"
-                        icon={<RiBriefcase4Line />}
                         error={errors.experience?.message}
                         required
                     />
@@ -234,10 +318,8 @@ export default function RegisterProviderPage() {
                         {...register("location")}
                         id="provider-location"
                         label="Location"
-                        placeholder="e.g. Mirpur, Dhaka"
-                        icon={<RiMapPin2Line />}
+                        placeholder="e.g. Khulshi, Chattogram (where are you available to work?)"
                         error={errors.location?.message}
-                        helperText="Where are you available to work?"
                         required
                     />
 

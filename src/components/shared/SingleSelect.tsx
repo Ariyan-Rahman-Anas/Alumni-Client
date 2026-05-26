@@ -165,7 +165,6 @@ const SingleSelect = ({
                             <CommandGroup>
                                 {options.map((option) => {
                                     const isSelected = selectedValue === option.value;
-
                                     return (
                                         <CommandItem
                                             key={option.value}
@@ -179,7 +178,7 @@ const SingleSelect = ({
                                             }}
                                             disabled={option.isDisabled}
                                             className={cn(
-                                                "gap-3 rounded-md px-3 py-2",
+                                                "gap-3 rounded-md mb-0.5 px-3 py-2",
                                                 option.isDisabled && "cursor-not-allowed opacity-50", isSelected ? "bg-primary2-500 dark:bg-gunmetal-500" : "hover:bg-primary2-100 dark:hover:bg-gunmetal-400",
                                             )}
                                         >

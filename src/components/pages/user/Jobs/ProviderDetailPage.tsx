@@ -26,6 +26,7 @@ import {
     useContactProviderMutation,
 } from "@/redux/apis/jobApi";
 import { useAppSelector } from "@/redux/hooks";
+import GoBackward from "@/components/shared/GoBackward";
 
 /* ── Avatar ─────────────────────────────────────────── */
 function Avatar({ name, imageUrl, size = 80 }: { name: string; imageUrl?: string; size?: number }) {
@@ -142,14 +143,9 @@ export default function ProviderDetailPage({ id }: { id: string }) {
     const isTutor = p.providerType === "TUTOR";
 
     return (
-        <div className="three-xl-section-setup py-10 pb-24 max-w-3xl">
+        <div className="three-xl-section-setup py-10pb-24 max-w-3xl">
             {/* Back */}
-            <button
-                onClick={() => router.back()}
-                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary2-700 mb-6 transition-colors"
-            >
-                <RiArrowLeftLine /> Back
-            </button>
+            <GoBackward text="Jobs"  />
 
             {/* ── Header ────────────────────────────────────── */}
             <motion.div
@@ -258,7 +254,7 @@ export default function ProviderDetailPage({ id }: { id: string }) {
             </Section>
 
             {/* ── Tutor-specific ─────────────────────────────── */}
-            {isTutor && (p.subjects?.length || p.classRange?.length) && (
+            {isTutor && !!(p.subjects?.length || p.classRange?.length) && (
                 <Section title="Teaching" delay={0.1}>
                     {p.subjects?.length ? (
                         <div className="mb-4">
