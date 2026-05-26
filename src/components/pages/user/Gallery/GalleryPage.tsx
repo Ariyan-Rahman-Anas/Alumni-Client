@@ -2,49 +2,19 @@
 
 import { useState } from "react";
 import {
-    RiCameraLensLine,
     RiUploadCloud2Line,
+    RiShieldCheckLine,
+    RiImageLine,
+    RiArrowRightLine,
 } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import HorizontalSnapCarousel from "@/components/shared/HorizontalSnapCarousel";
 import GalleryPageHead from "@/components/modules/user/gallery/GalleryPageHead";
 import GalleryPageMasonryGrid from "@/components/modules/user/gallery/GalleryPageMasonryGrid";
 import GalleryPageImagesContributors from "@/components/modules/user/gallery/GalleryPageImagesContributors";
 import { FadeUpWrapper } from "../Home/HomePage";
 import UserContributeGallerySheet from "@/components/modules/user/gallery/UserContributeGallerySheet";
 
-/* ── Static data ──────────────────────────────────────────── */
-const featuredCollections = [
-    {
-        title: "Reunion Stage Frames",
-        note: "Lighting, applause, and full-house snapshots from reunion night.",
-        count: "42 Photos",
-    },
-    {
-        title: "Classroom Throwbacks",
-        note: "Benches, blackboards, and the corridors that shaped generations.",
-        count: "28 Photos",
-    },
-    {
-        title: "Campus Golden Hour",
-        note: "Architectural captures of the school campus in evening light.",
-        count: "35 Photos",
-    },
-    {
-        title: "Teacher Tribute Set",
-        note: "Portrait-driven moments honoring mentors and educators.",
-        count: "19 Photos",
-    },
-    {
-        title: "Volunteer in Action",
-        note: "Blood drives, scholarship handoffs, and community support moments.",
-        count: "53 Photos",
-    },
-];
-
-/* ── Main Page ────────────────────────────────────────────── */
+/* ── Main Page  */
 const GalleryPage = () => {
     const [contributeOpen, setContributeOpen] = useState(false);
     return (
@@ -60,91 +30,84 @@ const GalleryPage = () => {
 
                 <GalleryPageImagesContributors />
 
-                {/* ═══ 3. FEATURED COLLECTIONS ═════════════════════════ */}
+                {/* ═══ CONTRIBUTE  */}
                 <FadeUpWrapper className="three-xl-section-setup">
-                    <div className="mb-5">
-                        <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900">
-                            Featured Collections
-                        </h2>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                            Curated albums by moment, era, and community contribution.
-                        </p>
-                    </div>
-                    <HorizontalSnapCarousel>
-                        {featuredCollections.map((item) => (
-                            <Card
-                                key={item.title}
-                                className="h-full border-primary2-200/60 hover:-translate-y-1 transition-transform duration-200"
-                            >
-                                <CardContent className="p-6">
-                                    <div className="h-12 w-12 rounded-2xl flex items-center justify-center bg-primary2-100">
-                                        <RiCameraLensLine className="text-2xl text-primary2-700" />
+                    <div
+                        className="relative overflow-hidden rounded-3xl"
+                        style={{ background: "linear-gradient(135deg, #041a12 0%, #0c4a34 60%, #1a5436 100%)" }}
+                    >
+                        {/* Background grid texture */}
+                        <div
+                            className="absolute inset-0 pointer-events-none opacity-20"
+                            style={{
+                                backgroundImage:
+                                    "linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px)",
+                                backgroundSize: "48px 48px",
+                            }}
+                        />
+                        {/* Glow orbs */}
+                        <div className="absolute -top-16 -right-16 h-56 w-56 rounded-full blur-3xl opacity-20" style={{ background: "rgba(46,139,87,1)" }} />
+                        <div className="absolute -bottom-12 -left-12 h-44 w-44 rounded-full blur-3xl opacity-15" style={{ background: "rgba(245,158,11,1)" }} />
+
+                        <div className="relative z-10 px-6 py-10 sm:px-10 sm:py-12">
+                            <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
+
+                                {/* ── Left content ── */}
+                                <div className="flex-1">
+                                    <div className="inline-flex items-center gap-2 rounded-full border border-primary2-500/40 bg-primary2-900/50 px-3 py-1 text-xs font-medium text-primary2-300 mb-5">
+                                        <RiUploadCloud2Line className="text-sm" />
+                                        Open Submissions
                                     </div>
-                                    <h3 className="mt-5 text-lg font-semibold text-primary2-900 leading-snug">
-                                        {item.title}
-                                    </h3>
-                                    <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                                        {item.note}
-                                    </p>
-                                    <p className="mt-4 text-xs font-medium text-primary2-600">
-                                        {item.count}
-                                    </p>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </HorizontalSnapCarousel>
-                </FadeUpWrapper>
 
-                {/* ═══ 4. VISUAL STORY STRIPS + CONTRIBUTE ════════════ */}
-                <FadeUpWrapper className="three-xl-section-setup">
-                    <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_0.6fr] gap-5">
-                        <Card className="border-primary2-200/60">
-                            <CardContent className="p-6 sm:p-8">
-                                <h3 className="text-xl font-bold text-primary2-900">
-                                    Visual Story Strips
-                                </h3>
-                                <p className="mt-2 text-sm text-muted-foreground">
-                                    Sequence memories as mini-documentaries — assembly, classroom,
-                                    reunion, service.
-                                </p>
-                                <Separator className="my-6" />
-                                <div className="grid sm:grid-cols-3 gap-3">
-                                    {[
-                                        { phase: "Then", desc: "1966–1999 archival collection" },
-                                        { phase: "Now", desc: "2000–present digital archive" },
-                                        { phase: "Next", desc: "Upcoming event captures" },
-                                    ].map(({ phase, desc }) => (
-                                        <div
-                                            key={phase}
-                                            className="rounded-xl border border-surface-300/60 bg-primary2-50/50 p-4"
-                                        >
-                                            <p className="text-xs uppercase tracking-[0.14em] text-primary2-600 font-medium">
-                                                {phase}
-                                            </p>
-                                            <p className="mt-2 text-sm text-primary2-900 font-medium">
-                                                {desc}
-                                            </p>
-                                        </div>
-                                    ))}
+                                    <h2 className="text-2xl sm:text-3xl font-bold text-white leading-snug max-w-lg">
+                                        Your memories deserve{" "}
+                                        <span className="text-primary2-300">a permanent place</span>{" "}
+                                        in the archive
+                                    </h2>
+                                    <p className="mt-3 text-sm text-gunmetal-300 leading-relaxed max-w-md">
+                                        Submit your best BAMHS moments — sports days, graduations,
+                                        classroom memories — and let them live on for future alumni.
+                                    </p>
+
+                                    {/* Feature bullets */}
+                                    <ul className="mt-6 space-y-2.5">
+                                        {[
+                                            { icon: <RiShieldCheckLine />, text: "Every photo reviewed before going public" },
+                                            { icon: <RiImageLine />, text: "Upload up to 10 photos per submission" },
+                                        ].map(({ icon, text }) => (
+                                            <li key={text} className="flex items-center gap-2.5 text-sm text-gunmetal-200">
+                                                <span className="flex-shrink-0 text-primary2-400 text-base">{icon}</span>
+                                                {text}
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </div>
-                            </CardContent>
-                        </Card>
 
-                        <Card className="border-primary2-200/60">
-                            <CardContent className="p-6 sm:p-8 flex flex-col">
-                                <h3 className="text-xl font-bold text-primary2-900">Contribute</h3>
-                                <p className="mt-2 text-sm text-muted-foreground flex-1">
-                                    Submit your best BAMHS moments with context to enrich the alumni
-                                    archive permanently.
-                                </p>
-                                <Button className="mt-8 w-full bg-primary2-700 hover:bg-primary2-800 text-white" onClick={() => setContributeOpen(true)}>
-                                    <RiUploadCloud2Line className="mr-2 text-base" /> Submit Photos
-                                </Button>
-                                <p className="mt-3 text-xs text-muted-foreground text-center">
-                                    Quality review &amp; curation pipeline ready to connect.
-                                </p>
-                            </CardContent>
-                        </Card>
+                                {/* ── Right CTA card ── */}
+                                <div className="lg:w-64 xl:w-72">
+                                    <div
+                                        className="rounded-2xl border p-6 flex flex-col items-center text-center gap-5"
+                                        style={{ background: "rgba(255,255,255,0.06)", borderColor: "rgba(255,255,255,0.12)" }}
+                                    >
+                                        <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: "rgba(46,139,87,0.25)", border: "1px solid rgba(46,139,87,0.35)" }}>
+                                            <RiUploadCloud2Line className="text-2xl text-primary2-300" />
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-white text-sm">Ready to contribute?</p>
+                                            <p className="mt-1 text-xs text-gunmetal-300">Join the growing list of alumni keeping BAMHS memories alive.</p>
+                                        </div>
+                                        <Button
+                                            className="w-full bg-primary2-500 hover:bg-primary2-400 text-white font-medium gap-2"
+                                            onClick={() => setContributeOpen(true)}
+                                        >
+                                            Submit Photos
+                                            <RiArrowRightLine className="text-base" />
+                                        </Button>
+                                        <p className="text-xs text-gunmetal-400">Free · No account required to browse</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </FadeUpWrapper>
             </div>
