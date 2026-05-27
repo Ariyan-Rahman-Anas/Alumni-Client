@@ -169,8 +169,8 @@ export default function NotFoundPage() {
                 >
                     Looks like you got lost on
                     <br />
-                    <span className="font-serif italic" style={{ color: "var(--color-primary-300)" }}>
-                        the way back to Battali
+                    <span className="italic" style={{ color: "var(--color-primary-300)" }}>
+                        the way back to your alma mater
                     </span>
                 </motion.h1>
 
