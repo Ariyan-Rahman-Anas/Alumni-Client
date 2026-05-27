@@ -20,6 +20,7 @@ import {
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 import GoBackward from "@/components/shared/GoBackward";
 import SectionLabel from "@/components/shared/SectionLabel";
+import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
 
 /* ── Types ───────────────────────────────────────────────── */
 interface Section {
@@ -105,8 +106,19 @@ const Highlight = ({ children }: { children: React.ReactNode }) => (
     </div>
 );
 
+const Divider = () => (<div className="border-t border-gunmetal-100 dark:border-gunmetal-400 mb-14" />
+);
+
 /* ── Main component ───────────────────────────────────────── */
 export default function TermsPage() {
+    const { data: websiteManagement } = useGetWebsiteManagementQuery();
+
+    const { schoolName, postalCode, area, thana, district, division, country, email } =
+        websiteManagement?.data || {};
+    const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
+
+    const schoolAddress = `${postalCode ?? "3582"} - ${area ?? "Battali"}, ${thana ?? "Nangalkot"}, ${district ?? "Cumilla"}, ${division ?? "Chattogram"}, ${country ?? "Bangladesh"}`;
+
     const [activeSection, setActiveSection] = useState<string>(sections[0].id);
 
     useEffect(() => {
@@ -158,7 +170,7 @@ export default function TermsPage() {
                             Terms of Service
                         </h1>
                         <p className="text-base sm:text-lg leading-relaxed max-w-4xl mx-auto  text-gunmetal-300 mb-8 mt-5">
-                            These terms govern your use of the BAMHS Alumni portal. Please read them
+                            These terms govern your use of the {schoolShortName} Alumni portal. Please read them
                             carefully before creating an account or accessing our services.
                         </p>
                         <div className="flex items-center justify-center gap-2 text-sm text-gunmetal-200">
@@ -205,7 +217,7 @@ export default function TermsPage() {
                         <div className="mt-6 mx-3 p-3 rounded-xl bg-primary2-50 border border-primary2-100">
                             <p className="text-xs text-primary2-700 leading-relaxed">
                                 By using this portal, you agree to these terms. Questions?{" "}
-                                <a href="mailto:info@bamhsian.org.bd" className="font-semibold underline underline-offset-2">
+                                <a href={`mailto:${email || "info@bamhsian.org.bd"}`} className="font-semibold underline underline-offset-2">
                                     Contact us
                                 </a>
                             </p>
@@ -223,7 +235,7 @@ export default function TermsPage() {
                             <div className="mb-12 p-5 rounded-2xl bg-primary2-50 border border-primary2-100">
                                 <p className="text-sm text-primary2-800 leading-relaxed">
                                     These Terms of Service constitute a legally binding agreement between you
-                                    and the BAMHS Alumni Association. If you do not agree with any part of
+                                    and the {schoolShortName} Alumni Association. If you do not agree with any part of
                                     these terms, please discontinue use of the portal immediately.
                                 </p>
                             </div>
@@ -231,23 +243,23 @@ export default function TermsPage() {
 
                         <PolicySection id="acceptance" title="Acceptance of Terms" icon={<RiCheckboxCircleLine />}>
                             <P>
-                                By accessing or using the BAMHS Alumni portal (the &quot;Service&quot;), you confirm
+                                By accessing or using the {schoolShortName} Alumni portal (the &quot;Service&quot;), you confirm
                                 that you are at least 16 years of age and agree to be bound by these Terms of
                                 Service and our Privacy Policy.
                             </P>
                             <P>
-                                The BAMHS Alumni Association reserves the right to modify these terms at any
+                                The {schoolShortName} Alumni Association reserves the right to modify these terms at any
                                 time. Your continued use of the Service after any changes constitutes your
                                 acceptance of the new terms. We will notify registered users of material changes.
                             </P>
                             <Highlight>
-                                This portal is exclusively for alumni of Battali Abdul Matin High School.
+                                This portal is exclusively for alumni of {schoolName}.
                                 Registering with false information or impersonating another person is strictly
                                 prohibited and will result in immediate account termination.
                             </Highlight>
                         </PolicySection>
 
-                        <div className="border-t border-surface-100 mb-14" />
+                        <Divider />
 
                         <PolicySection id="account-registration" title="Account Registration" icon={<RiUserAddLine />}>
                             <P>
@@ -270,11 +282,11 @@ export default function TermsPage() {
                             </P>
                         </PolicySection>
 
-                        <div className="border-t border-surface-100 mb-14" />
+                        <Divider />
 
                         <PolicySection id="community-standards" title="Community Standards" icon={<RiGroupLine />}>
                             <P>
-                                The BAMHS Alumni portal is a respectful community built on shared memories and
+                                The {schoolShortName} Alumni portal is a respectful community built on shared memories and
                                 mutual support. All members are expected to uphold the following standards:
                             </P>
                             <UL items={[
@@ -283,7 +295,7 @@ export default function TermsPage() {
                                 "Share accurate information — misinformation harms the community",
                                 "Respect the privacy of other members and do not share their personal information without consent",
                                 "Report inappropriate content or behaviour to the moderation team",
-                                "Honour the reputation of BAMHS in all public interactions on the platform",
+                                `Honour the reputation of ${schoolShortName} in all public interactions on the platform`,
                             ]} />
                             <P>
                                 Violations of community standards may result in content removal, temporary
@@ -291,11 +303,11 @@ export default function TermsPage() {
                             </P>
                         </PolicySection>
 
-                        <div className="border-t border-surface-100 mb-14" />
+                        <Divider />
 
                         <PolicySection id="prohibited-activities" title="Prohibited Activities" icon={<RiProhibitedLine />}>
                             <P>
-                                The following activities are strictly prohibited on the BAMHS Alumni portal:
+                                The following activities are strictly prohibited on the {schoolShortName} Alumni portal:
                             </P>
                             <SubHeading>Content Violations</SubHeading>
                             <UL items={[
@@ -303,7 +315,7 @@ export default function TermsPage() {
                                 "Sharing explicit, obscene, or sexually inappropriate material",
                                 "Publishing false information or spreading misinformation",
                                 "Uploading content that infringes third-party intellectual property rights",
-                                "Impersonating any person, organisation, or BAMHS alumni",
+                                `Impersonating any person, organisation, or ${schoolShortName} alumni`,
                             ]} />
                             <SubHeading>Technical Violations</SubHeading>
                             <UL items={[
@@ -321,17 +333,17 @@ export default function TermsPage() {
                             ]} />
                         </PolicySection>
 
-                        <div className="border-t border-surface-100 mb-14" />
+                        <Divider />
 
                         <PolicySection id="intellectual-property" title="Intellectual Property" icon={<RiCopyrightLine />}>
                             <P>
-                                All original content on the BAMHS Alumni portal — including design, text,
-                                graphics, logos, and software — is the intellectual property of the BAMHS
+                                All original content on the {schoolShortName} Alumni portal — including design, text,
+                                graphics, logos, and software — is the intellectual property of the {schoolShortName}
                                 Alumni Association or its licensors and is protected by applicable copyright law.
                             </P>
                             <UL items={[
                                 "You may not reproduce, distribute, or create derivative works without explicit written permission",
-                                "The BAMHS name and associated marks may not be used without prior authorisation",
+                                `The ${schoolShortName} name and associated marks may not be used without prior authorisation`,
                                 "Content you did not create (school photos, third-party media) must be shared with appropriate attribution",
                             ]} />
                             <P>
@@ -341,7 +353,7 @@ export default function TermsPage() {
                             </P>
                         </PolicySection>
 
-                        <div className="border-t border-surface-100 mb-14" />
+                        <Divider />
 
                         <PolicySection id="user-content" title="User Content" icon={<RiImageLine />}>
                             <P>
@@ -367,11 +379,11 @@ export default function TermsPage() {
                             </P>
                         </PolicySection>
 
-                        <div className="border-t border-surface-100 mb-14" />
+                        <Divider />
 
                         <PolicySection id="disclaimers" title="Disclaimers" icon={<RiAlertLine />}>
                             <P>
-                                The BAMHS Alumni portal is provided on an &quot;as is&quot; and &quot;as available&quot; basis
+                                The {schoolShortName} Alumni portal is provided on an &quot;as is&quot; and &quot;as available&quot; basis
                                 without warranties of any kind, either express or implied, including but not
                                 limited to:
                             </P>
@@ -387,16 +399,16 @@ export default function TermsPage() {
                                 through the portal.
                             </Highlight>
                             <P>
-                                The Association is not affiliated with the BAMHS school administration.
-                                Content on this portal does not represent the official positions of the school.
+                                The Association is not affiliated with the {schoolShortName} administration.
+                                Content on this portal does not represent the official positions of the {schoolShortName}.
                             </P>
                         </PolicySection>
 
-                        <div className="border-t border-surface-100 mb-14" />
+                        <Divider />
 
                         <PolicySection id="limitation-of-liability" title="Limitation of Liability" icon={<RiScalesLine />}>
                             <P>
-                                To the fullest extent permitted by applicable law, the BAMHS Alumni
+                                To the fullest extent permitted by applicable law, the {schoolShortName} Alumni
                                 Association and its volunteers, administrators, and developers shall not be
                                 liable for any:
                             </P>
@@ -414,7 +426,7 @@ export default function TermsPage() {
                             </P>
                         </PolicySection>
 
-                        <div className="border-t border-surface-100 mb-14" />
+                        <Divider />
 
                         <PolicySection id="termination" title="Termination" icon={<RiLogoutCircleRLine />}>
                             <SubHeading>By the Association</SubHeading>
@@ -439,7 +451,7 @@ export default function TermsPage() {
                             ]} />
                         </PolicySection>
 
-                        <div className="border-t border-surface-100 mb-14" />
+                        <Divider />
 
                         <PolicySection id="contact" title="Contact Us" icon={<RiMailLine />}>
                             <P>
@@ -449,22 +461,24 @@ export default function TermsPage() {
                             <div className="mt-4 p-5 rounded-2xl bg-surface-50 border border-surface-200 space-y-3 not-prose">
                                 <div className="flex items-center gap-3 text-sm">
                                     <RiMailLine className="text-primary2-500 text-lg flex-shrink-0" />
-                                    <a href="mailto:info@bamhsian.org.bd" className="text-primary2-700 font-medium hover:underline">
-                                        info@bamhsian.org.bd
+                                    <a href={`mailto:${email || "info@bamhsian.org.bd"}`} className="text-primary2-700 font-medium hover:underline">
+                                        {email || "info@bamhsian.org.bd"}
                                     </a>
                                 </div>
                                 <div className="flex items-start gap-3 text-sm text-neutral-600">
                                     <span className="text-primary2-500 text-lg flex-shrink-0 mt-0.5">🏫</span>
-                                    <span>BAMHS Alumni Association, Battali Abdul Matin High School, Nangalkot, Cumilla, Bangladesh</span>
+                                    <span>{schoolShortName || "BAMHS"} Alumni Association, {schoolName || "Battali Abdul Matin High School"}, {schoolAddress}</span>
                                 </div>
                             </div>
                             <P>We will endeavour to respond to all legal enquiries within 10 business days.</P>
                         </PolicySection>
 
+                        <Divider />
+
                         {/* Footer nav */}
-                        <div className="mt-16 pt-8 border-t border-surface-100 flex flex-wrap items-center justify-between gap-4">
+                        <div className="flex flex-wrap items-center justify-between gap-4">
                             <p className="text-xs text-muted-foreground">
-                                © {new Date().getFullYear()} BAMHS Alumni Association. All rights reserved.
+                                © {new Date().getFullYear()} {schoolShortName || "BAMHS"} Alumni Association. All rights reserved.
                             </p>
                             <div className="flex gap-4 text-xs">
                                 <Link href="/privacy" className="text-primary2-600 hover:underline font-medium">
