@@ -11,7 +11,7 @@ import { HiArrowUpRight } from "react-icons/hi2";
 import FooterHead from "./modules/user/footer/FooterHead";
 import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
 
-/* ── Data */
+/* Data */
 const quickLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
@@ -28,12 +28,10 @@ const communityLinks = [
   { label: "Alumni Directory", href: "/batches" },
 ];
 
-/* ── Helper ────────────────────────────────────────────────── */
+/*  Helper */
 const FooterHeading = ({ children }: { children: React.ReactNode }) => (
   <h3
-    className="font-display font-semibold text-base mb-5 flex items-center gap-3"
-    style={{ color: "var(--color-primary-100)" }}
-  >
+    className="text-white dark:text-gunmetal-200 font-semibold text-base mb-5 flex items-center gap-3">
     <span
       className="w-5 h-[2px] rounded-full"
       style={{ background: "linear-gradient(90deg, #4ade80, #f59e0b)" }}
@@ -42,7 +40,6 @@ const FooterHeading = ({ children }: { children: React.ReactNode }) => (
   </h3>
 );
 
-/* ── Component ─────────────────────────────────────────────── */
 const Footer = () => {
   const year = new Date().getFullYear();
   const { data: websiteManagement } = useGetWebsiteManagementQuery();
@@ -75,7 +72,7 @@ const Footer = () => {
         background: "linear-gradient(180deg, #0A3D2B 0%, #051F15 100%)",
       }}
     >
-      {/* ── Decorative grid overlay ── */}
+      {/*  Decorative grid overlay  */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-0"
@@ -85,20 +82,14 @@ const Footer = () => {
           backgroundSize: "60px 60px",
         }}
       />
-
-      {/* ══════════════════════════════════════════════════════
-          SCHOOL NAME HERO BAND
-      ══════════════════════════════════════════════════════ */}
+      {/* SCHOOL NAME HERO BAND */}
       <FooterHead />
 
-
-      {/* ══════════════════════════════════════════════════════
-          MAIN GRID
-      ══════════════════════════════════════════════════════ */}
+      {/* MAIN GRID */}
       <div className="relative pb-8 pt-0 three-xl-section-setup">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
-          {/* ── Col 1 — About ── */}
+          {/* Col 1 — About */}
           <motion.div
             initial={{ y: 16, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -124,7 +115,7 @@ const Footer = () => {
             </Link>
           </motion.div>
 
-          {/* ── Col 2 — Quick Links ── */}
+          {/* Col 2 — Quick Links  */}
           <motion.div
             initial={{ y: 16, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -157,7 +148,7 @@ const Footer = () => {
             </ul>
           </motion.div>
 
-          {/* ── Col 3 — Community ── */}
+          {/* Col 3 — Community  */}
           <motion.div
             initial={{ y: 16, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -190,7 +181,7 @@ const Footer = () => {
             </ul>
           </motion.div>
 
-          {/* ── Col 4 — Contact ── */}
+          {/*  Col 4 — Contact  */}
           <motion.div
             initial={{ y: 16, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -224,59 +215,38 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════════════════
-          BOTTOM BAR
-      ══════════════════════════════════════════════════════ */}
+          {/* BOTTOM BAR */}
       <div
         className="relative border-t"
-        style={{ borderColor: "rgba(46,139,87,0.15)" }}
-      >
-        {/* Gold accent stripe */}
-        <div
-          className="absolute -top-px left-1/2 -translate-x-1/2 w-40 h-[2px] rounded-full"
-          style={{
-            background: "linear-gradient(90deg, transparent, rgba(245,158,11,0.70), transparent)",
-          }}
-        />
-
-        <div className="page-setup py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs" style={{ color: "rgba(134,239,172,0.50)" }}>
+        style={{ borderColor: "rgba(46,139,87,0.15)" }}>
+        <div className="three-xl-section-setup py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white dark:text-gunmetal-200 ">
           {/* Copyright */}
-          <p>
-            © {year} {schoolShortName} Alumni Association. All rights reserved.
-          </p>
+          <p>© {year} {schoolShortName} Alumni Association. All rights reserved</p>
 
           {/* Developer credit — inline, professional */}
           <Link
             href="https://ariyanrahmananas.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 transition-colors duration-200"
-            style={{ color: "rgba(134,239,172,0.50)" }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(134,239,172,0.90)"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(134,239,172,0.50)"; }}
-          >
+            className="group inline-flex items-center gap-2 transition-colors duration-300">
             <span>Designed &amp; developed by</span>
             <span
-              className="font-semibold"
-              style={{ color: "rgba(134,239,172,0.75)" }}
-            >
+              className="font-semibold group-hover:text-primary2-500 duration-300">
               Ariyan Rahman Anas
             </span>
-            <HiArrowUpRight className="text-[10px] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+            <HiArrowUpRight className="group-hover:text-primary2-500 duration-300" />
           </Link>
 
           {/* Legal links */}
           <div className="flex items-center gap-4">
             <Link
               href="/privacy"
-              className="transition-colors duration-200 hover:text-emerald-300"
-            >
+              className="duration-300 hover:text-primary2-500">
               Privacy
             </Link>
             <Link
               href="/terms"
-              className="transition-colors duration-200 hover:text-emerald-300"
-            >
+              className="duration-300 hover:text-primary2-500">
               Terms
             </Link>
           </div>
