@@ -192,7 +192,7 @@ const Loading = () => {
             </p>
             <p className=" text-[10px] tracking-[0.18em] uppercase mt-0.5"
               style={{ color: "rgba(195,232,206,0.50)" }}>
-              Est. 1966 · Alumni Portal
+              Est. 2026 · Alumni Portal
             </p>
           </div>
         </motion.div>
