@@ -135,7 +135,7 @@ export default function RegisterProviderPage() {
     /* ── Guard: already has a profile ──────────────────────── */
     if (isLoggedIn && profileLoading) {
         return (
-            <div className="three-xl-section-setup py-24 flex items-center justify-center">
+            <div className="three-xl-section-setup flex items-center justify-center">
                 <div className="text-center">
                     <div className="h-8 w-8 border-2 border-primary2-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
                     <p className="text-sm text-muted-foreground">Checking your profile…</p>
@@ -179,7 +179,7 @@ export default function RegisterProviderPage() {
         }[status];
 
         return (
-            <div className="three-xl-section-setup pb-24 pt-10 max-w-lg">
+            <div className="three-xl-section-setup max-w-lg">
                 <div className={`rounded-2xl border p-8 text-center space-y-5 ${config.bg}`}>
                     <div className="flex justify-center">{config.icon}</div>
 

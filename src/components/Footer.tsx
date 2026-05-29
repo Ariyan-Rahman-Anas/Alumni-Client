@@ -219,7 +219,7 @@ const Footer = () => {
       <div
         className="relative border-t"
         style={{ borderColor: "rgba(46,139,87,0.15)" }}>
-        <div className="three-xl-section-setup py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white dark:text-gunmetal-200 ">
+        <div className="three-xl-section-setup py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gunmetal-200 ">
           {/* Copyright */}
           <p>© {year} {schoolShortName} Alumni Association. All rights reserved</p>
 
