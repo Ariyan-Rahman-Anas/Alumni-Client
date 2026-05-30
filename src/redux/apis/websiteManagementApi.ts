@@ -4,6 +4,10 @@ export interface IWebsiteManagement {
     _id: string;
     motto: string;
     schoolName: string;
+    primaryColor?: string;
+    primaryColorDark?: string;
+    bloodBankColor?: string;
+    bloodBankColorDark?: string;
     fullAddress?: string;
     postalCode: string;
     area: string;

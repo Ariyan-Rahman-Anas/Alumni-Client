@@ -44,7 +44,7 @@ const HeroSection = () => {
             </motion.div>
 
             {/* ── OVERLAY — darker, more cinematic ── */}
-            <div className="absolute inset-0 bg-gradient-to-t from-primary2-950 dark:from-gunmetal-950 via-primary2-950/60 dark:via-gunmetal-950/60 to-primary2-950/40 dark:to-gunmetal-950/40 "/>
+            <div className="absolute inset-0 bg-gradient-to-t from-primary2-950 dark:from-gunmetal-950 via-primary2-950/60 dark:via-gunmetal-950/60 to-primary2-950/40 dark:to-gunmetal-950/40 " />
 
             {/* vignette */}
             <div className="absolute inset-0 pointer-events-none bg-radial-gradient" />
@@ -61,7 +61,7 @@ const HeroSection = () => {
             {/* ambient orbs */}
             <motion.div
                 className="absolute top-20 left-20 w-[400px] h-[400px] rounded-full blur-3xl"
-                style={{ background: "radial-gradient(circle, rgba(34,197,94,0.12), transparent)" }}
+                style={{ background: "radial-gradient(circle, color-mix(in srgb, var(--color-primary-500) 12%, transparent), transparent)" }}
                 animate={{ y: [0, -30, 0], x: [0, 20, 0] }}
                 transition={{ duration: 8, repeat: Infinity }}
             />
@@ -85,10 +85,10 @@ const HeroSection = () => {
                     className="font-sanchez text-4xl md:text-7xl font-extrabold px-2 pb-4"
                     style={{
                         fontSize: "clamp(2.5rem, 6vw, 5rem)",
-                        background: "linear-gradient(160deg, #f0fdf4 10%, #3df07f 55%, #d1fae5 90%)",
+                        background: "linear-gradient(160deg, var(--color-primary-50) 10%, var(--color-primary-200) 55%, var(--color-primary-100) 90%)",
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
-                        textShadow: "0 0 40px rgba(34,197,94,0.25)",
+                        textShadow: "0 0 40px color-mix(in srgb, var(--color-primary-500) 25%, transparent)",
                     }}
                 >
                     {motto || "Rooted in Battali - Rising Everywhere"}

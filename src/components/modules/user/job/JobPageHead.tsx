@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useSelector } from "react-redux";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
@@ -49,7 +49,7 @@ const JobPageHead = () => {
         <FadeUpWrapper delay={0.1}>
             <section
                 className="relative overflow-hidden rounded-3xl"
-                style={{ background: "linear-gradient(145deg, #041a12 0%, #0c4a34 55%, #062319 100%)" }}
+                style={{ background: "linear-gradient(145deg, var(--color-primary-950) 0%, var(--color-primary-800) 55%, var(--color-primary-950) 100%)" }}
             >
                 <div
                     className="absolute inset-0 pointer-events-none opacity-30"
@@ -72,14 +72,14 @@ const JobPageHead = () => {
                     <FadeUpWrapper
                         delay={0.15}
                     >
-                        <SectionLabel text="Alumni Network · Job Board" align="left" icon={<RiBriefcaseLine />} className="text-primary2-200 capitalize mb-2" />
+                        <SectionLabel text="Alumni Network Â· Job Board" align="left" icon={<RiBriefcaseLine />} className="text-primary2-200 capitalize mb-2" />
                         <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight max-w-3xl">
                             Opportunities{" "}
                             <span className="text-primary2-300">& Services Hub</span>
                         </h1>
 
                         <p className="text-base sm:text-lg leading-relaxed max-w-4xl text-gunmetal-300 mb-12 mt-5">
-                            Discover career openings, find tutors, hire skilled workers — or post your own. All within the {schoolShortName} alumni community.
+                            Discover career openings, find tutors, hire skilled workers â€” or post your own. All within the {schoolShortName} alumni community.
                         </p>
                     </FadeUpWrapper>
 

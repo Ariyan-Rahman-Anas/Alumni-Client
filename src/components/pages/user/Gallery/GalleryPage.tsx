@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import {
@@ -14,27 +14,27 @@ import GalleryPageImagesContributors from "@/components/modules/user/gallery/Gal
 import { FadeUpWrapper } from "../Home/HomePage";
 import UserContributeGallerySheet from "@/components/modules/user/gallery/UserContributeGallerySheet";
 
-/* ── Main Page  */
+/* â”€â”€ Main Page  */
 const GalleryPage = () => {
     const [contributeOpen, setContributeOpen] = useState(false);
     return (
         <>
             <div className="">
 
-                {/* ═══ 1. CINEMATIC HERO ═══════════════════════════════ */}
+                {/* â•â•â• 1. CINEMATIC HERO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
                 <GalleryPageHead />
 
-                {/* ═══ 2. FILTER + MASONRY GRID ════════════════════════ */}
+                {/* â•â•â• 2. FILTER + MASONRY GRID â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
                 <GalleryPageMasonryGrid />
 
 
                 <GalleryPageImagesContributors />
 
-                {/* ═══ CONTRIBUTE  */}
+                {/* â•â•â• CONTRIBUTE  */}
                 <FadeUpWrapper className="three-xl-section-setup">
                     <div
                         className="relative overflow-hidden rounded-3xl"
-                        style={{ background: "linear-gradient(135deg, #041a12 0%, #0c4a34 60%, #1a5436 100%)" }}
+                        style={{ background: "linear-gradient(135deg, var(--color-primary-950) 0%, var(--color-primary-800) 60%, var(--color-primary-800) 100%)" }}
                     >
                         {/* Background grid texture */}
                         <div
@@ -52,7 +52,7 @@ const GalleryPage = () => {
                         <div className="relative z-10 px-6 py-10 sm:px-10 sm:py-12">
                             <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
 
-                                {/* ── Left content ── */}
+                                {/* â”€â”€ Left content â”€â”€ */}
                                 <div className="flex-1">
                                     <div className="inline-flex items-center gap-2 rounded-full border border-primary2-500/40 bg-primary2-900/50 px-3 py-1 text-xs font-medium text-primary2-300 mb-5">
                                         <RiUploadCloud2Line className="text-sm" />
@@ -65,8 +65,8 @@ const GalleryPage = () => {
                                         in the archive
                                     </h2>
                                     <p className="mt-3 text-sm text-gunmetal-300 leading-relaxed max-w-md">
-                                        Submit your best BAMHS moments — sports days, graduations,
-                                        classroom memories — and let them live on for future alumni.
+                                        Submit your best BAMHS moments â€” sports days, graduations,
+                                        classroom memories â€” and let them live on for future alumni.
                                     </p>
 
                                     {/* Feature bullets */}
@@ -83,7 +83,7 @@ const GalleryPage = () => {
                                     </ul>
                                 </div>
 
-                                {/* ── Right CTA card ── */}
+                                {/* â”€â”€ Right CTA card â”€â”€ */}
                                 <div className="lg:w-64 xl:w-72">
                                     <div
                                         className="rounded-2xl border p-6 flex flex-col items-center text-center gap-5"
@@ -103,7 +103,7 @@ const GalleryPage = () => {
                                             Submit Photos
                                             <RiArrowRightLine className="text-base" />
                                         </Button>
-                                        <p className="text-xs text-gunmetal-400">Free · No account required to browse</p>
+                                        <p className="text-xs text-gunmetal-400">Free Â· No account required to browse</p>
                                     </div>
                                 </div>
                             </div>

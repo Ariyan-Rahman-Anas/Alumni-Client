@@ -71,14 +71,14 @@ export default function NotFoundPage() {
     return (
         <div
             className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6"
-            style={{ background: "linear-gradient(160deg, #0A3D2B 0%, #051F15 100%)" }}
+            style={{ background: "linear-gradient(160deg, var(--color-primary-900) 0%, var(--color-primary-950) 100%)" }}
         >
             {/* ── Background grid ── */}
             <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
                     backgroundImage:
-                        "linear-gradient(rgba(46,139,87,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.07) 1px, transparent 1px)",
+                        "linear-gradient(color-mix(in srgb, var(--color-primary-500) 7%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-primary-500) 7%, transparent) 1px, transparent 1px)",
                     backgroundSize: "60px 60px",
                 }}
             />
@@ -112,7 +112,7 @@ export default function NotFoundPage() {
                             lineHeight: 1,
                             letterSpacing: "-0.05em",
                             background:
-                                "linear-gradient(135deg, rgba(46,139,87,0.20) 0%, rgba(46,139,87,0.08) 100%)",
+                                "linear-gradient(135deg, color-mix(in srgb, var(--color-primary-500) 20%, transparent) 0%, color-mix(in srgb, var(--color-primary-500) 8%, transparent) 100%)",
                             WebkitBackgroundClip: "text",
                             WebkitTextFillColor: "transparent",
                             backgroundClip: "text",
@@ -127,7 +127,7 @@ export default function NotFoundPage() {
                             fontSize: "clamp(7rem, 22vw, 16rem)",
                             lineHeight: 1,
                             letterSpacing: "-0.05em",
-                            WebkitTextStroke: "1px rgba(46,139,87,0.35)",
+                            WebkitTextStroke: "1px color-mix(in srgb, var(--color-primary-500) 35%, transparent)",
                             color: "transparent",
                         }}
                     >
@@ -142,8 +142,8 @@ export default function NotFoundPage() {
                     transition={{ delay: 0.25, duration: 0.5 }}
                     className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border mb-6"
                     style={{
-                        background: "rgba(46,139,87,0.12)",
-                        borderColor: "rgba(46,139,87,0.30)",
+                        background: "color-mix(in srgb, var(--color-primary-500) 12%, transparent)",
+                        borderColor: "color-mix(in srgb, var(--color-primary-500) 30%, transparent)",
                     }}
                 >
                     <span
@@ -202,9 +202,9 @@ export default function NotFoundPage() {
                             style={
                                 i === 0
                                     ? {
-                                        background: "linear-gradient(135deg, #2E8B57 0%, #155A3E 100%)",
+                                        background: "linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-800) 100%)",
                                         color: "#FDFAF2",
-                                        boxShadow: "0 0 24px rgba(46,139,87,0.35)",
+                                        boxShadow: "0 0 24px color-mix(in srgb, var(--color-primary-500) 35%, transparent)",
                                     }
                                     : {
                                         borderColor: "rgba(46,139,87,0.35)",

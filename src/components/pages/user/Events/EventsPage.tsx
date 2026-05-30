@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
     RiCalendarCheckLine,
@@ -15,7 +15,7 @@ const HOW_IT_WORKS = [
         step: "01",
         icon: <RiSearch2Line />,
         title: "Browse & Filter",
-        desc: "Explore upcoming reunions, career fairs, cultural nights, and community drives — filtered by category, format, or status.",
+        desc: "Explore upcoming reunions, career fairs, cultural nights, and community drives â€” filtered by category, format, or status.",
     },
     {
         step: "02",
@@ -31,7 +31,7 @@ const HOW_IT_WORKS = [
     },
 ];
 
-/* ── Page ─────────────────────────────────────────────────── */
+/* â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const EventsPage = () => {
     const { data: upcomingData } = useGetAllPublishedEventsQuery({ page: 1, limit: 1, status: "UPCOMING" });
     const { data: totalData } = useGetAllPublishedEventsQuery({ page: 1, limit: 1 });
@@ -42,10 +42,10 @@ const EventsPage = () => {
     return (
         <div className="three-xl-section-setup pb-20 space-y-16">
 
-            {/* ═══ 1. UPCOMING EVENTS ═════════════════════════════ */}
+            {/* â•â•â• 1. UPCOMING EVENTS â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
             <EventPageEvents />
 
-            {/* ═══ 2. HOW TO PARTICIPATE ══════════════════════════ */}
+            {/* â•â•â• 2. HOW TO PARTICIPATE â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
             <FadeUpWrapper>
                 <div className="space-y-8">
                     <div>
@@ -81,11 +81,11 @@ const EventsPage = () => {
                 </div>
             </FadeUpWrapper>
 
-            {/* ═══ 3. STAY CONNECTED CTA ══════════════════════════ */}
+            {/* â•â•â• 3. STAY CONNECTED CTA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
             <FadeUpWrapper>
                 <div
                     className="relative overflow-hidden rounded-3xl px-8 py-10 sm:px-12 sm:py-12"
-                    style={{ background: "linear-gradient(135deg, #041a12 0%, #0c4a34 60%, #1a5436 100%)" }}
+                    style={{ background: "linear-gradient(135deg, var(--color-primary-950) 0%, var(--color-primary-800) 60%, var(--color-primary-800) 100%)" }}
                 >
                     {/* Background texture */}
                     <div
@@ -110,11 +110,11 @@ const EventsPage = () => {
                             </p>
                         </div>
 
-                        {/* Right — live stats */}
+                        {/* Right â€” live stats */}
                         <div className="flex gap-4 shrink-0">
                             {[
-                                { value: totalCount > 0 ? `${totalCount}+` : "—", label: "Events hosted" },
-                                { value: upcomingCount > 0 ? `${upcomingCount}` : "—", label: "Upcoming" },
+                                { value: totalCount > 0 ? `${totalCount}+` : "â€”", label: "Events hosted" },
+                                { value: upcomingCount > 0 ? `${upcomingCount}` : "â€”", label: "Upcoming" },
                             ].map(({ value, label }) => (
                                 <div
                                     key={label}

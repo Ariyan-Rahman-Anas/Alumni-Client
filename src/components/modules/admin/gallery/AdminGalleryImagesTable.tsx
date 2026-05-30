@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import { useState } from "react";
 import DataTable from "@/components/shared/dataTable/DataTable";
 import { Button } from "@/components/ui/button";
@@ -181,7 +181,7 @@ const AdminGalleryImagesTable = ({
                 <Button
                     size="sm"
                     className={`px-2 py-1 rounded text-xs ${item.isPublished
-                        ? "bg-green-500 text-white hover:bg-green-600"
+                        ? "bg-primary2-500 text-white hover:bg-primary2-600"
                         : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                         }`}
                     onClick={() => handleTogglePublish(item._id)}
@@ -198,7 +198,7 @@ const AdminGalleryImagesTable = ({
                 <Button
                     size="sm"
                     className={`px-2 py-1 rounded text-xs ${item.isFeatured
-                        ? "bg-green-500 text-white hover:bg-green-600"
+                        ? "bg-primary2-500 text-white hover:bg-primary2-600"
                         : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                         }`}
                     onClick={() => handleToggleFeatured(item._id)}

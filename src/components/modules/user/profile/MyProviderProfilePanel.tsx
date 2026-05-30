@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -20,10 +20,10 @@ import {
 import DeleteAlertModal from "@/components/shared/DeleteAlertModal";
 import { IServiceProvider } from "../job/job.types";
 
-/* ── Helpers ───────────────────────────────────────────── */
+/* â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const STATUS_CONFIG: Record<string, { label: string; className: string; icon: React.ReactNode }> = {
     PENDING: { label: "Pending Review", className: "bg-amber-50 text-amber-700 border border-amber-200", icon: <RiTimeLine /> },
-    APPROVED: { label: "Approved", className: "bg-emerald-50 text-emerald-700 border border-emerald-200", icon: <RiCheckboxCircleLine /> },
+    APPROVED: { label: "Approved", className: "bg-primary2-50 text-primary2-700 border border-primary2-200", icon: <RiCheckboxCircleLine /> },
     REJECTED: { label: "Rejected", className: "bg-red-50 text-red-700 border border-red-200", icon: <RiCloseCircleLine /> },
 };
 
@@ -59,12 +59,12 @@ function TagList({ items }: { items: string[] }) {
     );
 }
 
-/* ── Profile card ──────────────────────────────────────── */
+/* â”€â”€ Profile card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function ProviderCard({ provider }: { provider: IServiceProvider }) {
     const status = STATUS_CONFIG[provider.status] ?? STATUS_CONFIG.PENDING;
     const rates = [
-        provider.hourlyRate && `৳${provider.hourlyRate}/hr`,
-        provider.monthlyRate && `৳${provider.monthlyRate}/mo`,
+        provider.hourlyRate && `à§³${provider.hourlyRate}/hr`,
+        provider.monthlyRate && `à§³${provider.monthlyRate}/mo`,
     ].filter(Boolean);
 
     return (
@@ -111,7 +111,7 @@ function ProviderCard({ provider }: { provider: IServiceProvider }) {
                 {rates.length > 0 && (
                     <div>
                         <p className="text-xs text-muted-foreground mb-0.5">Rate</p>
-                        <p className="font-medium text-neutral-800">{rates.join(" · ")}</p>
+                        <p className="font-medium text-neutral-800">{rates.join(" Â· ")}</p>
                     </div>
                 )}
                 {provider.gender && (
@@ -168,7 +168,7 @@ function ProviderCard({ provider }: { provider: IServiceProvider }) {
     );
 }
 
-/* ── Main component ────────────────────────────────────── */
+/* â”€â”€ Main component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export default function MyProviderProfilePanel() {
     const { data, isLoading } = useGetMyProviderProfileQuery();
     const [deleteProvider, { isLoading: isDeleting }] = useDeleteProviderProfileMutation();

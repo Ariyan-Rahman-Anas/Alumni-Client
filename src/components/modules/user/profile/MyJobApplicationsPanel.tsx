@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import { TApplicationStatus } from "../job/job.types";
 
 const STATUS_CONFIG: Record<TApplicationStatus, { label: string; className: string; icon: React.ReactNode }> = {
     PENDING: { label: "Pending", className: "bg-amber-50 text-amber-700 border border-amber-200", icon: <RiTimeLine /> },
-    SELECTED: { label: "Selected", className: "bg-emerald-50 text-emerald-700 border border-emerald-200", icon: <RiCheckboxCircleLine /> },
+    SELECTED: { label: "Selected", className: "bg-primary2-50 text-primary2-700 border border-primary2-200", icon: <RiCheckboxCircleLine /> },
     REJECTED: { label: "Rejected", className: "bg-red-50 text-red-700 border border-red-200", icon: <RiCloseCircleLine /> },
 };
 
@@ -67,7 +67,7 @@ export default function MyJobApplicationsPanel() {
                             <div key={app._id} className="bg-white rounded-2xl border border-surface-200 p-5 hover:border-primary2-200 transition-colors">
                                 {/* Selected banner */}
                                 {app.status === "SELECTED" && (
-                                    <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-2 mb-4 flex items-center gap-2 text-emerald-700 text-sm font-medium">
+                                    <div className="bg-primary2-50 border border-primary2-200 rounded-xl px-4 py-2 mb-4 flex items-center gap-2 text-primary2-700 text-sm font-medium">
                                         <RiCheckboxCircleLine className="text-lg" /> Congratulations! You were selected for this position.
                                     </div>
                                 )}
@@ -86,7 +86,7 @@ export default function MyJobApplicationsPanel() {
                                                 </Link>
                                                 {typeof app.job === "object" && (
                                                     <p className="text-xs text-muted-foreground mt-0.5">
-                                                        by {app.job.postedBy?.name} · {app.job.type?.replace("_", " ")}
+                                                        by {app.job.postedBy?.name} Â· {app.job.type?.replace("_", " ")}
                                                     </p>
                                                 )}
                                             </div>
@@ -101,7 +101,7 @@ export default function MyJobApplicationsPanel() {
 
                                         <div className="flex items-center gap-3 mt-3 text-xs text-muted-foreground">
                                             <span>Applied {formatDistanceToNow(new Date(app.createdAt), { addSuffix: true })}</span>
-                                            <span>·</span>
+                                            <span>Â·</span>
                                             <span>{format(new Date(app.createdAt), "dd MMM yyyy")}</span>
                                             <Link href={`/jobs/${jobId}`} className="ml-auto flex items-center gap-1 text-primary2-700 hover:underline font-medium">
                                                 View Post <RiExternalLinkLine />

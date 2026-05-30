@@ -1,4 +1,4 @@
-
+﻿
 import Image from "next/image";
 import DataTable from "@/components/shared/dataTable/DataTable";
 import { Button } from "@/components/ui/button";
@@ -53,7 +53,7 @@ const AdminImageCategoriesTable = ({
             render: (cat) => (
                 <Button
                     size="sm"
-                    className={`px-2 py-1 rounded ${cat.isPublished ? "bg-green-500 text-white" : "bg-gray-300"}`}
+                    className={`px-2 py-1 rounded ${cat.isPublished ? "bg-primary2-500 text-white" : "bg-gray-300"}`}
                     // onClick={() => onTogglePublish(cat._id)}
                 >
                     {cat.isPublished ? "Yes" : "No"}

@@ -16,7 +16,7 @@ const BloodSection = () => (
             <div
                 className="relative rounded-3xl overflow-hidden"
                 style={{
-                    background: "linear-gradient(145deg, #5C0A18 0%, #7B0D1E 40%, #9E1525 100%)",
+                    background: "linear-gradient(145deg, var(--color-blood-bank-900) 0%, var(--color-blood-bank-800) 40%, var(--color-blood-bank-700) 100%)",
                 }}
             >
                 {/* ── Decorative grid ───────────────────────────── */}
@@ -50,7 +50,7 @@ const BloodSection = () => (
                             {/* Badge */}
                             <SectionLabel text="Blood Donation"
                                 icon={<RiHeartPulseLine />} align="left" className="text-danger-light/70 border-danger-light/30 dark:text-danger-light/60" />
- 
+
                             <FadeUpWrapper delay={0.18}>
                                 <h2
                                     className="section-heading-text-left font-bold text-white mt-5 mb-4"
@@ -64,7 +64,7 @@ const BloodSection = () => (
                                     <span
                                         className="font-serifitalic"
                                         style={{
-                                            background: "linear-gradient(135deg, #FCA5A5 0%, #F87171 100%)",
+                                            background: "linear-gradient(135deg, var(--color-blood-bank-300) 0%, var(--color-blood-bank-400) 100%)",
                                             WebkitBackgroundClip: "text",
                                             WebkitTextFillColor: "transparent",
                                             backgroundClip: "text",
@@ -107,16 +107,16 @@ const BloodSection = () => (
                                     <span
                                         className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 text-base"
                                         style={{
-                                            background: "rgba(220,38,38,0.25)",
-                                            color: "#FCA5A5",
-                                            border: "1px solid rgba(220,38,38,0.30)",
+                                            background: "color-mix(in srgb, var(--color-blood-bank-500) 25%, transparent)",
+                                            color: "var(--color-blood-bank-200)",
+                                            border: "1px solid color-mix(in srgb, var(--color-blood-bank-500) 30%, transparent)",
                                         }}
                                     >
                                         {icon}
                                     </span>
                                     <div>
                                         <p className="text-white dark:text-danger-light/80 font-bold text-sm leading-none">{value}</p>
-                                        <p className="text-[11px] mt-0.5" style={{ color: "rgba(254,202,202,0.60)" }}>{label}</p>
+                                        <p className="text-[11px] mt-0.5" style={{ color: "color-mix(in srgb, var(--color-blood-bank-100) 60%, transparent)" }}>{label}</p>
                                     </div>
                                 </div>
                             ))}

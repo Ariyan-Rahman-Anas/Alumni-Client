@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import { format } from "date-fns";
@@ -22,7 +22,7 @@ import type {
 
 const PAYMENT_STATUS_CFG: Record<TPaymentStatus, { label: string; className: string; icon: React.ReactNode }> = {
     PENDING: { label: "Pending", className: "bg-amber-50 text-amber-700 border border-amber-200", icon: <RiTimeLine /> },
-    PAID: { label: "Paid", className: "bg-emerald-50 text-emerald-700 border border-emerald-200", icon: <RiCheckboxCircleLine /> },
+    PAID: { label: "Paid", className: "bg-primary2-50 text-primary2-700 border border-primary2-200", icon: <RiCheckboxCircleLine /> },
     WAIVED: { label: "Waived", className: "bg-sky-50 text-sky-700 border border-sky-200", icon: <RiCheckboxCircleLine /> },
 };
 
@@ -43,8 +43,8 @@ const ProfileTransactionsPanel = () => {
 
     const stats = [
         { label: "Total Transactions", value: registrations.length.toString() },
-        { label: "Amount Paid", value: `৳${totalPaid.toLocaleString()}` },
-        { label: "Amount Pending", value: `৳${totalPending.toLocaleString()}` },
+        { label: "Amount Paid", value: `à§³${totalPaid.toLocaleString()}` },
+        { label: "Amount Pending", value: `à§³${totalPending.toLocaleString()}` },
     ];
 
     return (
@@ -73,7 +73,7 @@ const ProfileTransactionsPanel = () => {
                 {stats.map((stat) => (
                     <div key={stat.label} className="rounded-2xl border border-surface-300/50 bg-primary2-50/40 px-4 py-4">
                         <p className="text-xs text-muted-foreground">{stat.label}</p>
-                        <p className="mt-1 text-2xl font-bold text-primary2-900">{isLoading ? "—" : stat.value}</p>
+                        <p className="mt-1 text-2xl font-bold text-primary2-900">{isLoading ? "â€”" : stat.value}</p>
                     </div>
                 ))}
             </div>
@@ -145,7 +145,7 @@ const ProfileTransactionsPanel = () => {
                                     {/* Amount + badge */}
                                     <div className="flex sm:flex-col items-center sm:items-end gap-3 sm:gap-1.5 flex-shrink-0">
                                         <p className="text-lg font-bold text-primary2-900">
-                                            ৳{reg.totalAmount.toLocaleString()}
+                                            à§³{reg.totalAmount.toLocaleString()}
                                         </p>
                                         <span className={cn(
                                             "inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full border",

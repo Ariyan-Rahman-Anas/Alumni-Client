@@ -1,4 +1,4 @@
-import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
+﻿import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import Image from "next/image"
 import { RiBookOpenLine, RiBriefcaseLine, RiCheckboxCircleLine, RiHeartLine, RiMapPinLine, RiMoneyDollarCircleLine, RiToolsLine } from "react-icons/ri"
 import { useRouter } from "next/navigation";
@@ -15,7 +15,7 @@ const JobPageJobCard = ({ job, index }: { job: IJobPost; index: number }) => {
         },
         TUITION: {
             label: "Tuition Seek",
-            color: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+            color: "bg-primary2-50 text-primary2-700 border border-primary2-200",
             icon: <RiBookOpenLine />,
         },
         PERSONAL: {
@@ -58,14 +58,14 @@ const JobPageJobCard = ({ job, index }: { job: IJobPost; index: number }) => {
                 {job.type === "OFFICIAL" && (job.salaryMin || job.salaryMax) && (
                     <span className="flex items-center gap-1">
                         <RiMoneyDollarCircleLine />
-                        {job.salaryNegotiable ? "Negotiable" : `${job.salaryMin ?? "?"} – ${job.salaryMax ?? "?"} ${job.salaryCurrency ?? "BDT"}`}
+                        {job.salaryNegotiable ? "Negotiable" : `${job.salaryMin ?? "?"} â€“ ${job.salaryMax ?? "?"} ${job.salaryCurrency ?? "BDT"}`}
                     </span>
                 )}
                 {job.type === "TUITION" && job.studentClass && (
                     <span className="flex items-center gap-1"><RiBookOpenLine /> Class {job.studentClass}</span>
                 )}
                 {job.type === "TUITION" && job.subjects?.length && (
-                    <span className="flex items-center gap-1"><RiCheckboxCircleLine /> {job.subjects.slice(0, 2).join(", ")}{job.subjects.length > 2 ? "…" : ""}</span>
+                    <span className="flex items-center gap-1"><RiCheckboxCircleLine /> {job.subjects.slice(0, 2).join(", ")}{job.subjects.length > 2 ? "â€¦" : ""}</span>
                 )}
                 {job.type === "PERSONAL" && job.serviceCategory && (
                     <span className="flex items-center gap-1"><RiToolsLine /> {job.serviceCategory}</span>

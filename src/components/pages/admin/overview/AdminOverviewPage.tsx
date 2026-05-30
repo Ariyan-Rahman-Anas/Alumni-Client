@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { RiGroupLine, RiTimeLine, RiCheckLine, RiCalendarLine, RiCheckboxCircleLine } from "react-icons/ri";
 import AdminPageHead from "@/components/shared/admin/AdminPageHead"
@@ -25,8 +25,8 @@ const AdminOverviewPage = () => {
         {
             label: "Approved Users",
             value: stats?.users.approved,
-            icon: <RiCheckLine className="text-xl text-emerald-600" />,
-            color: "bg-emerald-50",
+            icon: <RiCheckLine className="text-xl text-primary2-600" />,
+            color: "bg-primary2-50",
         },
         {
             label: "Email Verified",
@@ -43,8 +43,8 @@ const AdminOverviewPage = () => {
         {
             label: "Active Batches",
             value: stats?.batches.active,
-            icon: <RiCalendarLine className="text-xl text-teal-600" />,
-            color: "bg-teal-50",
+            icon: <RiCalendarLine className="text-xl text-primary2-600" />,
+            color: "bg-primary2-50",
         },
     ];
     return (

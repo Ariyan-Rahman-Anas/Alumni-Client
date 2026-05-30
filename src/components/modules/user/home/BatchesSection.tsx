@@ -39,9 +39,9 @@ const BatchCard = ({
     const hasData = approved > 0;
 
     const depts = [
-        { label: "Science", count: scienceCount, pct: sciPct, color: "#4DB472", icon: <RiMicroscopeLine /> },
+        { label: "Science", count: scienceCount, pct: sciPct, color: "var(--color-primary-400)", icon: <RiMicroscopeLine /> },
         { label: "Commerce", count: commerceCount, pct: comPct, color: "#F59E0B", icon: <RiStore2Line /> },
-        { label: "Arts", count: artsCount, pct: artPct, color: "#9DD8AE", icon: <RiPaletteLine /> },
+        { label: "Arts", count: artsCount, pct: artPct, color: "var(--color-primary-200)", icon: <RiPaletteLine /> },
     ];
 
     return (
@@ -56,8 +56,8 @@ const BatchCard = ({
                 <div
                     className="relative overflow-hidden rounded-2xl h-full flex flex-col"
                     style={{
-                        background: "rgba(15,60,36,0.55)",
-                        border: "1px solid rgba(46,139,87,0.20)",
+                        background: "color-mix(in srgb, var(--color-primary-800) 55%, transparent)",
+                        border: "1px solid color-mix(in srgb, var(--color-primary-500) 20%, transparent)",
                         backdropFilter: "blur(8px)",
                     }}
                 >
@@ -65,7 +65,7 @@ const BatchCard = ({
                     <div
                         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                         style={{
-                            background: "radial-gradient(ellipse at 50% 0%, rgba(46,139,87,0.18) 0%, transparent 65%)",
+                            background: "radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--color-primary-500) 18%, transparent) 0%, transparent 65%)",
                         }}
                     />
 
@@ -81,7 +81,7 @@ const BatchCard = ({
                                 style={{ background: color, height: "100%" }}
                             />
                         )) : (
-                            <div className="w-full h-full" style={{ background: "rgba(46,139,87,0.20)" }} />
+                            <div className="w-full h-full" style={{ background: "color-mix(in srgb, var(--color-primary-500) 20%, transparent)" }} />
                         )}
                     </div>
 
@@ -159,14 +159,14 @@ const BatchesSection = () => {
     return (
         <section
             className="overflow-hidden"
-            style={{ background: "linear-gradient(160deg, #0A3D2B 0%, #051F15 100%)" }}
+            style={{ background: "linear-gradient(160deg, var(--color-primary-900) 0%, var(--color-primary-950) 100%)" }}
         >
             {/* Subtle grid overlay */}
             <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
                     backgroundImage:
-                        "linear-gradient(rgba(46,139,87,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.05) 1px, transparent 1px)",
+                        "linear-gradient(color-mix(in srgb, var(--color-primary-500) 5%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-primary-500) 5%, transparent) 1px, transparent 1px)",
                     backgroundSize: "52px 52px",
                 }}
             />
@@ -179,7 +179,7 @@ const BatchesSection = () => {
                             <SectionLabel
                                 text="Generations of BAMHSians"
                                 className="text-primary2-100 border-primary2-700 dark:border-gunmetal-400 dark:text-gunmetal-200 "
-                                icon={<RiFlaskLine />} align="left"/>
+                                icon={<RiFlaskLine />} align="left" />
                             <h2
                                 className="section-heading-text-left text-primary2-50 dark:text-gunmetal-200 mt-5">
                                 Every year tells{" "}
@@ -198,9 +198,9 @@ const BatchesSection = () => {
                         {/* Legend */}
                         <div className="flex items-center gap-4 shrink-0">
                             {[
-                                { color: "#4DB472", label: "Science", icon: <RiMicroscopeLine /> },
+                                { color: "var(--color-primary-400)", label: "Science", icon: <RiMicroscopeLine /> },
                                 { color: "#F59E0B", label: "Commerce", icon: <RiStore2Line /> },
-                                { color: "#9DD8AE", label: "Arts", icon: <RiPaletteLine /> },
+                                { color: "var(--color-primary-200)", label: "Arts", icon: <RiPaletteLine /> },
                             ].map(({ color, label, icon }) => (
                                 <div key={label} className="flex items-center gap-1.5">
                                     <span className="text-sm" style={{ color }}>{icon}</span>

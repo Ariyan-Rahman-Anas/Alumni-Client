@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
@@ -11,10 +11,10 @@ import {
 } from "react-icons/ri";
 import { IAnnouncement, TAnnouncementStatus } from "../../user/announcements/announcement.types";
 
-/* ── Badge helpers ────────────────────────────────────────── */
+/* â”€â”€ Badge helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const STATUS_COLORS: Record<TAnnouncementStatus, string> = {
     draft: "bg-gray-100 text-gray-600 border-gray-200",
-    published: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    published: "bg-primary2-50 text-primary2-700 border-primary2-200",
     scheduled: "bg-blue-50 text-blue-700 border-blue-200",
     archived: "bg-orange-50 text-orange-700 border-orange-200",
 };
@@ -125,7 +125,7 @@ const AdminAnnouncementsTable = ({
                                     <td className="px-4 py-3 text-muted-foreground text-xs whitespace-nowrap">
                                         {item.publishedAt
                                             ? format(new Date(item.publishedAt), "dd MMM yyyy")
-                                            : "—"}
+                                            : "â€”"}
                                     </td>
                                     <td className="px-4 py-3 text-muted-foreground text-xs">
                                         <span className="inline-flex items-center gap-1">
@@ -180,7 +180,7 @@ const AdminAnnouncementsTable = ({
                             (paginationOptions.current_page - 1) * pageSize + 1,
                             paginationOptions.count,
                         )}
-                        –{Math.min(paginationOptions.current_page * pageSize, paginationOptions.count)} of{" "}
+                        â€“{Math.min(paginationOptions.current_page * pageSize, paginationOptions.count)} of{" "}
                         {paginationOptions.count}
                     </p>
                     <div className="flex gap-1">

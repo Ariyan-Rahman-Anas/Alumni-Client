@@ -9,14 +9,14 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
             <div
                 className="absolute inset-0"
-                style={{ background: "linear-gradient(165deg, #041a12 0%, #0a3d2b 52%, #051f15 100%)" }}
+                style={{ background: "linear-gradient(165deg, var(--color-primary-950) 0%, var(--color-primary-900) 52%, var(--color-primary-950) 100%)" }}
             />
 
             <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
                     backgroundImage:
-                        "linear-gradient(rgba(46,139,87,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.08) 1px, transparent 1px)",
+                        "linear-gradient(color-mix(in srgb, var(--color-primary-500) 8%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-primary-500) 8%, transparent) 1px, transparent 1px)",
                     backgroundSize: "60px 60px",
                 }}
             />

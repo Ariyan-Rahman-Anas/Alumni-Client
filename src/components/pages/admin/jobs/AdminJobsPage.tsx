@@ -56,7 +56,7 @@ const TYPE_ICONS: Record<TJobPostType, React.ReactNode> = {
 
 const STATUS_BADGE: Record<string, string> = {
     PENDING: "bg-amber-50 text-amber-700 border border-amber-200",
-    APPROVED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+    APPROVED: "bg-primary2-50 text-primary2-700 border border-primary2-200",
     REJECTED: "bg-red-50 text-red-700 border border-red-200",
     CLOSED: "bg-surface-100 text-neutral-600 border border-surface-300",
 };
@@ -350,7 +350,7 @@ function ProviderDetailSheet({ provider, open, onClose, onUpdateStatus }: {
                     <div className="mb-4 bg-white rounded-xl border border-surface-200 p-4">
                         {provider.subjects?.length ? (
                             <><p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Subjects</p>
-                                <div className="flex flex-wrap gap-2 mb-3">{provider.subjects.map((s) => <span key={s} className="bg-emerald-50 text-emerald-700 border border-emerald-100 text-xs px-2.5 py-1 rounded-full">{s}</span>)}</div></>
+                                <div className="flex flex-wrap gap-2 mb-3">{provider.subjects.map((s) => <span key={s} className="bg-primary2-50 text-primary2-700 border border-primary2-100 text-xs px-2.5 py-1 rounded-full">{s}</span>)}</div></>
                         ) : null}
                         {provider.classRange?.length ? (
                             <><p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Class Range</p>
@@ -409,7 +409,7 @@ function ProviderDetailSheet({ provider, open, onClose, onUpdateStatus }: {
                         <div>
                             <p className="font-semibold text-primary2-900 text-sm">{provider.user.name}</p>
                             <p className="text-xs text-muted-foreground">{provider.user.email}</p>
-                            {provider.status === "APPROVED" && <span className="inline-flex items-center gap-1 text-xs text-emerald-700 mt-1"><RiShieldCheckLine /> Verified Provider</span>}
+                            {provider.status === "APPROVED" && <span className="inline-flex items-center gap-1 text-xs text-primary2-700 mt-1"><RiShieldCheckLine /> Verified Provider</span>}
                         </div>
                     </div>
                 </div>
@@ -523,7 +523,7 @@ export default function AdminJobsPage() {
                                         <td className="px-5 py-4">
                                             <div className="flex items-center justify-end gap-2">
                                                 <button onClick={() => setSheetJob(job)} title="View Details" className="p-2 text-muted-foreground hover:text-primary2-700 hover:bg-primary2-50 rounded-xl transition-colors"><RiEyeLine /></button>
-                                                <button onClick={() => setDialogJob(job)} title="Update Status" className="p-2 text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors"><RiCheckboxCircleLine /></button>
+                                                <button onClick={() => setDialogJob(job)} title="Update Status" className="p-2 text-muted-foreground hover:text-primary2-600 hover:bg-primary2-50 rounded-xl transition-colors"><RiCheckboxCircleLine /></button>
                                             </div>
                                         </td>
                                     </tr>
@@ -578,7 +578,7 @@ export default function AdminJobsPage() {
                                     <td className="px-5 py-4">
                                         <div className="flex items-center justify-end gap-2">
                                             <button onClick={() => setSheetProvider(p)} title="View Details" className="p-2 text-muted-foreground hover:text-primary2-700 hover:bg-primary2-50 rounded-xl transition-colors"><RiEyeLine /></button>
-                                            <button onClick={() => setDialogProvider(p)} title="Update Status" className="p-2 text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors"><RiCheckboxCircleLine /></button>
+                                            <button onClick={() => setDialogProvider(p)} title="Update Status" className="p-2 text-muted-foreground hover:text-primary2-600 hover:bg-primary2-50 rounded-xl transition-colors"><RiCheckboxCircleLine /></button>
                                         </div>
                                     </td>
                                 </tr>
