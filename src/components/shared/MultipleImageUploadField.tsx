@@ -31,7 +31,7 @@ const MultipleImageUploadField = ({
   onChange,
   onInnerTitlesChange,
   label = "Images",
-  helperText = "JPG, PNG or WEBP â€” max 5MB each.",
+  helperText = "JPG, PNG or WEBP ” max 5MB each.",
   error,
   maxSizeMB = 5,
   maxFiles = 20,
@@ -79,7 +79,7 @@ const MultipleImageUploadField = ({
     const available = maxFiles - items.length;
 
     if (valid.length > available) {
-      errors.push(`Max ${maxFiles} images â€” ${valid.length - available} file(s) skipped`);
+      errors.push(`Max ${maxFiles} images ” ${valid.length - available} file(s) skipped`);
     }
 
     const toAdd = valid.slice(0, available);
@@ -224,13 +224,13 @@ const MultipleImageUploadField = ({
                   </div>
                 </div>
 
-                {/* Inner title input â€” only when multiple images */}
+                {/* Inner title input ” only when multiple images */}
                 {showInnerTitles && (
                   <input
                     type="text"
                     value={innerTitles[index] ?? ""}
                     onChange={(e) => handleInnerTitleChange(index, e.target.value)}
-                    placeholder="Image titleâ€¦"
+                    placeholder="Image title¦"
                     maxLength={100}
                     className="w-full rounded-lg border border-gray-200 px-2 py-1 text-[11px] text-gray-700 placeholder:text-gray-400 focus:border-primary2-300 focus:outline-none focus:ring-0 transition"
                   />

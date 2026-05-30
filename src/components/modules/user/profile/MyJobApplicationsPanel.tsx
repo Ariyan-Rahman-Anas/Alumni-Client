@@ -86,7 +86,7 @@ export default function MyJobApplicationsPanel() {
                                                 </Link>
                                                 {typeof app.job === "object" && (
                                                     <p className="text-xs text-muted-foreground mt-0.5">
-                                                        by {app.job.postedBy?.name} Â· {app.job.type?.replace("_", " ")}
+                                                        by {app.job.postedBy?.name} · {app.job.type?.replace("_", " ")}
                                                     </p>
                                                 )}
                                             </div>
@@ -101,7 +101,7 @@ export default function MyJobApplicationsPanel() {
 
                                         <div className="flex items-center gap-3 mt-3 text-xs text-muted-foreground">
                                             <span>Applied {formatDistanceToNow(new Date(app.createdAt), { addSuffix: true })}</span>
-                                            <span>Â·</span>
+                                            <span>·</span>
                                             <span>{format(new Date(app.createdAt), "dd MMM yyyy")}</span>
                                             <Link href={`/jobs/${jobId}`} className="ml-auto flex items-center gap-1 text-primary2-700 hover:underline font-medium">
                                                 View Post <RiExternalLinkLine />

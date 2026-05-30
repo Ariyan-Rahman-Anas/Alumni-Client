@@ -46,7 +46,7 @@ const CANCEL_REQUEST_STATUS: Record<TCancelRequestStatus, { label: string; class
     REJECTED: { label: "Cancellation Rejected", className: "bg-surface-100 text-neutral-600 border border-surface-200" },
 };
 
-/* â”€â”€ Cancel Request Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Cancel Request Modal ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 
 function CancelRequestModal({
     registrationId,
@@ -119,7 +119,7 @@ function CancelRequestModal({
     );
 }
 
-/* â”€â”€ Cancel Request Status Badge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Cancel Request Status Badge ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 
 function CancelRequestStatusBadge({ req }: { req: IEventCancelRequest | undefined }) {
     if (!req) return null;
@@ -135,7 +135,7 @@ function CancelRequestStatusBadge({ req }: { req: IEventCancelRequest | undefine
                     <p className="text-muted-foreground">{req.adminNote}</p>
                     {req.actionBy && (
                         <p className="text-[11px] text-muted-foreground mt-1">
-                            â€” {req.actionBy.name}
+                            ” {req.actionBy.name}
                             {req.actionAt ? `, ${format(new Date(req.actionAt), "d MMM yyyy")}` : ""}
                         </p>
                     )}
@@ -197,7 +197,7 @@ function RegistrationCard({ reg }: { reg: IEventRegistration }) {
                 )}
                 <div className="flex items-center gap-1.5 text-muted-foreground">
                     <RiWallet3Line className="text-primary2-500" />
-                    Total: <strong className="text-neutral-700">à§³{reg.totalAmount.toLocaleString()}</strong>
+                    Total: <strong className="text-neutral-700">{reg.totalAmount.toLocaleString()}</strong>
                 </div>
                 {reg.guestCount > 0 && (
                     <div className="text-muted-foreground">

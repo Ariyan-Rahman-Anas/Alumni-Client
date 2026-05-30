@@ -43,8 +43,8 @@ const ProfileTransactionsPanel = () => {
 
     const stats = [
         { label: "Total Transactions", value: registrations.length.toString() },
-        { label: "Amount Paid", value: `à§³${totalPaid.toLocaleString()}` },
-        { label: "Amount Pending", value: `à§³${totalPending.toLocaleString()}` },
+        { label: "Amount Paid", value: `${totalPaid.toLocaleString()}` },
+        { label: "Amount Pending", value: `${totalPending.toLocaleString()}` },
     ];
 
     return (
@@ -73,7 +73,7 @@ const ProfileTransactionsPanel = () => {
                 {stats.map((stat) => (
                     <div key={stat.label} className="rounded-2xl border border-surface-300/50 bg-primary2-50/40 px-4 py-4">
                         <p className="text-xs text-muted-foreground">{stat.label}</p>
-                        <p className="mt-1 text-2xl font-bold text-primary2-900">{isLoading ? "â€”" : stat.value}</p>
+                        <p className="mt-1 text-2xl font-bold text-primary2-900">{isLoading ? "”" : stat.value}</p>
                     </div>
                 ))}
             </div>
@@ -145,7 +145,7 @@ const ProfileTransactionsPanel = () => {
                                     {/* Amount + badge */}
                                     <div className="flex sm:flex-col items-center sm:items-end gap-3 sm:gap-1.5 flex-shrink-0">
                                         <p className="text-lg font-bold text-primary2-900">
-                                            à§³{reg.totalAmount.toLocaleString()}
+                                            {reg.totalAmount.toLocaleString()}
                                         </p>
                                         <span className={cn(
                                             "inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full border",

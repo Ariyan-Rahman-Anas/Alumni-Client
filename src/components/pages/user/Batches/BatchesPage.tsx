@@ -15,22 +15,22 @@ import BatchPageUsersWithSearchFilter from "@/components/modules/user/batches/Ba
 import { useGetActiveBatchesQuery } from "@/redux/apis/batchApi";
 import type { Batch } from "@/redux/apis/batchApi";
 
-/* â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Helpers ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const fmtNum = (n: number) =>
-    n >= 1000 ? `${(n / 1000).toFixed(1)}k+` : n > 0 ? `${n}` : "â€”";
+    n >= 1000 ? `${(n / 1000).toFixed(1)}k+` : n > 0 ? `${n}` : "”";
 
 const derivedStats = (batches: Batch[]) => {
-    if (!batches.length) return { totalAlumni: 0, activeBatches: 0, batchSpan: "â€”", newThisMonth: 0 };
+    if (!batches.length) return { totalAlumni: 0, activeBatches: 0, batchSpan: "”", newThisMonth: 0 };
     const years = batches.map((b) => b.year);
     return {
         totalAlumni: batches.reduce((s, b) => s + (b.stats?.approved || 0), 0),
         activeBatches: batches.length,
-        batchSpan: `${Math.min(...years)} â€“ ${Math.max(...years)}`,
+        batchSpan: `${Math.min(...years)} “ ${Math.max(...years)}`,
         newThisMonth: batches.reduce((s, b) => s + (b.stats?.last30Days || 0), 0),
     };
 };
 
-/* â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Page ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const BatchesPage = () => {
     const { data: batchData } = useGetActiveBatchesQuery();
     const batches = batchData?.data ?? [];
@@ -38,18 +38,18 @@ const BatchesPage = () => {
 
     const stats = [
         { icon: <RiGroupLine />, value: fmtNum(totalAlumni), label: "Verified alumni", color: "bg-primary2-50 dark:bg-primary2-900/30 text-primary2-600 dark:text-primary2-400" },
-        { icon: <RiCalendarLine />, value: activeBatches > 0 ? `${activeBatches}` : "â€”", label: "Active batches", color: "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400" },
+        { icon: <RiCalendarLine />, value: activeBatches > 0 ? `${activeBatches}` : "”", label: "Active batches", color: "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400" },
         { icon: <RiSparklingLine />, value: batchSpan, label: "Batch era", color: "bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400" },
-        { icon: <RiUserFollowLine />, value: newThisMonth > 0 ? `+${newThisMonth}` : "â€”", label: "Joined this month", color: "bg-primary2-50 dark:bg-primary2-900/20 text-primary2-600 dark:text-primary2-400" },
+        { icon: <RiUserFollowLine />, value: newThisMonth > 0 ? `+${newThisMonth}` : "”", label: "Joined this month", color: "bg-primary2-50 dark:bg-primary2-900/20 text-primary2-600 dark:text-primary2-400" },
     ];
 
     return (
         <div className="three-xl-section-setup pb-20 space-y-12">
 
-            {/* â•â•â• HERO â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+            {/* ••• HERO •••••••••••••••••••••••••••••••••••••••••••• */}
             <BatchPageHead />
 
-            {/* â•â•â• LIVE STATS STRIP â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+            {/* ••• LIVE STATS STRIP •••••••••••••••••••••••••••••••• */}
             <FadeUpWrapper>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     {stats.map(({ icon, value, label, color }) => (
@@ -69,10 +69,10 @@ const BatchesPage = () => {
                 </div>
             </FadeUpWrapper>
 
-            {/* â•â•â• DIRECTORY â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+            {/* ••• DIRECTORY ••••••••••••••••••••••••••••••••••••••• */}
             <BatchPageUsersWithSearchFilter />
 
-            {/* â•â•â• BATCH ROOM CTA â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+            {/* ••• BATCH ROOM CTA •••••••••••••••••••••••••••••••••• */}
             <FadeUpWrapper>
                 <div
                     className="relative overflow-hidden rounded-3xl"
@@ -105,7 +105,7 @@ const BatchesPage = () => {
                                     waiting for you
                                 </h2>
                                 <p className="mt-3 text-sm text-gunmetal-300 leading-relaxed max-w-md">
-                                    Chat, run polls, vote your batch coordinator, share media, and join voice or video calls â€” all scoped to your graduation year.
+                                    Chat, run polls, vote your batch coordinator, share media, and join voice or video calls ” all scoped to your graduation year.
                                 </p>
                                 <div className="flex flex-wrap gap-2 mt-5">
                                     {["ðŸ’¬ Group chat", "ðŸ—³ï¸ Polls & elections", "ðŸ“· Media sharing", "ðŸ“ž Voice & video"].map((f) => (

@@ -28,7 +28,7 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import GoBackward from "@/components/shared/GoBackward";
 
-/* â”€â”€ Avatar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Avatar ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 function Avatar({ name, imageUrl, size = 80 }: { name: string; imageUrl?: string; size?: number }) {
     if (imageUrl) {
         return (
@@ -52,7 +52,7 @@ function Avatar({ name, imageUrl, size = 80 }: { name: string; imageUrl?: string
     );
 }
 
-/* â”€â”€ Section wrapper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Section wrapper ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 function Section({ title, children, delay = 0 }: { title?: string; children: React.ReactNode; delay?: number }) {
     return (
         <motion.div
@@ -69,7 +69,7 @@ function Section({ title, children, delay = 0 }: { title?: string; children: Rea
     );
 }
 
-/* â”€â”€ Tag pill â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Tag pill ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 function Tag({ children, color = "primary" }: { children: React.ReactNode; color?: "primary" | "emerald" | "blue" | "surface" }) {
     const cls = {
         primary: "bg-primary2-50 text-primary2-700 border border-primary2-200",
@@ -80,9 +80,9 @@ function Tag({ children, color = "primary" }: { children: React.ReactNode; color
     return <span className={`text-xs px-2.5 py-1 rounded-full ${cls}`}>{children}</span>;
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* ••••••••••••••••••••••••••••••••••••••••••••••••••••••
    MAIN COMPONENT
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+•••••••••••••••••••••••••••••••••••••••••••••••••••••• */
 export default function ProviderDetailPage({ id }: { id: string }) {
     const router = useRouter();
     const { data, isLoading, isError } = useGetProviderByIdQuery(id);
@@ -106,7 +106,7 @@ export default function ProviderDetailPage({ id }: { id: string }) {
         }
     };
 
-    /* â”€â”€ Loading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ”€”€ Loading ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
     if (isLoading) {
         return (
             <div className="three-xl-section-setup py-10 max-w-3xl animate-pulse">
@@ -124,7 +124,7 @@ export default function ProviderDetailPage({ id }: { id: string }) {
         );
     }
 
-    /* â”€â”€ Error / Not found â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ”€”€ Error / Not found ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
     if (isError || !p) {
         return (
             <div className="three-xl-section-setup py-20 max-w-3xl text-center">
@@ -145,9 +145,9 @@ export default function ProviderDetailPage({ id }: { id: string }) {
     return (
         <div className="three-xl-section-setup py-10pb-24 max-w-3xl">
             {/* Back */}
-            <GoBackward text="Jobs"  />
+            <GoBackward text="Jobs" />
 
-            {/* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Header ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -204,7 +204,7 @@ export default function ProviderDetailPage({ id }: { id: string }) {
                                         disabled={contacting}
                                         className="flex-1 py-2.5 bg-primary2-700 text-white font-semibold rounded-xl hover:bg-primary2-800 disabled:opacity-50 transition-colors text-sm flex items-center justify-center gap-2"
                                     >
-                                        <RiSendPlaneLine /> {contacting ? "Sendingâ€¦" : "Send Request"}
+                                        <RiSendPlaneLine /> {contacting ? "Sending¦" : "Send Request"}
                                     </button>
                                 </div>
                             </div>
@@ -220,12 +220,12 @@ export default function ProviderDetailPage({ id }: { id: string }) {
                 )}
             </motion.div>
 
-            {/* â”€â”€ About â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ About ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             <Section title="About" delay={0.06}>
                 <p className="text-sm text-neutral-700 leading-relaxed">{p.bio}</p>
             </Section>
 
-            {/* â”€â”€ Details â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Details ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             <Section title="Details" delay={0.08}>
                 <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-sm">
                     <div className="flex justify-between sm:flex-col sm:gap-0.5">
@@ -253,7 +253,7 @@ export default function ProviderDetailPage({ id }: { id: string }) {
                 </dl>
             </Section>
 
-            {/* â”€â”€ Tutor-specific â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Tutor-specific ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             {isTutor && !!(p.subjects?.length || p.classRange?.length) && (
                 <Section title="Teaching" delay={0.1}>
                     {p.subjects?.length ? (
@@ -277,7 +277,7 @@ export default function ProviderDetailPage({ id }: { id: string }) {
                 </Section>
             )}
 
-            {/* â”€â”€ Qualifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Qualifications ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             {p.qualifications?.length ? (
                 <Section title="Qualifications" delay={0.12}>
                     <ul className="space-y-2">
@@ -290,7 +290,7 @@ export default function ProviderDetailPage({ id }: { id: string }) {
                 </Section>
             ) : null}
 
-            {/* â”€â”€ Availability â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Availability ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             {p.availability?.length ? (
                 <Section title="Availability" delay={0.14}>
                     <div className="flex flex-wrap gap-2">
@@ -303,7 +303,7 @@ export default function ProviderDetailPage({ id }: { id: string }) {
                 </Section>
             ) : null}
 
-            {/* â”€â”€ Certificates â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Certificates ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             {p.certificates?.length ? (
                 <Section title="Certificates & Documents" delay={0.16}>
                     <div className="space-y-2">
@@ -324,7 +324,7 @@ export default function ProviderDetailPage({ id }: { id: string }) {
                 </Section>
             ) : null}
 
-            {/* â”€â”€ User info â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ User info ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             <Section delay={0.18}>
                 <div className="flex items-center gap-3">
                     <Avatar name={p.user.name} imageUrl={p.user.imageUrl} size={44} />

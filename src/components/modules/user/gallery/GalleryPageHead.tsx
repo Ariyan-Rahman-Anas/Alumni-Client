@@ -15,12 +15,12 @@ const GalleryPageHead = () => {
     const totalCategories = categoriesData?.data.length ?? 0;
     const totalContributors = contributors.length;
 
-    const fmt = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(1)}k+` : n > 0 ? `${n}+` : "â€”");
+    const fmt = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(1)}k+` : n > 0 ? `${n}+` : "”");
 
     const galleryStats = [
         { value: fmt(totalPhotos), label: "Curated photos" },
-        { value: totalCategories > 0 ? `${totalCategories}` : "â€”", label: "Photo albums" },
-        { value: totalContributors > 0 ? `${totalContributors}` : "â€”", label: "Contributors" },
+        { value: totalCategories > 0 ? `${totalCategories}` : "”", label: "Photo albums" },
+        { value: totalContributors > 0 ? `${totalContributors}` : "”", label: "Contributors" },
         { value: "100%", label: "Reviewed & curated" },
     ];
 

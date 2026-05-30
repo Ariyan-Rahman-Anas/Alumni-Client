@@ -26,7 +26,7 @@ const JobPageProviderRegCTA = () => {
     const profile = providerData?.data;
     const status = profile?.status;
 
-    /* â”€â”€ Already PENDING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ”€”€ Already PENDING ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
     if (isLoggedIn && profile && status === "PENDING") {
         return (
             <FadeUpWrapper
@@ -50,7 +50,7 @@ const JobPageProviderRegCTA = () => {
         );
     }
 
-    /* â”€â”€ Already APPROVED â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ”€”€ Already APPROVED ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
     if (isLoggedIn && profile && status === "APPROVED") {
         return (
             <FadeUpWrapper
@@ -82,7 +82,7 @@ const JobPageProviderRegCTA = () => {
         );
     }
 
-    /* â”€â”€ REJECTED â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ”€”€ REJECTED ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
     if (isLoggedIn && profile && status === "REJECTED") {
         return (
             <FadeUpWrapper
@@ -108,7 +108,7 @@ const JobPageProviderRegCTA = () => {
         );
     }
 
-    /* â”€â”€ Default: no profile â†’ register CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+    /* ”€”€ Default: no profile †’ register CTA ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
     return (
         <FadeUpWrapper
             delay={0.5}

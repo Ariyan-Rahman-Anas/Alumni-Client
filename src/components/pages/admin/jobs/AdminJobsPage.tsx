@@ -47,7 +47,7 @@ import {
 } from "@/components/ui/dialog";
 import { IJobPost, IServiceProvider, TJobPostStatus, TJobPostType } from "@/components/modules/user/job/job.types";
 
-/* â”€â”€ Config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Config ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const TYPE_ICONS: Record<TJobPostType, React.ReactNode> = {
     OFFICIAL: <RiBriefcaseLine />,
     TUITION: <RiBookOpenLine />,
@@ -76,7 +76,7 @@ const STATUS_FILTERS: { label: string; value: StatusFilterType }[] = [
     { label: "Closed", value: "CLOSED" },
 ];
 
-/* â”€â”€ Avatar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Avatar ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 function Avatar({ user, size = 32 }: { user: { name: string; imageUrl?: string }; size?: number }) {
     if (user.imageUrl) {
         return <Image src={user.imageUrl} alt={user.name} width={size} height={size} className="rounded-full object-cover flex-shrink-0" style={{ width: size, height: size }} />;
@@ -91,7 +91,7 @@ function Avatar({ user, size = 32 }: { user: { name: string; imageUrl?: string }
     );
 }
 
-/* â”€â”€ Job Status Dialog â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Job Status Dialog ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 function JobStatusDialog({
     job, open, onClose, onSubmit, isLoading,
 }: {
@@ -136,7 +136,7 @@ function JobStatusDialog({
     );
 }
 
-/* â”€â”€ Provider Status Dialog â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Provider Status Dialog ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 function ProviderStatusDialog({
     provider, open, onClose, onSubmit, isLoading,
 }: {
@@ -172,7 +172,7 @@ function ProviderStatusDialog({
     );
 }
 
-/* â”€â”€ Job Detail Sheet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Job Detail Sheet ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 function JobDetailSheet({ job, open, onClose, onUpdateStatus }: {
     job: IJobPost | null; open: boolean; onClose: () => void; onUpdateStatus: () => void;
 }) {
@@ -191,7 +191,7 @@ function JobDetailSheet({ job, open, onClose, onUpdateStatus }: {
                             <SheetDescription className="flex flex-wrap items-center gap-2 mt-1.5">
                                 <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_BADGE[job.status]}`}>{job.status}</span>
                                 <span className="text-xs text-muted-foreground">by {job.postedBy?.name}</span>
-                                <span className="text-xs text-muted-foreground">Â· {formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}</span>
+                                <span className="text-xs text-muted-foreground">· {formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}</span>
                             </SheetDescription>
                         </div>
                     </div>
@@ -225,7 +225,7 @@ function JobDetailSheet({ job, open, onClose, onUpdateStatus }: {
                 </div>
 
                 <div className="mb-5 flex gap-4 text-sm text-muted-foreground">
-                    <span className="flex items-center gap-1"><RiHeartLine /> {job.likes.length} likes Â· {job.dislikes.length} dislikes</span>
+                    <span className="flex items-center gap-1"><RiHeartLine /> {job.likes.length} likes · {job.dislikes.length} dislikes</span>
                     <span className="flex items-center gap-1"><RiChat3Line /> {job.comments.length} comments</span>
                 </div>
 
@@ -298,7 +298,7 @@ function JobDetailSheet({ job, open, onClose, onUpdateStatus }: {
     );
 }
 
-/* â”€â”€ Provider Detail Sheet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Provider Detail Sheet ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 function ProviderDetailSheet({ provider, open, onClose, onUpdateStatus }: {
     provider: IServiceProvider | null; open: boolean; onClose: () => void; onUpdateStatus: () => void;
 }) {
@@ -418,9 +418,9 @@ function ProviderDetailSheet({ provider, open, onClose, onUpdateStatus }: {
     );
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
    MAIN COMPONENT
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+•••••••••••••••••••••••••••••••••••••••••••••••••••••••••• */
 export default function AdminJobsPage() {
     const [tab, setTab] = useState<TabKey>("posts");
     const [page, setPage] = useState(1);
@@ -532,7 +532,7 @@ export default function AdminJobsPage() {
                         </table>
                         {meta && meta.totalPage > 1 && (
                             <div className="flex items-center justify-between px-5 py-4 border-t border-surface-100">
-                                <p className="text-xs text-muted-foreground">Showing {((page - 1) * constantsData.TABLE_PAGE_SIZE) + 1}â€“{Math.min(page * constantsData.TABLE_PAGE_SIZE, meta.total)} of {meta.total}</p>
+                                <p className="text-xs text-muted-foreground">Showing {((page - 1) * constantsData.TABLE_PAGE_SIZE) + 1}“{Math.min(page * constantsData.TABLE_PAGE_SIZE, meta.total)} of {meta.total}</p>
                                 <div className="flex gap-2">
                                     <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1} className="px-3 py-1.5 text-xs border border-surface-200 text-primary2-700 rounded-lg disabled:opacity-40 hover:border-primary2-300 transition-colors">Prev</button>
                                     <button onClick={() => setPage((p) => Math.min(meta.totalPage, p + 1))} disabled={page === meta.totalPage} className="px-3 py-1.5 text-xs border border-surface-200 text-primary2-700 rounded-lg disabled:opacity-40 hover:border-primary2-300 transition-colors">Next</button>

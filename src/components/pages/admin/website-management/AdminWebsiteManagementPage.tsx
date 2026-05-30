@@ -38,7 +38,7 @@ import {
     type IWebsiteManagement,
 } from "@/redux/apis/websiteManagementApi";
 
-/* â”€â”€ Zod Schema â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Zod Schema ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const schema = z.object({
     motto: z.string().min(3, "Motto must be at least 3 characters").max(80, "Motto must be at most 80 characters"),
     schoolName: z.string().min(5, "School name must be at least 5 characters").max(150, "School name must be at most 150 characters"),
@@ -49,7 +49,7 @@ const schema = z.object({
     district: z.string().min(3, "District must be at least 3 characters").max(50, "District must be at most 50 characters"),
     division: z.string().min(3, "Division must be at least 3 characters").max(50, "Division must be at most 50 characters"),
     country: z.string().min(4, "Country must be at least 4 characters").max(50, "Country must be at most 50 characters"),
-    contactNumber: z.string().min(11, "Contact number must be 11â€“16 digits").max(16, "Contact number must be at most 16 digits"),
+    contactNumber: z.string().min(11, "Contact number must be 11“16 digits").max(16, "Contact number must be at most 16 digits"),
     email: z.string().email("Enter a valid email address").max(70, "Email must be at most 70 characters"),
     whatsappNumber: z.string().max(16, "WhatsApp number must be at most 16 digits").optional(),
     facebook: z.string().optional().refine(
@@ -80,7 +80,7 @@ const schema = z.object({
 
 type TFormValues = z.infer<typeof schema>;
 
-/* â”€â”€ Color picker field â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Color picker field ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const SWATCH_OPACITIES = [0.96, 0.82, 0.61, 0.40, 1, 0.78, 0.58, 0.38] as const;
 const SWATCH_SIZES = ["h-4 w-4", "h-5 w-5", "h-6 w-6", "h-7 w-7", "h-8 w-8", "h-7 w-7", "h-6 w-6", "h-5 w-5"] as const;
 
@@ -138,9 +138,9 @@ const ColorPickerField = ({
                         type="button"
                         onClick={() => onChange("")}
                         className="ml-auto text-xs text-gunmetal-400 hover:text-rose-500 transition-colors"
-                        title="Clear â€” reuse light mode color in dark mode"
+                        title="Clear ” reuse light mode color in dark mode"
                     >
-                        âœ• Clear
+                        œ• Clear
                     </button>
                 </div>
             ) : (
@@ -158,7 +158,7 @@ const ColorPickerField = ({
     );
 };
 
-/* â”€â”€ Section card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Section card ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const SectionCard = ({
     title,
     icon,
@@ -186,7 +186,7 @@ const SectionCard = ({
     </motion.div>
 );
 
-/* â”€â”€ Main Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Main Page ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const AdminWebsiteManagementPage = () => {
     const currentUser = useAppSelector(selectCurrentUser);
     const [bannerFile, setBannerFile] = useState<File | null>(null);
@@ -286,7 +286,7 @@ const AdminWebsiteManagementPage = () => {
         } catch { }
     };
 
-    /* â”€â”€ Loading State â”€â”€â”€â”€ */
+    /* ”€”€ Loading State ”€”€”€”€ */
     if (isFetching) {
         return (
             <div className="admin-page-setup space-y-4 animate-pulse">
@@ -301,7 +301,7 @@ const AdminWebsiteManagementPage = () => {
         );
     }
 
-    /* â”€â”€ Fetch Error â”€â”€â”€â”€ */
+    /* ”€”€ Fetch Error ”€”€”€”€ */
     if (fetchError && !isNew) {
         return (
             <div className="admin-page-setup flex flex-col items-center justify-center gap-3 py-20 text-center">
@@ -319,7 +319,7 @@ const AdminWebsiteManagementPage = () => {
                 <div className="flex items-start gap-3">
                     <AdminPageHead
                         title="Website Management"
-                        description="Control global website settings â€” contact info, social links, banner, and branding."
+                        description="Control global website settings ” contact info, social links, banner, and branding."
                     />
                 </div>
                 <div className="flex items-center gap-2">
@@ -358,7 +358,7 @@ const AdminWebsiteManagementPage = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
-                {/* â”€â”€ Row 1: Branding + Location â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+                {/* ”€”€ Row 1: Branding + Location ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
                     {/* Branding */}
@@ -408,7 +408,7 @@ const AdminWebsiteManagementPage = () => {
                     </SectionCard>
                 </div>
 
-                {/* â”€â”€ Row 2: Address (full width) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+                {/* ”€”€ Row 2: Address (full width) ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
                 <SectionCard title="Address & Location" icon={<RiMapPin2Line />} index={2}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div className="sm:col-span-2 lg:col-span-3">
@@ -459,7 +459,7 @@ const AdminWebsiteManagementPage = () => {
                     </div>
                 </SectionCard>
 
-                {/* â”€â”€ Row 3: Social + Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+                {/* ”€”€ Row 3: Social + Banner ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
                     {/* Social Media */}
@@ -501,7 +501,7 @@ const AdminWebsiteManagementPage = () => {
                     </SectionCard>
                 </div>
 
-                {/* â”€â”€ Brand Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+                {/* ”€”€ Brand Colors ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
                 <SectionCard title="Brand Colors" icon={<RiPaletteLine />} index={5}>
                     {/* Light mode row */}
                     <p className="text-xs font-semibold uppercase tracking-widest text-gunmetal-400 dark:text-gunmetal-300 mb-3">Light Mode</p>
@@ -535,14 +535,14 @@ const AdminWebsiteManagementPage = () => {
                     </div>
 
                     {/* Dark mode row */}
-                    <p className="text-xs font-semibold uppercase tracking-widest text-gunmetal-400 dark:text-gunmetal-300 mb-3">Dark Mode (optional â€” leave blank to reuse light color)</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gunmetal-400 dark:text-gunmetal-300 mb-3">Dark Mode (optional ” leave blank to reuse light color)</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <Controller
                             name="primaryColorDark"
                             control={control}
                             render={({ field }) => (
                                 <ColorPickerField
-                                    label="Primary Brand Color â€” Dark"
+                                    label="Primary Brand Color ” Dark"
                                     hint="Override for dark mode. If blank, the light mode color is used."
                                     value={field.value ?? ""}
                                     onChange={field.onChange}
@@ -555,7 +555,7 @@ const AdminWebsiteManagementPage = () => {
                             control={control}
                             render={({ field }) => (
                                 <ColorPickerField
-                                    label="Blood Bank Color â€” Dark"
+                                    label="Blood Bank Color ” Dark"
                                     hint="Override for dark mode. If blank, the light mode color is used."
                                     value={field.value ?? ""}
                                     onChange={field.onChange}
@@ -569,7 +569,7 @@ const AdminWebsiteManagementPage = () => {
                     </p>
                 </SectionCard>
 
-                {/* â”€â”€ Save Button (bottom) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+                {/* ”€”€ Save Button (bottom) ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
