@@ -21,9 +21,7 @@ export const useFormWithToast = <T extends FieldValues>(
 
     const handleSubmit: typeof form.handleSubmit = (onValid, onInvalid) => {
         return form.handleSubmit(onValid, (errors, event) => {
-            console.log("[useFormWithToast] onInvalid called, errors:", errors);
             const first = findFirstError<T>(errors, fieldOrder);
-            console.log("[useFormWithToast] first error:", first);
             if (first.message) {
                 toast.error(first.message);
             }
