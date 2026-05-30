@@ -77,6 +77,18 @@ export interface IGetMeResponse {
     data: IAuthUser;
 }
 
+export interface IForgotPasswordResponse {
+    success: boolean;
+    message: string;
+    data: null;
+}
+
+export interface IResetPasswordResponse {
+    success: boolean;
+    message: string;
+    data: null;
+}
+
 export interface ILoginPayload {
     email: string;
     password: string;

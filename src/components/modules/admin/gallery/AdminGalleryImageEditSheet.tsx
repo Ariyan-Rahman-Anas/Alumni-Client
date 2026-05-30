@@ -128,7 +128,7 @@ const AdminGalleryImageEditSheet = ({ item, open, onClose }: AdminGalleryImageEd
               onClick={handleClose}
               className="h-8 w-8 p-0 text-muted-foreground hover:text-gray-900"
             >
-              œ•
+
             </Button>
           </div>
         </SheetHeader>

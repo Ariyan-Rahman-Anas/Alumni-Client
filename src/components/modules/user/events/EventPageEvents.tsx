@@ -25,13 +25,13 @@ const CATEGORY_OPTIONS = [
     { value: "Community", emoji: "ðŸ¤" },
     { value: "Cultural", emoji: "ðŸŽ­" },
     { value: "Sports", emoji: "š¡" },
-    { value: "Other", emoji: "œ¦" },
+    { value: "Other", emoji: "¦" },
 ]
 
 const LOCATION_OPTIONS = [
     { value: "PHYSICAL", label: "In-Person", icon: "ðŸ“" },
     { value: "ONLINE", label: "Online", icon: "ðŸ–¥" },
-    { value: "HYBRID", label: "Hybrid", icon: "ðŸŒ" },
+    { value: "HYBRID", label: "Hybrid", icon: "ðŸ" },
 ]
 
 // ”€”€”€ Component ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€

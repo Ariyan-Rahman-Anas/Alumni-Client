@@ -81,7 +81,7 @@ const LOCATION_CONFIG: Record<string, {
     },
     HYBRID: {
         style: "bg-primary2-50 text-primary2-800 border-primary2-200",
-        icon: <span className="text-[11px] shrink-0">ðŸŒ</span>,
+        icon: <span className="text-[11px] shrink-0">ðŸ</span>,
         label: "Hybrid",
     },
 }
