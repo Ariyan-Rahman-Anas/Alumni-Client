@@ -34,7 +34,7 @@ export function getStatusMeta(event: IEvent) {
     if (regOpens && regOpens > now) {
         return { label: "Registration Opens Soon", color: "#2563EB", bg: "#DBEAFE" };
     }
-    return { label: "Registration Open", color: "var(--color-primary2-600)", bg: "var(--color-primary2-50)" };
+    return { label: "Registration Open", color: "var(--color-primary-600)", bg: "var(--color-primary-50)" };
 }
 
 export function getCategoryColor(category: string) {
@@ -97,11 +97,11 @@ function EmptyEvents() {
         <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
             <div
                 className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 text-2xl"
-                style={{ background: "var(--color-primary2-50)", color: "var(--color-primary2-400)" }}
+                style={{ background: "var(--color-primary-50)", color: "var(--color-primary-400)" }}
             >
                 <RiCalendarEventLine />
             </div>
-            <p className="font-display font-semibold text-lg mb-1" style={{ color: "var(--color-primary2-800)" }}>
+            <p className="font-display font-semibold text-lg mb-1" style={{ color: "var(--color-primary-800)" }}>
                 No upcoming events
             </p>
             <p className="text-sm" style={{ color: "var(--color-text-muted)" }}>
@@ -165,7 +165,7 @@ const EventsSection = () => {
                             className="mb-10 rounded-2xl py-8 text-center"
                             style={{ background: "var(--color-primary2-50)", border: "1px dashed var(--color-primary2-200)" }}
                         >
-                            <p className="text-sm font-medium" style={{ color: "var(--color-primary2-600)" }}>
+                            <p className="text-sm font-medium" style={{ color: "var(--color-primary-600)" }}>
                                 More events coming soon — stay tuned!
                             </p>
                         </div>

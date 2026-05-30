@@ -68,7 +68,7 @@ const TestimonialsSection = () => {
     return (
         <section
             className="relative overflow-hidden"
-            style={{ background: "linear-gradient(160deg, #071F14 0%, #0A3D2B 45%, #0F3C24 100%)" }}
+            style={{ background: "linear-gradient(160deg, var(--color-primary-950) 0%, var(--color-primary-900) 45%, var(--color-primary-800) 100%)" }}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
         >
@@ -77,7 +77,7 @@ const TestimonialsSection = () => {
                 className="absolute inset-0 pointer-events-none"
                 style={{
                     backgroundImage:
-                        "linear-gradient(rgba(46,139,87,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.06) 1px, transparent 1px)",
+                        "linear-gradient(color-mix(in srgb, var(--color-primary-500) 6%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-primary-500) 6%, transparent) 1px, transparent 1px)",
                     backgroundSize: "60px 60px",
                 }}
             />
@@ -86,21 +86,21 @@ const TestimonialsSection = () => {
             <div
                 className="absolute -top-32 -left-32 w-96 h-96 rounded-full pointer-events-none"
                 style={{
-                    background: "radial-gradient(circle, rgba(46,139,87,0.18) 0%, transparent 70%)",
+                    background: "radial-gradient(circle, color-mix(in srgb, var(--color-primary-500) 18%, transparent) 0%, transparent 70%)",
                     filter: "blur(40px)",
                 }}
             />
             <div
                 className="absolute -bottom-24 -right-24 w-80 h-80 rounded-full pointer-events-none"
                 style={{
-                    background: "radial-gradient(circle, rgba(77,180,114,0.15) 0%, transparent 70%)",
+                    background: "radial-gradient(circle, color-mix(in srgb, var(--color-primary-400) 15%, transparent) 0%, transparent 70%)",
                     filter: "blur(36px)",
                 }}
             />
             <div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full pointer-events-none"
                 style={{
-                    background: "radial-gradient(circle, rgba(46,139,87,0.06) 0%, transparent 65%)",
+                    background: "radial-gradient(circle, color-mix(in srgb, var(--color-primary-500) 6%, transparent) 0%, transparent 65%)",
                     filter: "blur(60px)",
                 }}
             />
@@ -110,7 +110,7 @@ const TestimonialsSection = () => {
                 className="absolute top-6 right-6 sm:top-10 sm:right-10 pointer-events-none select-none"
                 style={{
                     fontSize: "clamp(6rem, 12vw, 11rem)",
-                    color: "rgba(46,139,87,0.07)",
+                    color: "color-mix(in srgb, var(--color-primary-500) 7%, transparent)",
                     lineHeight: 1,
                 }}
             />
@@ -123,7 +123,7 @@ const TestimonialsSection = () => {
                     <SectionLabel
                         text="Alumni Voices"
                         className="text-primary2-100 border-primary2-700 dark:text-gunmetal-300 dark:border-gunmetal-500 "
-                        icon={<RiDoubleQuotesL />}/>
+                        icon={<RiDoubleQuotesL />} />
                     <h2
                         className="section-heading-text-center text-white dark:text-gunmetal-200 mt-5">
                         What BAMHSians Say
@@ -155,11 +155,11 @@ const TestimonialsSection = () => {
                                         transition={{ duration: 0.4, ease: "easeOut" }}
                                         className="rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 h-full flex flex-col gap-6 cursor-grab active:cursor-grabbing"
                                         style={{
-                                            background: "linear-gradient(145deg, rgba(46,139,87,0.10) 0%, rgba(46,139,87,0.04) 100%)",
-                                            border: "1px solid rgba(46,139,87,0.22)",
+                                            background: "linear-gradient(145deg, color-mix(in srgb, var(--color-primary-500) 10%, transparent) 0%, color-mix(in srgb, var(--color-primary-500) 4%, transparent) 100%)",
+                                            border: "1px solid color-mix(in srgb, var(--color-primary-500) 22%, transparent)",
                                             boxShadow:
                                                 i === current
-                                                    ? "0 8px 32px rgba(0,0,0,0.35), 0 0 48px rgba(46,139,87,0.12), inset 0 1px 0 rgba(255,255,255,0.06)"
+                                                    ? "0 8px 32px rgba(0,0,0,0.35), 0 0 48px color-mix(in srgb, var(--color-primary-500) 12%, transparent), inset 0 1px 0 rgba(255,255,255,0.06)"
                                                     : "0 4px 16px rgba(0,0,0,0.2)",
                                             backdropFilter: "blur(12px)",
                                         }}
@@ -169,8 +169,8 @@ const TestimonialsSection = () => {
                                             <div
                                                 className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
                                                 style={{
-                                                    background: "rgba(46,139,87,0.20)",
-                                                    border: "1px solid rgba(46,139,87,0.30)",
+                                                    background: "color-mix(in srgb, var(--color-primary-500) 20%, transparent)",
+                                                    border: "1px solid color-mix(in srgb, var(--color-primary-500) 30%, transparent)",
                                                 }}
                                             >
                                                 <RiDoubleQuotesL
@@ -197,7 +197,7 @@ const TestimonialsSection = () => {
                                         <div
                                             className="h-px w-full"
                                             style={{
-                                                background: "linear-gradient(90deg, transparent, rgba(46,139,87,0.35), transparent)",
+                                                background: "linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-primary-500) 35%, transparent), transparent)",
                                             }}
                                         />
 
@@ -241,7 +241,7 @@ const TestimonialsSection = () => {
                                             height: "8px",
                                             boxShadow:
                                                 i === current
-                                                    ? "0 0 8px rgba(77,180,114,0.6)"
+                                                    ? "0 0 8px color-mix(in srgb, var(--color-primary-400) 60%, transparent)"
                                                     : "none",
                                         }}
                                     />

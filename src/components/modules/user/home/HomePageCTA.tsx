@@ -33,7 +33,7 @@ const HomePageCTA = () => (
             <div
                 className="relative rounded-3xl overflow-hidden"
                 style={{
-                    background: "linear-gradient(160deg, #093121 0%, #0c412a 35%, #0A3D2B 100%)",
+                    background: "linear-gradient(160deg, var(--color-primary-950) 0%, var(--color-primary-900) 35%, var(--color-primary-900) 100%)",
                 }}>
 
                 {/* ── Decorative grid  */}
@@ -41,7 +41,7 @@ const HomePageCTA = () => (
                     className="absolute inset-0 pointer-events-none"
                     style={{
                         backgroundImage:
-                            "linear-gradient(rgba(46,139,87,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.06) 1px, transparent 1px)",
+                            "linear-gradient(color-mix(in srgb, var(--color-primary-500) 6%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-primary-500) 6%, transparent) 1px, transparent 1px)",
                         backgroundSize: "60px 60px",
                     }}
                 />
@@ -68,7 +68,7 @@ const HomePageCTA = () => (
                             You&apos;re always{" "}
                             <span
                                 style={{
-                                    background: "linear-gradient(135deg, #72C48C 0%, #4DB472 50%, #9DD8AE 100%)",
+                                    background: "linear-gradient(135deg, var(--color-primary-300) 0%, var(--color-primary-400) 50%, var(--color-primary-200) 100%)",
                                     WebkitBackgroundClip: "text",
                                     WebkitTextFillColor: "transparent",
                                     backgroundClip: "text",
@@ -96,15 +96,15 @@ const HomePageCTA = () => (
                                     key={title}
                                     className="flex flex-row sm:flex-col items-start sm:items-center sm:text-center gap-3 sm:gap-2 px-5 py-4 rounded-2xl"
                                     style={{
-                                        background: "rgba(46,139,87,0.08)",
-                                        border: "1px solid rgba(46,139,87,0.18)",
+                                        background: "color-mix(in srgb, var(--color-primary-500) 8%, transparent)",
+                                        border: "1px solid color-mix(in srgb, var(--color-primary-500) 18%, transparent)",
                                     }}
                                 >
                                     <span
-                                        className="w-9 h-9 shrink-0 rounded-xl flex items-center justify-center text-base text-green-600 "
+                                        className="w-9 h-9 shrink-0 rounded-xl flex items-center justify-center text-base text-primary2-500 "
                                         style={{
-                                            background: "rgba(46,139,87,0.20)",
-                                            border: "1px solid rgba(46,139,87,0.28)",
+                                            background: "color-mix(in srgb, var(--color-primary-500) 20%, transparent)",
+                                            border: "1px solid color-mix(in srgb, var(--color-primary-500) 28%, transparent)",
                                         }}
                                     >
                                         {icon}
@@ -127,8 +127,8 @@ const HomePageCTA = () => (
                         <PrimaryButton
                             className="hover:scale-[1.05] transition-transform duration-300 text-primary2-100 font-semibold"
                             style={{
-                                background: "linear-gradient(135deg, #2E8B57 0%, #155A3E 100%)",
-                                boxShadow: "0 0 32px rgba(46,139,87,0.45), 0 4px 16px rgba(0,0,0,0.30)",
+                                background: "linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-800) 100%)",
+                                boxShadow: "0 0 32px color-mix(in srgb, var(--color-primary-500) 45%, transparent), 0 4px 16px rgba(0,0,0,0.30)",
                             }} icon2={<BsArrowRight />} iconSide2="right"
                             title="Join BAMHS Alumni" href="/login" />
                         <PrimaryButton

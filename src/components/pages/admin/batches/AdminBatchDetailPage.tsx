@@ -24,7 +24,7 @@ export default function AdminBatchDetailPage({ id }: { id: string }) {
                         <h1 className="text-2xl font-bold text-primary2-900">Batch {batch.year}</h1>
                         <div className="flex items-center gap-2 mt-1">
                             <Badge variant={batch.isActive ? "default" : "secondary"}
-                                className={batch.isActive ? "bg-emerald-100 text-emerald-700 border-emerald-200" : ""}>
+                                className={batch.isActive ? "bg-primary2-100 text-primary2-700 border-primary2-200" : ""}>
                                 {batch.isActive ? "Active" : "Inactive"}
                             </Badge>
                         </div>

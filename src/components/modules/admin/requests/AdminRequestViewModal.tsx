@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -19,7 +19,7 @@ import SingleSelect from "@/components/shared/SingleSelect";
 const STATUS_STYLES: Record<TRequestStatus, string> = {
     PENDING: "bg-amber-50 text-amber-700 border border-amber-200",
     IN_REVIEW: "bg-blue-50 text-blue-700 border border-blue-200",
-    RESOLVED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+    RESOLVED: "bg-primary2-50 text-primary2-700 border border-primary2-200",
     REJECTED: "bg-red-50 text-red-700 border border-red-200",
 };
 
@@ -96,8 +96,8 @@ const AdminRequestViewModal = ({ request, onClose }: AdminRequestViewModalProps)
                                 </span>
                             )}
                             <div className="min-w-0">
-                                <p className="font-semibold text-gray-900 text-sm">{user?.name ?? "—"}</p>
-                                <p className="text-xs text-muted-foreground">{user?.email ?? "—"}</p>
+                                <p className="font-semibold text-gray-900 text-sm">{user?.name ?? "â€”"}</p>
+                                <p className="text-xs text-muted-foreground">{user?.email ?? "â€”"}</p>
                                 {user?.phone && <p className="text-xs text-muted-foreground">{user.phone}</p>}
                             </div>
                             <span className={`ml-auto text-xs px-2 py-1 rounded-full font-medium flex items-center gap-1 ${STATUS_STYLES[request.status]}`}>
@@ -139,7 +139,7 @@ const AdminRequestViewModal = ({ request, onClose }: AdminRequestViewModalProps)
                                 <Textarea
                                     value={adminMessage}
                                     onChange={(e) => setAdminMessage(e.target.value)}
-                                    placeholder="Write a response message for the user…"
+                                    placeholder="Write a response message for the userâ€¦"
                                     maxLength={500}
                                     rows={4}
                                 />
@@ -151,7 +151,7 @@ const AdminRequestViewModal = ({ request, onClose }: AdminRequestViewModalProps)
                                     Cancel
                                 </Button>
                                 <Button onClick={handleSubmit} disabled={isLoading}>
-                                    {isLoading ? "Saving…" : "Save Response"}
+                                    {isLoading ? "Savingâ€¦" : "Save Response"}
                                 </Button>
                             </div>
                         </div>

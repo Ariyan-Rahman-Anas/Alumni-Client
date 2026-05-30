@@ -93,7 +93,7 @@ const FeaturedEventCard = ({ event }: { event: IEvent }) => {
                                         <div
                                             key={tier.label}
                                             className="text-xs rounded-lg px-3 py-1.5 border"
-                                            style={{ background: "var(--color-surface-100)", borderColor: "var(--color-primary2-200)", color: "var(--color-primary2-800)" }}
+                                            style={{ background: "var(--color-surface-100)", borderColor: "var(--color-primary-200)", color: "var(--color-primary-800)" }}
                                         >
                                             <span className="font-medium">{tier.label}</span>
                                             <span className="mx-1" style={{ color: "var(--color-text-muted)" }}>·</span>

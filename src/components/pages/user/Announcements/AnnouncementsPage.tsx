@@ -84,7 +84,7 @@ const TYPE: Record<string, { soft: string; icon: React.ReactNode; label: string 
     general: { soft: "bg-primary2-50 text-primary2-700", icon: <RiMegaphoneLine />, label: "General" },
     notice: { soft: "bg-sky-50 text-sky-700", icon: <RiInformationLine />, label: "Notice" },
     event: { soft: "bg-violet-50 text-violet-700", icon: <RiCalendarEventLine />, label: "Event" },
-    news: { soft: "bg-teal-50 text-teal-700", icon: <RiNewspaperLine />, label: "News" },
+    news: { soft: "bg-primary2-50 text-primary2-700", icon: <RiNewspaperLine />, label: "News" },
     update: { soft: "bg-indigo-50 text-indigo-700", icon: <RiRefreshLine />, label: "Update" },
     alert: { soft: "bg-red-50 text-red-700", icon: <RiAlertLine />, label: "Alert" },
 };

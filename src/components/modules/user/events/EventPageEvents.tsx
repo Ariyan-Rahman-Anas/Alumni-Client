@@ -1,4 +1,4 @@
-"use client"
+﻿"use client"
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -9,7 +9,7 @@ import { RiSearch2Line, RiCloseLine, RiCalendarEventLine } from "react-icons/ri"
 import { LuSlidersHorizontal } from "react-icons/lu"
 import SectionLabel from "@/components/shared/SectionLabel"
 
-// ─── Constants ───────────────────────────────────────────────────────────────
+// â”€â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const STATUS_OPTIONS = [
     { value: "", label: "All" },
@@ -20,21 +20,21 @@ const STATUS_OPTIONS = [
 ]
 
 const CATEGORY_OPTIONS = [
-    { value: "Reunion", emoji: "🎓" },
-    { value: "Career", emoji: "💼" },
-    { value: "Community", emoji: "🤝" },
-    { value: "Cultural", emoji: "🎭" },
-    { value: "Sports", emoji: "⚡" },
-    { value: "Other", emoji: "✦" },
+    { value: "Reunion", emoji: "ðŸŽ“" },
+    { value: "Career", emoji: "ðŸ’¼" },
+    { value: "Community", emoji: "ðŸ¤" },
+    { value: "Cultural", emoji: "ðŸŽ­" },
+    { value: "Sports", emoji: "âš¡" },
+    { value: "Other", emoji: "âœ¦" },
 ]
 
 const LOCATION_OPTIONS = [
-    { value: "PHYSICAL", label: "In-Person", icon: "📍" },
-    { value: "ONLINE", label: "Online", icon: "🖥" },
-    { value: "HYBRID", label: "Hybrid", icon: "🌐" },
+    { value: "PHYSICAL", label: "In-Person", icon: "ðŸ“" },
+    { value: "ONLINE", label: "Online", icon: "ðŸ–¥" },
+    { value: "HYBRID", label: "Hybrid", icon: "ðŸŒ" },
 ]
 
-// ─── Component ───────────────────────────────────────────────────────────────
+// â”€â”€â”€ Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const EventPageEvents = () => {
     const [filters, setFilters] = useState({
@@ -59,7 +59,7 @@ const EventPageEvents = () => {
         <FadeUpWrapper>
             <div className="space-y-6">
 
-                {/* ── Page Header ─────────────────────────────────────── */}
+                {/* â”€â”€ Page Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
                 <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-primary2-900 via-primary2-800 to-primary2-950 px-8 py-10 md:px-14 md:py-14">
                     {/* Mesh decorations */}
                     <div className="pointer-events-none absolute inset-0">
@@ -106,7 +106,7 @@ const EventPageEvents = () => {
                                         `}
                                     >
                                         {isLive && isActive && (
-                                            <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-emerald-400 ring-2 ring-primary2-900 animate-pulse" />
+                                            <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-primary2-400 ring-2 ring-primary2-900 animate-pulse" />
                                         )}
                                         {label}
                                     </button>
@@ -116,7 +116,7 @@ const EventPageEvents = () => {
                     </div>
                 </div>
 
-                {/* ── Filter Bar ──────────────────────────────────────── */}
+                {/* â”€â”€ Filter Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
                 <div className="rounded-2xl border border-surface-200 bg-white shadow-sm">
                     {/* Toggle row */}
                     <div className="flex items-center justify-between px-5 py-3.5">
@@ -144,7 +144,7 @@ const EventPageEvents = () => {
                                 </button>
                             )}
                             <span className="text-xs text-neutral-400">
-                                {data?.data?.length ?? "—"} results
+                                {data?.data?.length ?? "â€”"} results
                             </span>
                         </div>
                     </div>
@@ -219,7 +219,7 @@ const EventPageEvents = () => {
                     </AnimatePresence>
                 </div>
 
-                {/* ── Content Area ────────────────────────────────────── */}
+                {/* â”€â”€ Content Area â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
                 {isLoading ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                         {Array.from({ length: 6 }).map((_, i) => (

@@ -2,7 +2,7 @@ import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import PrimaryButton from "@/components/shared/PrimaryButton"
 import SectionLabel from "@/components/shared/SectionLabel"
 import { HiArrowUpRight } from "react-icons/hi2"
-import {  RiHeartLine} from "react-icons/ri"
+import { RiHeartLine } from "react-icons/ri"
 
 const AboutPageCTA = () => {
     return (
@@ -11,7 +11,7 @@ const AboutPageCTA = () => {
                 <div
                     className="relative rounded-3xl overflow-hidden"
                     style={{
-                        background: "linear-gradient(160deg, #093121 0%, #0c412a 35%, #0A3D2B 100%)",
+                        background: "linear-gradient(160deg, var(--color-primary-950) 0%, var(--color-primary-900) 35%, var(--color-primary-900) 100%)",
                     }}>
 
                     {/* ── Decorative grid  */}
@@ -19,7 +19,7 @@ const AboutPageCTA = () => {
                         className="absolute inset-0 pointer-events-none"
                         style={{
                             backgroundImage:
-                                "linear-gradient(rgba(46,139,87,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.06) 1px, transparent 1px)",
+                                "linear-gradient(color-mix(in srgb, var(--color-primary-500) 6%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-primary-500) 6%, transparent) 1px, transparent 1px)",
                             backgroundSize: "60px 60px",
                         }}
                     />
@@ -47,7 +47,7 @@ const AboutPageCTA = () => {
                                 {/* You&apos;re always{" "} */}
                                 <span
                                     style={{
-                                        background: "linear-gradient(135deg, #72C48C 0%, #4DB472 50%, #9DD8AE 100%)",
+                                        background: "linear-gradient(135deg, var(--color-primary-300) 0%, var(--color-primary-500) 50%, var(--color-primary-200) 100%)",
                                         WebkitBackgroundClip: "text",
                                         WebkitTextFillColor: "transparent",
                                         backgroundClip: "text",
@@ -71,11 +71,11 @@ const AboutPageCTA = () => {
                             <PrimaryButton
                                 className="hover:scale-[1.05] transition-transform duration-300 text-primary2-100 font-semibold  "
                                 style={{
-                                    background: "linear-gradient(135deg, #2E8B57 0%, #155A3E 100%)",
-                                    boxShadow: "0 0 32px rgba(46,139,87,0.45), 0 4px 16px rgba(0,0,0,0.30)",
+                                    background: "linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-800) 100%)",
+                                    boxShadow: "0 0 32px color-mix(in srgb, var(--color-primary-500) 45%, transparent), 0 4px 16px rgba(0,0,0,0.30)",
                                 }} icon2={<HiArrowUpRight />}
                                 title="Join Now - It's Free" href="/login" />
-                            
+
                             <PrimaryButton
                                 className="hover:scale-[1.05] transition-transform duration-300 bg-transparent text-primary2-200 font-semibold border-primary2-700 "
                                 title="Browse Batches" href="/batches" />

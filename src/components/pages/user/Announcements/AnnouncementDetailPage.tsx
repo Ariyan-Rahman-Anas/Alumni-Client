@@ -65,7 +65,7 @@ export const TYPE_CONFIG: Record<string, { badge: string; icon: React.ReactNode;
         label: "Event",
     },
     news: {
-        badge: "bg-teal-50 text-teal-700 ring-1 ring-teal-200",
+        badge: "bg-primary2-50 text-primary2-700 ring-1 ring-primary2-200",
         icon: <RiNewspaperLine />,
         label: "News",
     },

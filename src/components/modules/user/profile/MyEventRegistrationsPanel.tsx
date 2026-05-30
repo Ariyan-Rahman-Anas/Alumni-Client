@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -30,12 +30,12 @@ import type {
 
 const PAYMENT_STATUS: Record<TPaymentStatus, { label: string; className: string }> = {
     PENDING: { label: "Payment Pending", className: "bg-amber-50 text-amber-700 border border-amber-200" },
-    PAID: { label: "Paid", className: "bg-emerald-50 text-emerald-700 border border-emerald-200" },
+    PAID: { label: "Paid", className: "bg-primary2-50 text-primary2-700 border border-primary2-200" },
     WAIVED: { label: "Waived", className: "bg-sky-50 text-sky-700 border border-sky-200" },
 };
 
 const REG_STATUS: Record<TRegistrationStatus, { label: string; icon: React.ReactNode; className: string }> = {
-    CONFIRMED: { label: "Confirmed", icon: <RiCheckboxCircleLine />, className: "bg-emerald-50 text-emerald-700 border border-emerald-200" },
+    CONFIRMED: { label: "Confirmed", icon: <RiCheckboxCircleLine />, className: "bg-primary2-50 text-primary2-700 border border-primary2-200" },
     CANCELLED: { label: "Cancelled", icon: <RiCloseCircleLine />, className: "bg-red-50 text-red-700 border border-red-200" },
     WAITLISTED: { label: "Waitlisted", icon: <RiTimeLine />, className: "bg-amber-50 text-amber-700 border border-amber-200" },
 };
@@ -46,7 +46,7 @@ const CANCEL_REQUEST_STATUS: Record<TCancelRequestStatus, { label: string; class
     REJECTED: { label: "Cancellation Rejected", className: "bg-surface-100 text-neutral-600 border border-surface-200" },
 };
 
-/* ── Cancel Request Modal ──────────────────────────── */
+/* â”€â”€ Cancel Request Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 function CancelRequestModal({
     registrationId,
@@ -119,7 +119,7 @@ function CancelRequestModal({
     );
 }
 
-/* ── Cancel Request Status Badge ─────────────────────── */
+/* â”€â”€ Cancel Request Status Badge â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 function CancelRequestStatusBadge({ req }: { req: IEventCancelRequest | undefined }) {
     if (!req) return null;
@@ -135,7 +135,7 @@ function CancelRequestStatusBadge({ req }: { req: IEventCancelRequest | undefine
                     <p className="text-muted-foreground">{req.adminNote}</p>
                     {req.actionBy && (
                         <p className="text-[11px] text-muted-foreground mt-1">
-                            — {req.actionBy.name}
+                            â€” {req.actionBy.name}
                             {req.actionAt ? `, ${format(new Date(req.actionAt), "d MMM yyyy")}` : ""}
                         </p>
                     )}
@@ -197,7 +197,7 @@ function RegistrationCard({ reg }: { reg: IEventRegistration }) {
                 )}
                 <div className="flex items-center gap-1.5 text-muted-foreground">
                     <RiWallet3Line className="text-primary2-500" />
-                    Total: <strong className="text-neutral-700">৳{reg.totalAmount.toLocaleString()}</strong>
+                    Total: <strong className="text-neutral-700">à§³{reg.totalAmount.toLocaleString()}</strong>
                 </div>
                 {reg.guestCount > 0 && (
                     <div className="text-muted-foreground">
