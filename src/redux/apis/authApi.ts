@@ -1,4 +1,4 @@
-import { IGetMeResponse, ILoginPayload, ILoginResponse, IRefreshTokenResponse, IRegisterPayload, IRegisterResponse, IResendOtpResponse, IVerifyOtpResponse } from "@/app/(auth)/auth.types";
+import { IForgotPasswordResponse, IGetMeResponse, ILoginPayload, ILoginResponse, IRefreshTokenResponse, IRegisterPayload, IRegisterResponse, IResetPasswordResponse, IResendOtpResponse, IVerifyOtpResponse } from "@/app/(auth)/auth.types";
 import { baseApi } from "./baseApi";
 
 export const authApi = baseApi.injectEndpoints({
@@ -69,6 +69,14 @@ export const authApi = baseApi.injectEndpoints({
                 body,
             }),
         }),
+
+        forgotPassword: builder.mutation<IForgotPasswordResponse, { email: string }>({
+            query: (body) => ({ url: "/auth/forgot-password", method: "POST", body }),
+        }),
+
+        resetPassword: builder.mutation<IResetPasswordResponse, { token: string; password: string }>({
+            query: (body) => ({ url: "/auth/reset-password", method: "POST", body }),
+        }),
     }),
 });
 
@@ -81,5 +89,7 @@ export const {
     useRestoreSessionQuery,
     useGetMeQuery,
     useChangePasswordMutation,
+    useForgotPasswordMutation,
+    useResetPasswordMutation,
 } = authApi;
 

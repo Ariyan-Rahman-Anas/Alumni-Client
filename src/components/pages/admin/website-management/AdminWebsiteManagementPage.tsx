@@ -140,7 +140,7 @@ const ColorPickerField = ({
                         className="ml-auto text-xs text-gunmetal-400 hover:text-rose-500 transition-colors"
                         title="Clear ” reuse light mode color in dark mode"
                     >
-                        œ• Clear
+                        Clear
                     </button>
                 </div>
             ) : (
@@ -535,14 +535,14 @@ const AdminWebsiteManagementPage = () => {
                     </div>
 
                     {/* Dark mode row */}
-                    <p className="text-xs font-semibold uppercase tracking-widest text-gunmetal-400 dark:text-gunmetal-300 mb-3">Dark Mode (optional ” leave blank to reuse light color)</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gunmetal-400 dark:text-gunmetal-300 mb-3">Dark Mode (optional leave blank to reuse light color)</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <Controller
                             name="primaryColorDark"
                             control={control}
                             render={({ field }) => (
                                 <ColorPickerField
-                                    label="Primary Brand Color ” Dark"
+                                    label="Primary Brand Color Dark"
                                     hint="Override for dark mode. If blank, the light mode color is used."
                                     value={field.value ?? ""}
                                     onChange={field.onChange}
@@ -555,7 +555,7 @@ const AdminWebsiteManagementPage = () => {
                             control={control}
                             render={({ field }) => (
                                 <ColorPickerField
-                                    label="Blood Bank Color ” Dark"
+                                    label="Blood Bank Color Dark"
                                     hint="Override for dark mode. If blank, the light mode color is used."
                                     value={field.value ?? ""}
                                     onChange={field.onChange}

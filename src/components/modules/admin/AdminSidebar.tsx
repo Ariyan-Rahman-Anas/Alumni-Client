@@ -26,6 +26,7 @@ import { clearUser, selectCurrentUser } from "@/redux/slice/authSlice";
 import type { AppDispatch } from "@/redux/store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MdOutlineCampaign } from "react-icons/md";
+import { RiDoubleQuotesL } from "react-icons/ri";
 import ThemeSwitch from "@/lib/ThemeSwitch";
 
 const NAV_ITEMS = [
@@ -38,6 +39,7 @@ const NAV_ITEMS = [
     { label: "Jobs", href: "/admin/jobs", icon: RiExternalLinkLine },
     { label: "Users", href: "/admin/users", icon: RiGroupLine },
     { label: "Requests", href: "/admin/requests", icon: RiFileListLine },
+    { label: "Testimonials", href: "/admin/testimonials", icon: RiDoubleQuotesL },
     { label: "Website Settings", href: "/admin/website-management", icon: RiSettings3Line },
 ];
 
