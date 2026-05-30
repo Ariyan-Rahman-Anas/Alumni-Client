@@ -11,7 +11,6 @@ import {
 } from "react-icons/ri";
 import { IAnnouncement, TAnnouncementStatus } from "../../user/announcements/announcement.types";
 
-/* â”€â”€ Badge helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const STATUS_COLORS: Record<TAnnouncementStatus, string> = {
     draft: "bg-gray-100 text-gray-600 border-gray-200",
     published: "bg-primary2-50 text-primary2-700 border-primary2-200",
@@ -125,7 +124,7 @@ const AdminAnnouncementsTable = ({
                                     <td className="px-4 py-3 text-muted-foreground text-xs whitespace-nowrap">
                                         {item.publishedAt
                                             ? format(new Date(item.publishedAt), "dd MMM yyyy")
-                                            : "â€”"}
+                                            : "”"}
                                     </td>
                                     <td className="px-4 py-3 text-muted-foreground text-xs">
                                         <span className="inline-flex items-center gap-1">
@@ -140,8 +139,8 @@ const AdminAnnouncementsTable = ({
                                                 disabled={isTogglingPin}
                                                 onClick={() => onTogglePin(item._id)}
                                                 className={`h-8 w-8 flex items-center justify-center rounded-lg transition-colors ${item.isPinned
-                                                        ? "text-primary2-600 bg-primary2-50 hover:bg-primary2-100"
-                                                        : "text-muted-foreground hover:bg-surface-100"
+                                                    ? "text-primary2-600 bg-primary2-50 hover:bg-primary2-100"
+                                                    : "text-muted-foreground hover:bg-surface-100"
                                                     }`}
                                             >
                                                 {item.isPinned ? <RiPushpin2Line /> : <RiPushpinLine />}
@@ -180,7 +179,7 @@ const AdminAnnouncementsTable = ({
                             (paginationOptions.current_page - 1) * pageSize + 1,
                             paginationOptions.count,
                         )}
-                        â€“{Math.min(paginationOptions.current_page * pageSize, paginationOptions.count)} of{" "}
+                        “{Math.min(paginationOptions.current_page * pageSize, paginationOptions.count)} of{" "}
                         {paginationOptions.count}
                     </p>
                     <div className="flex gap-1">
@@ -190,8 +189,8 @@ const AdminAnnouncementsTable = ({
                                 type="button"
                                 onClick={() => onPageChange(p)}
                                 className={`h-7 w-7 text-xs rounded-lg transition-colors ${p === paginationOptions.current_page
-                                        ? "bg-primary2-700 text-white"
-                                        : "hover:bg-surface-100 text-muted-foreground"
+                                    ? "bg-primary2-700 text-white"
+                                    : "hover:bg-surface-100 text-muted-foreground"
                                     }`}
                             >
                                 {p}

@@ -18,7 +18,7 @@ import type {
 import SectionLabel from "@/components/shared/SectionLabel";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 
-/* â”€â”€â”€ constants */
+/* ”€”€”€ constants */
 const BLOOD_GROUP_COLORS: Record<
     string,
     {
@@ -121,7 +121,7 @@ const BLOOD_GROUP_COLORS: Record<
     },
 };
 
-/* â”€â”€â”€ Donor card */
+/* ”€”€”€ Donor card */
 const DonorCard = ({
     donor,
     rank,
@@ -202,7 +202,7 @@ const DonorCard = ({
                     />
                 </div>
 
-                {/* Top row â€” avatar + name */}
+                {/* Top row ” avatar + name */}
                 <div className="flex items-center gap-3">
                     <div
                         className={`
@@ -283,7 +283,7 @@ const DonorCard = ({
     );
 };
 
-/* â”€â”€â”€ Blood group card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€”€ Blood group card ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 
 const BloodGroupCard = ({
     group,
@@ -352,7 +352,7 @@ const BloodGroupCard = ({
     );
 };
 
-/* â”€â”€â”€ Skeleton â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€”€ Skeleton ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 
 const SkeletonCard = () => (
     <div className="flex flex-col gap-3 animate-pulse">
@@ -386,7 +386,7 @@ const SkeletonCard = () => (
     </div>
 );
 
-/* â”€â”€â”€ Main component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€”€ Main component ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 
 const EligibleDonorsByBloodGroup = () => {
     const { data, isLoading, isError } =
@@ -410,7 +410,7 @@ const EligibleDonorsByBloodGroup = () => {
                 </h2>
 
                 <p className="text-gunmetal-400 dark:text-gunmetal-300 ">
-                    Donors eligible after 3-month recovery â€”
+                    Donors eligible after 3-month recovery ”
                     sorted by longest wait
                 </p>
             </FadeUpWrapper>
@@ -475,7 +475,7 @@ const EligibleDonorsByBloodGroup = () => {
                                 </p>
 
                                 <p className="text-sm text-surface-400 dark:text-surface-500">
-                                    Check back later â€” donors become eligible
+                                    Check back later ” donors become eligible
                                     after 3 months
                                 </p>
                             </div>

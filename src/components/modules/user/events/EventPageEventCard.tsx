@@ -18,7 +18,7 @@ import { useAppSelector } from "@/redux/hooks"
 import { selectCurrentUser, selectIsInitialized } from "@/redux/slice/authSlice"
 import { RiCheckboxCircleLine } from "react-icons/ri"
 
-// â”€â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ”€”€”€ Constants ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€
 const TIER_COLORS = [
     "from-primary2-400 to-primary2-600",
     "from-amber-400 to-amber-600",
@@ -125,7 +125,7 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                 }
             `}
         >
-            {/* â”€â”€ Cover Image â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Cover Image ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             <div className="relative h-52 w-full overflow-hidden bg-primary2-950">
                 {coverImage && (
                     <Image
@@ -140,14 +140,14 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-primary2-950/80 via-primary2-950/10 to-transparent" />
 
-                {/* Category chip â€” top left */}
+                {/* Category chip ” top left */}
                 <div className="absolute left-4 top-4">
                     <span className="rounded-lg border border-white/25 bg-white/15 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md">
                         {category}
                     </span>
                 </div>
 
-                {/* Date badge â€” top right */}
+                {/* Date badge ” top right */}
                 <div className="absolute right-4 top-4 rounded-xl border border-white/20 bg-primary2-950/60 px-3 py-2 text-center backdrop-blur-md">
                     <span className="block text-[9px] font-bold uppercase tracking-wider text-primary2-300">
                         {weekday}
@@ -160,7 +160,7 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                     </span>
                 </div>
 
-                {/* Status badge â€” bottom left */}
+                {/* Status badge ” bottom left */}
                 <div className="absolute bottom-4 left-4">
                     <div className={`
                         inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 backdrop-blur-md
@@ -171,7 +171,7 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                     </div>
                 </div>
 
-                {/* Location type badge â€” bottom right */}
+                {/* Location type badge ” bottom right */}
                 <div className="absolute bottom-4 right-4">
                     <div className={`
                         flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-bold
@@ -184,7 +184,7 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                 </div>
             </div>
 
-            {/* â”€â”€ Body â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Body ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             <div className="flex flex-1 flex-col p-6">
 
                 {/* Title */}
@@ -220,7 +220,7 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                             <RiGiftLine className="text-lg text-primary2-600 shrink-0" />
                             <div>
                                 <p className="text-xs font-black uppercase tracking-wider text-primary2-700">Free Entry</p>
-                                <p className="text-[10px] text-primary2-600/70">Open to all â€” no registration fee</p>
+                                <p className="text-[10px] text-primary2-600/70">Open to all ” no registration fee</p>
                             </div>
                         </div>
                     ) : priceTiers?.length > 0 ? (
@@ -239,7 +239,7 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                                         </div>
                                     </div>
                                     <p className="text-sm font-black text-primary2-900">
-                                        à§³{tier.fee.toLocaleString()}
+                                        {tier.fee.toLocaleString()}
                                     </p>
                                 </div>
                             ))}
@@ -255,7 +255,7 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                             className="flex items-center justify-center gap-2 w-full rounded-xl bg-primary2-50 border border-primary2-200 px-4 py-3 text-sm font-semibold text-primary2-700 hover:bg-primary2-100 transition-colors"
                         >
                             <RiCheckboxCircleLine className="text-base flex-shrink-0" />
-                            Already Registered â€” View Details
+                            Already Registered ” View Details
                         </Link>
                     ) : (
                         <PrimaryButton

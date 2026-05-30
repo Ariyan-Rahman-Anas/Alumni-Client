@@ -21,14 +21,14 @@ import GoBackward from "@/components/shared/GoBackward";
 import SectionLabel from "@/components/shared/SectionLabel";
 import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
 
-/* â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Types ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 interface Section {
     id: string;
     title: string;
     icon: React.ReactNode;
 }
 
-/* â”€â”€ TOC data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ TOC data ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const sections: Section[] = [
     { id: "information-we-collect", title: "Information We Collect", icon: <RiDatabase2Line /> },
     { id: "how-we-use", title: "How We Use Your Information", icon: <RiUserLine /> },
@@ -41,7 +41,7 @@ const sections: Section[] = [
     { id: "contact", title: "Contact Us", icon: <RiMailLine /> },
 ];
 
-/* â”€â”€ Section wrapper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Section wrapper ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 function PolicySection({
     id,
     title,
@@ -79,7 +79,7 @@ function PolicySection({
     );
 }
 
-/* â”€â”€ Prose helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Prose helpers ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const P = ({ children, className }: { children: React.ReactNode; className?: string }) => (
     <p className={`font-semibold leading-relaxed ${className ?? ""}`}>{children}</p>
 );
@@ -102,7 +102,7 @@ const SubHeading = ({ children }: { children: React.ReactNode }) => (
     <h3 className="font-semibold text-primary2-800 mt-5 mb-2">{children}</h3>
 );
 
-/* â”€â”€ Main component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Main component ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 export default function PrivacyPage() {
     const { data: websiteManagement } = useGetWebsiteManagementQuery();
 
@@ -137,7 +137,7 @@ export default function PrivacyPage() {
 
     return (
         <div>
-            {/* â”€â”€ Hero â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Hero ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             <FadeUpWrapper className="three-xl-section-setup">
                 <section
                     className="relative overflow-hidden rounded-3xl"
@@ -178,7 +178,7 @@ export default function PrivacyPage() {
                 </section>
             </FadeUpWrapper>
 
-            {/* â”€â”€ Content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Content ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             <div className="three-xl-section-setup">
                 <div className="flex gap-12 items-start">
 
@@ -301,9 +301,9 @@ export default function PrivacyPage() {
                             ]} />
                             <SubHeading>Third-Party Service Providers</SubHeading>
                             <UL items={[
-                                "Cloudinary â€” for secure image hosting and delivery",
-                                "MongoDB Atlas â€” for database storage (data encrypted at rest)",
-                                "Railway & Vercel â€” for application hosting (no access to personal data)",
+                                "Cloudinary ” for secure image hosting and delivery",
+                                "MongoDB Atlas ” for database storage (data encrypted at rest)",
+                                "Railway & Vercel ” for application hosting (no access to personal data)",
                             ]} />
                             <SubHeading>Legal Requirements</SubHeading>
                             <P>
@@ -319,7 +319,7 @@ export default function PrivacyPage() {
                                 We implement industry-standard security measures to protect your information:
                             </P>
                             <UL items={[
-                                "Passwords are hashed using bcrypt â€” we never store plaintext passwords",
+                                "Passwords are hashed using bcrypt ” we never store plaintext passwords",
                                 "All data transmission is encrypted using HTTPS/TLS",
                                 "Authentication is managed via JWT tokens with expiry and rotation",
                                 "Access to production databases is restricted by IP allowlisting",
@@ -361,11 +361,11 @@ export default function PrivacyPage() {
                         <PolicySection id="your-rights" title="Your Rights" icon={<RiUserSettingsLine />}>
                             <P>You have the following rights regarding your personal data:</P>
                             <UL items={[
-                                "Access â€” request a copy of the personal data we hold about you",
-                                "Correction â€” update or correct inaccurate information via your profile settings",
-                                "Deletion â€” request deletion of your account and associated data",
-                                "Portability â€” receive your data in a machine-readable format upon request",
-                                "Withdrawal â€” remove voluntarily provided data such as gallery photos or blood bank records",
+                                "Access ” request a copy of the personal data we hold about you",
+                                "Correction ” update or correct inaccurate information via your profile settings",
+                                "Deletion ” request deletion of your account and associated data",
+                                "Portability ” receive your data in a machine-readable format upon request",
+                                "Withdrawal ” remove voluntarily provided data such as gallery photos or blood bank records",
                             ]} />
                             <P>
                                 To exercise any of these rights, please email us at{" "}
@@ -427,7 +427,7 @@ export default function PrivacyPage() {
                                     <span> {schoolShortName || "BAMHS"} Alumni Association, {schoolName || "Battali Abdul Matin High School"}, {schoolAddress}</span>
                                 </div>
                             </div>
-                            <P>We aim to respond to all privacy-related enquiries within 5â€“10 business days.</P>
+                            <P>We aim to respond to all privacy-related enquiries within 5“10 business days.</P>
                         </PolicySection>
 
                         <Divider />
@@ -435,11 +435,11 @@ export default function PrivacyPage() {
                         {/* Footer nav */}
                         <div className="mt-16pt-border-tborder-surface-100 flex flex-wrap items-center justify-between gap-4">
                             <p className="text-xs text-muted-foreground">
-                                Â© {new Date().getFullYear()} {schoolShortName || " Alumni Association"}. All rights reserved.
+                                © {new Date().getFullYear()} {schoolShortName || " Alumni Association"}. All rights reserved.
                             </p>
                             <div className="flex gap-4 text-xs">
                                 <Link href="/terms" className="text-primary2-600 hover:underline font-medium">
-                                    Terms of Service â†’
+                                    Terms of Service †’
                                 </Link>
                                 <Link href="/about" className="text-muted-foreground hover:text-primary2-600">
                                     About Us

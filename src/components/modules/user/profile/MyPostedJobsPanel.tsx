@@ -42,13 +42,13 @@ function Avatar({ name, imageUrl, size = 36 }: { name: string; imageUrl?: string
     );
 }
 
-/* â”€â”€ Applicants sub-panel per job â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Applicants sub-panel per job ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 function JobApplicantsPanel({ jobId, isOwner }: { jobId: string; isOwner: boolean }) {
     const { data, isLoading } = useGetJobApplicationsQuery(jobId);
     const [selectApplicant] = useSelectApplicantMutation();
     const apps = data?.data ?? [];
 
-    if (isLoading) return <div className="py-3 text-xs text-muted-foreground animate-pulse">Loading applicantsâ€¦</div>;
+    if (isLoading) return <div className="py-3 text-xs text-muted-foreground animate-pulse">Loading applicants¦</div>;
     if (apps.length === 0) return <p className="py-3 text-xs text-muted-foreground text-center">No applicants yet.</p>;
 
     return (
@@ -89,7 +89,7 @@ function JobApplicantsPanel({ jobId, isOwner }: { jobId: string; isOwner: boolea
     );
 }
 
-/* â”€â”€ Job Row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Job Row ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 function JobRow({ job }: { job: IJobPost }) {
     const [expanded, setExpanded] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
@@ -120,7 +120,7 @@ function JobRow({ job }: { job: IJobPost }) {
                                 <Link href={`/jobs/${job._id}`} className="font-semibold text-primary2-900 hover:text-primary2-700 hover:underline transition-colors line-clamp-1">
                                     {job.title}
                                 </Link>
-                                <p className="text-xs text-muted-foreground mt-0.5 capitalize">{job.type.replace("_", " ")} Â· Posted {formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}</p>
+                                <p className="text-xs text-muted-foreground mt-0.5 capitalize">{job.type.replace("_", " ")} · Posted {formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}</p>
                             </div>
                             <div className="flex items-center gap-2 flex-shrink-0">
                                 <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${statusCfg.className}`}>
@@ -182,9 +182,9 @@ function JobRow({ job }: { job: IJobPost }) {
     );
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+/* ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
    MAIN COMPONENT
-â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+•••••••••••••••••••••••••••••••••••••••••••••••••••••••••• */
 export default function MyPostedJobsPanel() {
     const { data, isLoading } = useGetMyJobsQuery({});
     const jobs = data?.data ?? [];

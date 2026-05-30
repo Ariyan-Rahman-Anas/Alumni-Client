@@ -96,8 +96,8 @@ const AdminRequestViewModal = ({ request, onClose }: AdminRequestViewModalProps)
                                 </span>
                             )}
                             <div className="min-w-0">
-                                <p className="font-semibold text-gray-900 text-sm">{user?.name ?? "â€”"}</p>
-                                <p className="text-xs text-muted-foreground">{user?.email ?? "â€”"}</p>
+                                <p className="font-semibold text-gray-900 text-sm">{user?.name ?? "”"}</p>
+                                <p className="text-xs text-muted-foreground">{user?.email ?? "”"}</p>
                                 {user?.phone && <p className="text-xs text-muted-foreground">{user.phone}</p>}
                             </div>
                             <span className={`ml-auto text-xs px-2 py-1 rounded-full font-medium flex items-center gap-1 ${STATUS_STYLES[request.status]}`}>
@@ -139,7 +139,7 @@ const AdminRequestViewModal = ({ request, onClose }: AdminRequestViewModalProps)
                                 <Textarea
                                     value={adminMessage}
                                     onChange={(e) => setAdminMessage(e.target.value)}
-                                    placeholder="Write a response message for the userâ€¦"
+                                    placeholder="Write a response message for the user¦"
                                     maxLength={500}
                                     rows={4}
                                 />
@@ -151,7 +151,7 @@ const AdminRequestViewModal = ({ request, onClose }: AdminRequestViewModalProps)
                                     Cancel
                                 </Button>
                                 <Button onClick={handleSubmit} disabled={isLoading}>
-                                    {isLoading ? "Savingâ€¦" : "Save Response"}
+                                    {isLoading ? "Saving¦" : "Save Response"}
                                 </Button>
                             </div>
                         </div>

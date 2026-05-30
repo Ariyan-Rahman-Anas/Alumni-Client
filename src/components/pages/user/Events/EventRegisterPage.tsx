@@ -25,7 +25,7 @@ import { selectCurrentUser } from "@/redux/slice/authSlice";
 import type { IEvent, PriceTier, TPaymentMethod, TTshirtSize, RegisterForEventPayload } from "@/types/common/events.types";
 import { cn } from "@/lib/utils";
 
-// â”€â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ”€”€”€ Helpers ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€
 
 function fmt(dateStr: string,
     // pattern = "d MMM yyyy, h:mm a"
@@ -50,14 +50,14 @@ function resolvePriceTier(priceTiers: PriceTier[], userBatch: number): PriceTier
     );
 }
 
-// â”€â”€â”€ Registration window helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ”€”€”€ Registration window helper ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€
 
 function getRegistrationBlocker(event: IEvent): string | null {
     const now = new Date();
     if (event.status === "CANCELLED") return "This event has been cancelled.";
     if (event.status === "COMPLETED") return "This event has already ended.";
     if (!event.isPublished) return "This event is not yet open for registration.";
-    if (!event.isRegistrationRequired) return null; // no registration needed â€” show info instead
+    if (!event.isRegistrationRequired) return null; // no registration needed ” show info instead
     if (event.registrationOpensAt && now < new Date(event.registrationOpensAt))
         return `Registration opens on ${fmt(event.registrationOpensAt)}.`;
     if (event.registrationDeadline && isPast(new Date(event.registrationDeadline)))
@@ -65,7 +65,7 @@ function getRegistrationBlocker(event: IEvent): string | null {
     return null;
 }
 
-// â”€â”€â”€ Payment method labels â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ”€”€”€ Payment method labels ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€
 
 const PAYMENT_METHODS: { value: TPaymentMethod; label: string }[] = [
     { value: "BKASH", label: "bKash" },
@@ -77,7 +77,7 @@ const PAYMENT_METHODS: { value: TPaymentMethod; label: string }[] = [
 
 const TSHIRT_SIZES: TTshirtSize[] = ["S", "M", "L", "XL", "XXL"];
 
-// â”€â”€â”€ Summary Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ”€”€”€ Summary Card ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€
 
 function EventSummaryCard({ event, userBatch }: { event: IEvent; userBatch?: number }) {
     const tier = userBatch && !event.isFree ? resolvePriceTier(event.priceTiers, userBatch) : null;
@@ -107,7 +107,7 @@ function EventSummaryCard({ event, userBatch }: { event: IEvent; userBatch?: num
                 <div className="pt-2 border-t border-surface-100 text-sm text-primary2-900">
                     <span className="text-muted-foreground">Your tier: </span>
                     <strong>{tier.label}</strong>
-                    <span className="ml-2 font-bold text-primary2-700">à§³{tier.fee.toLocaleString()}</span>
+                    <span className="ml-2 font-bold text-primary2-700">{tier.fee.toLocaleString()}</span>
                 </div>
             )}
             {event.isFree && (
@@ -119,7 +119,7 @@ function EventSummaryCard({ event, userBatch }: { event: IEvent; userBatch?: num
     );
 }
 
-// â”€â”€â”€ Fee Preview â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ”€”€”€ Fee Preview ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€
 
 function FeePreview({
     event,
@@ -145,18 +145,18 @@ function FeePreview({
             {!event.isFree && (
                 <div className="flex justify-between text-muted-foreground">
                     <span>Registration fee {tier ? `(${tier.label})` : ""}</span>
-                    <span className="font-medium text-neutral-800">à§³{baseFee.toLocaleString()}</span>
+                    <span className="font-medium text-neutral-800">{baseFee.toLocaleString()}</span>
                 </div>
             )}
             {guestCount > 0 && (
                 <div className="flex justify-between text-muted-foreground">
-                    <span>{guestCount} guest{guestCount > 1 ? "s" : ""} Ã— à§³{(event.guestFee ?? 0).toLocaleString()}</span>
-                    <span className="font-medium text-neutral-800">à§³{guestFeeTotal.toLocaleString()}</span>
+                    <span>{guestCount} guest{guestCount > 1 ? "s" : ""} Ã— {(event.guestFee ?? 0).toLocaleString()}</span>
+                    <span className="font-medium text-neutral-800">{guestFeeTotal.toLocaleString()}</span>
                 </div>
             )}
             <div className="flex justify-between border-t border-primary2-200 pt-2 font-bold text-primary2-900">
                 <span>Total</span>
-                <span>à§³{total.toLocaleString()}</span>
+                <span>{total.toLocaleString()}</span>
             </div>
             {total > 0 && (
                 <p className="text-[11px] text-muted-foreground flex items-start gap-1">
@@ -168,7 +168,7 @@ function FeePreview({
     );
 }
 
-// â”€â”€â”€ Already Registered Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ”€”€”€ Already Registered Banner ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€
 
 function AlreadyRegisteredBanner({ status }: { status: string }) {
     const isCancelled = status === "CANCELLED";
@@ -191,7 +191,7 @@ function AlreadyRegisteredBanner({ status }: { status: string }) {
                 </p>
                 {!isCancelled && (
                     <Link href="/profile" className="text-sm text-primary2-700 font-medium hover:underline mt-2 inline-block">
-                        View in Profile â†’
+                        View in Profile †’
                     </Link>
                 )}
             </div>
@@ -199,7 +199,7 @@ function AlreadyRegisteredBanner({ status }: { status: string }) {
     );
 }
 
-// â”€â”€â”€ Main Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ”€”€”€ Main Page ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€
 
 export default function EventRegisterPage() {
     const params = useParams();
@@ -244,7 +244,7 @@ export default function EventRegisterPage() {
         return (
             <div className="three-xl-section-setup py-20 text-center">
                 <p className="text-muted-foreground">Event not found.</p>
-                <Link href="/events" className="text-primary2-700 hover:underline mt-2 inline-block text-sm">â† Back to Events</Link>
+                <Link href="/events" className="text-primary2-700 hover:underline mt-2 inline-block text-sm">† Back to Events</Link>
             </div>
         );
     }
@@ -314,7 +314,7 @@ export default function EventRegisterPage() {
             <h1 className="text-2xl sm:text-3xl font-bold text-primary2-900 mb-8">Register for Event</h1>
 
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 items-start">
-                {/* â”€â”€ Left: Form â”€â”€ */}
+                {/* ”€”€ Left: Form ”€”€ */}
                 <div className="space-y-6">
                     {/* Already registered banner */}
                     {existingReg && existingReg.status !== "CANCELLED" && (
@@ -342,7 +342,7 @@ export default function EventRegisterPage() {
                         </div>
                     )}
 
-                    {/* The form â€” only show if registration is required and not blocked and not already registered */}
+                    {/* The form ” only show if registration is required and not blocked and not already registered */}
                     {event.isRegistrationRequired && !blocker && (!existingReg || existingReg.status === "CANCELLED") && (
                         <form onSubmit={handleSubmit} className="space-y-5">
                             {/* Tier info */}
@@ -352,7 +352,7 @@ export default function EventRegisterPage() {
                                         <p className="text-neutral-700">
                                             Your batch (<strong>Batch {userBatch}</strong>) falls under the{" "}
                                             <strong className="text-primary2-700">{tier.label}</strong> tier at{" "}
-                                            <strong className="text-primary2-700">à§³{tier.fee.toLocaleString()}</strong>.
+                                            <strong className="text-primary2-700">{tier.fee.toLocaleString()}</strong>.
                                         </p>
                                     ) : (
                                         <p className="text-red-700 flex items-start gap-1.5">
@@ -380,7 +380,7 @@ export default function EventRegisterPage() {
                                     >
                                         {Array.from({ length: event.maxGuestsPerAlumni + 1 }, (_, i) => (
                                             <option key={i} value={i}>
-                                                {i === 0 ? "No guests" : `${i} guest${i > 1 ? "s" : ""}${event.guestFee ? ` (à§³${(i * event.guestFee).toLocaleString()})` : ""}`}
+                                                {i === 0 ? "No guests" : `${i} guest${i > 1 ? "s" : ""}${event.guestFee ? ` (${(i * event.guestFee).toLocaleString()})` : ""}`}
                                             </option>
                                         ))}
                                     </select>
@@ -471,7 +471,7 @@ export default function EventRegisterPage() {
                                                 className="w-full rounded-xl border border-surface-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary2-300"
                                             />
                                             <p className="text-[11px] text-muted-foreground mt-1">
-                                                Send à§³{totalAmount.toLocaleString()} to our number, then enter the transaction ID here.
+                                                Send {totalAmount.toLocaleString()} to our number, then enter the transaction ID here.
                                             </p>
                                         </div>
                                     )}
@@ -504,7 +504,7 @@ export default function EventRegisterPage() {
                                 className="w-full flex items-center justify-center gap-2 bg-primary2-700 hover:bg-primary2-800 disabled:opacity-60 text-white font-semibold py-3 rounded-2xl transition-colors text-sm"
                             >
                                 {isRegistering ? (
-                                    <><RiLoader4Line className="animate-spin" /> Registeringâ€¦</>
+                                    <><RiLoader4Line className="animate-spin" /> Registering¦</>
                                 ) : (
                                     <><RiUserAddLine /> Confirm Registration</>
                                 )}
@@ -517,7 +517,7 @@ export default function EventRegisterPage() {
                     )}
                 </div>
 
-                {/* â”€â”€ Right: Summary â”€â”€ */}
+                {/* ”€”€ Right: Summary ”€”€ */}
                 <div className="space-y-4 lg:sticky lg:top-24">
                     <EventSummaryCard event={event} userBatch={userBatch} />
 

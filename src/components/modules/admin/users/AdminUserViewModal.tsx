@@ -36,7 +36,7 @@ const AdminUserViewModal = ({ user, onClose, onApprove, isApproving = false }: A
                             <div>
                                 <p className="font-semibold text-gray-900">{user.name}</p>
                                 <p className="text-sm text-muted-foreground">{user.email}</p>
-                                <p className="text-sm text-muted-foreground">{user.phone ?? "â€”"}</p>
+                                <p className="text-sm text-muted-foreground">{user.phone ?? "”"}</p>
                             </div>
                         </div>
 
@@ -44,14 +44,14 @@ const AdminUserViewModal = ({ user, onClose, onApprove, isApproving = false }: A
                             {([
                                 ["Batch", user.batch],
                                 ["Blood Group", user.bloodGroup],
-                                ["Workplace", user.workplace || "â€”"],
-                                ["Position", user.position || "â€”"],
+                                ["Workplace", user.workplace || "”"],
+                                ["Position", user.position || "”"],
                                 ["Approval", user.approvalStatus],
                                 ["Email Verified", user.isVerified ? "Yes" : "No"],
                             ] as [string, unknown][]).map(([label, value]) => (
                                 <div key={label}>
                                     <p className="text-xs text-muted-foreground">{label}</p>
-                                    <p className="font-medium text-gray-800">{String(value ?? "â€”")}</p>
+                                    <p className="font-medium text-gray-800">{String(value ?? "”")}</p>
                                 </div>
                             ))}
                         </div>

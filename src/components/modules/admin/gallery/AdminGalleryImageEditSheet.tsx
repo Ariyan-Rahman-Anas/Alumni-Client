@@ -102,7 +102,7 @@ const AdminGalleryImageEditSheet = ({ item, open, onClose }: AdminGalleryImageEd
       const updateRes = await updateGallery({ id: item._id, payload, image: data.image ?? undefined }).unwrap();
       toast.success(updateRes?.message || "Gallery image updated successfully");
       handleClose();
-    } catch {}
+    } catch { }
   };
 
   return (
@@ -128,7 +128,7 @@ const AdminGalleryImageEditSheet = ({ item, open, onClose }: AdminGalleryImageEd
               onClick={handleClose}
               className="h-8 w-8 p-0 text-muted-foreground hover:text-gray-900"
             >
-              âœ•
+              œ•
             </Button>
           </div>
         </SheetHeader>
@@ -157,7 +157,7 @@ const AdminGalleryImageEditSheet = ({ item, open, onClose }: AdminGalleryImageEd
                 value={imageFile}
                 onChange={setImageFile}
                 label="Profile Image"
-                helperText="JPG, PNG or WEBP â€” square or portrait photo works best"
+                helperText="JPG, PNG or WEBP ” square or portrait photo works best"
               /> */}
 
 

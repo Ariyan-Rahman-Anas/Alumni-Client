@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { cache } from "react";
 import "./globals.css";
 import StoreProvider from "@/providers/StoreProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
@@ -9,6 +8,7 @@ import { Sanchez, Splash } from "next/font/google";
 import { cn } from "@/lib/utils";
 import SmoothScroller from "@/lib/SmoothScroller";
 import { buildDynamicColorCss } from "@/lib/colorScale";
+import { getWebsiteData, toShortName } from "@/lib/getWebsiteData";
 
 /* ── Fonts ─────────────────────────────────────────────────── */
 const sanchez = Sanchez({
@@ -27,24 +27,6 @@ const splash = Splash({
   style: ["normal"],
 });
 
-
-/* ── Website data fetcher (deduped per request via React cache) ── */
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getWebsiteData = cache(async (): Promise<Record<string, any> | null> => {
-  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL;
-  if (!apiBase) return null;
-  try {
-    const res = await fetch(`${apiBase}/api/v1/website-management`, {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json?.data ?? null;
-  } catch {
-    return null;
-  }
-});
 
 /* ── Metadata ──────────────────────────────────────────────── */
 
@@ -83,11 +65,7 @@ export async function generateMetadata(): Promise<Metadata> {
   if (!wm?.schoolName) return FALLBACK_METADATA;
 
   const name: string = wm.schoolName;
-  const shortName: string = name
-    .split(/\s+/)
-    .map((w: string) => w[0])
-    .join("")
-    .toUpperCase();
+  const shortName = toShortName(name);
 
   const locationParts = [wm.area, wm.thana, wm.district, wm.division, wm.country].filter(Boolean);
   const location = locationParts.join(", ");

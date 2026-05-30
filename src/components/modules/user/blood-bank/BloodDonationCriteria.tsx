@@ -15,7 +15,7 @@ import { MdOutlineBloodtype } from "react-icons/md";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 import SectionLabel from "@/components/shared/SectionLabel";
 
-/* â”€â”€ Data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Data ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 
 const eligibilityCards = [
     {
@@ -34,10 +34,10 @@ const eligibilityCards = [
         title: "Weight & Vitals",
         color: "amber",
         rows: [
-            { label: "Minimum weight", value: "â‰¥ 50 kg", ok: true },
-            { label: "Blood pressure", value: "90/60 â€“ 160/100 mmHg", ok: true },
-            { label: "Pulse", value: "60 â€“ 100 bpm (regular)", ok: true },
-            { label: "Temperature", value: "â‰¤ 37.5 Â°C", ok: true },
+            { label: "Minimum weight", value: "‰¥ 50 kg", ok: true },
+            { label: "Blood pressure", value: "90/60 “ 160/100 mmHg", ok: true },
+            { label: "Pulse", value: "60 “ 100 bpm (regular)", ok: true },
+            { label: "Temperature", value: "‰¤ 37.5 °C", ok: true },
         ],
     },
     {
@@ -45,8 +45,8 @@ const eligibilityCards = [
         title: "Haemoglobin",
         color: "red",
         rows: [
-            { label: "Male", value: "â‰¥ 13.5 g/dL", ok: true },
-            { label: "Female", value: "â‰¥ 12.5 g/dL", ok: true },
+            { label: "Male", value: "‰¥ 13.5 g/dL", ok: true },
+            { label: "Female", value: "‰¥ 12.5 g/dL", ok: true },
             { label: "Below threshold", value: "Deferred", ok: false },
         ],
     },
@@ -90,7 +90,7 @@ const processSteps = [
     {
         step: "03",
         title: "Donation",
-        desc: "The whole-blood collection takes 8â€“10 minutes. Total visit is about 45â€“60 minutes.",
+        desc: "The whole-blood collection takes 8“10 minutes. Total visit is about 45“60 minutes.",
     },
     {
         step: "04",
@@ -99,7 +99,7 @@ const processSteps = [
     },
 ];
 
-/* â”€â”€ Colour maps â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Colour maps ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const COLOR_MAP: Record<string, { bg: string; border: string; icon: string; badge: string }> = {
     rose: {
         bg: "bg-rose-50 dark:bg-rose-950/30",
@@ -127,11 +127,11 @@ const COLOR_MAP: Record<string, { bg: string; border: string; icon: string; badg
     },
 };
 
-/* â”€â”€ Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ”€”€ Component ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const BloodDonationCriteria = () => {
     return (
         <section className="three-xl-section-setup space-y-16">
-            {/* â”€â”€ Section heading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Section heading ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             <FadeUpWrapper className="text-center">
                 <SectionLabel
                     text="Who can donate?"
@@ -148,7 +148,7 @@ const BloodDonationCriteria = () => {
                 </p>
             </FadeUpWrapper>
 
-            {/* â”€â”€ Eligibility cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Eligibility cards ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
                 {eligibilityCards.map(({ icon, title, color, rows }, i) => {
                     const c = COLOR_MAP[color];
@@ -190,7 +190,7 @@ const BloodDonationCriteria = () => {
                 })}
             </div>
 
-            {/* â”€â”€ Disqualifiers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Disqualifiers ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             <FadeUpWrapper>
                 <div className="rounded-2xl border border-red-200 bg-red-50/60 dark:bg-red-950/20 dark:border-red-900 p-6 md:p-8">
                     <div className="flex items-center gap-2.5 mb-5">
@@ -214,7 +214,7 @@ const BloodDonationCriteria = () => {
                 </div>
             </FadeUpWrapper>
 
-            {/* â”€â”€ Process steps â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”€”€ Process steps ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
             <FadeUpWrapper>
                 <div className="flex items-center gap-2.5 mb-6">
                     <RiHeartPulseLine className="text-rose-600 text-xl shrink-0" />

@@ -1,6 +1,14 @@
+import { getWebsiteData, toShortName } from "@/lib/getWebsiteData";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Batch Room" };
+export async function generateMetadata(): Promise<Metadata> {
+    const wm = await getWebsiteData();
+    const shortName = wm?.schoolName ? toShortName(wm.schoolName) : "BAMHS";
+    return {
+        title: "Batch Room",
+        description: `Connect with your ${shortName} batchmates in the alumni batch room.`,
+    };
+}
 
 export default function BatchRoom() {
     return (

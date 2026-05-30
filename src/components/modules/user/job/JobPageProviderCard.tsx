@@ -28,7 +28,7 @@ const JobPageProviderCard = ({ provider, onClick }: { provider: IServiceProvider
                     <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
                         <RiMoneyDollarCircleLine />
                         {provider.hourlyRate ? `${provider.hourlyRate} BDT/hr` : ""}
-                        {provider.hourlyRate && provider.monthlyRate ? " Â· " : ""}
+                        {provider.hourlyRate && provider.monthlyRate ? " · " : ""}
                         {provider.monthlyRate ? `${provider.monthlyRate} BDT/mo` : ""}
                     </p>
                 )}

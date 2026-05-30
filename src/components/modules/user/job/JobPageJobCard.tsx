@@ -58,14 +58,14 @@ const JobPageJobCard = ({ job, index }: { job: IJobPost; index: number }) => {
                 {job.type === "OFFICIAL" && (job.salaryMin || job.salaryMax) && (
                     <span className="flex items-center gap-1">
                         <RiMoneyDollarCircleLine />
-                        {job.salaryNegotiable ? "Negotiable" : `${job.salaryMin ?? "?"} â€“ ${job.salaryMax ?? "?"} ${job.salaryCurrency ?? "BDT"}`}
+                        {job.salaryNegotiable ? "Negotiable" : `${job.salaryMin ?? "?"} “ ${job.salaryMax ?? "?"} ${job.salaryCurrency ?? "BDT"}`}
                     </span>
                 )}
                 {job.type === "TUITION" && job.studentClass && (
                     <span className="flex items-center gap-1"><RiBookOpenLine /> Class {job.studentClass}</span>
                 )}
                 {job.type === "TUITION" && job.subjects?.length && (
-                    <span className="flex items-center gap-1"><RiCheckboxCircleLine /> {job.subjects.slice(0, 2).join(", ")}{job.subjects.length > 2 ? "â€¦" : ""}</span>
+                    <span className="flex items-center gap-1"><RiCheckboxCircleLine /> {job.subjects.slice(0, 2).join(", ")}{job.subjects.length > 2 ? "¦" : ""}</span>
                 )}
                 {job.type === "PERSONAL" && job.serviceCategory && (
                     <span className="flex items-center gap-1"><RiToolsLine /> {job.serviceCategory}</span>

@@ -30,7 +30,7 @@ const EventDetailsPriceTiers = ({ tiers, guestFee, allowGuests }: { tiers: Price
                                     </p>
                                     {tier.batchFrom && tier.batchTo && (
                                         <p className="mt-0.5 text-[11px]" style={{ color: "var(--color-text-muted)" }}>
-                                            Batch {tier.batchFrom}â€“{tier.batchTo}
+                                            Batch {tier.batchFrom}“{tier.batchTo}
                                         </p>
                                     )}
                                 </div>
@@ -38,7 +38,7 @@ const EventDetailsPriceTiers = ({ tiers, guestFee, allowGuests }: { tiers: Price
                                     className="text-xl font-extrabold tabular-nums"
                                     style={{ color: "var(--color-primary2-800)" }}
                                 >
-                                    à§³{tier.fee.toLocaleString()}
+                                    {tier.fee.toLocaleString()}
                                 </p>
                             </div>
                         </div>
@@ -58,7 +58,7 @@ const EventDetailsPriceTiers = ({ tiers, guestFee, allowGuests }: { tiers: Price
                                 <p className="mt-0.5 text-[11px]" style={{ color: "#92400E" }}>Per accompanying guest</p>
                             </div>
                             <p className="text-xl font-extrabold tabular-nums" style={{ color: "#78350F" }}>
-                                à§³{guestFee.toLocaleString()}
+                                {guestFee.toLocaleString()}
                             </p>
                         </div>
                     </div>
@@ -71,7 +71,7 @@ const EventDetailsPriceTiers = ({ tiers, guestFee, allowGuests }: { tiers: Price
                 style={{ color: "var(--color-text-muted)" }}
             >
                 <RiInformationLine className="mt-0.5 flex-shrink-0" />
-                Bkash payments incur an additional à§³15 charge per à§³1,000. Bank transfer: deposit first, then register with the slip.
+                Bkash payments incur an additional 15 charge per 1,000. Bank transfer: deposit first, then register with the slip.
             </p>
         </FadeUpWrapper>
     )

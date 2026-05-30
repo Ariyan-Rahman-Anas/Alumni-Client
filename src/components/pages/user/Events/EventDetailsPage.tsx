@@ -31,7 +31,7 @@ import { FadeUpWrapper } from "../Home/HomePage";
 import EventDetailsMetaChip from "@/components/modules/user/events/EventDetailsMetaChip";
 import EventDetailsSkeleton from "@/components/modules/user/events/EventDetailsSkeleton";
 
-// â”€â”€â”€ Helpers 
+// ”€”€”€ Helpers 
 export function fmt(dateStr: string, pattern = "d MMM yyyy") {
   return format(new Date(dateStr), pattern);
 }
@@ -80,7 +80,7 @@ export function getCategoryColor(category: string) {
   return map[category] ?? { text: "#3A3A38", bg: "#F4F4F2", border: "#D4D4CE" };
 }
 
-// â”€â”€â”€ Sub-components 
+// ”€”€”€ Sub-components 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
     <h2
@@ -96,7 +96,7 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-// â”€â”€â”€ Main Page 
+// ”€”€”€ Main Page 
 const EventDetailsPage = () => {
   const params = useParams();
   const slug = typeof params?.slug === "string" ? params.slug : Array.isArray(params?.slug) ? params.slug[0] : "";
@@ -119,13 +119,13 @@ const EventDetailsPage = () => {
 
   return (
     <div className="three-xl-section-setup space-y-16">
-      {/* â”€â”€ Hero */}
+      {/* ”€”€ Hero */}
       <EventDetailsHero event={event} />
 
-      {/* â”€â”€ Body */}
+      {/* ”€”€ Body */}
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px]">
 
-        {/* â”€â”€ Left Column â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ”€”€ Left Column ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
         <div className="space-y-12">
 
           {/* Quick Meta Grid */}
@@ -140,7 +140,7 @@ const EventDetailsPage = () => {
               <EventDetailsMetaChip
                 icon={<RiTimeLine />}
                 label="Time"
-                value={`${fmtTime(event.startDateTime)}${event.endDateTime ? ` â€“ ${fmtTime(event.endDateTime)}` : ""}`}
+                value={`${fmtTime(event.startDateTime)}${event.endDateTime ? ` “ ${fmtTime(event.endDateTime)}` : ""}`}
               />
               <EventDetailsMetaChip
                 icon={<HiOutlineLocationMarker />}
@@ -226,7 +226,7 @@ const EventDetailsPage = () => {
             </div>
           </FadeUpWrapper>
 
-          {/* Bottom CTA (mobile-visible, hidden on lg) â€” only for events that require registration */}
+          {/* Bottom CTA (mobile-visible, hidden on lg) ” only for events that require registration */}
           <FadeUpWrapper className="lg:hidden">
             {event.isRegistrationRequired && (alreadyRegistered ? (
               <div className="flex items-center gap-2 rounded-2xl bg-primary2-50 border border-primary2-200 px-4 py-3.5 text-sm font-semibold text-primary2-700 w-full justify-center">
@@ -245,7 +245,7 @@ const EventDetailsPage = () => {
           </FadeUpWrapper>
         </div>
 
-        {/* â”€â”€ Right Column â€” Sticky Sidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ”€”€ Right Column ” Sticky Sidebar ”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
         <div className="hidden lg:block">
           <EventDetailsRegisterSidebar event={event} alreadyRegistered={alreadyRegistered} />
         </div>

@@ -17,7 +17,7 @@ function StatPill({ icon, label, value }: { icon: React.ReactNode; label: string
 }
 
 const AnnouncementsPageHead = () => {
-    // Stats query â€” all published, no filter
+    // Stats query ” all published, no filter
     const { data: statsData } = useGetPublishedAnnouncementsQuery({ limit: 100 });
     const allItems = statsData?.data ?? [];
     const urgentCount = allItems.filter((a) => a.priority === "urgent").length;
