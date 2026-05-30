@@ -1,10 +1,15 @@
 import AnnouncementsPage from "@/components/pages/user/Announcements/AnnouncementsPage";
+import { getWebsiteData, toShortName } from "@/lib/getWebsiteData";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: "Announcements | BAMHS Alumni",
-    description: "Stay updated with official BAMHS alumni announcements and notices.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const wm = await getWebsiteData();
+    const shortName = wm?.schoolName ? toShortName(wm.schoolName) : "BAMHS";
+    return {
+        title: "Announcements",
+        description: `Stay updated with official ${shortName} alumni announcements and notices.`,
+    };
+}
 
 const Announcements = () => {
     return <AnnouncementsPage />;
