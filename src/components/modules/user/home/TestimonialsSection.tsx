@@ -38,7 +38,7 @@ const TestimonialsSection = () => {
         return () => { api.off("select", onSelect); };
     }, [api]);
 
-    /* Autoplay â€” pauses on hover/focus */
+    /* Autoplay ” pauses on hover/focus */
     useEffect(() => {
         if (!api) return;
         if (isPaused) {
@@ -56,7 +56,7 @@ const TestimonialsSection = () => {
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
         >
-            {/* â”€â”€ Decorative grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”” Decorative grid */}
             <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
@@ -66,7 +66,7 @@ const TestimonialsSection = () => {
                 }}
             />
 
-            {/* â”€â”€ Ambient glowing orbs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”” Ambient glowing orbs  */}
             <div
                 className="absolute -top-32 -left-32 w-96 h-96 rounded-full pointer-events-none"
                 style={{
@@ -89,7 +89,7 @@ const TestimonialsSection = () => {
                 }}
             />
 
-            {/* â”€â”€ Decorative large background quote â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”” Decorative large background quote  */}
             <RiDoubleQuotesL
                 className="absolute top-6 right-6 sm:top-10 sm:right-10 pointer-events-none select-none"
                 style={{
@@ -99,7 +99,7 @@ const TestimonialsSection = () => {
                 }}
             />
 
-            {/* â”€â”€ Main content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ”” Main content */}
             <div className="three-xl-section-setup relative z-10">
 
                 {/* Header */}
@@ -114,7 +114,7 @@ const TestimonialsSection = () => {
                     </h2>
                     <p
                         className="mt-4 text-sm sm:text-base max-w-xl mx-auto leading-relaxed text-primary2-400 dark:text-gunmetal-300 ">
-                        Voices from across decades â€” sharing the legacy that BAMHS instilled in every student.
+                        Voices from across decades ” sharing the legacy that BAMHS instilled in every student.
                     </p>
                 </FadeUpWrapper>
 
@@ -219,7 +219,7 @@ const TestimonialsSection = () => {
                                                             {displayName}
                                                         </p>
                                                         <p className="text-xs mt-0.5 truncate text-primary2-400 dark:text-gunmetal-300">
-                                                            {[batchLabel, roleLabel].filter(Boolean).join(" Â· ")}
+                                                            {[batchLabel, roleLabel].filter(Boolean).join(" · ")}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -263,5 +263,4 @@ const TestimonialsSection = () => {
         </section>
     );
 };
-
 export default TestimonialsSection;
