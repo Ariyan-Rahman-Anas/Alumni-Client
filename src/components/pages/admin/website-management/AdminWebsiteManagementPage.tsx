@@ -48,7 +48,7 @@ const schema = z.object({
     district: z.string().min(3, "District must be at least 3 characters").max(50, "District must be at most 50 characters"),
     division: z.string().min(3, "Division must be at least 3 characters").max(50, "Division must be at most 50 characters"),
     country: z.string().min(4, "Country must be at least 4 characters").max(50, "Country must be at most 50 characters"),
-    contactNumber: z.string().min(11, "Contact number must be 11“16 digits").max(16, "Contact number must be at most 16 digits"),
+    contactNumber: z.string().min(11, "Contact number must be 11-16 digits").max(16, "Contact number must be at most 16 digits"),
     email: z.string().email("Enter a valid email address").max(70, "Email must be at most 70 characters"),
     whatsappNumber: z.string().max(16, "WhatsApp number must be at most 16 digits").optional(),
     facebook: z.string().optional().refine(
@@ -216,7 +216,7 @@ const AdminWebsiteManagementPage = () => {
                 <div className="flex items-start gap-3">
                     <AdminPageHead
                         title="Website Management"
-                        description="Control global website settings ” contact info, social links, banner, and branding."
+                        description="Control global website settings - contact info, social links, banner, and branding."
                     />
                 </div>
                 <div className="flex items-center gap-2">
@@ -398,4 +398,28 @@ const AdminWebsiteManagementPage = () => {
                     </SectionCard>
                 </div>
 
-                
+
+                {/* Save Button */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.35 }}
+                    className="flex justify-end pt-2"
+                >
+                    <PrimaryButton
+                        type="submit"
+                        title={isNew ? "Create Settings" : "Save Changes"}
+                        loadingTitle={isNew ? "Creating..." : "Saving..."}
+                        icon={isNew ? <RiAddLine /> : <RiSaveLine />}
+                        iconSide="left"
+                        isLoading={isSaving}
+                        isDisabled={isSaving}
+                        className="min-w-44"
+                    />
+                </motion.div>
+            </form>
+        </div>
+    );
+};
+
+export default AdminWebsiteManagementPage;
