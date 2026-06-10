@@ -20,7 +20,6 @@ import {
     RiCheckLine,
     RiAlertLine,
     RiEditLine,
-    RiPaletteLine,
 } from "react-icons/ri";
 import { motion } from "framer-motion";
 
@@ -60,101 +59,48 @@ const schema = z.object({
         (v) => !v || /^https?:\/\/.+/.test(v),
         "Enter a valid YouTube URL"
     ),
-    primaryColor: z
-        .string()
-        .regex(/^#[0-9A-Fa-f]{6}$/, "Must be a valid hex color e.g. #2E8B57")
-        .optional(),
-    primaryColorDark: z
-        .string()
-        .refine((v) => !v || /^#[0-9A-Fa-f]{6}$/.test(v), "Must be a valid hex color or leave blank")
-        .optional(),
-    bloodBankColor: z
-        .string()
-        .regex(/^#[0-9A-Fa-f]{6}$/, "Must be a valid hex color e.g. #DC143C")
-        .optional(),
-    bloodBankColorDark: z
-        .string()
-        .refine((v) => !v || /^#[0-9A-Fa-f]{6}$/.test(v), "Must be a valid hex color or leave blank")
-        .optional(),
 });
 
 type TFormValues = z.infer<typeof schema>;
-
-// Color picker field
-const SWATCH_OPACITIES = [0.96, 0.82, 0.61, 0.40, 1, 0.78, 0.58, 0.38] as const;
-const SWATCH_SIZES = ["h-4 w-4", "h-5 w-5", "h-6 w-6", "h-7 w-7", "h-8 w-8", "h-7 w-7", "h-6 w-6", "h-5 w-5"] as const;
-
-const ColorPickerField = ({
-    label,
-    hint,
-    value,
-    onChange,
-    error,
-}: {
-    label: string;
-    hint: string;
-    value: string;
-    onChange: (v: string) => void;
-    error?: string;
-}) => {
-    const isSet = /^#[0-9A-Fa-f]{6}$/.test(value);
-    return (
-        <div className="flex flex-col gap-3">
-            <p className="text-xs font-semibold text-surface-700 dark:text-surface-300">{label}</p>
-            {isSet ? (
-                <div className="flex items-center gap-3">
-                    {/* Native color wheel */}
-                    <input
-                        type="color"
-                        value={value}
-                        onChange={(e) => onChange(e.target.value)}
-                        className="h-10 w-14 cursor-pointer rounded-lg border border-surface-200 dark:border-surface-700 bg-white dark:bg-surface-800 p-1 flex-shrink-0"
-                    />
-                    {/* Hex text input (synced) */}
-                    <input
-                        type="text"
-                        value={value}
-                        onChange={(e) => {
-                            const v = e.target.value;
-                            if (/^#[0-9A-Fa-f]{0,6}$/.test(v)) onChange(v);
-                        }}
-                        maxLength={7}
-                        placeholder="#000000"
-                        className="h-10 w-24 rounded-lg border border-surface-200 dark:border-surface-700 bg-white dark:bg-surface-800 px-3 text-sm font-mono text-surface-800 dark:text-surface-100 focus:outline-none focus:ring-2 focus:ring-primary2-400 flex-shrink-0"
-                    />
-                    {/* Live scale preview */}
-                    <div className="flex gap-0.5 items-end overflow-hidden">
-                        {SWATCH_OPACITIES.map((opacity, i) => (
-                            <div
-                                key={i}
-                                title={["50", "200", "400", "600", "500 (base)", "600", "700", "800"][i]}
-                                style={{ backgroundColor: value, opacity }}
-                                className={`rounded-sm flex-shrink-0 ${SWATCH_SIZES[i]}${i === 4 ? " ring-1 ring-offset-1 ring-current" : ""}`}
-                            />
-                        ))}
-                    </div>
-                    {/* Clear button (for optional fields) */}
-                    <button
-                        type="button"
-                        onClick={() => onChange("")}
-                        className="ml-auto text-xs text-gunmetal-400 hover:text-rose-500 transition-colors"
-                        title="Clear ” reuse light mode color in dark mode"
-                    >
-                        Clear
-                    </button>
-                </div>
+maxLength = { 7}
+placeholder = "#000000"
+className = "h-10 w-24 rounded-lg border border-surface-200 dark:border-surface-700 bg-white dark:bg-surface-800 px-3 text-sm font-mono text-surface-800 dark:text-surface-100 focus:outline-none focus:ring-2 focus:ring-primary2-400 flex-shrink-0"
+    />
+    {/* Live scale preview */ }
+    < div className = "flex gap-0.5 items-end overflow-hidden" >
+    {
+        SWATCH_OPACITIES.map((opacity, i) => (
+            <div
+                key={i}
+                title={["50", "200", "400", "600", "500 (base)", "600", "700", "800"][i]}
+                style={{ backgroundColor: value, opacity }}
+                className={`rounded-sm flex-shrink-0 ${SWATCH_SIZES[i]}${i === 4 ? " ring-1 ring-offset-1 ring-current" : ""}`}
+            />
+        ))
+    }
+                    </div >
+    {/* Clear button (for optional fields) */ }
+    < button
+type = "button"
+onClick = {() => onChange("")}
+className = "ml-auto text-xs text-gunmetal-400 hover:text-rose-500 transition-colors"
+title = "Clear ” reuse light mode color in dark mode"
+    >
+    Clear
+                    </button >
+                </div >
             ) : (
-                <button
-                    type="button"
-                    onClick={() => onChange("#2E8B57")}
-                    className="flex items-center gap-2 h-10 px-4 rounded-lg border border-dashed border-surface-300 dark:border-surface-600 text-xs text-surface-500 dark:text-surface-400 hover:border-primary2-400 hover:text-primary2-600 dark:hover:text-primary2-400 transition-colors w-fit"
-                >
-                    + Set a custom color
-                </button>
-            )}
-            {error && <p className="text-xs text-red-500">{error}</p>}
-            <p className="text-xs text-surface-500 dark:text-surface-400">{hint}</p>
-        </div>
+    <button
+        type="button"
+        onClick={() => onChange("#2E8B57")}
+        className="flex items-center gap-2 h-10 px-4 rounded-lg border border-dashed border-surface-300 dark:border-surface-600 text-xs text-surface-500 dark:text-surface-400 hover:border-primary2-400 hover:text-primary2-600 dark:hover:text-primary2-400 transition-colors w-fit"
+    >
+        + Set a custom color
+    </button>
+)}
+{ error && <p className="text-xs text-red-500">{error}</p> }
+<p className="text-xs text-surface-500 dark:text-surface-400">{hint}</p>
+        </div >
     );
 };
 
@@ -223,10 +169,6 @@ const AdminWebsiteManagementPage = () => {
             whatsappNumber: "",
             facebook: "",
             youtube: "",
-            primaryColor: "#2E8B57",
-            primaryColorDark: "",
-            bloodBankColor: "#DC143C",
-            bloodBankColorDark: "",
         },
     });
 
@@ -249,10 +191,6 @@ const AdminWebsiteManagementPage = () => {
                 whatsappNumber: existing.whatsappNumber ?? "",
                 facebook: existing.facebook ?? "",
                 youtube: existing.youtube ?? "",
-                primaryColor: existing.primaryColor ?? "#2E8B57",
-                primaryColorDark: existing.primaryColorDark ?? "",
-                bloodBankColor: existing.bloodBankColor ?? "#DC143C",
-                bloodBankColorDark: existing.bloodBankColorDark ?? "",
             });
         }
     }, [existing, reset]);
@@ -501,95 +439,4 @@ const AdminWebsiteManagementPage = () => {
                     </SectionCard>
                 </div>
 
-                {/* ”” Brand Colors ””””””””””””””””””””””””””””””””””” */}
-                <SectionCard title="Brand Colors" icon={<RiPaletteLine />} index={5}>
-                    {/* Light mode row */}
-                    <p className="text-xs font-semibold uppercase tracking-widest text-gunmetal-400 dark:text-gunmetal-300 mb-3">Light Mode</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-                        <Controller
-                            name="primaryColor"
-                            control={control}
-                            render={({ field }) => (
-                                <ColorPickerField
-                                    label="Primary Brand Color"
-                                    hint="Drives buttons, links, badges and accents across the entire site."
-                                    value={field.value ?? "#2E8B57"}
-                                    onChange={field.onChange}
-                                    error={errors.primaryColor?.message}
-                                />
-                            )}
-                        />
-                        <Controller
-                            name="bloodBankColor"
-                            control={control}
-                            render={({ field }) => (
-                                <ColorPickerField
-                                    label="Blood Bank Color"
-                                    hint="Used exclusively on the blood bank page and donor-related UI."
-                                    value={field.value ?? "#DC143C"}
-                                    onChange={field.onChange}
-                                    error={errors.bloodBankColor?.message}
-                                />
-                            )}
-                        />
-                    </div>
-
-                    {/* Dark mode row */}
-                    <p className="text-xs font-semibold uppercase tracking-widest text-gunmetal-400 dark:text-gunmetal-300 mb-3">Dark Mode (optional leave blank to reuse light color)</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <Controller
-                            name="primaryColorDark"
-                            control={control}
-                            render={({ field }) => (
-                                <ColorPickerField
-                                    label="Primary Brand Color Dark"
-                                    hint="Override for dark mode. If blank, the light mode color is used."
-                                    value={field.value ?? ""}
-                                    onChange={field.onChange}
-                                    error={errors.primaryColorDark?.message}
-                                />
-                            )}
-                        />
-                        <Controller
-                            name="bloodBankColorDark"
-                            control={control}
-                            render={({ field }) => (
-                                <ColorPickerField
-                                    label="Blood Bank Color Dark"
-                                    hint="Override for dark mode. If blank, the light mode color is used."
-                                    value={field.value ?? ""}
-                                    onChange={field.onChange}
-                                    error={errors.bloodBankColorDark?.message}
-                                />
-                            )}
-                        />
-                    </div>
-                    <p className="mt-3 text-xs text-surface-500 dark:text-surface-400">
-                        Color changes take effect on the next full page load (cached for 1 hour).
-                    </p>
-                </SectionCard>
-
-                {/* ”” Save Button (bottom) ””””””””””””””””””””””””””” */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.35 }}
-                    className="flex justify-end pt-2"
-                >
-                    <PrimaryButton
-                        type="submit"
-                        title={isNew ? "Create Settings" : "Save Changes"}
-                        loadingTitle={isNew ? "Creating..." : "Saving..."}
-                        icon={isNew ? <RiAddLine /> : <RiSaveLine />}
-                        iconSide="left"
-                        isLoading={isSaving}
-                        isDisabled={isSaving}
-                        className="min-w-44"
-                    />
-                </motion.div>
-            </form>
-        </div>
-    );
-};
-
-export default AdminWebsiteManagementPage;
+                
