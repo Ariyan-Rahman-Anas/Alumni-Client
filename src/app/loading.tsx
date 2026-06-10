@@ -93,7 +93,7 @@ const Loading = () => {
     <div
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
       style={{
-        background: "linear-gradient(160deg, #051F15 0%, #0A3D2B 55%, #0F3C24 100%)",
+        background: "linear-gradient(160deg, var(--color-primary-950) 0%, var(--color-primary-900) 55%, var(--color-primary-900) 100%)",
       }}
     >
 
@@ -102,7 +102,7 @@ const Loading = () => {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(46,139,87,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.07) 1px, transparent 1px)",
+            "linear-gradient(color-mix(in srgb, var(--color-primary-500) 7%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-primary-500) 7%, transparent) 1px, transparent 1px)",
           backgroundSize: "60px 60px",
         }}
       />
@@ -111,13 +111,13 @@ const Loading = () => {
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <motion.div
           className="absolute top-1/3 left-1/3 w-[380px] h-[380px] rounded-full blur-3xl"
-          style={{ background: "rgba(46,139,87,0.18)" }}
+          style={{ background: "color-mix(in srgb, var(--color-primary-500) 18%, transparent)" }}
           animate={{ scale: [1, 1.15, 1], opacity: [0.18, 0.28, 0.18] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
           className="absolute bottom-1/3 right-1/3 w-[280px] h-[280px] rounded-full blur-3xl"
-          style={{ background: "rgba(126,158,37,0.14)" }}
+          style={{ background: "color-mix(in srgb, var(--color-primary-400) 14%, transparent)" }}
           animate={{ scale: [1, 1.2, 1], opacity: [0.14, 0.22, 0.14] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
         />
@@ -140,9 +140,9 @@ const Loading = () => {
           background: "rgba(253,250,242,0.07)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
-          borderColor: "rgba(46,139,87,0.22)",
+          borderColor: "color-mix(in srgb, var(--color-primary-500) 22%, transparent)",
           boxShadow:
-            "0 0 0 1px rgba(255,255,255,0.04) inset, 0 24px 64px rgba(5,31,21,0.60)",
+            "0 0 0 1px rgba(255,255,255,0.04) inset, 0 24px 64px color-mix(in srgb, var(--color-primary-950) 60%, transparent)",
         }}
       >
         {/* gloss top line */}
@@ -161,14 +161,14 @@ const Loading = () => {
           {/* glow ring */}
           <motion.div
             className="relative"
-            animate={{ filter: ["drop-shadow(0 0 0px rgba(46,139,87,0))", "drop-shadow(0 0 14px rgba(46,139,87,0.55))", "drop-shadow(0 0 0px rgba(46,139,87,0))"] }}
+            animate={{ filter: ["drop-shadow(0 0 0px color-mix(in srgb, var(--color-primary-500) 0%, transparent))", "drop-shadow(0 0 14px color-mix(in srgb, var(--color-primary-500) 55%, transparent))", "drop-shadow(0 0 0px color-mix(in srgb, var(--color-primary-500) 0%, transparent))"] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           >
             <div
               className="relative w-16 h-16 rounded-2xl flex items-center justify-center overflow-hidden shadow-2xl border"
               style={{
-                background: "linear-gradient(135deg,#155A3E 0%,#0A3D2B 100%)",
-                borderColor: "rgba(46,139,87,0.40)",
+                background: "linear-gradient(135deg, var(--color-primary-800) 0%, var(--color-primary-900) 100%)",
+                borderColor: "color-mix(in srgb, var(--color-primary-500) 40%, transparent)",
               }}
             >
               {/* leaf accent */}
@@ -207,7 +207,7 @@ const Loading = () => {
           {/* track */}
           <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 56 56">
             <circle cx="28" cy="28" r="24"
-              fill="none" stroke="rgba(46,139,87,0.15)" strokeWidth="2.5" />
+              fill="none" stroke="color-mix(in srgb, var(--color-primary-500) 15%, transparent)" strokeWidth="2.5" />
             {/* animated arc */}
             <motion.circle
               cx="28" cy="28" r="24"
@@ -223,7 +223,7 @@ const Loading = () => {
             <motion.circle
               cx="28" cy="28" r="24"
               fill="none"
-              stroke="rgba(126,158,37,0.30)"
+              stroke="color-mix(in srgb, var(--color-primary-400) 30%, transparent)"
               strokeWidth="1"
               strokeLinecap="round"
               strokeDasharray="20 130"
@@ -233,8 +233,8 @@ const Loading = () => {
             />
             <defs>
               <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#2E8B57" />
-                <stop offset="100%" stopColor="#7E9E25" />
+                <stop offset="0%" stopColor="var(--color-primary-500)" />
+                <stop offset="100%" stopColor="var(--color-primary-400)" />
               </linearGradient>
             </defs>
           </svg>
@@ -260,12 +260,12 @@ const Loading = () => {
           {/* track */}
           <div
             className="w-full h-[3px] rounded-full overflow-hidden"
-            style={{ background: "rgba(46,139,87,0.15)" }}
+            style={{ background: "color-mix(in srgb, var(--color-primary-500) 15%, transparent)" }}
           >
             <motion.div
               className="h-full rounded-full"
               style={{
-                background: "linear-gradient(90deg, #2E8B57 0%, #7E9E25 60%, #F59E0B 100%)",
+                background: "linear-gradient(90deg, var(--color-primary-500) 0%, var(--color-primary-400) 60%, #F59E0B 100%)",
               }}
               animate={{ width: `${pct}%` }}
               transition={{ duration: 0.45, ease: "easeOut" }}
@@ -282,7 +282,7 @@ const Loading = () => {
               {[0, 0.2, 0.4].map((delay, i) => (
                 <motion.span key={i}
                   className="block w-1 h-1 rounded-full"
-                  style={{ background: "rgba(46,139,87,0.60)" }}
+                  style={{ background: "color-mix(in srgb, var(--color-primary-500) 60%, transparent)" }}
                   animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.3, 0.8] }}
                   transition={{ duration: 1, repeat: Infinity, delay, ease: "easeInOut" }}
                 />
@@ -315,7 +315,7 @@ const Loading = () => {
         {/* bottom gloss line */}
         <div
           className="absolute bottom-0 left-8 right-8 h-px rounded-full"
-          style={{ background: "rgba(46,139,87,0.20)" }}
+          style={{ background: "color-mix(in srgb, var(--color-primary-500) 20%, transparent)" }}
         />
       </motion.div>
 

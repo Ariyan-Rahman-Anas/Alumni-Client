@@ -249,7 +249,7 @@ const Navbar = () => {
                           >
                             <div className="flex items-center gap-3">
                               <div className="w-10 h-10 rounded-xl flex items-center justify-center font-display font-bold text-white text-base shadow-md"
-                                style={{ background: "linear-gradient(135deg,#155A3E 0%,#0A3D2B 100%)" }}
+                                style={{ background: "linear-gradient(135deg, var(--color-primary-800) 0%, var(--color-primary-900) 100%)" }}
                               >B</div>
                               <div>
                                 <SheetTitle className="font-display text-base font-semibold leading-tight"
@@ -274,7 +274,7 @@ const Navbar = () => {
                                   >
                                     <Link href={`/${link}`}
                                       onClick={() => setSheetOpen(false)}
-                                        className={cn("flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all border border-transparent dark:text-gunmetal-300 duration-300", active && "text-primary2-500 dark:text-gunmetal-200 border-primary2-500 dark:border-gunmetal-200")}>
+                                      className={cn("flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all border border-transparent dark:text-gunmetal-300 duration-300", active && "text-primary2-500 dark:text-gunmetal-200 border-primary2-500 dark:border-gunmetal-200")}>
                                       <span className="text-lg w-6 flex items-center justify-center">
                                         {icon}
                                       </span>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
@@ -20,6 +20,7 @@ import {
     RiCheckLine,
     RiAlertLine,
     RiEditLine,
+    RiPaletteLine,
 } from "react-icons/ri";
 import { motion } from "framer-motion";
 
@@ -29,6 +30,7 @@ import PrimaryButton from "@/components/shared/PrimaryButton";
 import ImageUploadField from "@/components/shared/ImageUploadField";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/slice/authSlice";
+import { revalidateWebsiteLayout } from "@/app/actions";
 import {
     useGetWebsiteManagementQuery,
     useCreateWebsiteManagementMutation,
@@ -36,7 +38,7 @@ import {
     type IWebsiteManagement,
 } from "@/redux/apis/websiteManagementApi";
 
-/* ── Zod Schema ─────────────────────────────────────────────── */
+/* ”€”€ Zod Schema ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const schema = z.object({
     motto: z.string().min(3, "Motto must be at least 3 characters").max(80, "Motto must be at most 80 characters"),
     schoolName: z.string().min(5, "School name must be at least 5 characters").max(150, "School name must be at most 150 characters"),
@@ -47,7 +49,7 @@ const schema = z.object({
     district: z.string().min(3, "District must be at least 3 characters").max(50, "District must be at most 50 characters"),
     division: z.string().min(3, "Division must be at least 3 characters").max(50, "Division must be at most 50 characters"),
     country: z.string().min(4, "Country must be at least 4 characters").max(50, "Country must be at most 50 characters"),
-    contactNumber: z.string().min(11, "Contact number must be 11–16 digits").max(16, "Contact number must be at most 16 digits"),
+    contactNumber: z.string().min(11, "Contact number must be 11“16 digits").max(16, "Contact number must be at most 16 digits"),
     email: z.string().email("Enter a valid email address").max(70, "Email must be at most 70 characters"),
     whatsappNumber: z.string().max(16, "WhatsApp number must be at most 16 digits").optional(),
     facebook: z.string().optional().refine(
@@ -58,11 +60,105 @@ const schema = z.object({
         (v) => !v || /^https?:\/\/.+/.test(v),
         "Enter a valid YouTube URL"
     ),
+    primaryColor: z
+        .string()
+        .regex(/^#[0-9A-Fa-f]{6}$/, "Must be a valid hex color e.g. #2E8B57")
+        .optional(),
+    primaryColorDark: z
+        .string()
+        .refine((v) => !v || /^#[0-9A-Fa-f]{6}$/.test(v), "Must be a valid hex color or leave blank")
+        .optional(),
+    bloodBankColor: z
+        .string()
+        .regex(/^#[0-9A-Fa-f]{6}$/, "Must be a valid hex color e.g. #DC143C")
+        .optional(),
+    bloodBankColorDark: z
+        .string()
+        .refine((v) => !v || /^#[0-9A-Fa-f]{6}$/.test(v), "Must be a valid hex color or leave blank")
+        .optional(),
 });
 
 type TFormValues = z.infer<typeof schema>;
 
-/* ── Section card ───────────────────────────────────────────── */
+/* ”€”€ Color picker field ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+const SWATCH_OPACITIES = [0.96, 0.82, 0.61, 0.40, 1, 0.78, 0.58, 0.38] as const;
+const SWATCH_SIZES = ["h-4 w-4", "h-5 w-5", "h-6 w-6", "h-7 w-7", "h-8 w-8", "h-7 w-7", "h-6 w-6", "h-5 w-5"] as const;
+
+const ColorPickerField = ({
+    label,
+    hint,
+    value,
+    onChange,
+    error,
+}: {
+    label: string;
+    hint: string;
+    value: string;
+    onChange: (v: string) => void;
+    error?: string;
+}) => {
+    const isSet = /^#[0-9A-Fa-f]{6}$/.test(value);
+    return (
+        <div className="flex flex-col gap-3">
+            <p className="text-xs font-semibold text-surface-700 dark:text-surface-300">{label}</p>
+            {isSet ? (
+                <div className="flex items-center gap-3">
+                    {/* Native color wheel */}
+                    <input
+                        type="color"
+                        value={value}
+                        onChange={(e) => onChange(e.target.value)}
+                        className="h-10 w-14 cursor-pointer rounded-lg border border-surface-200 dark:border-surface-700 bg-white dark:bg-surface-800 p-1 flex-shrink-0"
+                    />
+                    {/* Hex text input (synced) */}
+                    <input
+                        type="text"
+                        value={value}
+                        onChange={(e) => {
+                            const v = e.target.value;
+                            if (/^#[0-9A-Fa-f]{0,6}$/.test(v)) onChange(v);
+                        }}
+                        maxLength={7}
+                        placeholder="#000000"
+                        className="h-10 w-24 rounded-lg border border-surface-200 dark:border-surface-700 bg-white dark:bg-surface-800 px-3 text-sm font-mono text-surface-800 dark:text-surface-100 focus:outline-none focus:ring-2 focus:ring-primary2-400 flex-shrink-0"
+                    />
+                    {/* Live scale preview */}
+                    <div className="flex gap-0.5 items-end overflow-hidden">
+                        {SWATCH_OPACITIES.map((opacity, i) => (
+                            <div
+                                key={i}
+                                title={["50", "200", "400", "600", "500 (base)", "600", "700", "800"][i]}
+                                style={{ backgroundColor: value, opacity }}
+                                className={`rounded-sm flex-shrink-0 ${SWATCH_SIZES[i]}${i === 4 ? " ring-1 ring-offset-1 ring-current" : ""}`}
+                            />
+                        ))}
+                    </div>
+                    {/* Clear button (for optional fields) */}
+                    <button
+                        type="button"
+                        onClick={() => onChange("")}
+                        className="ml-auto text-xs text-gunmetal-400 hover:text-rose-500 transition-colors"
+                        title="Clear ” reuse light mode color in dark mode"
+                    >
+                        Clear
+                    </button>
+                </div>
+            ) : (
+                <button
+                    type="button"
+                    onClick={() => onChange("#2E8B57")}
+                    className="flex items-center gap-2 h-10 px-4 rounded-lg border border-dashed border-surface-300 dark:border-surface-600 text-xs text-surface-500 dark:text-surface-400 hover:border-primary2-400 hover:text-primary2-600 dark:hover:text-primary2-400 transition-colors w-fit"
+                >
+                    + Set a custom color
+                </button>
+            )}
+            {error && <p className="text-xs text-red-500">{error}</p>}
+            <p className="text-xs text-surface-500 dark:text-surface-400">{hint}</p>
+        </div>
+    );
+};
+
+/* ”€”€ Section card ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const SectionCard = ({
     title,
     icon,
@@ -90,7 +186,7 @@ const SectionCard = ({
     </motion.div>
 );
 
-/* ── Main Page ──────────────────────────────────────────────── */
+/* ”€”€ Main Page ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 const AdminWebsiteManagementPage = () => {
     const currentUser = useAppSelector(selectCurrentUser);
     const [bannerFile, setBannerFile] = useState<File | null>(null);
@@ -127,6 +223,10 @@ const AdminWebsiteManagementPage = () => {
             whatsappNumber: "",
             facebook: "",
             youtube: "",
+            primaryColor: "#2E8B57",
+            primaryColorDark: "",
+            bloodBankColor: "#DC143C",
+            bloodBankColorDark: "",
         },
     });
 
@@ -149,6 +249,10 @@ const AdminWebsiteManagementPage = () => {
                 whatsappNumber: existing.whatsappNumber ?? "",
                 facebook: existing.facebook ?? "",
                 youtube: existing.youtube ?? "",
+                primaryColor: existing.primaryColor ?? "#2E8B57",
+                primaryColorDark: existing.primaryColorDark ?? "",
+                bloodBankColor: existing.bloodBankColor ?? "#DC143C",
+                bloodBankColorDark: existing.bloodBankColorDark ?? "",
             });
         }
     }, [existing, reset]);
@@ -176,12 +280,13 @@ const AdminWebsiteManagementPage = () => {
                 const updateRes = await updateWM({ payload, banner: bannerFile }).unwrap();
                 toast.success(updateRes?.message || "Website management settings updated");
             }
+            await revalidateWebsiteLayout();
             setBannerFile(null);
             isFirstRender.current = false;
-        } catch {}
+        } catch { }
     };
 
-    /* ── Loading State ──── */
+    /* ”€”€ Loading State ”€”€”€”€ */
     if (isFetching) {
         return (
             <div className="admin-page-setup space-y-4 animate-pulse">
@@ -196,7 +301,7 @@ const AdminWebsiteManagementPage = () => {
         );
     }
 
-    /* ── Fetch Error ──── */
+    /* ”€”€ Fetch Error ”€”€”€”€ */
     if (fetchError && !isNew) {
         return (
             <div className="admin-page-setup flex flex-col items-center justify-center gap-3 py-20 text-center">
@@ -214,7 +319,7 @@ const AdminWebsiteManagementPage = () => {
                 <div className="flex items-start gap-3">
                     <AdminPageHead
                         title="Website Management"
-                        description="Control global website settings — contact info, social links, banner, and branding."
+                        description="Control global website settings ” contact info, social links, banner, and branding."
                     />
                 </div>
                 <div className="flex items-center gap-2">
@@ -224,7 +329,7 @@ const AdminWebsiteManagementPage = () => {
                             <RiAddLine /> Not configured yet
                         </span>
                     ) : (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-700/40">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-primary2-50 text-primary2-700 border border-primary2-200 dark:bg-primary2-900/20 dark:text-primary2-400 dark:border-primary2-700/40">
                             <RiCheckLine /> Configured
                         </span>
                     )}
@@ -253,7 +358,7 @@ const AdminWebsiteManagementPage = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
-                {/* ── Row 1: Branding + Location ───────────────────── */}
+                {/* ”€”€ Row 1: Branding + Location ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
                     {/* Branding */}
@@ -303,7 +408,7 @@ const AdminWebsiteManagementPage = () => {
                     </SectionCard>
                 </div>
 
-                {/* ── Row 2: Address (full width) ──────────────────── */}
+                {/* ”€”€ Row 2: Address (full width) ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
                 <SectionCard title="Address & Location" icon={<RiMapPin2Line />} index={2}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div className="sm:col-span-2 lg:col-span-3">
@@ -354,7 +459,7 @@ const AdminWebsiteManagementPage = () => {
                     </div>
                 </SectionCard>
 
-                {/* ── Row 3: Social + Banner ───────────────────────── */}
+                {/* ”€”€ Row 3: Social + Banner ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
                     {/* Social Media */}
@@ -385,7 +490,7 @@ const AdminWebsiteManagementPage = () => {
                             render={() => (
                                 <ImageUploadField
                                     label="Banner Image"
-                                    helperText="Recommended: 1920×600px, JPG or PNG. This appears as the homepage hero banner."
+                                    helperText="Recommended: 1920Ã—600px, JPG or PNG. This appears as the homepage hero banner."
                                     previewUrl={existing?.bannerUrl}
                                     value={bannerFile}
                                     onChange={(file) => setBannerFile(file)}
@@ -396,7 +501,75 @@ const AdminWebsiteManagementPage = () => {
                     </SectionCard>
                 </div>
 
-                {/* ── Save Button (bottom) ─────────────────────────── */}
+                {/* ”€”€ Brand Colors ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                <SectionCard title="Brand Colors" icon={<RiPaletteLine />} index={5}>
+                    {/* Light mode row */}
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gunmetal-400 dark:text-gunmetal-300 mb-3">Light Mode</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                        <Controller
+                            name="primaryColor"
+                            control={control}
+                            render={({ field }) => (
+                                <ColorPickerField
+                                    label="Primary Brand Color"
+                                    hint="Drives buttons, links, badges and accents across the entire site."
+                                    value={field.value ?? "#2E8B57"}
+                                    onChange={field.onChange}
+                                    error={errors.primaryColor?.message}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name="bloodBankColor"
+                            control={control}
+                            render={({ field }) => (
+                                <ColorPickerField
+                                    label="Blood Bank Color"
+                                    hint="Used exclusively on the blood bank page and donor-related UI."
+                                    value={field.value ?? "#DC143C"}
+                                    onChange={field.onChange}
+                                    error={errors.bloodBankColor?.message}
+                                />
+                            )}
+                        />
+                    </div>
+
+                    {/* Dark mode row */}
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gunmetal-400 dark:text-gunmetal-300 mb-3">Dark Mode (optional leave blank to reuse light color)</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <Controller
+                            name="primaryColorDark"
+                            control={control}
+                            render={({ field }) => (
+                                <ColorPickerField
+                                    label="Primary Brand Color Dark"
+                                    hint="Override for dark mode. If blank, the light mode color is used."
+                                    value={field.value ?? ""}
+                                    onChange={field.onChange}
+                                    error={errors.primaryColorDark?.message}
+                                />
+                            )}
+                        />
+                        <Controller
+                            name="bloodBankColorDark"
+                            control={control}
+                            render={({ field }) => (
+                                <ColorPickerField
+                                    label="Blood Bank Color Dark"
+                                    hint="Override for dark mode. If blank, the light mode color is used."
+                                    value={field.value ?? ""}
+                                    onChange={field.onChange}
+                                    error={errors.bloodBankColorDark?.message}
+                                />
+                            )}
+                        />
+                    </div>
+                    <p className="mt-3 text-xs text-surface-500 dark:text-surface-400">
+                        Color changes take effect on the next full page load (cached for 1 hour).
+                    </p>
+                </SectionCard>
+
+                {/* ”€”€ Save Button (bottom) ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

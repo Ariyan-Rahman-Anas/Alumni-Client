@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useParams, notFound } from "next/navigation";
 import {
@@ -16,7 +16,7 @@ import {
   RiGlobalLine,
 } from "react-icons/ri";
 import { HiOutlineLocationMarker } from "react-icons/hi";
-import { IEvent} from "@/types/common/events.types";
+import { IEvent } from "@/types/common/events.types";
 import { format, formatDistanceToNow, isPast, isWithinInterval, addDays } from "date-fns";
 import { useGetEventBySlugQuery, useGetMyRegistrationsQuery } from "@/redux/apis/eventApi";
 import PrimaryButton from "@/components/shared/PrimaryButton";
@@ -31,7 +31,7 @@ import { FadeUpWrapper } from "../Home/HomePage";
 import EventDetailsMetaChip from "@/components/modules/user/events/EventDetailsMetaChip";
 import EventDetailsSkeleton from "@/components/modules/user/events/EventDetailsSkeleton";
 
-// ─── Helpers 
+// ”€”€”€ Helpers 
 export function fmt(dateStr: string, pattern = "d MMM yyyy") {
   return format(new Date(dateStr), pattern);
 }
@@ -51,7 +51,7 @@ export function getStatusConfig(event: IEvent) {
   const regDeadline = event.registrationDeadline ? new Date(event.registrationDeadline) : null;
 
   if (event.status === "ONGOING" || (end && start <= now && end >= now)) {
-    return { label: "Live Now", color: "#059669", bg: "#D1FAE5", pulse: true };
+    return { label: "Live Now", color: "var(--color-primary-700)", bg: "var(--color-primary-100)", pulse: true };
   }
   if (event.status === "COMPLETED") {
     return { label: "Completed", color: "#737370", bg: "#F4F4F2", pulse: false };
@@ -65,8 +65,7 @@ export function getStatusConfig(event: IEvent) {
   if (regDeadline && isWithinInterval(regDeadline, { start: now, end: addDays(now, 3) })) {
     return { label: "Closing Soon", color: "#D97706", bg: "#FEF9C3", pulse: true };
   }
-  // return { label: "Registration Open", color: "#2E8B57", bg: "#E8F5ED", pulse: false };
-  return { label: "Registration Open", color: "#2E8B57", bg: "#038f39", pulse: false };
+  return { label: "Registration Open", color: "var(--color-primary-600)", bg: "var(--color-primary-50)", pulse: false };
 }
 
 export function getCategoryColor(category: string) {
@@ -81,7 +80,7 @@ export function getCategoryColor(category: string) {
   return map[category] ?? { text: "#3A3A38", bg: "#F4F4F2", border: "#D4D4CE" };
 }
 
-// ─── Sub-components 
+// ”€”€”€ Sub-components 
 function SectionHeading({ children }: { children: React.ReactNode }) {
   return (
     <h2
@@ -97,7 +96,7 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-// ─── Main Page 
+// ”€”€”€ Main Page 
 const EventDetailsPage = () => {
   const params = useParams();
   const slug = typeof params?.slug === "string" ? params.slug : Array.isArray(params?.slug) ? params.slug[0] : "";
@@ -120,13 +119,13 @@ const EventDetailsPage = () => {
 
   return (
     <div className="three-xl-section-setup space-y-16">
-      {/* ── Hero */}
+      {/* ”€”€ Hero */}
       <EventDetailsHero event={event} />
 
-      {/* ── Body */}
+      {/* ”€”€ Body */}
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px]">
 
-        {/* ── Left Column ──────────────────────────────── */}
+        {/* ”€”€ Left Column ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
         <div className="space-y-12">
 
           {/* Quick Meta Grid */}
@@ -141,7 +140,7 @@ const EventDetailsPage = () => {
               <EventDetailsMetaChip
                 icon={<RiTimeLine />}
                 label="Time"
-                value={`${fmtTime(event.startDateTime)}${event.endDateTime ? ` – ${fmtTime(event.endDateTime)}` : ""}`}
+                value={`${fmtTime(event.startDateTime)}${event.endDateTime ? ` “ ${fmtTime(event.endDateTime)}` : ""}`}
               />
               <EventDetailsMetaChip
                 icon={<HiOutlineLocationMarker />}
@@ -227,10 +226,10 @@ const EventDetailsPage = () => {
             </div>
           </FadeUpWrapper>
 
-          {/* Bottom CTA (mobile-visible, hidden on lg) — only for events that require registration */}
+          {/* Bottom CTA (mobile-visible, hidden on lg) ” only for events that require registration */}
           <FadeUpWrapper className="lg:hidden">
             {event.isRegistrationRequired && (alreadyRegistered ? (
-              <div className="flex items-center gap-2 rounded-2xl bg-emerald-50 border border-emerald-200 px-4 py-3.5 text-sm font-semibold text-emerald-700 w-full justify-center">
+              <div className="flex items-center gap-2 rounded-2xl bg-primary2-50 border border-primary2-200 px-4 py-3.5 text-sm font-semibold text-primary2-700 w-full justify-center">
                 <RiCheckboxCircleLine className="text-lg flex-shrink-0" />
                 Already Registered
               </div>
@@ -246,7 +245,7 @@ const EventDetailsPage = () => {
           </FadeUpWrapper>
         </div>
 
-        {/* ── Right Column — Sticky Sidebar ───────────── */}
+        {/* ”€”€ Right Column ” Sticky Sidebar ”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
         <div className="hidden lg:block">
           <EventDetailsRegisterSidebar event={event} alreadyRegistered={alreadyRegistered} />
         </div>

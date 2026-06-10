@@ -5,7 +5,7 @@ import { RiGroupLine } from "react-icons/ri"
 const BatchPageHead = () => {
     return (
         <FadeUpWrapper><section className="relative overflow-hidden rounded-3xl"
-            style={{ background: "linear-gradient(145deg, #041a12 0%, #0a3d2b 55%, #062319 100%)" }}>
+            style={{ background: "linear-gradient(145deg, var(--color-primary-950) 0%, var(--color-primary-900) 55%, var(--color-primary-950) 100%)" }}>
             <div className="absolute inset-0 pointer-events-none opacity-25"
                 style={{
                     backgroundImage:
@@ -14,7 +14,7 @@ const BatchPageHead = () => {
                 }}
             />
             <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full blur-3xl opacity-25"
-                style={{ background: "rgba(46,139,87,1)" }} />
+                style={{ background: "var(--color-primary-500)" }} />
             <div className="absolute -bottom-12 left-1/3 h-48 w-48 rounded-full blur-3xl opacity-15"
                 style={{ background: "rgba(245,158,11,1)" }} />
 

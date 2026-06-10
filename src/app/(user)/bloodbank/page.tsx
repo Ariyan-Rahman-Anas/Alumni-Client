@@ -1,10 +1,15 @@
 import BloodBankPage from "@/components/pages/user/BloodBank/BloodBankPage";
+import { getWebsiteData, toShortName } from "@/lib/getWebsiteData";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title: "Blood Bank | BAMHS Alumni",
-    description: "Rapid alumni blood support network for urgent and scheduled needs.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const wm = await getWebsiteData();
+    const shortName = wm?.schoolName ? toShortName(wm.schoolName) : "BAMHS";
+    return {
+        title: "Blood Bank",
+        description: `Rapid ${shortName} alumni blood support network for urgent and scheduled needs.`,
+    };
+}
 
 const BloodBank = () => {
     return <BloodBankPage />;

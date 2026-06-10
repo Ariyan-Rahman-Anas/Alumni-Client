@@ -1,4 +1,4 @@
-import { fmt, getCountdown, getStatusConfig } from "@/components/pages/user/Events/EventDetailsPage";
+﻿import { fmt, getCountdown, getStatusConfig } from "@/components/pages/user/Events/EventDetailsPage";
 import PrimaryButton from "@/components/shared/PrimaryButton"
 import { IEvent } from "@/types/common/events.types";
 import { RiArrowRightLine, RiCalendarCheckLine, RiCheckboxCircleLine, RiInformationLine, RiPhoneLine, RiShareLine, RiShirtLine, RiTimeLine, RiUserAddLine, RiUserLine } from "react-icons/ri"
@@ -86,7 +86,7 @@ const EventDetailsRegisterSidebar = ({ event, alreadyRegistered }: { event: IEve
                                     Starting from
                                 </p>
                                 <p className="text-3xl font-extrabold" style={{ color: "#FDFAF2" }}>
-                                    ৳{lowestFee.toLocaleString()}
+                                    {lowestFee.toLocaleString()}
                                 </p>
                             </div>
                         ) : (
@@ -123,9 +123,9 @@ const EventDetailsRegisterSidebar = ({ event, alreadyRegistered }: { event: IEve
                         </div>
                     )}
 
-                    {/* Register CTA — only for events that require registration */}
+                    {/* Register CTA ” only for events that require registration */}
                     {event.isRegistrationRequired && (alreadyRegistered ? (
-                        <div className="flex items-center gap-2 rounded-2xl bg-emerald-50 border border-emerald-200 px-4 py-3.5 text-sm font-semibold text-emerald-700">
+                        <div className="flex items-center gap-2 rounded-2xl bg-primary2-50 border border-primary2-200 px-4 py-3.5 text-sm font-semibold text-primary2-700">
                             <RiCheckboxCircleLine className="text-lg flex-shrink-0" />
                             Already Registered
                         </div>
@@ -172,7 +172,7 @@ const EventDetailsRegisterSidebar = ({ event, alreadyRegistered }: { event: IEve
                         <p className="flex items-start gap-1.5 text-[11px] leading-snug" style={{ color: "var(--color-text-muted)" }}>
                             <RiUserLine className="mt-0.5 flex-shrink-0" />
                             Up to {event.maxGuestsPerAlumni} guest{event.maxGuestsPerAlumni !== 1 ? "s" : ""} per alumni
-                            {event.guestFee ? ` · ৳${event.guestFee} each` : ""}
+                            {event.guestFee ? ` · ${event.guestFee} each` : ""}
                         </p>
                     )}
 

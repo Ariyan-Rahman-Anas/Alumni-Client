@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { toast } from "sonner";
@@ -15,7 +15,7 @@ import AdminRequestViewModal from "./AdminRequestViewModal";
 const STATUS_STYLES: Record<TRequestStatus, string> = {
     PENDING: "bg-amber-50 text-amber-700 border border-amber-200",
     IN_REVIEW: "bg-blue-50 text-blue-700 border border-blue-200",
-    RESOLVED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
+    RESOLVED: "bg-primary2-50 text-primary2-700 border border-primary2-200",
     REJECTED: "bg-red-50 text-red-700 border border-red-200",
 };
 

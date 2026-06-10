@@ -26,6 +26,7 @@ import { clearUser, selectCurrentUser } from "@/redux/slice/authSlice";
 import type { AppDispatch } from "@/redux/store";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MdOutlineCampaign } from "react-icons/md";
+import { RiDoubleQuotesL } from "react-icons/ri";
 import ThemeSwitch from "@/lib/ThemeSwitch";
 
 const NAV_ITEMS = [
@@ -38,6 +39,7 @@ const NAV_ITEMS = [
     { label: "Jobs", href: "/admin/jobs", icon: RiExternalLinkLine },
     { label: "Users", href: "/admin/users", icon: RiGroupLine },
     { label: "Requests", href: "/admin/requests", icon: RiFileListLine },
+    { label: "Testimonials", href: "/admin/testimonials", icon: RiDoubleQuotesL },
     { label: "Website Settings", href: "/admin/website-management", icon: RiSettings3Line },
 ];
 
@@ -161,12 +163,12 @@ const AdminSidebar = () => {
     return (
         <>
             {/* Desktop sidebar */}
-            <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-0 h-screen bg-[#041a12] border-r border-white/5 overflow-y-auto">
+            <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-0 h-screen bg-[var(--color-primary-950)] border-r border-white/5 overflow-y-auto">
                 <SidebarContent />
             </aside>
 
             {/* Mobile top bar */}
-            <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center gap-3 bg-[#041a12] border-b border-white/10 px-4 h-14">
+            <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center gap-3 bg-[var(--color-primary-950)] border-b border-white/10 px-4 h-14">
                 <button
                     type="button"
                     onClick={() => setMobileOpen(true)}
@@ -192,7 +194,7 @@ const AdminSidebar = () => {
             {/* Mobile drawer */}
             <aside
                 className={cn(
-                    "lg:hidden fixed top-0 left-0 z-50 h-full w-72 bg-[#041a12] transition-transform duration-300 ease-in-out",
+                    "lg:hidden fixed top-0 left-0 z-50 h-full w-72 bg-[var(--color-primary-950)] transition-transform duration-300 ease-in-out",
                     mobileOpen ? "translate-x-0" : "-translate-x-full"
                 )}
             >

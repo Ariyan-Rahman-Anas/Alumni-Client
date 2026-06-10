@@ -36,6 +36,19 @@ html.lenis {
     --color-primary-900: #0A3D2B;
     --color-primary-950: #051F15;
 
+    /* ── Blood Bank — Crimson (default #DC143C) ─────────── */
+    --color-blood-bank-50:  #FBD5DD;
+    --color-blood-bank-100: #F9BECA;
+    --color-blood-bank-200: #F591A5;
+    --color-blood-bank-300: #F16380;
+    --color-blood-bank-400: #ED355A;
+    --color-blood-bank-500: #DC143C;
+    --color-blood-bank-600: #B61032;
+    --color-blood-bank-700: #8F0D27;
+    --color-blood-bank-800: #69091D;
+    --color-blood-bank-900: #420612;
+    --color-blood-bank-950: #2F040D;
+
     /* ── Accent — Sage/Olive ────────────────────────────── */
     --color-accent-500: #7E9E25;
     --color-accent-600: #647E1C;
@@ -122,19 +135,6 @@ html.lenis {
     /* ── Base ───────────────────────────────────────────── */
     --background: oklch(0.13 0.008 200);    /* gunmetal.950 #151C1F */
     --foreground: oklch(0.94 0.008 80);     /* cream #F0EDE4 */
-
-    /* ── Primary — inverted for dark (lighter values on dark bg) */
-    --color-primary-50:  #051F15;
-    --color-primary-100: #0A3D2B;
-    --color-primary-200: #0F3C24;
-    --color-primary-300: #1A5436;
-    --color-primary-400: #257048;
-    --color-primary-500: #4DB472;           /* lighter green as main CTA on dark */
-    --color-primary-600: #72C48C;
-    --color-primary-700: #9DD8AE;
-    --color-primary-800: #C3E8CE;
-    --color-primary-900: #E8F5ED;
-    --color-primary-950: #F4FAF6;
 
     /* ── Surface — Gun Metal ramp ───────────────────────── */
     --color-surface:     #1E2A2E;           /* gm.800 — card bg */

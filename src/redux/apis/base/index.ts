@@ -19,6 +19,7 @@ export const baseApi = createApi({
         "cancelRequests",
         "websiteManagement",
         "requests",
+        "testimonials",
     ],
     endpoints: () => ({}),
 });

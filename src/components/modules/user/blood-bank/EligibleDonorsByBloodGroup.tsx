@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import {
@@ -18,7 +18,7 @@ import type {
 import SectionLabel from "@/components/shared/SectionLabel";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 
-/* ─── constants */
+/* ”€”€”€ constants */
 const BLOOD_GROUP_COLORS: Record<
     string,
     {
@@ -99,14 +99,14 @@ const BLOOD_GROUP_COLORS: Record<
     },
 
     "O+": {
-        bg: "bg-emerald-100 dark:bg-emerald-950/40",
-        badge: "bg-emerald-500/15 dark:bg-emerald-500/20",
-        badgeRing: "ring-emerald-300 dark:ring-emerald-500/30",
-        badgeText: "text-emerald-700 dark:text-emerald-300",
-        text: "text-emerald-600 dark:text-emerald-400",
-        soft: "bg-emerald-200/40 dark:bg-emerald-900/20",
-        ring: "ring-emerald-300/60 dark:ring-emerald-500/30",
-        glow: "hover:shadow-emerald-500/20",
+        bg: "bg-primary2-100 dark:bg-primary2-950/40",
+        badge: "bg-primary2-500/15 dark:bg-primary2-500/20",
+        badgeRing: "ring-primary2-300 dark:ring-primary2-500/30",
+        badgeText: "text-primary2-700 dark:text-primary2-300",
+        text: "text-primary2-600 dark:text-primary2-400",
+        soft: "bg-primary2-200/40 dark:bg-primary2-900/20",
+        ring: "ring-primary2-300/60 dark:ring-primary2-500/30",
+        glow: "hover:shadow-primary2-500/20",
     },
 
     "O-": {
@@ -121,7 +121,7 @@ const BLOOD_GROUP_COLORS: Record<
     },
 };
 
-/* ─── Donor card */
+/* ”€”€”€ Donor card */
 const DonorCard = ({
     donor,
     rank,
@@ -202,7 +202,7 @@ const DonorCard = ({
                     />
                 </div>
 
-                {/* Top row — avatar + name */}
+                {/* Top row ” avatar + name */}
                 <div className="flex items-center gap-3">
                     <div
                         className={`
@@ -283,7 +283,7 @@ const DonorCard = ({
     );
 };
 
-/* ─── Blood group card ────────────────────────────────── */
+/* ”€”€”€ Blood group card ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 
 const BloodGroupCard = ({
     group,
@@ -352,7 +352,7 @@ const BloodGroupCard = ({
     );
 };
 
-/* ─── Skeleton ────────────────────────────────────────── */
+/* ”€”€”€ Skeleton ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 
 const SkeletonCard = () => (
     <div className="flex flex-col gap-3 animate-pulse">
@@ -386,7 +386,7 @@ const SkeletonCard = () => (
     </div>
 );
 
-/* ─── Main component ──────────────────────────────────── */
+/* ”€”€”€ Main component ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
 
 const EligibleDonorsByBloodGroup = () => {
     const { data, isLoading, isError } =
@@ -410,7 +410,7 @@ const EligibleDonorsByBloodGroup = () => {
                 </h2>
 
                 <p className="text-gunmetal-400 dark:text-gunmetal-300 ">
-                    Donors eligible after 3-month recovery —
+                    Donors eligible after 3-month recovery ”
                     sorted by longest wait
                 </p>
             </FadeUpWrapper>
@@ -475,7 +475,7 @@ const EligibleDonorsByBloodGroup = () => {
                                 </p>
 
                                 <p className="text-sm text-surface-400 dark:text-surface-500">
-                                    Check back later — donors become eligible
+                                    Check back later ” donors become eligible
                                     after 3 months
                                 </p>
                             </div>

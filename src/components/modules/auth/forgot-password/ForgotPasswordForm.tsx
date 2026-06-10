@@ -1,107 +1,103 @@
 "use client";
 
 import { useState } from "react";
-import { FormProvider } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { RiMailLine, RiArrowRightLine, RiCheckboxCircleLine } from "react-icons/ri";
 import Link from "next/link";
+import { toast } from "sonner";
+import { RiArrowLeftLine, RiMailLine } from "react-icons/ri";
 
 import InputField from "@/components/shared/InputField";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import { useForgotPasswordMutation } from "@/redux/apis/authApi";
 import { useFormWithToast } from "@/hooks/useFormWithToast";
-import {
-    FORGOT_PASSWORD_FIELD_ORDER,
-    ForgotPasswordFormValues,
-    forgotPasswordSchema,
-} from "./forgotPasswordSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { object, string } from "zod";
+
+const forgotSchema = object({
+    email: string().trim().min(1, "Please enter your email").email("Please enter a valid email address"),
+});
+type ForgotFormValues = { email: string };
 
 const ForgotPasswordForm = () => {
-    const [submitted, setSubmitted] = useState(false);
+    const [emailSent, setEmailSent] = useState(false);
+    const [sentTo, setSentTo] = useState("");
     const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
-    const methods = useFormWithToast<ForgotPasswordFormValues>(
-        {
-            resolver: zodResolver(forgotPasswordSchema),
-            defaultValues: { email: "" },
-        },
-        { fieldOrder: FORGOT_PASSWORD_FIELD_ORDER }
+    const methods = useFormWithToast<ForgotFormValues>(
+        { resolver: zodResolver(forgotSchema), defaultValues: { email: "" } },
+        { fieldOrder: ["email"] }
     );
+    const { register, handleSubmit, formState: { errors } } = methods;
 
-    const {
-        register,
-        handleSubmit,
-        getValues,
-        formState: { errors },
-    } = methods;
-
-    const onSubmit = async (data: ForgotPasswordFormValues) => {
+    const onSubmit = async (data: ForgotFormValues) => {
         try {
-            const result = await forgotPassword({ email: data.email }).unwrap();
-            toast.success(result.message);
-            setSubmitted(true);
-        } catch { }
+            const res = await forgotPassword({ email: data.email }).unwrap();
+            setSentTo(data.email);
+            setEmailSent(true);
+            toast.success(res.message);
+        } catch (err: unknown) {
+            toast.error(
+                (err as { data?: { message?: string } })?.data?.message ??
+                "Something went wrong. Please try again."
+            );
+        }
     };
 
-    if (submitted) {
+    if (emailSent) {
+        const masked = sentTo.replace(/(.{2})(.*)(@.*)/, (_, a, _b, c) => `${a}${"*".repeat(4)}${c}`);
         return (
-            <div className="text-center space-y-4">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary2-50 text-4xl text-primary2-600">
-                    <RiCheckboxCircleLine />
+            <div className="flex flex-col items-center gap-5 text-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary2-50 text-3xl">
+                    📧
                 </div>
-                <h2 className="text-xl font-semibold text-primary2-900 dark:text-gunmetal-100">
-                    Check your inbox
-                </h2>
-                <p className="text-sm text-muted-foreground">
-                    If <span className="font-medium text-primary2-700 dark:text-primary">{getValues("email")}</span> is registered, a password reset link has been sent. It expires in 1 hour.
-                </p>
+                <div>
+                    <p className="text-sm text-muted-foreground">
+                        We sent a password reset link to{" "}
+                        <span className="font-medium text-primary2-700">{masked}</span>.
+                    </p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                        Check your inbox (and spam folder) — the link expires in 1 hour.
+                    </p>
+                </div>
                 <Link
                     href="/login"
-                    className="inline-block mt-2 text-sm font-medium text-primary2-600 dark:text-primary hover:underline"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-primary2-600 hover:underline"
                 >
-                    Back to login
+                    <RiArrowLeftLine size={15} />
+                    Back to Login
                 </Link>
             </div>
         );
     }
 
     return (
-        <FormProvider {...methods}>
-            <form className="mt-6 space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
-                <InputField
-                    {...register("email")}
-                    id="forgot-email"
-                    type="email"
-                    label="Email Address"
-                    placeholder="you@example.com"
-                    icon={<RiMailLine />}
-                    error={errors.email?.message}
-                    required
-                />
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
+            <InputField
+                {...register("email")}
+                id="forgot-email"
+                type="email"
+                label="Email Address"
+                placeholder="you@example.com"
+                icon={<RiMailLine />}
+                error={errors.email?.message}
+                required
+            />
 
-                <PrimaryButton
-                    type="submit"
-                    title="Send Reset Link"
-                    icon2={<RiArrowRightLine />}
-                    iconSide2="right"
-                    isFullWidth
-                    isLoading={isLoading}
-                    loadingTitle="Sending..."
-                    className="py-5"
-                />
+            <PrimaryButton
+                type="submit"
+                title="Send Reset Link"
+                isFullWidth
+                isLoading={isLoading}
+                loadingTitle="Sending..."
+                className="py-5"
+            />
 
-                <p className="text-center text-sm text-muted-foreground">
-                    Remember your password?{" "}
-                    <Link
-                        href="/login"
-                        className="font-semibold text-primary2-600 dark:text-primary hover:underline"
-                    >
-                        Sign in
-                    </Link>
-                </p>
-            </form>
-        </FormProvider>
+            <p className="text-center text-sm text-muted-foreground">
+                Remember your password?{" "}
+                <Link href="/login" className="font-medium text-primary2-600 hover:underline">
+                    Sign in
+                </Link>
+            </p>
+        </form>
     );
 };
 
