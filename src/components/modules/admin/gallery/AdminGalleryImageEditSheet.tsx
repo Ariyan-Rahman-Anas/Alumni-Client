@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect } from "react";
 import { Controller, FormProvider, Resolver } from "react-hook-form";
@@ -102,7 +102,7 @@ const AdminGalleryImageEditSheet = ({ item, open, onClose }: AdminGalleryImageEd
       const updateRes = await updateGallery({ id: item._id, payload, image: data.image ?? undefined }).unwrap();
       toast.success(updateRes?.message || "Gallery image updated successfully");
       handleClose();
-    } catch { }
+    } catch {}
   };
 
   return (
@@ -128,7 +128,7 @@ const AdminGalleryImageEditSheet = ({ item, open, onClose }: AdminGalleryImageEd
               onClick={handleClose}
               className="h-8 w-8 p-0 text-muted-foreground hover:text-gray-900"
             >
-
+              ✕
             </Button>
           </div>
         </SheetHeader>
@@ -157,7 +157,7 @@ const AdminGalleryImageEditSheet = ({ item, open, onClose }: AdminGalleryImageEd
                 value={imageFile}
                 onChange={setImageFile}
                 label="Profile Image"
-                helperText="JPG, PNG or WEBP ” square or portrait photo works best"
+                helperText="JPG, PNG or WEBP — square or portrait photo works best"
               /> */}
 
 
@@ -229,7 +229,7 @@ const AdminGalleryImageEditSheet = ({ item, open, onClose }: AdminGalleryImageEd
                         type="checkbox"
                         checked={field.value ?? false}
                         onChange={(e) => field.onChange(e.target.checked)}
-                        className="h-4 w-4 rounded border-gray-300 text-primary2-600 focus:ring-green-500"
+                        className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500"
                       />
                       Published
                     </label>

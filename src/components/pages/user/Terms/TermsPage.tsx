@@ -148,14 +148,14 @@ export default function TermsPage() {
             <FadeUpWrapper className="three-xl-section-setup">
                 <section
                     className="relative overflow-hidden rounded-3xl"
-                    style={{ background: "linear-gradient(160deg, var(--color-primary-950) 0%, var(--color-primary-900) 35%, var(--color-primary-900) 100%)" }}
+                    style={{ background: "linear-gradient(160deg, #093121 0%, #0c412a 35%, #0A3D2B 100%)" }}
                 >
                     {/* Grid overlay */}
                     <div
                         className="absolute inset-0 pointer-events-none"
                         style={{
                             backgroundImage:
-                                "linear-gradient(color-mix(in srgb, var(--color-primary-500) 7%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-primary-500) 7%, transparent) 1px, transparent 1px)",
+                                "linear-gradient(rgba(46,139,87,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.07) 1px, transparent 1px)",
                             backgroundSize: "60px 60px",
                         }}
                     />

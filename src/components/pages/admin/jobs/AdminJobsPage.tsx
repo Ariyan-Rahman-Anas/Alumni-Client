@@ -47,7 +47,7 @@ import {
 } from "@/components/ui/dialog";
 import { IJobPost, IServiceProvider, TJobPostStatus, TJobPostType } from "@/components/modules/user/job/job.types";
 
-/* ”€”€ Config ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* â”€â”€ Config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const TYPE_ICONS: Record<TJobPostType, React.ReactNode> = {
     OFFICIAL: <RiBriefcaseLine />,
     TUITION: <RiBookOpenLine />,
@@ -56,7 +56,7 @@ const TYPE_ICONS: Record<TJobPostType, React.ReactNode> = {
 
 const STATUS_BADGE: Record<string, string> = {
     PENDING: "bg-amber-50 text-amber-700 border border-amber-200",
-    APPROVED: "bg-primary2-50 text-primary2-700 border border-primary2-200",
+    APPROVED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
     REJECTED: "bg-red-50 text-red-700 border border-red-200",
     CLOSED: "bg-surface-100 text-neutral-600 border border-surface-300",
 };
@@ -76,7 +76,7 @@ const STATUS_FILTERS: { label: string; value: StatusFilterType }[] = [
     { label: "Closed", value: "CLOSED" },
 ];
 
-/* ”€”€ Avatar ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* â”€â”€ Avatar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function Avatar({ user, size = 32 }: { user: { name: string; imageUrl?: string }; size?: number }) {
     if (user.imageUrl) {
         return <Image src={user.imageUrl} alt={user.name} width={size} height={size} className="rounded-full object-cover flex-shrink-0" style={{ width: size, height: size }} />;
@@ -91,7 +91,7 @@ function Avatar({ user, size = 32 }: { user: { name: string; imageUrl?: string }
     );
 }
 
-/* ”€”€ Job Status Dialog ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* â”€â”€ Job Status Dialog â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function JobStatusDialog({
     job, open, onClose, onSubmit, isLoading,
 }: {
@@ -136,7 +136,7 @@ function JobStatusDialog({
     );
 }
 
-/* ”€”€ Provider Status Dialog ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* â”€â”€ Provider Status Dialog â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function ProviderStatusDialog({
     provider, open, onClose, onSubmit, isLoading,
 }: {
@@ -172,7 +172,7 @@ function ProviderStatusDialog({
     );
 }
 
-/* ”€”€ Job Detail Sheet ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* â”€â”€ Job Detail Sheet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function JobDetailSheet({ job, open, onClose, onUpdateStatus }: {
     job: IJobPost | null; open: boolean; onClose: () => void; onUpdateStatus: () => void;
 }) {
@@ -191,7 +191,7 @@ function JobDetailSheet({ job, open, onClose, onUpdateStatus }: {
                             <SheetDescription className="flex flex-wrap items-center gap-2 mt-1.5">
                                 <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_BADGE[job.status]}`}>{job.status}</span>
                                 <span className="text-xs text-muted-foreground">by {job.postedBy?.name}</span>
-                                <span className="text-xs text-muted-foreground">· {formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}</span>
+                                <span className="text-xs text-muted-foreground">Â· {formatDistanceToNow(new Date(job.createdAt), { addSuffix: true })}</span>
                             </SheetDescription>
                         </div>
                     </div>
@@ -225,7 +225,7 @@ function JobDetailSheet({ job, open, onClose, onUpdateStatus }: {
                 </div>
 
                 <div className="mb-5 flex gap-4 text-sm text-muted-foreground">
-                    <span className="flex items-center gap-1"><RiHeartLine /> {job.likes.length} likes · {job.dislikes.length} dislikes</span>
+                    <span className="flex items-center gap-1"><RiHeartLine /> {job.likes.length} likes Â· {job.dislikes.length} dislikes</span>
                     <span className="flex items-center gap-1"><RiChat3Line /> {job.comments.length} comments</span>
                 </div>
 
@@ -298,7 +298,7 @@ function JobDetailSheet({ job, open, onClose, onUpdateStatus }: {
     );
 }
 
-/* ”€”€ Provider Detail Sheet ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* â”€â”€ Provider Detail Sheet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function ProviderDetailSheet({ provider, open, onClose, onUpdateStatus }: {
     provider: IServiceProvider | null; open: boolean; onClose: () => void; onUpdateStatus: () => void;
 }) {
@@ -350,7 +350,7 @@ function ProviderDetailSheet({ provider, open, onClose, onUpdateStatus }: {
                     <div className="mb-4 bg-white rounded-xl border border-surface-200 p-4">
                         {provider.subjects?.length ? (
                             <><p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Subjects</p>
-                                <div className="flex flex-wrap gap-2 mb-3">{provider.subjects.map((s) => <span key={s} className="bg-primary2-50 text-primary2-700 border border-primary2-100 text-xs px-2.5 py-1 rounded-full">{s}</span>)}</div></>
+                                <div className="flex flex-wrap gap-2 mb-3">{provider.subjects.map((s) => <span key={s} className="bg-emerald-50 text-emerald-700 border border-emerald-100 text-xs px-2.5 py-1 rounded-full">{s}</span>)}</div></>
                         ) : null}
                         {provider.classRange?.length ? (
                             <><p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Class Range</p>
@@ -409,7 +409,7 @@ function ProviderDetailSheet({ provider, open, onClose, onUpdateStatus }: {
                         <div>
                             <p className="font-semibold text-primary2-900 text-sm">{provider.user.name}</p>
                             <p className="text-xs text-muted-foreground">{provider.user.email}</p>
-                            {provider.status === "APPROVED" && <span className="inline-flex items-center gap-1 text-xs text-primary2-700 mt-1"><RiShieldCheckLine /> Verified Provider</span>}
+                            {provider.status === "APPROVED" && <span className="inline-flex items-center gap-1 text-xs text-emerald-700 mt-1"><RiShieldCheckLine /> Verified Provider</span>}
                         </div>
                     </div>
                 </div>
@@ -418,9 +418,9 @@ function ProviderDetailSheet({ provider, open, onClose, onUpdateStatus }: {
     );
 }
 
-/* ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
    MAIN COMPONENT
-•••••••••••••••••••••••••••••••••••••••••••••••••••••••••• */
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 export default function AdminJobsPage() {
     const [tab, setTab] = useState<TabKey>("posts");
     const [page, setPage] = useState(1);
@@ -523,7 +523,7 @@ export default function AdminJobsPage() {
                                         <td className="px-5 py-4">
                                             <div className="flex items-center justify-end gap-2">
                                                 <button onClick={() => setSheetJob(job)} title="View Details" className="p-2 text-muted-foreground hover:text-primary2-700 hover:bg-primary2-50 rounded-xl transition-colors"><RiEyeLine /></button>
-                                                <button onClick={() => setDialogJob(job)} title="Update Status" className="p-2 text-muted-foreground hover:text-primary2-600 hover:bg-primary2-50 rounded-xl transition-colors"><RiCheckboxCircleLine /></button>
+                                                <button onClick={() => setDialogJob(job)} title="Update Status" className="p-2 text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors"><RiCheckboxCircleLine /></button>
                                             </div>
                                         </td>
                                     </tr>
@@ -532,7 +532,7 @@ export default function AdminJobsPage() {
                         </table>
                         {meta && meta.totalPage > 1 && (
                             <div className="flex items-center justify-between px-5 py-4 border-t border-surface-100">
-                                <p className="text-xs text-muted-foreground">Showing {((page - 1) * constantsData.TABLE_PAGE_SIZE) + 1}“{Math.min(page * constantsData.TABLE_PAGE_SIZE, meta.total)} of {meta.total}</p>
+                                <p className="text-xs text-muted-foreground">Showing {((page - 1) * constantsData.TABLE_PAGE_SIZE) + 1}â€“{Math.min(page * constantsData.TABLE_PAGE_SIZE, meta.total)} of {meta.total}</p>
                                 <div className="flex gap-2">
                                     <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1} className="px-3 py-1.5 text-xs border border-surface-200 text-primary2-700 rounded-lg disabled:opacity-40 hover:border-primary2-300 transition-colors">Prev</button>
                                     <button onClick={() => setPage((p) => Math.min(meta.totalPage, p + 1))} disabled={page === meta.totalPage} className="px-3 py-1.5 text-xs border border-surface-200 text-primary2-700 rounded-lg disabled:opacity-40 hover:border-primary2-300 transition-colors">Next</button>
@@ -578,7 +578,7 @@ export default function AdminJobsPage() {
                                     <td className="px-5 py-4">
                                         <div className="flex items-center justify-end gap-2">
                                             <button onClick={() => setSheetProvider(p)} title="View Details" className="p-2 text-muted-foreground hover:text-primary2-700 hover:bg-primary2-50 rounded-xl transition-colors"><RiEyeLine /></button>
-                                            <button onClick={() => setDialogProvider(p)} title="Update Status" className="p-2 text-muted-foreground hover:text-primary2-600 hover:bg-primary2-50 rounded-xl transition-colors"><RiCheckboxCircleLine /></button>
+                                            <button onClick={() => setDialogProvider(p)} title="Update Status" className="p-2 text-muted-foreground hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors"><RiCheckboxCircleLine /></button>
                                         </div>
                                     </td>
                                 </tr>

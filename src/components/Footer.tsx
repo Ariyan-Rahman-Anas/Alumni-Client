@@ -10,7 +10,6 @@ import {
 import { HiArrowUpRight } from "react-icons/hi2";
 import FooterHead from "./modules/user/footer/FooterHead";
 import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
-import { FadeUpWrapper } from "./pages/user/Home/HomePage";
 
 /* Data */
 const quickLinks = [
@@ -35,7 +34,7 @@ const FooterHeading = ({ children }: { children: React.ReactNode }) => (
     className="text-white dark:text-gunmetal-200 font-semibold text-base mb-5 flex items-center gap-3">
     <span
       className="w-5 h-[2px] rounded-full"
-      style={{ background: "linear-gradient(90deg, var(--color-primary-400), #f59e0b)" }}
+      style={{ background: "linear-gradient(90deg, #4ade80, #f59e0b)" }}
     />
     {children}
   </h3>
@@ -70,7 +69,7 @@ const Footer = () => {
     <footer
       className="relative overflow-hidden rounded-t-pillmd:rounded-t-circle"
       style={{
-        background: "linear-gradient(180deg, var(--color-primary-900) 0%, var(--color-primary-950) 100%)",
+        background: "linear-gradient(180deg, #0A3D2B 0%, #051F15 100%)",
       }}
     >
       {/*  Decorative grid overlay  */}
@@ -79,7 +78,7 @@ const Footer = () => {
         className="pointer-events-none absolute inset-0 z-0"
         style={{
           backgroundImage:
-            "linear-gradient(color-mix(in srgb, var(--color-primary-400) 4%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-primary-400) 4%, transparent) 1px, transparent 1px)",
+            "linear-gradient(rgba(74,222,128,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(74,222,128,0.04) 1px, transparent 1px)",
           backgroundSize: "60px 60px",
         }}
       />
@@ -91,24 +90,30 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
           {/* Col 1 — About */}
-          <FadeUpWrapper>
+          <motion.div
+            initial={{ y: 16, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.05 }}
+          >
             <FooterHeading>{`About ${schoolShortName} Alumni`}</FooterHeading>
             <p
               className="text-sm leading-relaxed"
-              style={{ color: "color-mix(in srgb, var(--color-primary-200) 65%, transparent)" }}
+              style={{ color: "rgba(167,243,208,0.65)" }}
             >
-              Connected by shared memories, united by {schoolShortName}. Our alumni association keeps the bonds strong across all batches — celebrating
+              Connected by shared memories, united by {schoolShortName}. Our alumni
+              association keeps the bonds strong across all batches — celebrating
               our roots, supporting each other, and giving back to the
               institution that shaped us.
             </p>
             <Link
               href="/about"
               className="inline-flex items-center gap-1.5 mt-5 text-xs font-semibold tracking-wide uppercase transition-all duration-200 hover:gap-2.5"
-              style={{ color: "color-mix(in srgb, var(--color-primary-400) 80%, transparent)" }}
+              style={{ color: "rgba(74,222,128,0.80)" }}
             >
               Learn our story <HiArrowUpRight className="text-sm" />
             </Link>
-          </FadeUpWrapper>
+          </motion.div>
 
           {/* Col 2 — Quick Links  */}
           <motion.div
@@ -124,17 +129,17 @@ const Footer = () => {
                   <Link
                     href={href}
                     className="group text-sm flex items-center gap-2.5 py-0.5 transition-all duration-200"
-                    style={{ color: "color-mix(in srgb, var(--color-primary-200) 60%, transparent)" }}
+                    style={{ color: "rgba(167,243,208,0.60)" }}
                     onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.color = "var(--color-primary-50)";
+                      (e.currentTarget as HTMLElement).style.color = "#f0fdf4";
                     }}
                     onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.color = "color-mix(in srgb, var(--color-primary-200) 60%, transparent)";
+                      (e.currentTarget as HTMLElement).style.color = "rgba(167,243,208,0.60)";
                     }}
                   >
                     <span
                       className="w-1 h-1 rounded-full flex-shrink-0 transition-all duration-300 group-hover:w-3"
-                      style={{ background: "linear-gradient(90deg, var(--color-primary-400), var(--color-primary-600))" }}
+                      style={{ background: "linear-gradient(90deg, #4ade80, #16a34a)" }}
                     />
                     {label}
                   </Link>
@@ -157,12 +162,12 @@ const Footer = () => {
                   <Link
                     href={href}
                     className="group text-sm flex items-center gap-2.5 py-0.5 transition-all duration-200"
-                    style={{ color: "color-mix(in srgb, var(--color-primary-200) 60%, transparent)" }}
+                    style={{ color: "rgba(167,243,208,0.60)" }}
                     onMouseEnter={(e) => {
                       (e.currentTarget as HTMLElement).style.color = "#fef3c7";
                     }}
                     onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.color = "color-mix(in srgb, var(--color-primary-200) 60%, transparent)";
+                      (e.currentTarget as HTMLElement).style.color = "rgba(167,243,208,0.60)";
                     }}
                   >
                     <span
@@ -190,16 +195,16 @@ const Footer = () => {
                   <span
                     className="mt-0.5 p-1.5 rounded-lg flex-shrink-0"
                     style={{
-                      color: "color-mix(in srgb, var(--color-primary-400) 70%, transparent)",
-                      background: "color-mix(in srgb, var(--color-primary-500) 12%, transparent)",
-                      border: "1px solid color-mix(in srgb, var(--color-primary-500) 20%, transparent)",
+                      color: "rgba(74,222,128,0.70)",
+                      background: "rgba(46,139,87,0.12)",
+                      border: "1px solid rgba(46,139,87,0.20)",
                     }}
                   >
                     {icon}
                   </span>
                   <span
                     className="text-sm leading-snug"
-                    style={{ color: "color-mix(in srgb, var(--color-primary-200) 65%, transparent)" }}
+                    style={{ color: "rgba(167,243,208,0.65)" }}
                   >
                     {text}
                   </span>
@@ -210,10 +215,10 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* BOTTOM BAR */}
+          {/* BOTTOM BAR */}
       <div
         className="relative border-t"
-        style={{ borderColor: "color-mix(in srgb, var(--color-primary-500) 15%, transparent)" }}>
+        style={{ borderColor: "rgba(46,139,87,0.15)" }}>
         <div className="three-xl-section-setup py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gunmetal-200 ">
           {/* Copyright */}
           <p>© {year} {schoolShortName} Alumni Association. All rights reserved</p>
@@ -250,7 +255,7 @@ const Footer = () => {
 
       {/* mobile safe-area pad */}
       <div className="md:hidden h-20" />
-    </footer >
+    </footer>
   );
 };
 export default Footer;

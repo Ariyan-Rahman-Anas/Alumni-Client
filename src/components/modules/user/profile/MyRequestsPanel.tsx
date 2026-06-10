@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +20,7 @@ import DateFormatter from "@/lib/DateFormatter";
 import SingleSelect from "@/components/shared/SingleSelect";
 import { useFormWithToast } from "@/hooks/useFormWithToast";
 
-/* ”€”€ Schema ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Schema ──────────────────────────────────────────────── */
 const schema = z.object({
     category: z.enum(["general", "correction", "complaint", "suggestion", "other"]),
     subject: z.string().trim().min(5, "Subject must be at least 5 characters").max(150),
@@ -28,11 +28,11 @@ const schema = z.object({
 });
 type TFormValues = z.infer<typeof schema>;
 
-/* ”€”€ Constants ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Constants ───────────────────────────────────────────── */
 const STATUS_STYLES: Record<TRequestStatus, string> = {
     PENDING: "bg-amber-50 text-amber-700 border border-amber-200",
     IN_REVIEW: "bg-blue-50 text-blue-700 border border-blue-200",
-    RESOLVED: "bg-primary2-50 text-primary2-700 border border-primary2-200",
+    RESOLVED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
     REJECTED: "bg-red-50 text-red-700 border border-red-200",
 };
 
@@ -58,7 +58,7 @@ const CATEGORY_LABELS: Record<TRequestCategory, string> = {
     other: "Other",
 };
 
-/* ”€”€ Component ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Component ───────────────────────────────────────────── */
 export default function MyRequestsPanel() {
     const [showForm, setShowForm] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -136,7 +136,7 @@ export default function MyRequestsPanel() {
                         <input
                             {...register("subject")}
                             maxLength={150}
-                            placeholder="Brief subject of your request¦"
+                            placeholder="Brief subject of your request…"
                             className="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary2-400"
                         />
                         {errors.subject && <p className="text-xs text-red-500">{errors.subject.message}</p>}
@@ -148,7 +148,7 @@ export default function MyRequestsPanel() {
                             {...register("description")}
                             maxLength={1000}
                             rows={4}
-                            placeholder="Describe your request in detail¦"
+                            placeholder="Describe your request in detail…"
                             className="w-full rounded-lg border border-surface-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary2-400 resize-none"
                         />
                         {errors.description && <p className="text-xs text-red-500">{errors.description.message}</p>}
@@ -168,7 +168,7 @@ export default function MyRequestsPanel() {
                             className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-lg bg-primary2-700 text-white hover:bg-primary2-800 transition-colors disabled:opacity-50"
                         >
                             <RiSendPlaneLine />
-                            {isSubmitting ? "Submitting¦" : "Submit"}
+                            {isSubmitting ? "Submitting…" : "Submit"}
                         </button>
                     </div>
                 </form>

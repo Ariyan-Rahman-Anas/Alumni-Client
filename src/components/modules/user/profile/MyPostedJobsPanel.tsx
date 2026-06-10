@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -28,7 +28,7 @@ import { IJobPost, TJobPostStatus } from "../job/job.types";
 
 const STATUS_CONFIG: Record<TJobPostStatus, { label: string; className: string; icon: React.ReactNode }> = {
     PENDING: { label: "Pending", className: "bg-amber-50 text-amber-700 border border-amber-200", icon: <RiTimeLine /> },
-    APPROVED: { label: "Active", className: "bg-primary2-50 text-primary2-700 border border-primary2-200", icon: <RiCheckboxCircleLine /> },
+    APPROVED: { label: "Active", className: "bg-emerald-50 text-emerald-700 border border-emerald-200", icon: <RiCheckboxCircleLine /> },
     REJECTED: { label: "Rejected", className: "bg-red-50 text-red-700 border border-red-200", icon: <RiCloseCircleLine /> },
     CLOSED: { label: "Closed", className: "bg-surface-100 text-neutral-600 border border-surface-300", icon: <RiCheckLine /> },
 };
@@ -42,13 +42,13 @@ function Avatar({ name, imageUrl, size = 36 }: { name: string; imageUrl?: string
     );
 }
 
-/* ”€”€ Applicants sub-panel per job ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Applicants sub-panel per job ─────────────────────── */
 function JobApplicantsPanel({ jobId, isOwner }: { jobId: string; isOwner: boolean }) {
     const { data, isLoading } = useGetJobApplicationsQuery(jobId);
     const [selectApplicant] = useSelectApplicantMutation();
     const apps = data?.data ?? [];
 
-    if (isLoading) return <div className="py-3 text-xs text-muted-foreground animate-pulse">Loading applicants¦</div>;
+    if (isLoading) return <div className="py-3 text-xs text-muted-foreground animate-pulse">Loading applicants…</div>;
     if (apps.length === 0) return <p className="py-3 text-xs text-muted-foreground text-center">No applicants yet.</p>;
 
     return (
@@ -56,7 +56,7 @@ function JobApplicantsPanel({ jobId, isOwner }: { jobId: string; isOwner: boolea
             {apps.map((app) => {
                 const statusColor = {
                     PENDING: "bg-amber-50 text-amber-700 border border-amber-200",
-                    SELECTED: "bg-primary2-50 text-primary2-700 border border-primary2-200",
+                    SELECTED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
                     REJECTED: "bg-red-50 text-red-700 border border-red-200",
                 }[app.status] ?? "bg-surface-100 text-neutral-600";
 
@@ -75,7 +75,7 @@ function JobApplicantsPanel({ jobId, isOwner }: { jobId: string; isOwner: boolea
                                 {isOwner && app.status === "PENDING" && (
                                     <button
                                         onClick={() => selectApplicant({ jobId, appId: app._id })}
-                                        className="text-xs bg-primary2-500 text-white px-3 py-1 rounded-full hover:bg-primary2-600 transition-colors"
+                                        className="text-xs bg-emerald-500 text-white px-3 py-1 rounded-full hover:bg-emerald-600 transition-colors"
                                     >
                                         Select
                                     </button>
@@ -89,7 +89,7 @@ function JobApplicantsPanel({ jobId, isOwner }: { jobId: string; isOwner: boolea
     );
 }
 
-/* ”€”€ Job Row ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Job Row ──────────────────────────────────────────── */
 function JobRow({ job }: { job: IJobPost }) {
     const [expanded, setExpanded] = useState(false);
     const [showDelete, setShowDelete] = useState(false);
@@ -182,9 +182,9 @@ function JobRow({ job }: { job: IJobPost }) {
     );
 }
 
-/* ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+/* ══════════════════════════════════════════════════════════
    MAIN COMPONENT
-•••••••••••••••••••••••••••••••••••••••••••••••••••••••••• */
+══════════════════════════════════════════════════════════ */
 export default function MyPostedJobsPanel() {
     const { data, isLoading } = useGetMyJobsQuery({});
     const jobs = data?.data ?? [];

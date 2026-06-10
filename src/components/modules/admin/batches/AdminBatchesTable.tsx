@@ -43,7 +43,7 @@ const AdminBatchesTable = ({
             render: (b) => (
                 <Badge
                     variant={b.isActive ? "default" : "secondary"}
-                    className={b.isActive ? "bg-primary2-100 text-primary2-700 border-primary2-200" : ""}
+                    className={b.isActive ? "bg-emerald-100 text-emerald-700 border-emerald-200" : ""}
                 >
                     {b.isActive ? "Active" : "Inactive"}
                 </Badge>
@@ -62,7 +62,7 @@ const AdminBatchesTable = ({
             key: "stats",
             label: "Approved",
             render: (b) => (
-                <span className="text-sm text-primary2-700 font-medium">
+                <span className="text-sm text-emerald-700 font-medium">
                     {b.stats?.approved ?? 0}
                 </span>
             ),

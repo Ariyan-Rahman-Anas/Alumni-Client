@@ -32,7 +32,7 @@ import type {
 
 const PAYMENT_STATUS: Record<TPaymentStatus, { label: string; className: string }> = {
     PENDING: { label: "Pending", className: "bg-amber-50 text-amber-700 border border-amber-200" },
-    PAID: { label: "Paid", className: "bg-primary2-50 text-primary2-700 border border-primary2-200" },
+    PAID: { label: "Paid", className: "bg-emerald-50 text-emerald-700 border border-emerald-200" },
     WAIVED: { label: "Waived", className: "bg-sky-50 text-sky-700 border border-sky-200" },
 };
 
@@ -44,7 +44,7 @@ const REG_STATUS: Record<TRegistrationStatus, { label: string; className: string
 
 const CANCEL_STATUS: Record<TCancelRequestStatus, { label: string; className: string }> = {
     PENDING: { label: "Pending", className: "bg-amber-50 text-amber-700 border border-amber-200" },
-    APPROVED: { label: "Approved", className: "bg-primary2-50 text-primary2-700 border border-primary2-200" },
+    APPROVED: { label: "Approved", className: "bg-emerald-50 text-emerald-700 border border-emerald-200" },
     REJECTED: { label: "Rejected", className: "bg-red-50 text-red-700 border border-red-200" },
 };
 
@@ -112,8 +112,8 @@ function RegistrationsTab({ eventId, eventTitle }: { eventId: string; eventTitle
                         <strong className="text-primary2-900">{confirmed.length}</strong> confirmed
                     </span>
                     <span className="flex items-center gap-1.5 text-muted-foreground">
-                        <RiCheckboxCircleLine className="text-primary2-600" />
-                        <strong className="text-primary2-700">{paid.length}</strong> paid
+                        <RiCheckboxCircleLine className="text-emerald-600" />
+                        <strong className="text-emerald-700">{paid.length}</strong> paid
                     </span>
                     <span className="flex items-center gap-1.5 text-muted-foreground">
                         <RiTimeLine className="text-amber-600" />
@@ -179,7 +179,7 @@ function RegistrationsTab({ eventId, eventTitle }: { eventId: string; eventTitle
                                         <td className="px-4 py-3">
                                             {reg.paymentStatus === "PENDING" && reg.status !== "CANCELLED" && (
                                                 <div className="flex flex-col gap-1">
-                                                    <button onClick={() => handleVerify(reg._id, "PAID")} disabled={isThisVerifying} className="text-xs bg-primary2-600 text-white hover:bg-primary2-700 px-2.5 py-1 rounded-lg font-medium disabled:opacity-50 flex items-center gap-1">
+                                                    <button onClick={() => handleVerify(reg._id, "PAID")} disabled={isThisVerifying} className="text-xs bg-emerald-600 text-white hover:bg-emerald-700 px-2.5 py-1 rounded-lg font-medium disabled:opacity-50 flex items-center gap-1">
                                                         {isThisVerifying ? <RiLoader4Line className="animate-spin" /> : <RiCheckboxCircleLine />} Mark Paid
                                                     </button>
                                                     <button onClick={() => handleVerify(reg._id, "WAIVED")} disabled={isThisVerifying} className="text-xs bg-sky-50 text-sky-700 border border-sky-200 hover:bg-sky-100 px-2.5 py-1 rounded-lg font-medium disabled:opacity-50">
@@ -289,7 +289,7 @@ function CancelRequestsTab({ eventId }: { eventId: string }) {
                                             className="w-full rounded-xl border border-surface-200 px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-primary2-300 resize-none"
                                         />
                                         <div className="flex items-center gap-2">
-                                            <button onClick={() => handleProcess(req._id, "APPROVED")} disabled={isThisProcessing} className="text-xs bg-primary2-600 text-white hover:bg-primary2-700 px-3 py-1.5 rounded-lg font-medium disabled:opacity-50 flex items-center gap-1">
+                                            <button onClick={() => handleProcess(req._id, "APPROVED")} disabled={isThisProcessing} className="text-xs bg-emerald-600 text-white hover:bg-emerald-700 px-3 py-1.5 rounded-lg font-medium disabled:opacity-50 flex items-center gap-1">
                                                 {isThisProcessing ? <RiLoader4Line className="animate-spin" /> : <RiCheckboxCircleLine />} Approve &amp; Cancel Reg
                                             </button>
                                             <button onClick={() => handleProcess(req._id, "REJECTED")} disabled={isThisProcessing} className="text-xs bg-red-600 text-white hover:bg-red-700 px-3 py-1.5 rounded-lg font-medium disabled:opacity-50 flex items-center gap-1">

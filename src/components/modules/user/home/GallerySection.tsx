@@ -82,7 +82,7 @@ const ViewAllCard = ({ item, className = "" }: { item: GalleryImage | null | und
         {/* Always-visible dark base + green tint overlay */}
         <div
             className="absolute inset-0 transition-opacity duration-300"
-            style={{ background: "linear-gradient(145deg, color-mix(in srgb, var(--color-primary-900) 72%, transparent) 0%, rgba(0,0,0,0.55) 100%)" }}
+            style={{ background: "linear-gradient(145deg, rgba(10,61,43,0.72) 0%, rgba(0,0,0,0.55) 100%)" }}
         />
         {/* Hover: deepen to near-black */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
@@ -92,9 +92,9 @@ const ViewAllCard = ({ item, className = "" }: { item: GalleryImage | null | und
             <span
                 className="w-12 h-12 rounded-xl flex items-center justify-center mb-1 transition-transform duration-300 group-hover:scale-110"
                 style={{
-                    background: "color-mix(in srgb, var(--color-primary-500) 55%, transparent)",
-                    border: "1px solid color-mix(in srgb, var(--color-primary-400) 50%, transparent)",
-                    boxShadow: "0 0 16px color-mix(in srgb, var(--color-primary-500) 35%, transparent)",
+                    background: "rgba(46,139,87,0.55)",
+                    border: "1px solid rgba(77,180,114,0.5)",
+                    boxShadow: "0 0 16px rgba(46,139,87,0.35)",
                 }}
             >
                 <RiImageLine className="text-white text-xl" />
@@ -102,7 +102,7 @@ const ViewAllCard = ({ item, className = "" }: { item: GalleryImage | null | und
             <p className="text-white font-bold text-sm leading-tight tracking-wide dark:text-gunmetal-200">View All Photos</p>
             <p
                 className="text-[11px] mt-0.5 transition-colors duration-300 dark:text-gunmetal-300"
-                style={{ color: "color-mix(in srgb, var(--color-primary-100) 75%, transparent)" }}
+                style={{ color: "rgba(195,232,206,0.75)" }}
             >
                 Explore the full gallery →
             </p>

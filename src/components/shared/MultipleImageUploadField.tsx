@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useId, useRef, useState } from "react";
 import { ImagePlus, X, UploadCloud } from "lucide-react";
@@ -31,7 +31,7 @@ const MultipleImageUploadField = ({
   onChange,
   onInnerTitlesChange,
   label = "Images",
-  helperText = "JPG, PNG or WEBP ” max 5MB each.",
+  helperText = "JPG, PNG or WEBP — max 5MB each.",
   error,
   maxSizeMB = 5,
   maxFiles = 20,
@@ -79,7 +79,7 @@ const MultipleImageUploadField = ({
     const available = maxFiles - items.length;
 
     if (valid.length > available) {
-      errors.push(`Max ${maxFiles} images ” ${valid.length - available} file(s) skipped`);
+      errors.push(`Max ${maxFiles} images — ${valid.length - available} file(s) skipped`);
     }
 
     const toAdd = valid.slice(0, available);
@@ -159,10 +159,10 @@ const MultipleImageUploadField = ({
         className={cn(
           "rounded-2xl border-2 border-dashed p-4 transition-colors",
           isDragging
-            ? "border-primary2-400 bg-primary2-50"
+            ? "border-green-400 bg-green-50"
             : hasError
               ? "border-red-400 bg-red-50/30"
-              : "border-gray-200 bg-white hover:border-primary2-300"
+              : "border-gray-200 bg-white hover:border-green-300"
         )}
         onDrop={handleDrop}
         onDragOver={(e) => {
@@ -224,15 +224,15 @@ const MultipleImageUploadField = ({
                   </div>
                 </div>
 
-                {/* Inner title input ” only when multiple images */}
+                {/* Inner title input — only when multiple images */}
                 {showInnerTitles && (
                   <input
                     type="text"
                     value={innerTitles[index] ?? ""}
                     onChange={(e) => handleInnerTitleChange(index, e.target.value)}
-                    placeholder="Image title¦"
+                    placeholder="Image title…"
                     maxLength={100}
-                    className="w-full rounded-lg border border-gray-200 px-2 py-1 text-[11px] text-gray-700 placeholder:text-gray-400 focus:border-primary2-300 focus:outline-none focus:ring-0 transition"
+                    className="w-full rounded-lg border border-gray-200 px-2 py-1 text-[11px] text-gray-700 placeholder:text-gray-400 focus:border-green-300 focus:outline-none focus:ring-0 transition"
                   />
                 )}
               </div>
@@ -244,7 +244,7 @@ const MultipleImageUploadField = ({
                 type="button"
                 onClick={() => inputRef.current?.click()}
                 className={cn(
-                  "flex items-center justify-center rounded-xl border-2 border-dashed border-gray-200 text-gray-400 transition hover:border-primary2-300 hover:text-primary2-500 focus:outline-none",
+                  "flex items-center justify-center rounded-xl border-2 border-dashed border-gray-200 text-gray-400 transition hover:border-green-300 hover:text-green-500 focus:outline-none",
                   showInnerTitles ? "aspect-square self-start" : "aspect-square"
                 )}
                 aria-label="Add more images"

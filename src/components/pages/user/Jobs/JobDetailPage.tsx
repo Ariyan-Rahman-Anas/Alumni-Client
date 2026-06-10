@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -46,21 +46,21 @@ import {
 import { useAppSelector } from "@/redux/hooks";
 import { IComment, IJobPost, TCommentReactionType } from "@/components/modules/user/job/job.types";
 
-/* ”€”€ Type config ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Type config ───────────────────────────────────────── */
 const TYPE_CONFIG = {
     OFFICIAL: { label: "Official Job", color: "bg-blue-50 text-blue-700 border border-blue-200", icon: <RiBriefcaseLine /> },
-    TUITION: { label: "Tuition Seek", color: "bg-primary2-50 text-primary2-700 border border-primary2-200", icon: <RiBookOpenLine /> },
+    TUITION: { label: "Tuition Seek", color: "bg-emerald-50 text-emerald-700 border border-emerald-200", icon: <RiBookOpenLine /> },
     PERSONAL: { label: "Service Seek", color: "bg-violet-50 text-violet-700 border border-violet-200", icon: <RiToolsLine /> },
 };
 
 const STATUS_CONFIG = {
     PENDING: { label: "Pending Review", color: "text-amber-700 bg-amber-50 border border-amber-200", icon: <RiTimeLine /> },
-    APPROVED: { label: "Active", color: "text-primary2-700 bg-primary2-50 border border-primary2-200", icon: <RiCheckboxCircleLine /> },
+    APPROVED: { label: "Active", color: "text-emerald-700 bg-emerald-50 border border-emerald-200", icon: <RiCheckboxCircleLine /> },
     REJECTED: { label: "Rejected", color: "text-red-700 bg-red-50 border border-red-200", icon: <RiCloseCircleLine /> },
     CLOSED: { label: "Closed", color: "text-neutral-600 bg-surface-100 border border-surface-300", icon: <RiCheckLine /> },
 };
 
-/* ”€”€ Avatar ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Avatar ───────────────────────────────────────────── */
 function Avatar({ user, size = 32 }: { user: { name: string; imageUrl?: string }; size?: number }) {
     if (user.imageUrl) {
         return <Image src={user.imageUrl} alt={user.name} width={size} height={size} className="rounded-full object-cover flex-shrink-0" style={{ width: size, height: size }} />;
@@ -75,14 +75,14 @@ function Avatar({ user, size = 32 }: { user: { name: string; imageUrl?: string }
     );
 }
 
-/* ”€”€ Reaction config ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Reaction config ──────────────────────────────────── */
 const REACTIONS: { type: TCommentReactionType; emoji: string; label: string }[] = [
-    { type: "LIKE", emoji: "ðŸ‘", label: "Like" },
-    { type: "LOVE", emoji: "¤ï¸", label: "Love" },
-    { type: "HAHA", emoji: "ðŸ˜‚", label: "Haha" },
-    { type: "SAD", emoji: "ðŸ˜¢", label: "Sad" },
-    { type: "ANGRY", emoji: "ðŸ˜ ", label: "Angry" },
-    { type: "DISLIKE", emoji: "ðŸ‘Ž", label: "Dislike" },
+    { type: "LIKE", emoji: "👍", label: "Like" },
+    { type: "LOVE", emoji: "❤️", label: "Love" },
+    { type: "HAHA", emoji: "😂", label: "Haha" },
+    { type: "SAD", emoji: "😢", label: "Sad" },
+    { type: "ANGRY", emoji: "😠", label: "Angry" },
+    { type: "DISLIKE", emoji: "👎", label: "Dislike" },
 ];
 
 function groupReactions(reactions: { userId: string; type: TCommentReactionType }[]) {
@@ -91,7 +91,7 @@ function groupReactions(reactions: { userId: string; type: TCommentReactionType 
     return Object.entries(counts) as [TCommentReactionType, number][];
 }
 
-/* ”€”€ Reaction Picker ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Reaction Picker ──────────────────────────────────── */
 function ReactionPicker({ onReact }: { onReact: (type: TCommentReactionType) => void }) {
     return (
         <motion.div
@@ -115,7 +115,7 @@ function ReactionPicker({ onReact }: { onReact: (type: TCommentReactionType) => 
     );
 }
 
-/* ”€”€ Reactions Modal ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Reactions Modal ──────────────────────────────────── */
 type ReactorsTab = "LIKE" | "DISLIKE" | TCommentReactionType;
 
 function ReactorsModal({
@@ -197,7 +197,7 @@ function ReactorsModal({
     );
 }
 
-/* ”€”€ Comment Reactions Modal ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Comment Reactions Modal ──────────────────────────── */
 function CommentReactionsModal({
     open,
     onClose,
@@ -255,7 +255,7 @@ function CommentReactionsModal({
     );
 }
 
-/* ”€”€ Comment Item ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Comment Item ─────────────────────────────────────── */
 function CommentItem({
     comment,
     jobId,
@@ -315,7 +315,7 @@ function CommentItem({
                     <p className="text-sm text-neutral-700">{comment.body}</p>
                 </div>
 
-                {/* Comment reaction summary ” clickable to open modal */}
+                {/* Comment reaction summary — clickable to open modal */}
                 {commentReactionGroups.length > 0 && (
                     <button
                         onClick={() => setShowCommentReactionsModal(true)}
@@ -338,7 +338,7 @@ function CommentItem({
                             onClick={() => handleCommentReact(myCommentReaction === "LIKE" ? "LIKE" : "LIKE")}
                             className={`text-xs transition-colors ${myCommentReaction ? "text-primary2-700 font-semibold" : "text-muted-foreground hover:text-primary2-700"}`}
                         >
-                            {myCommentReaction ? (REACTIONS.find((r) => r.type === myCommentReaction)?.emoji + " " + myCommentReaction) : "ðŸ‘ Like"}
+                            {myCommentReaction ? (REACTIONS.find((r) => r.type === myCommentReaction)?.emoji + " " + myCommentReaction) : "👍 Like"}
                         </button>
                         <AnimatePresence>
                             {showCommentPicker && (
@@ -431,7 +431,7 @@ function CommentItem({
     );
 }
 
-/* ”€”€ Reply Item ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Reply Item ───────────────────────────────────────── */
 function ReplyItem({
     reply,
     myReplyReaction,
@@ -488,7 +488,7 @@ function ReplyItem({
     );
 }
 
-/* ”€”€ Reply Reaction Button (inline hover picker) ”€”€”€”€”€”€”€”€ */
+/* ── Reply Reaction Button (inline hover picker) ──────── */
 function ReplyReactionButton({ myReaction, onReact }: { myReaction?: TCommentReactionType; onReact: (type: TCommentReactionType) => void }) {
     const [show, setShow] = useState(false);
     return (
@@ -498,7 +498,7 @@ function ReplyReactionButton({ myReaction, onReact }: { myReaction?: TCommentRea
                 onMouseLeave={() => setShow(false)}
                 className={`text-xs transition-colors ${myReaction ? "text-primary2-700 font-semibold" : "text-muted-foreground hover:text-primary2-700"}`}
             >
-                {myReaction ? (REACTIONS.find((r) => r.type === myReaction)?.emoji ?? "ðŸ‘") : "ðŸ‘"}
+                {myReaction ? (REACTIONS.find((r) => r.type === myReaction)?.emoji ?? "👍") : "👍"}
             </button>
             <AnimatePresence>
                 {show && (
@@ -511,7 +511,7 @@ function ReplyReactionButton({ myReaction, onReact }: { myReaction?: TCommentRea
     );
 }
 
-/* ”€”€ Application Card ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Application Card ─────────────────────────────────── */
 function ApplicationCard({ app, onSelect, isOwner }: {
     app: { _id: string; applicant: { name: string; imageUrl?: string; email: string; batch?: string }; message?: string; status: string; createdAt: string };
     jobId: string;
@@ -520,7 +520,7 @@ function ApplicationCard({ app, onSelect, isOwner }: {
 }) {
     const statusColor = {
         pending: "text-amber-700 bg-amber-50 border border-amber-200",
-        selected: "text-primary2-700 bg-primary2-50 border border-primary2-200",
+        selected: "text-emerald-700 bg-emerald-50 border border-emerald-200",
         rejected: "text-red-700 bg-red-50 border border-red-200",
     }[app.status] ?? "text-neutral-600 bg-surface-100";
 
@@ -539,7 +539,7 @@ function ApplicationCard({ app, onSelect, isOwner }: {
                 <div className="flex items-center gap-3 mt-2">
                     <span className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(app.createdAt), { addSuffix: true })}</span>
                     {isOwner && app.status === "pending" && (
-                        <button onClick={() => onSelect(app._id)} className="text-xs bg-primary2-500 text-white px-3 py-1 rounded-full hover:bg-primary2-600 transition-colors">
+                        <button onClick={() => onSelect(app._id)} className="text-xs bg-emerald-500 text-white px-3 py-1 rounded-full hover:bg-emerald-600 transition-colors">
                             Select
                         </button>
                     )}
@@ -549,9 +549,9 @@ function ApplicationCard({ app, onSelect, isOwner }: {
     );
 }
 
-/* ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+/* ══════════════════════════════════════════════════════════
    MAIN COMPONENT
-•••••••••••••••••••••••••••••••••••••••••••••••••••••••••• */
+══════════════════════════════════════════════════════════ */
 
 export default function JobDetailPage({ id }: { id: string }) {
     const { data, isLoading, isError } = useGetJobByIdQuery(id);
@@ -582,7 +582,7 @@ export default function JobDetailPage({ id }: { id: string }) {
     const job = data?.data as IJobPost | undefined;
 
     const isOwner = !!job && job.postedBy._id === userId;
-    // Admin can see applicants/notes only if they are the owner OR NOT admin ” admin is excluded from seeing applicants panel
+    // Admin can see applicants/notes only if they are the owner OR NOT admin — admin is excluded from seeing applicants panel
     const canSeeApplicants = isOwner;
     const isSeekPost = job?.type === "TUITION" || job?.type === "PERSONAL";
 
@@ -600,8 +600,8 @@ export default function JobDetailPage({ id }: { id: string }) {
     const hasDisliked = job?.dislikes.includes(userId) ?? false;
 
     const jobReactionsTabs = [
-        { type: "LIKE" as const, emoji: "¤ï¸", label: "Like", users: job?.likeUsers ?? [] },
-        { type: "DISLIKE" as const, emoji: "ðŸ‘Ž", label: "Dislike", users: job?.dislikeUsers ?? [] },
+        { type: "LIKE" as const, emoji: "❤️", label: "Like", users: job?.likeUsers ?? [] },
+        { type: "DISLIKE" as const, emoji: "👎", label: "Dislike", users: job?.dislikeUsers ?? [] },
     ].filter(t => t.users.length > 0);
 
     const handleComment = async () => {
@@ -647,7 +647,7 @@ export default function JobDetailPage({ id }: { id: string }) {
 
     return (
         <div>
-            {/* ”€”€ Back + Header ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+            {/* ── Back + Header ───────────────────────────────── */}
             <div className="bg-white border-b border-surface-200 sticky top-0 z-30">
                 <div className="three-xl-section-setup py-3 flex items-center gap-4">
                     <Link href="/jobs" className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary2-700 transition-colors">
@@ -659,7 +659,7 @@ export default function JobDetailPage({ id }: { id: string }) {
             </div>
 
             <div className="three-xl-section-setup py-8 grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
-                {/* ”€”€ Main Content ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                {/* ── Main Content ─────────────────────────────── */}
                 <div>
                     {/* Title block */}
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="bg-white rounded-2xl border border-surface-200 p-6 mb-6">
@@ -702,7 +702,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                             >
                                 <RiThumbDownLine /> {job.dislikes.length}
                             </button>
-                            {/* Who reacted ” click to open modal */}
+                            {/* Who reacted — click to open modal */}
                             {(job.likes.length > 0 || job.dislikes.length > 0) && (
                                 <button
                                     onClick={() => setShowJobReactionsModal(true)}
@@ -717,7 +717,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                         </div>
                     </motion.div>
 
-                    {/* ”€”€ Official Job Details ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                    {/* ── Official Job Details ──────────────────── */}
                     {job.type === "OFFICIAL" && (
                         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }} className="bg-white rounded-2xl border border-surface-200 p-6 mb-6">
                             <h2 className="text-base font-bold text-primary2-900 mb-4">Job Details</h2>
@@ -727,10 +727,10 @@ export default function JobDetailPage({ id }: { id: string }) {
                                 {(job.salaryMin || job.salaryMax) && (
                                     <><dt className="text-muted-foreground">Salary</dt>
                                         <dd className="font-medium text-primary2-900">
-                                            {job.salaryNegotiable ? "Negotiable" : `${job.salaryMin ?? "?"} “ ${job.salaryMax ?? "?"} ${job.salaryCurrency ?? "BDT"}`}
+                                            {job.salaryNegotiable ? "Negotiable" : `${job.salaryMin ?? "?"} – ${job.salaryMax ?? "?"} ${job.salaryCurrency ?? "BDT"}`}
                                         </dd></>
                                 )}
-                                {job.isRemote && <><dt className="text-muted-foreground">Remote</dt><dd className="font-medium text-primary2-600">Yes</dd></>}
+                                {job.isRemote && <><dt className="text-muted-foreground">Remote</dt><dd className="font-medium text-emerald-600">Yes</dd></>}
                             </dl>
                             {job.requirements && job.requirements.length > 0 && (
                                 <div className="mt-4">
@@ -753,7 +753,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                         </motion.div>
                     )}
 
-                    {/* ”€”€ Tuition Seek Details ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                    {/* ── Tuition Seek Details ──────────────────── */}
                     {job.type === "TUITION" && (
                         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }} className="bg-white rounded-2xl border border-surface-200 p-6 mb-6">
                             <h2 className="text-base font-bold text-primary2-900 mb-4">Tuition Details</h2>
@@ -772,7 +772,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Subjects</p>
                                     <div className="flex flex-wrap gap-2">
                                         {job.subjects.map((s) => (
-                                            <span key={s} className="bg-primary2-50 text-primary2-700 border border-primary2-100 text-xs px-3 py-1 rounded-full">{s}</span>
+                                            <span key={s} className="bg-emerald-50 text-emerald-700 border border-emerald-100 text-xs px-3 py-1 rounded-full">{s}</span>
                                         ))}
                                     </div>
                                 </div>
@@ -780,7 +780,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                         </motion.div>
                     )}
 
-                    {/* ”€”€ Personal Seek Details ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                    {/* ── Personal Seek Details ─────────────────── */}
                     {job.type === "PERSONAL" && (
                         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.06 }} className="bg-white rounded-2xl border border-surface-200 p-6 mb-6">
                             <h2 className="text-base font-bold text-primary2-900 mb-4">Service Details</h2>
@@ -793,7 +793,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                         </motion.div>
                     )}
 
-                    {/* ”€”€ Apply Section (seek posts) ”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                    {/* ── Apply Section (seek posts) ────────────── */}
                     {isSeekPost && job.status === "APPROVED" && !isOwner && (
                         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-primary2-50 rounded-2xl border border-primary2-200 p-6 mb-6">
                             <h2 className="text-base font-bold text-primary2-900 mb-2">Interested?</h2>
@@ -810,7 +810,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                                     </div>
                                 </div>
                             ) : hasApplied ? (
-                                <div className="flex items-center gap-2 text-primary2-600 font-medium">
+                                <div className="flex items-center gap-2 text-emerald-600 font-medium">
                                     <RiCheckboxCircleLine className="text-lg" /> Application submitted!
                                 </div>
                             ) : showApplyForm ? (
@@ -824,7 +824,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                                     />
                                     <div className="flex gap-3">
                                         <button onClick={handleApply} disabled={applying} className="px-6 py-2.5 bg-primary2-700 text-white font-semibold rounded-xl hover:bg-primary2-800 disabled:opacity-50 transition-colors text-sm">
-                                            {applying ? "Submitting¦" : "Submit Application"}
+                                            {applying ? "Submitting…" : "Submit Application"}
                                         </button>
                                         <button onClick={() => setShowApplyForm(false)} className="px-6 py-2.5 bg-white border border-surface-200 rounded-xl text-sm hover:border-surface-300 transition-colors">
                                             Cancel
@@ -839,7 +839,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                         </motion.div>
                     )}
 
-                    {/* ”€”€ Applicants (owner / admin) ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                    {/* ── Applicants (owner / admin) ─────────────── */}
                     {canSeeApplicants && isSeekPost && apps.length > 0 && (
                         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12 }} className="bg-white rounded-2xl border border-surface-200 p-6 mb-6">
                             <h2 className="text-base font-bold text-primary2-900 mb-4">Applicants ({apps.length})</h2>
@@ -857,7 +857,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                         </motion.div>
                     )}
 
-                    {/* ”€”€ Comments ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                    {/* ── Comments ──────────────────────────────── */}
                     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.14 }} className="bg-white rounded-2xl border border-surface-200 p-6">
                         <h2 className="text-base font-bold text-primary2-900 mb-6 flex items-center gap-2">
                             <RiChat3Line className="text-primary2-600" /> Comments ({job.comments.length})
@@ -911,7 +911,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                     </motion.div>
                 </div>
 
-                {/* ”€”€ Sidebar ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                {/* ── Sidebar ───────────────────────────────── */}
                 <div className="space-y-5">
                     {/* Posted by */}
                     <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }} className="bg-white rounded-2xl border border-surface-200 p-5">
@@ -950,7 +950,7 @@ export default function JobDetailPage({ id }: { id: string }) {
                         </dl>
                     </motion.div>
 
-                    {/* Admin notes ” only for owner, not pure admin visitors */}
+                    {/* Admin notes — only for owner, not pure admin visitors */}
                     {isOwner && role !== "ADMIN" && job.adminNotes?.length > 0 && (
                         <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.18 }} className="bg-blue-50 rounded-2xl border border-blue-200 p-5">
                             <p className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-3 flex items-center gap-1"><RiStickyNoteLine /> Admin Notes</p>

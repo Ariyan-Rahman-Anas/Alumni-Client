@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import SectionLabel from "@/components/shared/SectionLabel";
@@ -15,19 +15,19 @@ const GalleryPageHead = () => {
     const totalCategories = categoriesData?.data.length ?? 0;
     const totalContributors = contributors.length;
 
-    const fmt = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(1)}k+` : n > 0 ? `${n}+` : "”");
+    const fmt = (n: number) => (n >= 1000 ? `${(n / 1000).toFixed(1)}k+` : n > 0 ? `${n}+` : "—");
 
     const galleryStats = [
         { value: fmt(totalPhotos), label: "Curated photos" },
-        { value: totalCategories > 0 ? `${totalCategories}` : "”", label: "Photo albums" },
-        { value: totalContributors > 0 ? `${totalContributors}` : "”", label: "Contributors" },
+        { value: totalCategories > 0 ? `${totalCategories}` : "—", label: "Photo albums" },
+        { value: totalContributors > 0 ? `${totalContributors}` : "—", label: "Contributors" },
         { value: "100%", label: "Reviewed & curated" },
     ];
 
     return (<section className="three-xl-section-setup">
         <FadeUpWrapper delay={0.1}
             className="relative overflow-hidden rounded-3xl"
-            style={{ background: "linear-gradient(145deg, var(--color-primary-950) 0%, var(--color-primary-800) 55%, var(--color-primary-950) 100%)" }}
+            style={{ background: "linear-gradient(145deg, #041a12 0%, #0c4a34 55%, #062319 100%)" }}
         >
             <div
                 className="absolute inset-0 pointer-events-none opacity-30"

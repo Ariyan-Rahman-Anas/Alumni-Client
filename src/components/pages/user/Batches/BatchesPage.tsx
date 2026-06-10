@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import {
     RiChat4Line as RiChatLine,
@@ -15,22 +15,22 @@ import BatchPageUsersWithSearchFilter from "@/components/modules/user/batches/Ba
 import { useGetActiveBatchesQuery } from "@/redux/apis/batchApi";
 import type { Batch } from "@/redux/apis/batchApi";
 
-/* ”€”€ Helpers ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Helpers ──────────────────────────────────────────────── */
 const fmtNum = (n: number) =>
-    n >= 1000 ? `${(n / 1000).toFixed(1)}k+` : n > 0 ? `${n}` : "”";
+    n >= 1000 ? `${(n / 1000).toFixed(1)}k+` : n > 0 ? `${n}` : "—";
 
 const derivedStats = (batches: Batch[]) => {
-    if (!batches.length) return { totalAlumni: 0, activeBatches: 0, batchSpan: "”", newThisMonth: 0 };
+    if (!batches.length) return { totalAlumni: 0, activeBatches: 0, batchSpan: "—", newThisMonth: 0 };
     const years = batches.map((b) => b.year);
     return {
         totalAlumni: batches.reduce((s, b) => s + (b.stats?.approved || 0), 0),
         activeBatches: batches.length,
-        batchSpan: `${Math.min(...years)} “ ${Math.max(...years)}`,
+        batchSpan: `${Math.min(...years)} – ${Math.max(...years)}`,
         newThisMonth: batches.reduce((s, b) => s + (b.stats?.last30Days || 0), 0),
     };
 };
 
-/* ”€”€ Page ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Page ─────────────────────────────────────────────────── */
 const BatchesPage = () => {
     const { data: batchData } = useGetActiveBatchesQuery();
     const batches = batchData?.data ?? [];
@@ -38,18 +38,18 @@ const BatchesPage = () => {
 
     const stats = [
         { icon: <RiGroupLine />, value: fmtNum(totalAlumni), label: "Verified alumni", color: "bg-primary2-50 dark:bg-primary2-900/30 text-primary2-600 dark:text-primary2-400" },
-        { icon: <RiCalendarLine />, value: activeBatches > 0 ? `${activeBatches}` : "”", label: "Active batches", color: "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400" },
+        { icon: <RiCalendarLine />, value: activeBatches > 0 ? `${activeBatches}` : "—", label: "Active batches", color: "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400" },
         { icon: <RiSparklingLine />, value: batchSpan, label: "Batch era", color: "bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400" },
-        { icon: <RiUserFollowLine />, value: newThisMonth > 0 ? `+${newThisMonth}` : "”", label: "Joined this month", color: "bg-primary2-50 dark:bg-primary2-900/20 text-primary2-600 dark:text-primary2-400" },
+        { icon: <RiUserFollowLine />, value: newThisMonth > 0 ? `+${newThisMonth}` : "—", label: "Joined this month", color: "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400" },
     ];
 
     return (
         <div className="three-xl-section-setup pb-20 space-y-12">
 
-            {/* ••• HERO •••••••••••••••••••••••••••••••••••••••••••• */}
+            {/* ═══ HERO ════════════════════════════════════════════ */}
             <BatchPageHead />
 
-            {/* ••• LIVE STATS STRIP •••••••••••••••••••••••••••••••• */}
+            {/* ═══ LIVE STATS STRIP ════════════════════════════════ */}
             <FadeUpWrapper>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     {stats.map(({ icon, value, label, color }) => (
@@ -69,14 +69,14 @@ const BatchesPage = () => {
                 </div>
             </FadeUpWrapper>
 
-            {/* ••• DIRECTORY ••••••••••••••••••••••••••••••••••••••• */}
+            {/* ═══ DIRECTORY ═══════════════════════════════════════ */}
             <BatchPageUsersWithSearchFilter />
 
-            {/* ••• BATCH ROOM CTA •••••••••••••••••••••••••••••••••• */}
+            {/* ═══ BATCH ROOM CTA ══════════════════════════════════ */}
             <FadeUpWrapper>
                 <div
                     className="relative overflow-hidden rounded-3xl"
-                    style={{ background: "linear-gradient(135deg, var(--color-primary-950) 0%, var(--color-primary-800) 60%, var(--color-primary-800) 100%)" }}
+                    style={{ background: "linear-gradient(135deg, #041a12 0%, #0c4a34 60%, #1a5436 100%)" }}
                 >
                     {/* Grid texture */}
                     <div
@@ -105,10 +105,10 @@ const BatchesPage = () => {
                                     waiting for you
                                 </h2>
                                 <p className="mt-3 text-sm text-gunmetal-300 leading-relaxed max-w-md">
-                                    Chat, run polls, vote your batch coordinator, share media, and join voice or video calls ” all scoped to your graduation year.
+                                    Chat, run polls, vote your batch coordinator, share media, and join voice or video calls — all scoped to your graduation year.
                                 </p>
                                 <div className="flex flex-wrap gap-2 mt-5">
-                                    {["ðŸ’¬ Group chat", "ðŸ—³ï¸ Polls & elections", "ðŸ“· Media sharing", "ðŸ“ž Voice & video"].map((f) => (
+                                    {["💬 Group chat", "🗳️ Polls & elections", "📷 Media sharing", "📞 Voice & video"].map((f) => (
                                         <span
                                             key={f}
                                             className="text-xs rounded-full px-3 py-1"

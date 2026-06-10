@@ -1,10 +1,10 @@
-﻿import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
+import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import { PriceTier } from "@/types/common/events.types";
 import { RiInformationLine } from "react-icons/ri"
 
 const EventDetailsPriceTiers = ({ tiers, guestFee, allowGuests }: { tiers: PriceTier[]; guestFee?: number; allowGuests?: boolean }) => {
     const TIER_GRADIENTS = [
-        "from-primary2-400 to-primary2-600",
+        "from-emerald-400 to-emerald-600",
         "from-amber-400 to-amber-600",
         "from-violet-400 to-violet-600",
         "from-pink-400 to-pink-600",
@@ -30,7 +30,7 @@ const EventDetailsPriceTiers = ({ tiers, guestFee, allowGuests }: { tiers: Price
                                     </p>
                                     {tier.batchFrom && tier.batchTo && (
                                         <p className="mt-0.5 text-[11px]" style={{ color: "var(--color-text-muted)" }}>
-                                            Batch {tier.batchFrom}“{tier.batchTo}
+                                            Batch {tier.batchFrom}–{tier.batchTo}
                                         </p>
                                     )}
                                 </div>
@@ -38,7 +38,7 @@ const EventDetailsPriceTiers = ({ tiers, guestFee, allowGuests }: { tiers: Price
                                     className="text-xl font-extrabold tabular-nums"
                                     style={{ color: "var(--color-primary2-800)" }}
                                 >
-                                    {tier.fee.toLocaleString()}
+                                    ৳{tier.fee.toLocaleString()}
                                 </p>
                             </div>
                         </div>
@@ -58,7 +58,7 @@ const EventDetailsPriceTiers = ({ tiers, guestFee, allowGuests }: { tiers: Price
                                 <p className="mt-0.5 text-[11px]" style={{ color: "#92400E" }}>Per accompanying guest</p>
                             </div>
                             <p className="text-xl font-extrabold tabular-nums" style={{ color: "#78350F" }}>
-                                {guestFee.toLocaleString()}
+                                ৳{guestFee.toLocaleString()}
                             </p>
                         </div>
                     </div>
@@ -71,7 +71,7 @@ const EventDetailsPriceTiers = ({ tiers, guestFee, allowGuests }: { tiers: Price
                 style={{ color: "var(--color-text-muted)" }}
             >
                 <RiInformationLine className="mt-0.5 flex-shrink-0" />
-                Bkash payments incur an additional 15 charge per 1,000. Bank transfer: deposit first, then register with the slip.
+                Bkash payments incur an additional ৳15 charge per ৳1,000. Bank transfer: deposit first, then register with the slip.
             </p>
         </FadeUpWrapper>
     )

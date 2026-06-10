@@ -9,7 +9,7 @@ const EventCard = ({ event, index }: { event: IEvent; index: number }) => {
     const status = getStatusMeta(event);
     const countdown = getCountdown(event.startDateTime);
     const accentColors = [
-        "var(--color-primary-500)",
+        "var(--color-primary2-500)",
         "var(--color-danger-DEFAULT)",
         "var(--color-gold-500)",
         "var(--color-info-DEFAULT)",

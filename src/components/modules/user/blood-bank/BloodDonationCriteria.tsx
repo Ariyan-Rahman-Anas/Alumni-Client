@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { motion } from "framer-motion";
 import {
@@ -15,7 +15,7 @@ import { MdOutlineBloodtype } from "react-icons/md";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 import SectionLabel from "@/components/shared/SectionLabel";
 
-/* ”€”€ Data ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Data ─────────────────────────────────────────────────── */
 
 const eligibilityCards = [
     {
@@ -34,10 +34,10 @@ const eligibilityCards = [
         title: "Weight & Vitals",
         color: "amber",
         rows: [
-            { label: "Minimum weight", value: "‰¥ 50 kg", ok: true },
-            { label: "Blood pressure", value: "90/60 “ 160/100 mmHg", ok: true },
-            { label: "Pulse", value: "60 “ 100 bpm (regular)", ok: true },
-            { label: "Temperature", value: "‰¤ 37.5 °C", ok: true },
+            { label: "Minimum weight", value: "≥ 50 kg", ok: true },
+            { label: "Blood pressure", value: "90/60 – 160/100 mmHg", ok: true },
+            { label: "Pulse", value: "60 – 100 bpm (regular)", ok: true },
+            { label: "Temperature", value: "≤ 37.5 °C", ok: true },
         ],
     },
     {
@@ -45,8 +45,8 @@ const eligibilityCards = [
         title: "Haemoglobin",
         color: "red",
         rows: [
-            { label: "Male", value: "‰¥ 13.5 g/dL", ok: true },
-            { label: "Female", value: "‰¥ 12.5 g/dL", ok: true },
+            { label: "Male", value: "≥ 13.5 g/dL", ok: true },
+            { label: "Female", value: "≥ 12.5 g/dL", ok: true },
             { label: "Below threshold", value: "Deferred", ok: false },
         ],
     },
@@ -90,7 +90,7 @@ const processSteps = [
     {
         step: "03",
         title: "Donation",
-        desc: "The whole-blood collection takes 8“10 minutes. Total visit is about 45“60 minutes.",
+        desc: "The whole-blood collection takes 8–10 minutes. Total visit is about 45–60 minutes.",
     },
     {
         step: "04",
@@ -99,7 +99,7 @@ const processSteps = [
     },
 ];
 
-/* ”€”€ Colour maps ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Colour maps ─────────────────────────────────────────── */
 const COLOR_MAP: Record<string, { bg: string; border: string; icon: string; badge: string }> = {
     rose: {
         bg: "bg-rose-50 dark:bg-rose-950/30",
@@ -120,18 +120,18 @@ const COLOR_MAP: Record<string, { bg: string; border: string; icon: string; badg
         badge: "bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300",
     },
     emerald: {
-        bg: "bg-primary2-50 dark:bg-primary2-950/30",
-        border: "border-primary2-200 dark:border-primary2-800",
-        icon: "text-primary2-600",
-        badge: "bg-primary2-100 text-primary2-700 dark:bg-primary2-900/50 dark:text-primary2-300",
+        bg: "bg-emerald-50 dark:bg-emerald-950/30",
+        border: "border-emerald-200 dark:border-emerald-800",
+        icon: "text-emerald-600",
+        badge: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300",
     },
 };
 
-/* ”€”€ Component ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ── Component ───────────────────────────────────────────── */
 const BloodDonationCriteria = () => {
     return (
         <section className="three-xl-section-setup space-y-16">
-            {/* ”€”€ Section heading ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+            {/* ── Section heading ─────────────────────────── */}
             <FadeUpWrapper className="text-center">
                 <SectionLabel
                     text="Who can donate?"
@@ -148,7 +148,7 @@ const BloodDonationCriteria = () => {
                 </p>
             </FadeUpWrapper>
 
-            {/* ”€”€ Eligibility cards ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+            {/* ── Eligibility cards ───────────────────────── */}
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
                 {eligibilityCards.map(({ icon, title, color, rows }, i) => {
                     const c = COLOR_MAP[color];
@@ -174,7 +174,7 @@ const BloodDonationCriteria = () => {
                                 {rows.map(({ label, value, ok }) => (
                                     <li key={label} className="flex items-start gap-2">
                                         {ok ? (
-                                            <RiCheckboxCircleLine className="text-primary2-500 text-base shrink-0 mt-0.5" />
+                                            <RiCheckboxCircleLine className="text-emerald-500 text-base shrink-0 mt-0.5" />
                                         ) : (
                                             <RiCloseCircleLine className="text-red-400 text-base shrink-0 mt-0.5" />
                                         )}
@@ -190,7 +190,7 @@ const BloodDonationCriteria = () => {
                 })}
             </div>
 
-            {/* ”€”€ Disqualifiers ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+            {/* ── Disqualifiers ───────────────────────────── */}
             <FadeUpWrapper>
                 <div className="rounded-2xl border border-red-200 bg-red-50/60 dark:bg-red-950/20 dark:border-red-900 p-6 md:p-8">
                     <div className="flex items-center gap-2.5 mb-5">
@@ -214,7 +214,7 @@ const BloodDonationCriteria = () => {
                 </div>
             </FadeUpWrapper>
 
-            {/* ”€”€ Process steps ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+            {/* ── Process steps ───────────────────────────── */}
             <FadeUpWrapper>
                 <div className="flex items-center gap-2.5 mb-6">
                     <RiHeartPulseLine className="text-rose-600 text-xl shrink-0" />

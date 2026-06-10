@@ -30,15 +30,15 @@ import PrimaryButton from "@/components/shared/PrimaryButton";
 import ImageUploadField from "@/components/shared/ImageUploadField";
 import { useAppSelector } from "@/redux/hooks";
 import { selectCurrentUser } from "@/redux/slice/authSlice";
-import { revalidateWebsiteLayout } from "@/app/actions";
 import {
     useGetWebsiteManagementQuery,
     useCreateWebsiteManagementMutation,
     useUpdateWebsiteManagementMutation,
     type IWebsiteManagement,
 } from "@/redux/apis/websiteManagementApi";
+import { revalidateWebsiteLayout } from "@/app/actions";
 
-/* ”€”€ Zod Schema ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+// Zod Schema
 const schema = z.object({
     motto: z.string().min(3, "Motto must be at least 3 characters").max(80, "Motto must be at most 80 characters"),
     schoolName: z.string().min(5, "School name must be at least 5 characters").max(150, "School name must be at most 150 characters"),
@@ -80,7 +80,7 @@ const schema = z.object({
 
 type TFormValues = z.infer<typeof schema>;
 
-/* ”€”€ Color picker field ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+// Color picker field
 const SWATCH_OPACITIES = [0.96, 0.82, 0.61, 0.40, 1, 0.78, 0.58, 0.38] as const;
 const SWATCH_SIZES = ["h-4 w-4", "h-5 w-5", "h-6 w-6", "h-7 w-7", "h-8 w-8", "h-7 w-7", "h-6 w-6", "h-5 w-5"] as const;
 
@@ -158,7 +158,7 @@ const ColorPickerField = ({
     );
 };
 
-/* ”€”€ Section card ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ”” Section card ””””””””””””””””””””””””””””””””””””””””””””” */
 const SectionCard = ({
     title,
     icon,
@@ -186,7 +186,7 @@ const SectionCard = ({
     </motion.div>
 );
 
-/* ”€”€ Main Page ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+/* ”” Main Page ”””””””””””””””””””””””””””””””””””””””””””””””” */
 const AdminWebsiteManagementPage = () => {
     const currentUser = useAppSelector(selectCurrentUser);
     const [bannerFile, setBannerFile] = useState<File | null>(null);
@@ -286,7 +286,7 @@ const AdminWebsiteManagementPage = () => {
         } catch { }
     };
 
-    /* ”€”€ Loading State ”€”€”€”€ */
+    /* ”” Loading State ”””” */
     if (isFetching) {
         return (
             <div className="admin-page-setup space-y-4 animate-pulse">
@@ -301,7 +301,7 @@ const AdminWebsiteManagementPage = () => {
         );
     }
 
-    /* ”€”€ Fetch Error ”€”€”€”€ */
+    /* ”” Fetch Error ”””” */
     if (fetchError && !isNew) {
         return (
             <div className="admin-page-setup flex flex-col items-center justify-center gap-3 py-20 text-center">
@@ -358,7 +358,7 @@ const AdminWebsiteManagementPage = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
-                {/* ”€”€ Row 1: Branding + Location ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                {/* ”” Row 1: Branding + Location ””””””””””””””””””””” */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
                     {/* Branding */}
@@ -408,7 +408,7 @@ const AdminWebsiteManagementPage = () => {
                     </SectionCard>
                 </div>
 
-                {/* ”€”€ Row 2: Address (full width) ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                {/* ”” Row 2: Address (full width) ”””””””””””””””””””” */}
                 <SectionCard title="Address & Location" icon={<RiMapPin2Line />} index={2}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div className="sm:col-span-2 lg:col-span-3">
@@ -459,7 +459,7 @@ const AdminWebsiteManagementPage = () => {
                     </div>
                 </SectionCard>
 
-                {/* ”€”€ Row 3: Social + Banner ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                {/* ”” Row 3: Social + Banner ””””””””””””””””””””””””” */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
                     {/* Social Media */}
@@ -501,7 +501,7 @@ const AdminWebsiteManagementPage = () => {
                     </SectionCard>
                 </div>
 
-                {/* ”€”€ Brand Colors ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                {/* ”” Brand Colors ””””””””””””””””””””””””””””””””””” */}
                 <SectionCard title="Brand Colors" icon={<RiPaletteLine />} index={5}>
                     {/* Light mode row */}
                     <p className="text-xs font-semibold uppercase tracking-widest text-gunmetal-400 dark:text-gunmetal-300 mb-3">Light Mode</p>
@@ -569,7 +569,7 @@ const AdminWebsiteManagementPage = () => {
                     </p>
                 </SectionCard>
 
-                {/* ”€”€ Save Button (bottom) ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */}
+                {/* ”” Save Button (bottom) ””””””””””””””””””””””””””” */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

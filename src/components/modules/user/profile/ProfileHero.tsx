@@ -18,7 +18,7 @@ const ProfileHero = ({ user, pendingImage, onImageChange }: ProfileHeroProps) =>
             className="relative overflow-hidden rounded-3xl"
             style={{
                 background:
-                    "linear-gradient(135deg, var(--color-primary-950) 0%, var(--color-primary-900) 55%, var(--color-primary-950) 100%)",
+                    "linear-gradient(135deg, #041a12 0%, #0a3d2b 55%, #051f15 100%)",
             }}
         >
             {/* Grid texture */}
@@ -26,7 +26,7 @@ const ProfileHero = ({ user, pendingImage, onImageChange }: ProfileHeroProps) =>
                 className="absolute inset-0 pointer-events-none"
                 style={{
                     backgroundImage:
-                        "linear-gradient(color-mix(in srgb, var(--color-primary-500) 7%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-primary-500) 7%, transparent) 1px, transparent 1px)",
+                        "linear-gradient(rgba(46,139,87,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.07) 1px, transparent 1px)",
                     backgroundSize: "48px 48px",
                 }}
             />

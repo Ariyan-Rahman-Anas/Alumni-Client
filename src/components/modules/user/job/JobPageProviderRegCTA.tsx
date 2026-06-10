@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useSelector } from "react-redux";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
@@ -26,7 +26,7 @@ const JobPageProviderRegCTA = () => {
     const profile = providerData?.data;
     const status = profile?.status;
 
-    /* ”€”€ Already PENDING ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+    /* ── Already PENDING ─────────────────────────────────── */
     if (isLoggedIn && profile && status === "PENDING") {
         return (
             <FadeUpWrapper
@@ -50,21 +50,21 @@ const JobPageProviderRegCTA = () => {
         );
     }
 
-    /* ”€”€ Already APPROVED ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+    /* ── Already APPROVED ────────────────────────────────── */
     if (isLoggedIn && profile && status === "APPROVED") {
         return (
             <FadeUpWrapper
                 delay={0.5}
                 className="relative overflow-hidden rounded-3xl p-8 text-white"
-                style={{ background: "linear-gradient(145deg, var(--color-primary-950) 0%, var(--color-primary-800) 60%, var(--color-primary-950) 100%)" }}
+                style={{ background: "linear-gradient(145deg, #041a12 0%, #0c4a34 60%, #062319 100%)" }}
             >
                 <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
                 <div className="absolute -top-12 right-12 h-32 w-32 rounded-full blur-2xl opacity-20" style={{ background: "rgba(46,139,87,1)" }} />
                 <div className="relative z-10 flex flex-col sm:flex-row sm:items-center gap-6">
                     <div className="flex-1">
                         <div className="flex items-center gap-2 mb-3">
-                            <RiCheckboxCircleLine className="text-2xl text-primary2-400" />
-                            <span className="text-xs bg-primary2-500/20 text-primary2-300 border border-primary2-400/30 rounded-full px-3 py-1 font-medium">Active Provider</span>
+                            <RiCheckboxCircleLine className="text-2xl text-emerald-400" />
+                            <span className="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 rounded-full px-3 py-1 font-medium">Active Provider</span>
                         </div>
                         <h3 className="text-xl font-bold mb-2">Your provider profile is live</h3>
                         <p className="text-primary2-100/80 text-sm max-w-xl">
@@ -82,7 +82,7 @@ const JobPageProviderRegCTA = () => {
         );
     }
 
-    /* ”€”€ REJECTED ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+    /* ── REJECTED ────────────────────────────────────────── */
     if (isLoggedIn && profile && status === "REJECTED") {
         return (
             <FadeUpWrapper
@@ -108,12 +108,12 @@ const JobPageProviderRegCTA = () => {
         );
     }
 
-    /* ”€”€ Default: no profile †’ register CTA ”€”€”€”€”€”€”€”€”€”€”€”€”€”€”€ */
+    /* ── Default: no profile → register CTA ─────────────── */
     return (
         <FadeUpWrapper
             delay={0.5}
             className="relative overflow-hidden rounded-3xl p-8 text-white text-center"
-            style={{ background: "linear-gradient(145deg, var(--color-primary-950) 0%, var(--color-primary-800) 60%, var(--color-primary-950) 100%)" }}
+            style={{ background: "linear-gradient(145deg, #041a12 0%, #0c4a34 60%, #062319 100%)" }}
         >
             <div
                 className="absolute inset-0 pointer-events-none opacity-20"

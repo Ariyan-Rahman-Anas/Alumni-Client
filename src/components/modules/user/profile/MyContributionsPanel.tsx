@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -126,7 +126,7 @@ const MyContributionsPanel = () => {
                                             className={cn(
                                                 "flex-shrink-0 inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full border",
                                                 img.isPublished
-                                                    ? "bg-primary2-50 text-primary2-700 border-primary2-200"
+                                                    ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                                                     : "bg-amber-50 text-amber-700 border-amber-200"
                                             )}
                                         >

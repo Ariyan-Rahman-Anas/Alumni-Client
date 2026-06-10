@@ -144,20 +144,20 @@ const AboutSection = () => {
                         whileInView={{ scale: 1, opacity: 1 }}
                         viewport={{ once: true, margin: "-60px" }}
                         transition={{ duration: 0.7, ease: [0.19, 1, 0.22, 1] }}
-                        className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-primary2-800 dark:from-gunmetal-500 to-primary2-950 dark:to-gunmetal-800" >
+                        className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-[#0F3C24] dark:from-gunmetal-500 to-[#051F15] dark:to-gunmetal-800" >
                         {/* Decorative grid overlay */}
                         <div
                             className="absolute inset-0 pointer-events-none"
                             style={{
                                 backgroundImage:
-                                    "linear-gradient(color-mix(in srgb, var(--color-primary-500) 5%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-primary-500) 5%, transparent) 1px, transparent 1px)",
+                                    "linear-gradient(rgba(46,139,87,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(46,139,87,0.05) 1px, transparent 1px)",
                                 backgroundSize: "40px 40px",
                             }}
                         />
                         {/* Ambient glows */}
                         <div
                             className="absolute -top-20 -right-20 w-72 h-72 rounded-full pointer-events-none"
-                            style={{ background: "radial-gradient(circle, color-mix(in srgb, var(--color-primary-500) 22%, transparent) 0%, transparent 65%)" }}
+                            style={{ background: "radial-gradient(circle, rgba(46,139,87,0.22) 0%, transparent 65%)" }}
                         />
                         <div
                             className="absolute -bottom-10 -left-10 w-52 h-52 rounded-full pointer-events-none"

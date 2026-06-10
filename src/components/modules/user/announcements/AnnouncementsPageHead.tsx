@@ -1,4 +1,4 @@
-﻿import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
+import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import SectionLabel from "@/components/shared/SectionLabel"
 import { useGetPublishedAnnouncementsQuery } from "@/redux/apis/announcementApi";
 import { RiErrorWarningLine, RiFileListLine, RiMegaphoneLine, RiPushpin2Line } from "react-icons/ri"
@@ -17,7 +17,7 @@ function StatPill({ icon, label, value }: { icon: React.ReactNode; label: string
 }
 
 const AnnouncementsPageHead = () => {
-    // Stats query ” all published, no filter
+    // Stats query — all published, no filter
     const { data: statsData } = useGetPublishedAnnouncementsQuery({ limit: 100 });
     const allItems = statsData?.data ?? [];
     const urgentCount = allItems.filter((a) => a.priority === "urgent").length;
@@ -28,7 +28,7 @@ const AnnouncementsPageHead = () => {
         <FadeUpWrapper delay={0.1}>
             <section
                 className="relative overflow-hidden rounded-3xl"
-                style={{ background: "linear-gradient(145deg, var(--color-primary-950) 0%, var(--color-primary-800) 55%, var(--color-primary-950) 100%)" }}
+                style={{ background: "linear-gradient(145deg, #041a12 0%, #0c4a34 55%, #062319 100%)" }}
             >
                 <div
                     className="absolute inset-0 pointer-events-none opacity-30"
