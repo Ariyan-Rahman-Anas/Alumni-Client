@@ -62,47 +62,6 @@ const schema = z.object({
 });
 
 type TFormValues = z.infer<typeof schema>;
-maxLength = { 7}
-placeholder = "#000000"
-className = "h-10 w-24 rounded-lg border border-surface-200 dark:border-surface-700 bg-white dark:bg-surface-800 px-3 text-sm font-mono text-surface-800 dark:text-surface-100 focus:outline-none focus:ring-2 focus:ring-primary2-400 flex-shrink-0"
-    />
-    {/* Live scale preview */ }
-    < div className = "flex gap-0.5 items-end overflow-hidden" >
-    {
-        SWATCH_OPACITIES.map((opacity, i) => (
-            <div
-                key={i}
-                title={["50", "200", "400", "600", "500 (base)", "600", "700", "800"][i]}
-                style={{ backgroundColor: value, opacity }}
-                className={`rounded-sm flex-shrink-0 ${SWATCH_SIZES[i]}${i === 4 ? " ring-1 ring-offset-1 ring-current" : ""}`}
-            />
-        ))
-    }
-                    </div >
-    {/* Clear button (for optional fields) */ }
-    < button
-type = "button"
-onClick = {() => onChange("")}
-className = "ml-auto text-xs text-gunmetal-400 hover:text-rose-500 transition-colors"
-title = "Clear ” reuse light mode color in dark mode"
-    >
-    Clear
-                    </button >
-                </div >
-            ) : (
-    <button
-        type="button"
-        onClick={() => onChange("#2E8B57")}
-        className="flex items-center gap-2 h-10 px-4 rounded-lg border border-dashed border-surface-300 dark:border-surface-600 text-xs text-surface-500 dark:text-surface-400 hover:border-primary2-400 hover:text-primary2-600 dark:hover:text-primary2-400 transition-colors w-fit"
-    >
-        + Set a custom color
-    </button>
-)}
-{ error && <p className="text-xs text-red-500">{error}</p> }
-<p className="text-xs text-surface-500 dark:text-surface-400">{hint}</p>
-        </div >
-    );
-};
 
 /* ”” Section card ””””””””””””””””””””””””””””””””””””””””””””” */
 const SectionCard = ({
