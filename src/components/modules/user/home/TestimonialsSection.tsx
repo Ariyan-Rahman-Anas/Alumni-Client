@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 import { motion } from "framer-motion";
 import {
@@ -12,39 +13,22 @@ import {
 import { RiDoubleQuotesL } from "react-icons/ri";
 import { BsStarFill } from "react-icons/bs";
 import SectionLabel from "@/components/shared/SectionLabel";
+import { useGetApprovedTestimonialsQuery } from "@/redux/apis/testimonialApi";
+import type { ITestimonial, ITestimonialUser } from "@/types/common/testimonial.types";
 
-const testimonials = [
-    {
-        quote: "BAMHS shaped who I am. The values I learned in those classrooms still guide every decision I make as a doctor today.",
-        name: "Dr. Rafiqul Islam",
-        batch: "Batch of 1998",
-        role: "Senior Physician, Dhaka Medical College",
-    },
-    {
-        quote: "No matter where life took me, BAMHS always felt like home. The friendships forged here are for a lifetime.",
-        name: "Nasrin Akter",
-        batch: "Batch of 2005",
-        role: "Software Engineer, Dubai",
-    },
-    {
-        quote: "My teachers at BAMHS didn't just teach subjects — they taught us how to stand tall with dignity and purpose.",
-        name: "Md. Karim Hossain",
-        batch: "Batch of 1992",
-        role: "Entrepreneur, Chittagong",
-    },
-    {
-        quote: "The school's annual sports day and cultural programs made us who we are. I owe everything to BAMHS.",
-        name: "Sadia Rahman",
-        batch: "Batch of 2010",
-        role: "Teacher, Cumilla Govt. College",
-    },
-];
+function getUser(t: ITestimonial): ITestimonialUser | null {
+    if (!t.userId || typeof t.userId === "string") return null;
+    return t.userId as ITestimonialUser;
+}
 
 const TestimonialsSection = () => {
     const [api, setApi] = useState<CarouselApi>();
     const [current, setCurrent] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+    const { data, isLoading } = useGetApprovedTestimonialsQuery();
+    const testimonials = data?.data ?? [];
 
     /* Track selected slide */
     useEffect(() => {
@@ -54,7 +38,7 @@ const TestimonialsSection = () => {
         return () => { api.off("select", onSelect); };
     }, [api]);
 
-    /* Autoplay — pauses on hover/focus */
+    /* Autoplay â€” pauses on hover/focus */
     useEffect(() => {
         if (!api) return;
         if (isPaused) {
@@ -72,7 +56,7 @@ const TestimonialsSection = () => {
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
         >
-            {/* ── Decorative grid ───────────────────────────────── */}
+            {/* â”€â”€ Decorative grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
@@ -82,7 +66,7 @@ const TestimonialsSection = () => {
                 }}
             />
 
-            {/* ── Ambient glowing orbs ──────────────────────────── */}
+            {/* â”€â”€ Ambient glowing orbs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <div
                 className="absolute -top-32 -left-32 w-96 h-96 rounded-full pointer-events-none"
                 style={{
@@ -105,7 +89,7 @@ const TestimonialsSection = () => {
                 }}
             />
 
-            {/* ── Decorative large background quote ─────────────── */}
+            {/* â”€â”€ Decorative large background quote â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <RiDoubleQuotesL
                 className="absolute top-6 right-6 sm:top-10 sm:right-10 pointer-events-none select-none"
                 style={{
@@ -115,7 +99,7 @@ const TestimonialsSection = () => {
                 }}
             />
 
-            {/* ── Main content ──────────────────────────────────── */}
+            {/* â”€â”€ Main content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <div className="three-xl-section-setup relative z-10">
 
                 {/* Header */}
@@ -123,139 +107,161 @@ const TestimonialsSection = () => {
                     <SectionLabel
                         text="Alumni Voices"
                         className="text-primary2-100 border-primary2-700 dark:text-gunmetal-300 dark:border-gunmetal-500 "
-                        icon={<RiDoubleQuotesL />}/>
+                        icon={<RiDoubleQuotesL />} />
                     <h2
                         className="section-heading-text-center text-white dark:text-gunmetal-200 mt-5">
                         What BAMHSians Say
                     </h2>
                     <p
                         className="mt-4 text-sm sm:text-base max-w-xl mx-auto leading-relaxed text-primary2-400 dark:text-gunmetal-300 ">
-                        Voices from across decades — sharing the legacy that BAMHS instilled in every student.
+                        Voices from across decades â€” sharing the legacy that BAMHS instilled in every student.
                     </p>
                 </FadeUpWrapper>
 
+                {/* Loading skeleton */}
+                {isLoading && (
+                    <div className="flex justify-center">
+                        <div className="w-full max-w-2xl h-64 rounded-3xl animate-pulse" style={{ background: "rgba(46,139,87,0.10)", border: "1px solid rgba(46,139,87,0.22)" }} />
+                    </div>
+                )}
+
+                {/* Empty state */}
+                {!isLoading && testimonials.length === 0 && (
+                    <p className="text-center text-primary2-400 text-sm py-10">No testimonials yet.</p>
+                )}
+
                 {/* Carousel */}
-                <FadeUpWrapper delay={0.15}>
-                    <Carousel
-                        setApi={setApi}
-                        opts={{ loop: true, align: "center" }}
-                        className="w-full"
-                    >
-                        <CarouselContent className="-ml-4 sm:-ml-6">
-                            {testimonials.map((t, i) => (
-                                <CarouselItem
-                                    key={i}
-                                    className="pl-4 sm:pl-6 basis-full sm:basis-[85%] md:basis-[75%] lg:basis-[60%]"
-                                >
-                                    <motion.div
-                                        animate={{
-                                            scale: i === current ? 1 : 0.95,
-                                            opacity: i === current ? 1 : 0.55,
-                                        }}
-                                        transition={{ duration: 0.4, ease: "easeOut" }}
-                                        className="rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 h-full flex flex-col gap-6 cursor-grab active:cursor-grabbing"
-                                        style={{
-                                            background: "linear-gradient(145deg, rgba(46,139,87,0.10) 0%, rgba(46,139,87,0.04) 100%)",
-                                            border: "1px solid rgba(46,139,87,0.22)",
-                                            boxShadow:
-                                                i === current
-                                                    ? "0 8px 32px rgba(0,0,0,0.35), 0 0 48px rgba(46,139,87,0.12), inset 0 1px 0 rgba(255,255,255,0.06)"
-                                                    : "0 4px 16px rgba(0,0,0,0.2)",
-                                            backdropFilter: "blur(12px)",
-                                        }}
-                                    >
-                                        {/* Top row: quote icon + stars */}
-                                        <div className="flex items-start justify-between gap-4">
-                                            <div
-                                                className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                {!isLoading && testimonials.length > 0 && (
+                    <FadeUpWrapper delay={0.15}>
+                        <Carousel
+                            setApi={setApi}
+                            opts={{ loop: true, align: "center" }}
+                            className="w-full"
+                        >
+                            <CarouselContent className="-ml-4 sm:-ml-6">
+                                {testimonials.map((t, i) => {
+                                    const user = getUser(t);
+                                    const batchLabel = user?.batch ? `Batch of ${user.batch}` : "";
+                                    const roleLabel = [user?.position, user?.workplace].filter(Boolean).join(" @ ") || user?.country || "";
+                                    const displayName = user?.name ?? "BAMHSian";
+                                    return (
+                                        <CarouselItem
+                                            key={t._id}
+                                            className="pl-4 sm:pl-6 basis-full sm:basis-[85%] md:basis-[75%] lg:basis-[60%]"
+                                        >
+                                            <motion.div
+                                                animate={{
+                                                    scale: i === current ? 1 : 0.95,
+                                                    opacity: i === current ? 1 : 0.55,
+                                                }}
+                                                transition={{ duration: 0.4, ease: "easeOut" }}
+                                                className="rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 h-full flex flex-col gap-6 cursor-grab active:cursor-grabbing"
                                                 style={{
-                                                    background: "rgba(46,139,87,0.20)",
-                                                    border: "1px solid rgba(46,139,87,0.30)",
+                                                    background: "linear-gradient(145deg, rgba(46,139,87,0.10) 0%, rgba(46,139,87,0.04) 100%)",
+                                                    border: "1px solid rgba(46,139,87,0.22)",
+                                                    boxShadow:
+                                                        i === current
+                                                            ? "0 8px 32px rgba(0,0,0,0.35), 0 0 48px rgba(46,139,87,0.12), inset 0 1px 0 rgba(255,255,255,0.06)"
+                                                            : "0 4px 16px rgba(0,0,0,0.2)",
+                                                    backdropFilter: "blur(12px)",
                                                 }}
                                             >
-                                                <RiDoubleQuotesL
-                                                    className="text-lg sm:text-xl text-primary2-500" />
-                                            </div>
-                                            <div className="flex items-center gap-0.5 mt-1">
-                                                {Array.from({ length: 5 }).map((_, s) => (
-                                                    <BsStarFill
-                                                        key={s}
-                                                        className="text-xs"
-                                                        style={{ color: "var(--color-gold-500)" }}
-                                                    />
-                                                ))}
-                                            </div>
-                                        </div>
+                                                {/* Top row: quote icon + stars */}
+                                                <div className="flex items-start justify-between gap-4">
+                                                    <div
+                                                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                                                        style={{
+                                                            background: "rgba(46,139,87,0.20)",
+                                                            border: "1px solid rgba(46,139,87,0.30)",
+                                                        }}
+                                                    >
+                                                        <RiDoubleQuotesL className="text-lg sm:text-xl text-primary2-500" />
+                                                    </div>
+                                                    <div className="flex items-center gap-0.5 mt-1">
+                                                        {Array.from({ length: 5 }).map((_, s) => (
+                                                            <BsStarFill
+                                                                key={s}
+                                                                className="text-xs"
+                                                                style={{ color: s < t.rating ? "var(--color-gold-500)" : "rgba(255,255,255,0.15)" }}
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                </div>
 
-                                        {/* Quote */}
-                                        <p
-                                            className="font-serif italic text-base sm:text-lg md:text-xl leading-relaxed text-center flex-1 text-primary2-100 dark:text-gunmetal-300">
-                                            &ldquo;{t.quote}&rdquo;
-                                        </p>
+                                                {/* Quote */}
+                                                <p className="font-serif italic text-base sm:text-lg md:text-xl leading-relaxed text-center flex-1 text-primary2-100 dark:text-gunmetal-300">
+                                                    &ldquo;{t.quote}&rdquo;
+                                                </p>
 
-                                        {/* Divider */}
-                                        <div
-                                            className="h-px w-full"
+                                                {/* Divider */}
+                                                <div
+                                                    className="h-px w-full"
+                                                    style={{ background: "linear-gradient(90deg, transparent, rgba(46,139,87,0.35), transparent)" }}
+                                                />
+
+                                                {/* Author */}
+                                                <div className="flex items-center gap-4">
+                                                    {user?.imageUrl ? (
+                                                        <Image
+                                                            src={user.imageUrl}
+                                                            alt={displayName}
+                                                            width={44}
+                                                            height={44}
+                                                            className="rounded-full object-cover shrink-0 w-11 h-11"
+                                                        />
+                                                    ) : (
+                                                        <div className="w-11 min-w-[2.75rem] h-11 min-h-[2.75rem] rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0 bg-primary2-500 text-white shadow">
+                                                            {displayName.charAt(0).toUpperCase()}
+                                                        </div>
+                                                    )}
+                                                    <div className="min-w-0">
+                                                        <p className="font-semibold text-sm sm:text-base leading-tight truncate text-primary2-100 dark:text-gunmetal-300">
+                                                            {displayName}
+                                                        </p>
+                                                        <p className="text-xs mt-0.5 truncate text-primary2-400 dark:text-gunmetal-300">
+                                                            {[batchLabel, roleLabel].filter(Boolean).join(" Â· ")}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        </CarouselItem>
+                                    );
+                                })}
+                            </CarouselContent>
+
+                            <div className="flex items-center justify-center gap-5 mt-8 sm:mt-10">
+                                <CarouselPrevious
+                                    className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 bg-primary2-500 hover:bg-primary2-600 dark:bg-gunmetal-300 dark:hover:bg-primary hover:text-surface"
+                                />
+
+                                {/* Dots */}
+                                <div className="flex items-center gap-2">
+                                    {testimonials.map((_, i) => (
+                                        <button
+                                            key={i}
+                                            aria-label={`Go to testimonial ${i + 1}`}
+                                            onClick={() => api?.scrollTo(i)}
+                                            className="rounded-full transition-all duration-300 focus-visible:outline-none"
                                             style={{
-                                                background: "linear-gradient(90deg, transparent, rgba(46,139,87,0.35), transparent)",
+                                                width: i === current ? "28px" : "8px",
+                                                height: "8px",
+                                                background: i === current ? "rgba(77,180,114,1)" : "rgba(77,180,114,0.35)",
+                                                boxShadow: i === current ? "0 0 8px rgba(77,180,114,0.6)" : "none",
                                             }}
                                         />
+                                    ))}
+                                </div>
 
-                                        {/* Author */}
-                                        <div className="flex items-center gap-4">
-                                            <div
-                                                className="w-11 min-w-[2.75rem] h-11 min-h-[2.75rem] sm:w-13 sm:h-13 rounded-full flex items-center justify-center font-bold text-sm sm:text-base flex-shrink-0 bg-primary2-500 text-white dark:text-gunmetal-900 shadow ">
-                                                {t.name.charAt(0)}
-                                            </div>
-                                            <div className="min-w-0">
-                                                <p
-                                                    className="font-semibold text-sm sm:text-base leading-tight truncate text-primary2-100 dark:text-gunmetal-300">
-                                                    {t.name}
-                                                </p>
-                                                <p
-                                                    className="text-xs mt-0.5 truncate text-primary2-400 dark:text-gunmetal-300 ">
-                                                    {t.batch}&nbsp;·&nbsp;{t.role}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-
-                        <div className="flex items-center justify-center gap-5 mt-8 sm:mt-10">
-                            <CarouselPrevious
-                                className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 bg-primary2-500 hover:bg-primary2-600 dark:bg-gunmetal-300 dark:hover:bg-primary hover:text-surface"
-                            />
-
-                            {/* Dots */}
-                            <div className="flex items-center gap-2">
-                                {testimonials.map((_, i) => (
-                                    <button
-                                        key={i}
-                                        aria-label={`Go to testimonial ${i + 1}`}
-                                        onClick={() => api?.scrollTo(i)}
-                                        className={`rounded-full transition-all duration-300 focus-visible:outline-none ${i === current ? "bg-primary2-400 dark:bg-gunmetal-300" : "bg-primary2-300 dark:bg-gunmetal-400"}`}
-                                        style={{
-                                            width: i === current ? "28px" : "8px",
-                                            height: "8px",
-                                            boxShadow:
-                                                i === current
-                                                    ? "0 0 8px rgba(77,180,114,0.6)"
-                                                    : "none",
-                                        }}
-                                    />
-                                ))}
+                                <CarouselNext
+                                    className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 bg-primary2-500 hover:bg-primary2-600 dark:bg-gunmetal-300 dark:hover:bg-primary hover:text-surface"
+                                />
                             </div>
-
-                            <CarouselNext
-                                className="static translate-y-0 h-10 w-10 rounded-full transition-colors duration-200 text-primary2-100 bg-primary2-500 hover:bg-primary2-600 dark:bg-gunmetal-300 dark:hover:bg-primary hover:text-surface"
-                            />
-                        </div>
-                    </Carousel>
-                </FadeUpWrapper>
+                        </Carousel>
+                    </FadeUpWrapper>
+                )}
             </div>
         </section>
     );
 };
+
 export default TestimonialsSection;

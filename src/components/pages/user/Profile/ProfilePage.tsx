@@ -17,6 +17,7 @@ import MyProviderProfilePanel from "@/components/modules/user/profile/MyProvider
 import MyEventRegistrationsPanel from "@/components/modules/user/profile/MyEventRegistrationsPanel";
 import MyRequestsPanel from "@/components/modules/user/profile/MyRequestsPanel";
 import MyContributionsPanel from "@/components/modules/user/profile/MyContributionsPanel";
+import MyTestimonialPanel from "@/components/modules/user/profile/MyTestimonialPanel";
 
 const ProfileSkeleton = () => (
     <div className="flex flex-col gap-5 animate-pulse">
@@ -90,6 +91,10 @@ const ProfilePage = () => {
 
         if (activeSection === "my-contributions") {
             return <MyContributionsPanel />;
+        }
+
+        if (activeSection === "my-testimonial") {
+            return <MyTestimonialPanel />;
         }
 
         return (
