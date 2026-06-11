@@ -20,6 +20,7 @@ export const baseApi = createApi({
         "websiteManagement",
         "requests",
         "testimonials",
+        "committees",
     ],
     endpoints: () => ({}),
 });

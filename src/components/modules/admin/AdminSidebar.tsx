@@ -38,6 +38,7 @@ const NAV_ITEMS = [
     { label: "Image Categories", href: "/admin/image-categories", icon: RiImageLine },
     { label: "Jobs", href: "/admin/jobs", icon: RiExternalLinkLine },
     { label: "Users", href: "/admin/users", icon: RiGroupLine },
+    { label: "Committee", href: "/admin/committee", icon: RiGroupLine },
     { label: "Requests", href: "/admin/requests", icon: RiFileListLine },
     { label: "Testimonials", href: "/admin/testimonials", icon: RiDoubleQuotesL },
     { label: "Website Settings", href: "/admin/website-management", icon: RiSettings3Line },
