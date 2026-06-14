@@ -25,7 +25,7 @@ const AdminCommitteePage = () => {
 
     const { data, isLoading, isError } = useGetAllCommitteesAdminQuery();
     const [deleteCommittee, { isLoading: isDeleting }] = useDeleteCommitteeMutation();
-    const [setActive, { isLoading: isSettingActive }] = useSetActiveCommitteeMutation();
+    const [setActive ] = useSetActiveCommitteeMutation();
 
     const committees = data?.data ?? [];
 
