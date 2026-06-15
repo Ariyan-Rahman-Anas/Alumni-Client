@@ -1,3 +1,5 @@
+import { TEventCategory, TEventStatus, TLocationType } from "@/constants";
+
 export interface PriceTier {
     _id?: string;
     label: string;
@@ -13,11 +15,11 @@ export interface IEvent {
     description: string;
     coverImage?: string;
     coverImagePublicId?: string;
-    category: string;
-    status: string;
+    category: TEventCategory;
+    status: TEventStatus;
     startDateTime: string;
     endDateTime?: string;
-    locationType: string;
+    locationType: TLocationType;
     venue: string;
     meetingLink?: string;
     organizer?: string;
@@ -59,8 +61,8 @@ export interface IEventRegistrationEvent {
     title: string;
     startDateTime: string;
     venue?: string;
-    status: string;
-    category: string;
+    status: TEventStatus;
+    category: TEventCategory;
 }
 
 export interface IEventRegistration {

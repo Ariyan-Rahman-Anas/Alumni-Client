@@ -41,17 +41,10 @@ const EventDetailsRegisterSidebar = ({ event, alreadyRegistered }: { event: IEve
         <div><div className="sticky top-24 space-y-4">
             {/* Main CTA Card */}
             <div
-                className="overflow-hidden rounded-3xl shadow-xl"
-                style={{
-                    background: "var(--color-surface)",
-                    border: "1px solid var(--color-primary2-200)",
-                }}
-            >
+                className="overflow-hidden rounded-3xl shadow">
                 {/* Dark header strip */}
                 <div
-                    className="relative overflow-hidden px-6 py-5"
-                    style={{ background: "linear-gradient(135deg, var(--color-primary2-900) 0%, var(--color-primary2-700) 100%)" }}
-                >
+                    className="relative overflow-hidden px-6 py-5" >
                     {/* subtle grid texture */}
                     <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.05]" xmlns="http://www.w3.org/2000/svg">
                         <defs>
@@ -67,14 +60,12 @@ const EventDetailsRegisterSidebar = ({ event, alreadyRegistered }: { event: IEve
                         <div className="mb-3 flex items-center gap-2">
                             {status.pulse && (
                                 <span className="relative flex h-2 w-2">
-                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" style={{ background: status.color }} />
-                                    <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: status.color }} />
+                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"/>
+                                    <span className="relative inline-flex h-2 w-2 rounded-full" />
                                 </span>
                             )}
                             <span
-                                className="rounded-full px-3 py-0.5 text-[10px] font-bold uppercase tracking-widest"
-                                style={{ background: `${status.bg}22`, color: status.bg, border: `1px solid ${status.color}40` }}
-                            >
+                                className="rounded-full px-3 py-0.5 text-xs font-bold uppercase tracking-widest">
                                 {status.label}
                             </span>
                         </div>
@@ -82,25 +73,25 @@ const EventDetailsRegisterSidebar = ({ event, alreadyRegistered }: { event: IEve
                         {/* Price */}
                         {!event.isFree && lowestFee !== null ? (
                             <div>
-                                <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "rgba(253,250,242,0.55)" }}>
+                                <p className="text-[10px] font-bold uppercase tracking-widest" >
                                     Starting from
                                 </p>
-                                <p className="text-3xl font-extrabold" style={{ color: "#FDFAF2" }}>
+                                <p className="text-3xl font-extrabold">
                                     ৳{lowestFee.toLocaleString()}
                                 </p>
                             </div>
                         ) : (
                             <div>
-                                <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: "rgba(253,250,242,0.55)" }}>
+                                    <p className="text-[10px] font-bold uppercase tracking-widest" >
                                     Entry
                                 </p>
-                                <p className="text-3xl font-extrabold" style={{ color: "#FDFAF2" }}>Free</p>
+                                    <p className="text-3xl font-extrabold">Free</p>
                             </div>
                         )}
 
                         {/* Countdown */}
                         {countdown && (
-                            <p className="mt-2 flex items-center gap-1.5 text-xs" style={{ color: "var(--color-gold-300)" }}>
+                            <p className="mt-2 flex items-center gap-1.5 text-xs">
                                 <RiTimeLine /> Event starts {countdown}
                             </p>
                         )}
@@ -112,10 +103,8 @@ const EventDetailsRegisterSidebar = ({ event, alreadyRegistered }: { event: IEve
                     {/* Registration deadline notice */}
                     {event.registrationDeadline && !isPast(new Date(event.registrationDeadline)) && (
                         <div
-                            className="flex items-start gap-2 rounded-xl p-3 text-xs"
-                            style={{ background: "var(--color-gold-50)", border: "1px solid var(--color-gold-200)", color: "#78350F" }}
-                        >
-                            <RiInformationLine className="mt-0.5 flex-shrink-0 text-sm" style={{ color: "var(--color-gold-600)" }} />
+                            className="flex items-start gap-2 rounded-xl p-3 text-xs" >
+                            <RiInformationLine className="mt-0.5 flex-shrink-0 text-sm" />
                             <span>
                                 Registration closes <strong>{fmt(event.registrationDeadline)}</strong>
                                 {regCountdown ? ` (${regCountdown})` : ""}
@@ -131,7 +120,7 @@ const EventDetailsRegisterSidebar = ({ event, alreadyRegistered }: { event: IEve
                         </div>
                     ) : (
                         <PrimaryButton
-                            title="Register Now"
+                            title={event.isFree ? "Attend for Free" : "Register Now"}
                             isDisabled={isDisabled}
                             icon={<RiUserAddLine className="text-base" />}
                             icon2={<RiArrowRightLine className="text-base" />}
@@ -143,26 +132,14 @@ const EventDetailsRegisterSidebar = ({ event, alreadyRegistered }: { event: IEve
                     <div className="grid grid-cols-2 gap-2">
                         <button
                             onClick={() => handleShare(event)}
-                            className="flex items-center justify-center gap-1.5 rounded-xl border py-2.5 text-xs font-semibold transition-all duration-150 hover:shadow-sm"
-                            style={{
-                                background: "var(--color-surface-100)",
-                                borderColor: "var(--color-border)",
-                                color: "var(--color-text-secondary)",
-                            }}
-                        >
+                            className="flex items-center justify-center gap-1.5 rounded-xl border py-2.5 text-xs font-semibold transition-all duration-150 hover:shadow-sm">
                             <RiShareLine /> Share
                         </button>
                         <a
                             href={buildGoogleCalendarUrl(event)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-1.5 rounded-xl border py-2.5 text-xs font-semibold transition-all duration-150 hover:shadow-sm"
-                            style={{
-                                background: "var(--color-surface-100)",
-                                borderColor: "var(--color-border)",
-                                color: "var(--color-text-secondary)",
-                            }}
-                        >
+                            className="flex items-center justify-center gap-1.5 rounded-xl border py-2.5 text-xs font-semibold transition-all duration-150 hover:shadow-sm">
                             <RiCalendarCheckLine /> Calendar
                         </a>
                     </div>
@@ -189,12 +166,7 @@ const EventDetailsRegisterSidebar = ({ event, alreadyRegistered }: { event: IEve
             {/* Contact Card */}
             {event.contactInfo && (
                 <div
-                    className="rounded-2xl p-4"
-                    style={{
-                        background: "var(--color-surface-100)",
-                        border: "1px solid var(--color-border)",
-                    }}
-                >
+                    className="rounded-2xl p-4 shadow">
                     <p className="mb-2 text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--color-text-muted)" }}>
                         Contact
                     </p>

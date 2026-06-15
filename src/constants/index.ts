@@ -27,6 +27,31 @@ const TABLE_SKELETON_ROWS = 5
 
 const ACCEPTED_MIME = ["image/jpeg", "image/png", "image/webp"] as const;
 
+const eventStatus = {
+    UPCOMING: "UPCOMING",
+    ONGOING: "ONGOING",
+    COMPLETED: "COMPLETED",
+    CANCELLED: "CANCELLED"
+}
+export type TEventStatus = typeof eventStatus[keyof typeof eventStatus];
+
+const eventCategory = {
+    REUNION: "REUNION",
+    CAREER: "CAREER",
+    COMMUNITY: "COMMUNITY",
+    CULTURAL: "CULTURAL",
+    SPORTS: "SPORTS",
+    OTHER: "OTHER"
+}
+export type TEventCategory = typeof eventCategory[keyof typeof eventCategory];
+
+const locationType = {
+    PHYSICAL: "PHYSICAL",
+    ONLINE: "ONLINE",
+    HYBRID: "HYBRID"
+}
+export type TLocationType = typeof locationType[keyof typeof locationType];
+
 /**
  * COUNTRY_CODES — phone prefix + resident-country data, merged into one list.
  *
@@ -146,4 +171,9 @@ export const constantsData = {
     COUNTRY_CODES,
     TABLE_SKELETON_ROWS,
     ACCEPTED_MIME,
+    event: {
+        eventStatus,
+        eventCategory,
+        locationType
+    }
 }

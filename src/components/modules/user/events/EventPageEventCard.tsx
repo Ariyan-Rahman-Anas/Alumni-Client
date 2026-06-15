@@ -262,7 +262,7 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                         <PrimaryButton
                             isDisabled={isCancelled}
                             isFullWidth
-                            title={isCancelled ? "Cancelled" : "Register Now"}
+                            title={isCancelled ? "Cancelled" : isFree ? "Attend for Free" : "Register Now"}
                             icon={<RiArrowRightLine className="transition-transform group-hover:translate-x-0.5" />}
                             iconSide2="right"
                             className="py-[19px] rounded-xl"

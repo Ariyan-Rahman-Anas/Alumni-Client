@@ -17,22 +17,11 @@ const EventDetailsEventFlow = ({ flow }: { flow: string[] }) => {
                     >
                         {/* dot */}
                         <div
-                            className="relative z-10 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border-2 text-sm font-extrabold"
-                            style={{
-                                background: "var(--color-surface)",
-                                borderColor: "var(--color-primary2-300)",
-                                color: "var(--color-primary2-700)",
-                            }}
-                        >
+                            className="relative z-10 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full shadow text-sm font-extrabold">
                             {i + 1}
                         </div>
                         <div
-                            className="flex-1 rounded-2xl p-4"
-                            style={{
-                                background: "var(--color-surface-100)",
-                                border: "1px solid var(--color-border)",
-                            }}
-                        >
+                            className="flex-1 rounded-2xl p-4 shadow ">
                             <p className="text-sm font-medium leading-snug" style={{ color: "var(--color-primary2-900)" }}>
                                 {item}
                             </p>

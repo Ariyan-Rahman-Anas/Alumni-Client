@@ -65,21 +65,20 @@ export function getStatusConfig(event: IEvent) {
   if (regDeadline && isWithinInterval(regDeadline, { start: now, end: addDays(now, 3) })) {
     return { label: "Closing Soon", color: "#D97706", bg: "#FEF9C3", pulse: true };
   }
-  // return { label: "Registration Open", color: "#2E8B57", bg: "#E8F5ED", pulse: false };
   return { label: "Registration Open", color: "#2E8B57", bg: "#038f39", pulse: false };
 }
 
-export function getCategoryColor(category: string) {
-  const map: Record<string, { text: string; bg: string; border: string }> = {
-    Reunion: { text: "#0F3C24", bg: "#C3E8CE", border: "#72C48C" },
-    Community: { text: "#92400E", bg: "#FEF3C7", border: "#FCD34D" },
-    Initiative: { text: "#1E3A8A", bg: "#DBEAFE", border: "#93C5FD" },
-    Academic: { text: "#4A1B0C", bg: "#FAECE7", border: "#F0997B" },
-    Sports: { text: "#3B6D11", bg: "#EAF3DE", border: "#97C459" },
-    Cultural: { text: "#86198F", bg: "#FDF2F8", border: "#E879F9" },
-  };
-  return map[category] ?? { text: "#3A3A38", bg: "#F4F4F2", border: "#D4D4CE" };
-}
+// export function getCategoryColor(category: string) {
+//   const map: Record<string, { text: string; bg: string; border: string }> = {
+//     Reunion: { text: "#0F3C24", bg: "#C3E8CE", border: "#72C48C" },
+//     Community: { text: "#92400E", bg: "#FEF3C7", border: "#FCD34D" },
+//     Initiative: { text: "#1E3A8A", bg: "#DBEAFE", border: "#93C5FD" },
+//     Academic: { text: "#4A1B0C", bg: "#FAECE7", border: "#F0997B" },
+//     Sports: { text: "#3B6D11", bg: "#EAF3DE", border: "#97C459" },
+//     Cultural: { text: "#86198F", bg: "#FDF2F8", border: "#E879F9" },
+//   };
+//   return map[category] ?? { text: "#3A3A38", bg: "#F4F4F2", border: "#D4D4CE" };
+// }
 
 // ─── Sub-components 
 function SectionHeading({ children }: { children: React.ReactNode }) {
@@ -104,6 +103,8 @@ const EventDetailsPage = () => {
 
   const { data, isLoading, isError } = useGetEventBySlugQuery(slug, { skip: !slug });
   const event: IEvent | undefined = data?.data;
+  console.log({ event })
+  console.log("dekhi........", event?.description)
 
   const authUser = useAppSelector(selectCurrentUser);
   const isInitialized = useAppSelector(selectIsInitialized);
@@ -128,7 +129,6 @@ const EventDetailsPage = () => {
 
         {/* ── Left Column ──────────────────────────────── */}
         <div className="space-y-12">
-
           {/* Quick Meta Grid */}
           <FadeUpWrapper>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-4">
@@ -136,7 +136,6 @@ const EventDetailsPage = () => {
                 icon={<RiCalendarEventLine />}
                 label="Date"
                 value={fmt(event.startDateTime, "d MMM yyyy")}
-                accent
               />
               <EventDetailsMetaChip
                 icon={<RiTimeLine />}

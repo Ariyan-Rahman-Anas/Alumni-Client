@@ -17,10 +17,9 @@ const EventDetailsPriceTiers = ({ tiers, guestFee, allowGuests }: { tiers: Price
                 {tiers.map((tier, i) => (
                     <div
                         key={tier.label}
-                        className="relative overflow-hidden rounded-2xl p-5"
-                        style={{ background: "var(--color-surface-100)", border: "1px solid var(--color-border)" }}
-                    >
-                        {/* colour bar */}
+                        className="relative overflow-hidden rounded-2xl p-5 shadow">
+                        
+                        {/* color bar */}
                         <div className={`absolute left-0 top-0 h-full w-1 rounded-l-2xl bg-gradient-to-b ${TIER_GRADIENTS[i % TIER_GRADIENTS.length]}`} />
                         <div className="pl-3">
                             <div className="flex items-start justify-between">

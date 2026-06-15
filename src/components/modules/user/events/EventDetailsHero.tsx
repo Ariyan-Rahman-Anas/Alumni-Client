@@ -1,4 +1,4 @@
-import { fmt, fmtTime, getCategoryColor, getCountdown, getStatusConfig } from "@/components/pages/user/Events/EventDetailsPage"
+import { fmt, fmtTime, getCountdown, getStatusConfig } from "@/components/pages/user/Events/EventDetailsPage"
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import { Badge } from "@/components/ui/badge"
 import { IEvent } from "@/types/common/events.types"
@@ -11,17 +11,16 @@ import { RiArrowLeftLine, RiCalendarEventLine, RiFireLine, RiGroupLine, RiTimeLi
 const EventDetailsHero = ({ event }: { event: IEvent }) => {
     const heroRef = useRef(null);
     const status = getStatusConfig(event);
-    const catColor = getCategoryColor(event.category);
 
     return (
-        <div> <div ref={heroRef} className="relative h-[55vh] min-h-[400px] max-h-[620px] overflow-hidden rounded-2xl">
+        <div> <div ref={heroRef} className="relative h-full min-h-[100vh] overflow-hidden rounded-2xl">
             {/* Parallax image */}
             <FadeUpWrapper className="absolute inset-0 scale-110">
                 <Image
                     src={event.coverImage ?? "/event-placeholder.jpg"}
                     alt={event.title}
                     fill
-                    className="object-cover"
+                    className=""
                     priority
                     sizes="100vw"
                 />
@@ -40,19 +39,15 @@ const EventDetailsHero = ({ event }: { event: IEvent }) => {
             <div className="absolute left-0 right-0 top-0 flex items-start justify-between p-6 md:p-10">
                 <Link
                     href="/events"
-                    className="flex items-center gap-1.5 rounded-full border px-4 py-2 text-xs font-semibold backdrop-blur-md transition-all hover:bg-white/20"
-                    style={{ background: "rgba(255,255,255,0.10)", borderColor: "rgba(255,255,255,0.20)", color: "#FDFAF2" }}
-                >
+                    className="flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold transition-all hover:bg-black/80 bg-black text-white">
                     <RiArrowLeftLine /> Back to Events
                 </Link>
 
                 <div className="flex items-center gap-2 flex-wrap justify-end">
-                    <Badge
-                        className="rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest backdrop-blur-md border"
-                        style={{ background: `${catColor.bg}CC`, color: catColor.text, borderColor: catColor.border }}
-                    >
+                    <p
+                        className="rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest backdrop-blur-md border">
                         {event.category}
-                    </Badge>
+                    </p>
                     {event.isFeatured && (
                         <Badge
                             className="flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest"
