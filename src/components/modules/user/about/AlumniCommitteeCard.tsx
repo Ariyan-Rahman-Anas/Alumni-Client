@@ -12,18 +12,19 @@ const AlumniCommitteeCard = ({ member, designation }: ICommitteeMember) => {
         .toUpperCase();
 
     return (
-        <div className="flex items-center gap-4 p-5 rounded-2xl border shadow hover:-translate-y-1 transition-all duration-300">
+        <div className="flex items-center gap-4 h-26 rounded-2xl shadow hover:-translate-y-1 transition-all duration-300">
+            <div className="h-26 w-26">
             {user?.imageUrl ? (
                 <Image
                     src={user.imageUrl}
                     alt={name}
                     width={800}
                     height={800}
-                    className="w-16 h-16 rounded-full object-cover shrink-0"
+                    className="w-full h-full rounded-l-2xl object-cover shrink-0"
                 />
             ) : (
                 <div
-                    className="w-16 h-16 rounded-full flex items-center justify-center font-display font-bold text-lg shrink-0"
+                    className="w-26 h-26 rounded-l-2xl flex items-center justify-center font-display font-bold text-lg shrink-0"
                     style={{
                         background: "linear-gradient(135deg, var(--color-primary-100), var(--color-primary-200))",
                         color: "var(--color-primary-700)",
@@ -31,16 +32,17 @@ const AlumniCommitteeCard = ({ member, designation }: ICommitteeMember) => {
                 >
                     {initials}
                 </div>
-            )}
-            <div>
-                <p className="font-semibold text-sm" style={{ color: "var(--color-text-primary)" }}>
+                )}
+            </div>
+            <div className="p-4">
+                <p className="font-semibold text-lg">
                     {name}
                 </p>
-                <p className="text-xs capitalize text-gunmetal-400 dark:text-gunmetal-300 mt-1">
+                <p className="text-sm capitalize text-gunmetal-400 dark:text-gunmetal-300 mt-1">
                     {designation.split("_").join(" ").toLowerCase()}
                 </p>
                 {user?.batch && (
-                    <span className="text-xs tracking-wider mt-0.5 block text-gunmetal-400 dark:text-gunmetal-300">
+                    <span className="text-sm tracking-wider mt-0.5 block text-gunmetal-400 dark:text-gunmetal-300">
                         Batch {user.batch}
                     </span>
                 )}
@@ -48,5 +50,4 @@ const AlumniCommitteeCard = ({ member, designation }: ICommitteeMember) => {
         </div>
     );
 };
-
 export default AlumniCommitteeCard;

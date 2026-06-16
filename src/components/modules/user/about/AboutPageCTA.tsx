@@ -1,10 +1,17 @@
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import PrimaryButton from "@/components/shared/PrimaryButton"
 import SectionLabel from "@/components/shared/SectionLabel"
+import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi"
 import { HiArrowUpRight } from "react-icons/hi2"
-import {  RiHeartLine} from "react-icons/ri"
+import { RiHeartLine } from "react-icons/ri"
 
 const AboutPageCTA = () => {
+    const { data: websiteManagement } = useGetWebsiteManagementQuery();
+    const { schoolName } = websiteManagement?.data || {};
+
+    const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
+
+
     return (
         <section className="three-xl-section-setup">
             <FadeUpWrapper>
@@ -24,12 +31,12 @@ const AboutPageCTA = () => {
                         }}
                     />
 
-                    {/* ── Content ─────────────────────────────────────────── */}
+                    {/* ── Content  */}
                     <div className="z-10px-sm:px-12md:px-16lg:px24 relative z-10 p-8 sm:p-12 md:p-16 lg:p-20">
 
                         {/* Badge */}
                         <FadeUpWrapper className="flex justify-center mb-5">
-                            <SectionLabel text="BAMHS Alumni Community"
+                            <SectionLabel text={` ${schoolShortName} Alumni Community`}
                                 icon={<RiHeartLine />}
                                 className="border-primary2-600 text-primary2-200 bg-transparent dark:border-gunmetal-400 dark:text-gunmetal-200" />
                         </FadeUpWrapper>
@@ -44,7 +51,6 @@ const AboutPageCTA = () => {
                                 }}
                             >
                                 Your batch is waiting {" "}
-                                {/* You&apos;re always{" "} */}
                                 <span
                                     style={{
                                         background: "linear-gradient(135deg, #72C48C 0%, #4DB472 50%, #9DD8AE 100%)",
@@ -62,33 +68,28 @@ const AboutPageCTA = () => {
                         <FadeUpWrapper delay={0.14} className="text-center mb-12">
                             <p
                                 className="text-base sm:text-lg leading-relaxed max-w-2xl mx-auto text-gunmetal-300">
-                                Do not let time create distance. Reconnect with your classmates, share your story, and become part of the living history of BAMHS.
+                                Do not let time create distance. Reconnect with your classmates, share your story, and become part of the living history of {schoolShortName}.
                             </p>
                         </FadeUpWrapper>
 
                         {/* CTA Buttons */}
                         <FadeUpWrapper delay={0.26} className="flex flex-col sm:flex-row gap-4 justify-center">
                             <PrimaryButton
-                                className="hover:scale-[1.05] transition-transform duration-300 text-primary2-100 font-semibold  "
-                                style={{
-                                    background: "linear-gradient(135deg, #2E8B57 0%, #155A3E 100%)",
-                                    boxShadow: "0 0 32px rgba(46,139,87,0.45), 0 4px 16px rgba(0,0,0,0.30)",
-                                }} icon2={<HiArrowUpRight />}
+                                icon2={<HiArrowUpRight />}
                                 title="Join Now - It's Free" href="/login" />
-                            
+
                             <PrimaryButton
-                                className="hover:scale-[1.05] transition-transform duration-300 bg-transparent text-primary2-200 font-semibold border-primary2-700 "
                                 title="Browse Batches" href="/batches" />
                         </FadeUpWrapper>
 
                         {/* Bottom trust note */}
                         <FadeUpWrapper delay={0.32} className="text-center mt-8">
-                            <p className="text-xs text-gunmetal-300 ">
-                                Free forever for all BAMHS alumni · No spam · Verified community
+                            <p className="text-gunmetal-300 ">
+                                Free forever for all {schoolShortName} alumni · No spam · Verified community
                             </p>
                         </FadeUpWrapper>
                     </div>
-                </ div>
+                </div>
             </FadeUpWrapper>
         </section>
     )
