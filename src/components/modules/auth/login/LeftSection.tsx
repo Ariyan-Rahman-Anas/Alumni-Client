@@ -22,7 +22,7 @@ const LeftSection = () => {
                 <span className="text-gold-300 dark:text-gold-500">{alumniName}</span>
             </h1>
 
-            <p className="max-w-md text-base leading-relaxed text-primary2-300 dark:text-gunmetal-300">
+            <p className="max-w-md text-base leading-relaxed text-gunmetal-200 dark:text-gunmetal-300">
                 Sign in to your alumni account to connect with your batch, stay updated on association events, and engage with the {schoolShortName} alumni community.
             </p>
 
@@ -33,8 +33,8 @@ const LeftSection = () => {
                     "Participate in alumni welfare and mentorship programmes",
                 ].map((point) => (
                     <div key={point} className="flex items-center gap-3">
-                        <span className="h-2 w-2 shrink-0 rounded-full bg-primary2-200 dark:bg-gunmetal-200 " />
-                        <p className="text-sm text-primary2-300 dark:text-gunmetal-300 ">{point}</p>
+                        <span className="h-2 w-2 shrink-0 rounded-full bg-gunmetal-200 dark:bg-gunmetal-300 " />
+                        <p className="text-sm text-gunmetal-200 dark:text-gunmetal-300 ">{point}</p>
                     </div>
                 ))}
             </div>

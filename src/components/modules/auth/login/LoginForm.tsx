@@ -25,8 +25,8 @@ const LoginForm = () => {
         {
             resolver: zodResolver(loginSchema),
             defaultValues: {
-                email: "",
-                password: "",
+                email: "anas.hllw@gmail.com",
+                password: "112233",
             },
         },
         { fieldOrder: LOGIN_FIELD_ORDER }

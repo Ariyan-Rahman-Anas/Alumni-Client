@@ -147,7 +147,7 @@ const AdminGalleryImagesTable = ({
             key: "title",
             label: "Title",
             render: (item) => (
-                <div>
+                <div className="max-w-[20rem] mx-auto overflow-auto text-center">
                     <p>{item.title}</p>
                     {item.innerTitle && (
                         <p>{item.innerTitle}</p>

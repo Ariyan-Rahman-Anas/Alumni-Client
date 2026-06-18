@@ -1,9 +1,10 @@
 "use client"
 
+import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi"
 import { motion, AnimatePresence } from "framer-motion"
 import { useEffect, useState } from "react"
 
-/* ── Messages — nostalgia-flavoured for BAMHSians ─────────── */
+/* ── Messages — nostalgia-flavoured ─────────── */
 const messages = [
   "Reconnecting with your roots…",
   "Finding your batch-mates…",
@@ -13,7 +14,6 @@ const messages = [
   "Calling roll… please wait!",
   "Memories loading, one moment…",
   "The playground is almost ready…",
-  "BAMHSians are gathering…",
   "Chalk dust in the air… almost there!",
   "Morning assembly in progress…",
   "Polishing the school emblem…",
@@ -48,9 +48,7 @@ const Leaf = ({
   </motion.div>
 )
 
-/* ══════════════════════════════════════════════════════════
-   COMPONENT
-══════════════════════════════════════════════════════════ */
+/* COMPONENT */
 const Loading = () => {
   const [msgIndex, setMsgIndex] = useState(
     () => Math.floor(Math.random() * messages.length)
@@ -78,6 +76,12 @@ const Loading = () => {
   }, [])
 
   const pct = Math.round(Math.min(progress, 92))
+
+  const { data: websiteManagement } = useGetWebsiteManagementQuery();
+  const { schoolName } = websiteManagement?.data || {};
+
+  const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
+  const alumniName = `${schoolShortName}ian`;
 
   /* leaf positions */
   const leaves = [
@@ -128,9 +132,7 @@ const Loading = () => {
         <Leaf key={i} style={l as React.CSSProperties & { delay: number; dur: number }} />
       ))}
 
-      {/* ════════════════════════════════════════════════════
-          CARD
-      ════════════════════════════════════════════════════ */}
+      {/* CARD*/}
       <motion.div
         initial={{ opacity: 0, scale: 0.92, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -180,17 +182,16 @@ const Loading = () => {
                 className="relative z-10 font-display font-bold text-3xl"
                 style={{ color: "rgba(195,232,206,0.95)" }}
               >
-                B
+                {schoolShortName[0] || "B"}
               </span>
             </div>
           </motion.div>
 
           <div className="text-center leading-none mt-1">
-            <p className="font-display font-bold text-lg tracking-tight"
-              style={{ color: "var(--color-primary-50, #E8F5ED)" }}>
-              BAMHSian
+            <p className="text-white font-bold text-lg tracking-tight">
+              {alumniName}
             </p>
-            <p className=" text-[10px] tracking-[0.18em] uppercase mt-0.5"
+            <p className=" text-[10px] tracking-[0.18em] uppercase mt-2"
               style={{ color: "rgba(195,232,206,0.50)" }}>
               Est. 2026 · Alumni Portal
             </p>
@@ -327,11 +328,10 @@ const Loading = () => {
         className="absolute bottom-8  text-[9px] tracking-[0.20em] uppercase"
         style={{ color: "rgba(195,232,206,0.18)" }}
       >
-        Battali Abdul Matin High School · Since 1966
+        {schoolName} Alumni Association · Since 2026
       </motion.p>
 
     </div>
   )
 }
-
 export default Loading

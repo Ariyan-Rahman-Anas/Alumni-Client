@@ -70,7 +70,7 @@ const Navbar = () => {
                   className="relative w-7 h-7 rounded-full lg overflow-hidden shrink-0 bg-primary2-700 dark:bg-gunmetal-700 ">
                   <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full opacity-30 bg-primary2-500 dark:bg-gunmetal-300 " />
                   <span className="absolute inset-0 flex items-center justify-center font-display font-bold text-white dark:text-gunmetal-200">
-                    B
+                    {schoolName?.[0] || "B"}
                   </span>
                 </div>
 
@@ -250,7 +250,7 @@ const Navbar = () => {
                             <div className="flex items-center gap-3">
                               <div className="w-10 h-10 rounded-xl flex items-center justify-center font-display font-bold text-white text-base shadow-md"
                                 style={{ background: "linear-gradient(135deg,#155A3E 0%,#0A3D2B 100%)" }}
-                              >B</div>
+                              >{schoolName?.[0] || "B"}</div>
                               <div>
                                 <SheetTitle className="font-display text-base font-semibold leading-tight"
                                 >{schoolAlumniName}...</SheetTitle>
