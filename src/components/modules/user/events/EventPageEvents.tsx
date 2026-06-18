@@ -117,7 +117,7 @@ const EventPageEvents = () => {
                 </div>
 
                 {/* ── Filter Bar ──────────────────────────────────────── */}
-                <div className="rounded-2xl border border-surface-200 bg-white shadow-sm">
+                <div className="rounded-2xl shadow">
                     {/* Toggle row */}
                     <div className="flex items-center justify-between px-5 py-3.5">
                         <button

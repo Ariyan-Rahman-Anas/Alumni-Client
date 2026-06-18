@@ -116,10 +116,7 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
     return (
         <article
             className={`
-                group relative flex flex-col overflow-hidden rounded-[1.75rem]
-                border border-surface-200 bgwhite
-                shadow-[0_2px_20px_rgba(10,61,43,0.06)]
-                transition-all duration-500 ease-out
+                group relative flex flex-col overflow-hidden rounded-2xl shadow transition-all duration-500 ease-out
                 ${isCancelled
                     ? "opacity-60 grayscale-[40%]"
                     : "hover:shadow-[0_8px_40px_rgba(10,61,43,0.14)] hover:-translate-y-1 hover:border-primary2-200/60"

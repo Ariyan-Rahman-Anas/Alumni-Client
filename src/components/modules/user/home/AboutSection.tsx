@@ -15,36 +15,44 @@ import {
     RiArrowRightLine,
 } from "react-icons/ri";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
+import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
 
-/* ── Feature list */
-const features = [
-    {
-        icon: <RiGroupLine />,
-        title: "Reconnect with Batchmates",
-        desc: "Find classmates from any year and reignite friendships that started in those classrooms.",
-    },
-    {
-        icon: <RiHeartLine />,
-        title: "Relive Shared Memories",
-        desc: "Browse photos, events, and stories shared by alumni across every generation.",
-    },
-    {
-        icon: <RiHandHeartLine />,
-        title: "Uplift the Next Generation",
-        desc: "Mentor students and fund scholarships — a promise kept to the school that made us.",
-    },
-    {
-        icon: <RiShieldLine />,
-        title: "Be a Lifesaver",
-        desc: "Register as a blood donor and answer the call when a fellow BAMHSian needs you.",
-    },
-];
 
 /* ── AboutSection  */
 const AboutSection = () => {
     const { data: statsData } = useGetHomeStatsQuery();
     const { yearsOfExcellence, totalCountries } =
         statsData?.data || {};
+
+    const { data: websiteManagement } = useGetWebsiteManagementQuery();
+    const { schoolName, area } = websiteManagement?.data || {};
+
+    const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
+    const alumniName = `${schoolShortName}ian`;
+
+    /* ── Feature list */
+    const features = [
+        {
+            icon: <RiGroupLine />,
+            title: "Reconnect with Batchmates",
+            desc: "Find classmates from any year and reignite friendships that started in those classrooms.",
+        },
+        {
+            icon: <RiHeartLine />,
+            title: "Relive Shared Memories",
+            desc: "Browse photos, events, and stories shared by alumni across every generation.",
+        },
+        {
+            icon: <RiHandHeartLine />,
+            title: "Uplift the Next Generation",
+            desc: "Mentor students and fund scholarships — a promise kept to the school that made us.",
+        },
+        {
+            icon: <RiShieldLine />,
+            title: "Be a Lifesaver",
+            desc: `Register as a blood donor and answer the call when a fellow ${alumniName} needs you.`,
+        },
+    ];
 
     return (
         <section className="three-xl-section-setup grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
@@ -72,12 +80,12 @@ const AboutSection = () => {
                     <div className="space-y-4 mb-8 text-gunmetal-400 dark:text-gunmetal-300 ">
                         <p>
                             We are not an institution — we are a family. A family born in the
-                            classrooms of Battali Abdul Matin High School and now spread across{" "}
+                            classrooms of {schoolName || "Battali Abdul Matin High School"} and now spread across{" "}
                             {totalCountries ? `${totalCountries}+ countries` : "the globe"}.
                             This portal is our shared home online.
                         </p>
                         <p>
-                            Built by BAMHSians, for BAMHSians — a place to reconnect with old
+                            Built by {alumniName}, for {alumniName} — a place to reconnect with old
                             friends, celebrate shared milestones, and give back to the community
                             that shaped who we are.
                         </p>
@@ -174,7 +182,7 @@ const AboutSection = () => {
                                     </p>
                                     <p className="font-display font-bold text-xl text-primary2-100 dark:text-gunmetal-200 "
                                     >
-                                        BAMHS Alumni
+                                        {schoolShortName} Alumni
                                     </p>
                                 </div>
                                 <div
@@ -242,7 +250,7 @@ const AboutSection = () => {
                             <div className="flex items-center justify-between mt-6 pt-5 text-xs font-semibold text-primary2-400 dark:text-gunmetal-300">
                                 <p className="tracking-widest uppercase"
                                 >
-                                    Est. 1966 · Battali.
+                                    Est. 1966 · {area}.
                                 </p>
                                 <span>
                                     {yearsOfExcellence ?? 0}+ yrs
@@ -257,13 +265,7 @@ const AboutSection = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-40px" }}
                         transition={{ duration: 0.55, delay: 0.28, ease: [0.19, 1, 0.22, 1] }}
-                        className="flex items-stretch rounded-2xl border shadow overflow-hidden"
-                        style={{
-                            // background: "var(--color-surface)",
-                            // borderColor: "var(--color-border)",
-                            // boxShadow: "var(--shadow-sm)",
-                        }}
-                    >
+                        className="flex items-stretch rounded-2xl border shadow overflow-hidden">
                         {[
                             { icon: <RiGroupLine />, label: "Batchmates" },
                             { icon: <RiHeartLine />, label: "Gallery" },

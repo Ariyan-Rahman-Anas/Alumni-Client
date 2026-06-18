@@ -52,7 +52,7 @@ const EventsPage = () => {
                         <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900 dark:text-gunmetal-100">
                             How to Participate
                         </h2>
-                        <p className="mt-1.5 text-sm text-muted-foreground max-w-lg">
+                        <p className="mt-1.5 text-muted-foreground">
                             Three simple steps to go from discovering an event to being part of the memory.
                         </p>
                     </div>
@@ -61,7 +61,7 @@ const EventsPage = () => {
                         {HOW_IT_WORKS.map(({ step, icon, title, desc }) => (
                             <div
                                 key={step}
-                                className="relative rounded-2xl border border-surface-300/70 dark:border-gunmetal-500/50 bg-white dark:bg-gunmetal-800 p-6 flex flex-col gap-4"
+                                className="relative rounded-2xl shadow p-6 flex flex-col gap-4"
                             >
                                 <div className="flex items-start justify-between">
                                     <div className="w-11 h-11 rounded-xl bg-primary2-50 dark:bg-primary2-900/40 flex items-center justify-center text-primary2-600 dark:text-primary2-400 text-xl">
