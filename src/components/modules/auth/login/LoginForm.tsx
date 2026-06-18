@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { Controller, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { RiArrowRightLine, RiMailLine } from "react-icons/ri";
+import { RiArrowRightLine } from "react-icons/ri";
 
 import InputField from "@/components/shared/InputField";
 import PrimaryButton from "@/components/shared/PrimaryButton";
@@ -62,7 +62,6 @@ const LoginForm = () => {
                     type="email"
                     label="Email Address"
                     placeholder="you@example.com"
-                    icon={<RiMailLine />}
                     error={errors.email?.message}
                     required
                 />

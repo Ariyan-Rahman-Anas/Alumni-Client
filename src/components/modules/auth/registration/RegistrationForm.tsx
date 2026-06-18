@@ -5,14 +5,7 @@ import { useRouter } from "next/navigation";
 import { Controller, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import {
-    RiArrowRightLine,
-    RiBriefcase4Line,
-    RiMailLine,
-    RiMapPin2Line,
-    RiPhoneLine,
-    RiUser3Line,
-} from "react-icons/ri";
+import { RiArrowRightLine } from "react-icons/ri";
 
 import DatePickerSingle from "@/components/shared/DatePickerSingle";
 import ImageUploadField from "@/components/shared/ImageUploadField";
@@ -175,7 +168,6 @@ const RegistrationForm = () => {
                     id="reg-name"
                     label="Full Name"
                     placeholder="Your full name"
-                    icon={<RiUser3Line />}
                     error={errors.name?.message}
                     required
                 />
@@ -187,7 +179,6 @@ const RegistrationForm = () => {
                         type="email"
                         label="Email Address"
                         placeholder="you@example.com"
-                        icon={<RiMailLine />}
                         error={errors.email?.message}
                         required
                     />
@@ -227,7 +218,6 @@ const RegistrationForm = () => {
                                         setValue("phone", `${dialCode}${next.replace(/\D/g, "")}`);
                                     }}
                                     placeholder="1XXXXXXXXX"
-                                    icon={<RiPhoneLine />}
                                     error={errors.phone?.message}
                                     isShowErrorMessage={false}
                                 />
@@ -318,9 +308,8 @@ const RegistrationForm = () => {
                         {...register("currentAddress")}
                         id="reg-current-address"
                         label="Current Address"
-                        placeholder="Where you live now"
+                        placeholder="Your current residential address"
                         error={errors.currentAddress?.message}
-                        icon={<RiMapPin2Line />}
                         required
                     />
                     <TextAreaBox
@@ -329,7 +318,6 @@ const RegistrationForm = () => {
                         label="Permanent Address"
                         placeholder="Your permanent home address"
                         error={errors.permanentAddress?.message}
-                        icon={<RiMapPin2Line />}
                         required
                     />
                 </div>
@@ -340,14 +328,12 @@ const RegistrationForm = () => {
                         id="reg-workplace"
                         label="Workplace"
                         placeholder="School, company or organization"
-                        icon={<RiBriefcase4Line />}
                     />
                     <InputField
                         {...register("position")}
                         id="reg-position"
                         label="Position / Role"
                         placeholder="Your current role or title"
-                        icon={<RiBriefcase4Line />}
                     />
                 </div>
 

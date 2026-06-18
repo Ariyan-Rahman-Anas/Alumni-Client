@@ -1,7 +1,7 @@
 import { z, object, string } from "zod";
 
 export const registrationSchema = object({
-    name: string().trim().min(2, "Name must be at least 2 characters"),
+    name: string().trim().min(4, "Name must be at least 4 characters"),
     email: string().trim().email("Please enter a valid email address"),
     phone: string()
         .regex(/^\+?[0-9]{11,16}$/, "Phone must be 11–16 digits including country code"),

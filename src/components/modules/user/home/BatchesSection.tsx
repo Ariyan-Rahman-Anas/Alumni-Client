@@ -14,6 +14,7 @@ import { RiArrowRightLine, RiGroupLine, RiFlaskLine, RiBarChartLine, RiMicroscop
 import { HiArrowUpRight } from "react-icons/hi2";
 import SectionLabel from "@/components/shared/SectionLabel";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
+import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
 
 /* ── Batch Card  */
 const BatchCard = ({
@@ -90,14 +91,14 @@ const BatchCard = ({
                         <div className="flex items-start justify-between mb-5">
                             <div>
                                 <p
-                                    className="font-display font-bold leading-none text-primary2-100 dark:text-primary "
+                                    className="font-display font-bold leading-none text-white dark:text-primary "
                                     style={{
                                         fontSize: "clamp(2rem, 4vw, 2.4rem)",
                                         letterSpacing: "-0.03em",
                                     }}>
                                     {year}
                                 </p>
-                                <div className="flex items-center gap-1 mt-1 text-primary2-300 dark:text-gunmetal-300">
+                                <div className="flex items-center gap-1 mt-1 text-gunmetal-200 dark:text-gunmetal-300">
                                     <RiGroupLine className="text-xs"
                                     />
                                     <span className="text-xs font-medium"
@@ -125,22 +126,20 @@ const BatchCard = ({
                                                 {icon}
                                             </span>
                                             <span
-                                                className="text-xs text-primary2-400 dark:text-gunmetal-300 font-medium"
+                                                className="text-xs text-gunmetal-200 dark:text-gunmetal-300 font-medium"
                                             >
                                                 {label}
                                             </span>
                                         </div>
                                         <span
-                                            className="font-display font-bold text-sm tabular-nums"
-                                            style={{ color }}
-                                        >
+                                            className="font-bold text-sm text-gunmetal-200 dark:text-gunmetal-300 tabular-nums">
                                             {count}
                                         </span>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <p className="text-xs italic flex-1 text-primary2-400 dark:text-gunmetal-300 ">
+                            <p className="text-xs italic flex-1 text-gunmetal-200 dark:text-gunmetal-300 ">
                                 No alumni registered yet
                             </p>
                         )}
@@ -155,6 +154,11 @@ const BatchCard = ({
 const BatchesSection = () => {
     const { data: statsData } = useGetHomeStatsQuery();
     const batches = statsData?.data.batchesSection ?? [];
+
+    const { data: websiteManagement } = useGetWebsiteManagementQuery();
+    const { schoolName } = websiteManagement?.data || {};
+    const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
+    const alumniName = `${schoolShortName}ian`;
 
     return (
         <section
@@ -177,21 +181,21 @@ const BatchesSection = () => {
                     <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 ">
                         <div>
                             <SectionLabel
-                                text="Generations of BAMHSians"
+                                text={`Generations of ${alumniName}`}
                                 className="text-primary2-100 border-primary2-700 dark:border-gunmetal-400 dark:text-gunmetal-200 "
-                                icon={<RiFlaskLine />} align="left"/>
+                                icon={<RiFlaskLine />} align="left" />
                             <h2
-                                className="section-heading-text-left text-primary2-50 dark:text-gunmetal-200 mt-5">
-                                Every year tells{" "}
+                                className="section-heading-text-left text-white dark:text-gunmetal-200 mt-5">
+                                Every Year tells{" "}
                                 <span className="text-primary2-300 dark:text-primary"
                                 >
                                     a Story
                                 </span>
                             </h2>
                             <p
-                                className="mt-3 text-base max-w-lg leading-relaxed text-primary2-300 dark:text-gunmetal-300">
+                                className="mt-3 text-base max-w-lg leading-relaxed text-gunmetal-100 dark:text-gunmetal-300">
                                 Swipe through graduating classes — explore who studied what, and where
-                                your generation stands in the BAMHS lineage.
+                                your generation stands in the {schoolShortName} lineage.
                             </p>
                         </div>
 
@@ -244,7 +248,7 @@ const BatchesSection = () => {
                             <div className="flex items-center justify-between mt-8">
                                 <Link
                                     href="/batches"
-                                    className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200 hover:opacity-80 text-primary2-300 dark:text-gunmetal-300">
+                                    className="inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200 hover:text-primary2-300 text-gunmetal-200 dark:text-gunmetal-300">
                                     Browse all batches <RiArrowRightLine />
                                 </Link>
 
@@ -275,15 +279,15 @@ const BatchesSection = () => {
                 {/* ── Bottom insight strip ── */}
                 <FadeUpWrapper delay={0.22}>
                     <div
-                        className="mt-10 flex flex-wrap items-center gap-6 px-6 py-4 rounded-2xl"
+                        className="mt-10 flex flex-wrap items-center gap-6 px-6 py-4 rounded-2xl text-gunmetal-200 dark:text-gunmetal-200"
                         style={{
                             background: "rgba(46,139,87,0.07)",
                             border: "1px solid rgba(46,139,87,0.14)",
                         }}
                     >
-                        <RiBarChartLine className="text-lg shrink-0 text-primary2-200 dark:text-gunmetal-200 " />
-                        <p className="text-sm leading-relaxed flex-1 text-primary2-200 dark:text-gunmetal-200 ">
-                            Each batch card shows the <span className="text-primary2-300 dark:text-gunmetal-300 " >department split</span> of alumni
+                        <RiBarChartLine className="text-lg shrink-0 " />
+                        <p className="text-sm leading-relaxed flex-1 ">
+                            Each batch card shows the department split of alumni
                             registered on this portal — Science, Commerce &amp; Arts — giving every
                             generation a distinct identity beyond just a graduation year.
                         </p>

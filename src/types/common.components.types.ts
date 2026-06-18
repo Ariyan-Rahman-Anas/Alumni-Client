@@ -173,3 +173,15 @@ export interface IServerErrorRes {
     message: string;
   }
 }
+
+export interface LayoutErrorBoundaryProps {
+  title: string;
+  message: string;
+  btn1Text?: string;
+  btn1Icon?: React.ReactNode;
+  btn2Text?: string;
+  btn2Link?: string;
+  btn2Icon?: React.ReactNode;
+  error?: { digest?: string };
+  reset?: () => void;
+}

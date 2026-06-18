@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useState } from "react";
 import { format, isValid, parseISO } from "date-fns";
-import { CalendarIcon, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -106,7 +106,6 @@ const DatePickerSingle = ({
                             !displayText && "text-muted-foreground"
                         )}
                     >
-                        <CalendarIcon className="mr-2 size-4 shrink-0 text-primary2-500 dark:text-gunmetal-300" />
                         {displayText ?? placeholder}
                     </button>
                 </PopoverTrigger>

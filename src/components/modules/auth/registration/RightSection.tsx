@@ -13,7 +13,6 @@ const RightSection = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.12, ease: [0.19, 1, 0.22, 1] }}
                 className="rounded-3xl rounded-t-none lg:rounded-tl-none lg:rounded-tr-3xl bg-white dark:bg-gunmetal-600 p-7 sm:p-9"
-                // style={{ boxShadow: "0 24px 65px rgba(5,31,21,0.20)" }}
             >
                 <div className="">
                     <h2 className="text-2xl font-bold leading-tight text-primary2-900 dark:text-gunmetal-100 sm:text-[1.7rem]">

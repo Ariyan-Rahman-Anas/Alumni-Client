@@ -15,6 +15,7 @@ import { BsStarFill } from "react-icons/bs";
 import SectionLabel from "@/components/shared/SectionLabel";
 import { useGetApprovedTestimonialsQuery } from "@/redux/apis/testimonialApi";
 import type { ITestimonial, ITestimonialUser } from "@/types/common/testimonial.types";
+import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
 
 function getUser(t: ITestimonial): ITestimonialUser | null {
     if (!t.userId || typeof t.userId === "string") return null;
@@ -48,6 +49,12 @@ const TestimonialsSection = () => {
         intervalRef.current = setInterval(() => api.scrollNext(), 5000);
         return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
     }, [api, isPaused]);
+
+    const { data: websiteManagement } = useGetWebsiteManagementQuery();
+    const { schoolName } = websiteManagement?.data || {};
+
+    const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
+    const alumniName = `${schoolShortName}ian`;
 
     return (
         <section
@@ -110,11 +117,11 @@ const TestimonialsSection = () => {
                         icon={<RiDoubleQuotesL />} />
                     <h2
                         className="section-heading-text-center text-white dark:text-gunmetal-200 mt-5">
-                        What BAMHSians Say
+                        What {alumniName}s Say
                     </h2>
                     <p
                         className="mt-4 text-sm sm:text-base max-w-xl mx-auto leading-relaxed text-primary2-400 dark:text-gunmetal-300 ">
-                        Voices from across decades ” sharing the legacy that BAMHS instilled in every student.
+                        Voices from across decades sharing the legacy that {schoolShortName} instilled in every student.
                     </p>
                 </FadeUpWrapper>
 
@@ -143,7 +150,7 @@ const TestimonialsSection = () => {
                                     const user = getUser(t);
                                     const batchLabel = user?.batch ? `Batch of ${user.batch}` : "";
                                     const roleLabel = [user?.position, user?.workplace].filter(Boolean).join(" @ ") || user?.country || "";
-                                    const displayName = user?.name ?? "BAMHSian";
+                                    const displayName = user?.name ?? alumniName;
                                     return (
                                         <CarouselItem
                                             key={t._id}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { RiEyeLine, RiEyeOffLine, RiLock2Line } from "react-icons/ri";
+import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { PasswordFieldPropsI } from "@/types/common.components.types";
 
@@ -10,7 +10,7 @@ const PasswordField = ({
     onChange,
     onBlur,
     label = "Password",
-    placeholder = "Enter password",
+    placeholder = "******",
     required = false,
     error,
     helperText,
@@ -32,9 +32,9 @@ const PasswordField = ({
             </label>
 
             <div className="relative">
-                <RiLock2Line
+                {/* <RiLock2Line
                     className={`pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-lg ${hasError ? "text-danger" : "text-primary2-500 dark:text-gunmetal-300"}`}
-                />
+                /> */}
 
                 <input
                     id={inputId}
@@ -45,7 +45,7 @@ const PasswordField = ({
                     onBlur={onBlur}
                     placeholder={placeholder}
                     className={cn(
-                        "h-10 w-full rounded-lg border bg-white dark:bg-gunmetal-600 pl-10 pr-10 text-sm outline-none transition",
+                        "h-10 w-full rounded-lg border bg-white dark:bg-gunmetal-600 pl-4 pr-10 text-sm outline-none transition",
                         hasError
                             ? "border-danger focus:border-danger text-danger"
                             : "focus:border-primary2-500 dark:focus:border-gunmetal-300 text-primary2-500 dark:text-gunmetal-300"

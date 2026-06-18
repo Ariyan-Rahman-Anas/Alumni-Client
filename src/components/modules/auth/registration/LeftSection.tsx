@@ -1,6 +1,7 @@
 "use client";
 
 import SectionLabel from "@/components/shared/SectionLabel";
+import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
 import { motion } from "framer-motion";
 import { RiShieldCheckLine } from "react-icons/ri";
 
@@ -28,6 +29,11 @@ const STEPS = [
 ];
 
 const LeftSection = () => {
+    const { data: websiteManagement } = useGetWebsiteManagementQuery();
+    const { schoolName } = websiteManagement?.data || {};
+
+    const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
+
     return (
         <section>
             <motion.div
@@ -37,20 +43,20 @@ const LeftSection = () => {
                 className="relative overflow-hidden rounded-3xl rounded-b-none lg:rounded-bl-3xl lg:rounded-r-none border-2 border-white dark:border-gunmetal-600 border-b-0 lg:border-b-2 lg:border-r-0 p-6 sm:p-8 flex flex-col"
             >
                 {/* Badge */}
-                <SectionLabel text="BAMHS Alumni Registration" align="left" icon={<RiShieldCheckLine />}
+                <SectionLabel text={`${schoolShortName} Alumni Registration`} align="left" icon={<RiShieldCheckLine />}
                     className="text-primary2-200 dark:text-gunmetal-300 border-primary2-600 dark:border-gunmetal-500 capitalize"
                 />
 
                 {/* Headline */}
                 <h1 className="mb-4 mt-3 font-bold leading-[1.15] text-white dark:text-gunmetal-100 text-3xl sm:text-4xl lg:text-[2.5rem]" style={{ letterSpacing: "-0.02em" }}>
-                    Come back to<br />
+                    Come Back to<br />
                     <span className="text-gold-200 dark:text-gold-500">
-                        where it All Began.
+                        Where it All Began!
                     </span>
                 </h1>
 
-                <p className="mb-7 max-w-2xl leading-relaxed text-primary2-300 dark:text-gunmetal-300 text-base">
-                    Your school days shaped who you are. BAMHS Alumni connects you back
+                <p className="mb-7 max-w-2xl leading-relaxed text-gunmetal-200 dark:text-gunmetal-300 text-base">
+                    Your school days shaped who you are. {schoolShortName} Alumni connects you back
                     to your batch, your memories, and the thousands of graduates who
                     walked the same halls.
                 </p>
@@ -59,12 +65,12 @@ const LeftSection = () => {
                 <div className="flex flex-col gap-4">
                     {STEPS.map((step) => (
                         <div key={step.n} className="flex items-start gap-3.5">
-                            <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-primary2-500 dark:border-gunmetal-400 text-xs text-primary2-300 font-semibold dark:text-gunmetal-300">
-                                {step.n}
+                            <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-semibold text-base text-gunmetal-100 dark:text-gunmetal-300">
+                                {step.n}.
                             </div>
                             <div>
-                                <p className="text-base font-medium text-primary2-100 dark:text-gunmetal-200">{step.title}</p>
-                                <p className="mt-0.5 text-sm leading-relaxed text-primary2-300 dark:text-gunmetal-300">
+                                <p className="text-sm font-semibold text-gunmetal-100 dark:text-gunmetal-200">{step.title}</p>
+                                <p className="mt-0.5 text-sm leading-relaxed text-gunmetal-200 dark:text-gunmetal-300">
                                     {step.desc}
                                 </p>
                             </div>

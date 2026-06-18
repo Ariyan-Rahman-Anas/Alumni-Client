@@ -8,9 +8,9 @@ import BatchesSection from "@/components/modules/user/home/BatchesSection";
 import EventsSection from "@/components/modules/user/home/EventsSection";
 import TestimonialsSection from "@/components/modules/user/home/TestimonialsSection";
 import GallerySection from "@/components/modules/user/home/GallerySection";
-import BloodSection from "@/components/modules/user/home/BloodSection";
 import HomePageCTA from "@/components/modules/user/home/HomePageCTA";
 import HeroSection from "@/components/modules/user/home/HeroSection";
+import BloodSection from "@/components/modules/user/home/BloodSection";
 
 /* ── Fade-up wrapper ──────────────────────────────────────── */
 export const FadeUpWrapper = ({
@@ -80,10 +80,8 @@ const HomePage = () => {
             {/* ══ 7. GALLERY PREVIEW ════════════════════════════════ */}
             <GallerySection />
 
-
             {/* ══ 8. BLOOD BANK CTA ═════════════════════════════════ */}
             <BloodSection />
-
 
             {/* ══ 9. FINAL CTA ══════════════════════════════════════ */}
             <HomePageCTA />
