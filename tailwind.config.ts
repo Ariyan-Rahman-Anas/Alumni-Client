@@ -1150,12 +1150,16 @@ module.exports = {
           border:               "1px solid rgba(61, 79, 84, 0.40)",
         },
 
-        // Skeleton loader — reads from CSS var so dark auto-works
+        // Skeleton loader — gunmetal in both modes
         ".skeleton": {
-          background:     "linear-gradient(90deg, var(--color-surface-100) 25%, var(--color-surface-200) 50%, var(--color-surface-100) 75%)",
-          backgroundSize: "200% 100%",
-          animation:      "shimmer 1.8s linear infinite",
-          borderRadius:   theme("borderRadius.md"),
+          background:  "#D4E3E7",
+          animation:   "pulse 1.8s ease-in-out infinite",
+          borderRadius: theme("borderRadius.md"),
+        },
+        ".dark .skeleton": {
+          background:  "#243033",
+          animation:   "pulse 1.8s ease-in-out infinite",
+          borderRadius: theme("borderRadius.md"),
         },
 
         // Scrollbar

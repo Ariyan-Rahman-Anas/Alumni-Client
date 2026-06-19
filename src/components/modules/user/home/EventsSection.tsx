@@ -66,7 +66,7 @@ export function getCountdown(dateStr: string) {
 // ─── Skeletons 
 function FeaturedSkeleton() {
     return (
-        <div className="rounded-3xl overflow-hidden shadow-md" style={{ background: "var(--color-surface)" }}>
+        <div className="rounded-3xl overflow-hidden shadow">
             <div className="skeleton h-96 w-full" />
             <div className="p-6 space-y-3">
                 <div className="skeleton h-4 w-32 rounded" />
@@ -79,7 +79,9 @@ function FeaturedSkeleton() {
 
 function CardSkeleton() {
     return (
-        <div className="rounded-2xl overflow-hidden shadow-sm" style={{ background: "var(--color-surface)", border: "1px solid var(--color-border)" }}>
+        <div className="rounded-2xl overflow-hidden shadow-sm"
+            // style={{ background: "var(--color-surface)", border: "1px solid var(--color-border)" }}
+        >
             <div className="h-1 skeleton" />
             <div className="skeleton h-36 w-full" />
             <div className="p-5 space-y-3">
@@ -113,7 +115,7 @@ function EmptyEvents() {
 
 // ─── Main Section 
 const EventsSection = () => {
-    const { data: allEventsData, isLoading } = useGetAllPublishedEventsQuery({});
+    const { data: allEventsData, isLoading} = useGetAllPublishedEventsQuery({});
 
     const allEvents: IEvent[] = allEventsData?.data || [];
     const featuredEvents: IEvent[] = allEvents.filter((e) => e.isFeatured).slice(0, 1);

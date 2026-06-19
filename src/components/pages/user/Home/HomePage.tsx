@@ -80,9 +80,11 @@ const HomePage = () => {
             {/* ══ 7. GALLERY PREVIEW ════════════════════════════════ */}
             <GallerySection />
 
+            
             {/* ══ 8. BLOOD BANK CTA ═════════════════════════════════ */}
             <BloodSection />
 
+            
             {/* ══ 9. FINAL CTA ══════════════════════════════════════ */}
             <HomePageCTA />
         </div>

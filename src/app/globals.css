@@ -811,23 +811,6 @@ html.lenis {
 }
 
 
-/* ── Skeleton Loader ─────────────────────────────────────── */
-@layer utilities {
-  /* Uses CSS vars — automatically switches in dark mode */
-  .skeleton {
-    background: linear-gradient(
-      90deg,
-      var(--color-surface-100) 25%,
-      var(--color-surface-200) 50%,
-      var(--color-surface-100) 75%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 1.8s linear infinite;
-    border-radius: 0.5rem;
-  }
-}
-
-
 /* ── Announcement / Marquee ticker ──────────────────────── */
 @layer components {
   .ticker-wrap {
