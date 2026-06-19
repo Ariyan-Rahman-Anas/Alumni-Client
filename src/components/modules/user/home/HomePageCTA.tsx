@@ -1,7 +1,7 @@
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import SectionLabel from "@/components/shared/SectionLabel";
-import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
+import { useSchoolInfo } from "@/hooks/useSchoolInfo";
 import { BsArrowRight } from "react-icons/bs";
 import {
     RiGroupLine,
@@ -11,11 +11,7 @@ import {
 } from "react-icons/ri";
 
 const HomePageCTA = () => {
-    const { data: websiteManagement } = useGetWebsiteManagementQuery();
-    const { schoolName } = websiteManagement?.data || {};
-
-    const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
-    const alumniName = `${schoolShortName}ian`;
+    const { shortName, alumniName } = useSchoolInfo();
 
     const features = [
         {
@@ -59,7 +55,7 @@ const HomePageCTA = () => {
 
                         {/* Badge */}
                         <FadeUpWrapper className="flex justify-center mb-5">
-                            <SectionLabel text={`${schoolShortName} Alumni Community`}
+                            <SectionLabel text={`${shortName} Alumni Community`}
                                 icon={<RiSparkling2Line />}
                                 className="border-primary2-600 text-primary2-200 bg-transparent dark:border-gunmetal-400 dark:text-gunmetal-200" />
                         </FadeUpWrapper>
@@ -135,10 +131,10 @@ const HomePageCTA = () => {
                             <PrimaryButton
                                 className="hover:scale-[1.05] transition-transform duration-300 text-white primary2-100 font-semibold dark:bg-primary"
                                 icon2={<BsArrowRight />} iconSide2="right"
-                                title={`Join ${schoolShortName} Alumni`} href="/login" />
+                                title={`Join ${shortName} Alumni`} href="/login" />
                             <PrimaryButton
                                 className="hover:scale-[1.05] transition-transform duration-300 bg-transparent dark:bg-transparent text-primary2-200 font-semibold border-primary2-700 dark:border-gunmetal-400"
-                                title={`Connect with ${schoolShortName} Alumni Admin`} href="/profile" />
+                                title={`Connect with ${shortName} Alumni Admin`} href="/profile" />
                         </FadeUpWrapper>
 
                         {/* Bottom trust note */}

@@ -15,7 +15,7 @@ import {
     RiArrowRightLine,
 } from "react-icons/ri";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
-import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
+import { useSchoolInfo } from "@/hooks/useSchoolInfo";
 
 
 /* ── AboutSection  */
@@ -24,11 +24,7 @@ const AboutSection = () => {
     const { yearsOfExcellence, totalCountries } =
         statsData?.data || {};
 
-    const { data: websiteManagement } = useGetWebsiteManagementQuery();
-    const { schoolName, area } = websiteManagement?.data || {};
-
-    const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
-    const alumniName = `${schoolShortName}ian`;
+    const { shortName, name, alumniName, addresses } = useSchoolInfo();
 
     /* ── Feature list */
     const features = [
@@ -58,89 +54,87 @@ const AboutSection = () => {
         <section className="three-xl-section-setup grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
             {/* ── Left: Text  */}
-            <div>
-                <FadeUpWrapper>
-                    {/* Badge */}
-                    <SectionLabel text="Our Community" variant="pill" icon={<RiSparkling2Line />} align="left" className="dark:border-gunmetal-400 dark:text-gunmetal-200 " />
+            <FadeUpWrapper>
+                {/* Badge */}
+                <SectionLabel text="Our Community" variant="pill" icon={<RiSparkling2Line />} align="left" className="dark:border-gunmetal-400 dark:text-gunmetal-200 " />
 
-                    {/* Headline */}
-                    <h2
-                        className="section-heading-text-left mb-6 mt-5 text-primary2-900 dark:text-gunmetal-200 ">
-                        Scattered Across the World,{" "}
-                        <br className="hidden sm:block" />
-                        United by{" "}
-                        <span
-                            className="text-primary"
+                {/* Headline */}
+                <h2
+                    className="section-heading-text-left mb-6 mt-5 text-primary2-900 dark:text-gunmetal-200 ">
+                    Scattered Across the World,{" "}
+                    <br className="hidden sm:block" />
+                    United by{" "}
+                    <span
+                        className="text-primary"
+                    >
+                        One Address
+                    </span>
+                </h2>
+
+                {/* Description */}
+                <div className="space-y-4 mb-8 text-gunmetal-400 dark:text-gunmetal-300 ">
+                    <p>
+                        We are not an institution — we are a family. A family born in the
+                        classrooms of {name || "Battali Abdul Matin High School"} and now spread across{" "}
+                        {totalCountries ? `${totalCountries}+ countries` : "the globe"}.
+                        This portal is our shared home online.
+                    </p>
+                    <p>
+                        Built by {alumniName}, for {alumniName} — a place to reconnect with old
+                        friends, celebrate shared milestones, and give back to the community
+                        that shaped who we are.
+                    </p>
+                </div>
+
+                {/* Feature list */}
+                <div className="space-y-4 mb-10">
+                    {features.map(({ icon, title, desc }, i) => (
+                        <motion.div
+                            key={title}
+                            initial={{ opacity: 0, x: -16 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-60px" }}
+                            transition={{ duration: 0.5, delay: i * 0.09, ease: [0.19, 1, 0.22, 1] }}
+                            className="flex items-start gap-4 group"
                         >
-                            One Address
-                        </span>
-                    </h2>
+                            <div
+                                className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-lg transition-transform duration-300 group-hover:scale-110 bg-primary2-50 dark:bg-gunmetal-900 text-primary2-600 dark:text-gunmetal-300 border border-primary2-200 dark:border-gunmetal-500 ">
+                                {icon}
+                            </div>
+                            <div>
+                                <p className="font-semibold text-sm mb-0.5 dark:text-gunmetal-200 tracking-wide">
+                                    {title}
+                                </p>
+                                <p className="text-sm text-gunmetal-400 dark:text-gunmetal-300 leading-relaxed">
+                                    {desc}
+                                </p>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
 
-                    {/* Description */}
-                    <div className="space-y-4 mb-8 text-gunmetal-400 dark:text-gunmetal-300 ">
-                        <p>
-                            We are not an institution — we are a family. A family born in the
-                            classrooms of {schoolName || "Battali Abdul Matin High School"} and now spread across{" "}
-                            {totalCountries ? `${totalCountries}+ countries` : "the globe"}.
-                            This portal is our shared home online.
-                        </p>
-                        <p>
-                            Built by {alumniName}, for {alumniName} — a place to reconnect with old
-                            friends, celebrate shared milestones, and give back to the community
-                            that shaped who we are.
-                        </p>
-                    </div>
-
-                    {/* Feature list */}
-                    <div className="space-y-4 mb-10">
-                        {features.map(({ icon, title, desc }, i) => (
-                            <motion.div
-                                key={title}
-                                initial={{ opacity: 0, x: -16 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true, margin: "-60px" }}
-                                transition={{ duration: 0.5, delay: i * 0.09, ease: [0.19, 1, 0.22, 1] }}
-                                className="flex items-start gap-4 group"
-                            >
-                                <div
-                                    className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 text-lg transition-transform duration-300 group-hover:scale-110 bg-primary2-50 dark:bg-gunmetal-900 text-primary2-600 dark:text-gunmetal-300 border border-primary2-200 dark:border-gunmetal-500 ">
-                                    {icon}
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-sm mb-0.5 text-primary2-700 dark:text-gunmetal-200 ">
-                                        {title}
-                                    </p>
-                                    <p className="text-sm text-gunmetal-400 dark:text-gunmetal-300 leading-relaxed">
-                                        {desc}
-                                    </p>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-
-                    {/* CTAs */}
-                    <div className="flex flex-wrap gap-3">
-                        <PrimaryButton
-                            type="button"
-                            title="Join the Community"
-                            icon2={<RiArrowRightLine />}
-                            href="/login"
-                            variant="default"
-                            iconSide2="right"
-                            className="dark:bg-gunmetal-200  dark:text-gunmetal-900"
-                        />
-                        <PrimaryButton
-                            type="button"
-                            title="Our Full Story"
-                            icon2={<HiArrowUpRight />}
-                            href="/about"
-                            variant="outline"
-                            iconSide2="right"
-                            className="dark:bg-gunmetal-900 dark:text-gunmetal-200 dark:border-gunmetal-400"
-                        />
-                    </div>
-                </FadeUpWrapper>
-            </div>
+                {/* CTAs */}
+                <div className="flex flex-wrap gap-3">
+                    <PrimaryButton
+                        type="button"
+                        title="Join the Community"
+                        icon2={<RiArrowRightLine />}
+                        href="/login"
+                        variant="default"
+                        iconSide2="right"
+                        className="dark:bg-gunmetal-200  dark:text-gunmetal-900"
+                    />
+                    <PrimaryButton
+                        type="button"
+                        title="Our Full Story"
+                        icon2={<HiArrowUpRight />}
+                        href="/about"
+                        variant="outline"
+                        iconSide2="right"
+                        className="dark:bg-gunmetal-900 dark:text-gunmetal-200 dark:border-gunmetal-400"
+                    />
+                </div>
+            </FadeUpWrapper>
 
             {/* ── Right: Visual ────────────────────────────────── */}
             <FadeUpWrapper delay={0.18}>
@@ -182,7 +176,7 @@ const AboutSection = () => {
                                     </p>
                                     <p className="font-display font-bold text-xl text-primary2-100 dark:text-gunmetal-200 "
                                     >
-                                        {schoolShortName} Alumni
+                                        {shortName} Alumni
                                     </p>
                                 </div>
                                 <div
@@ -250,7 +244,7 @@ const AboutSection = () => {
                             <div className="flex items-center justify-between mt-6 pt-5 text-xs font-semibold text-primary2-400 dark:text-gunmetal-300">
                                 <p className="tracking-widest uppercase"
                                 >
-                                    Est. 1966 · {area}.
+                                    Est. 1966 · {addresses.area}.
                                 </p>
                                 <span>
                                     {yearsOfExcellence ?? 0}+ yrs

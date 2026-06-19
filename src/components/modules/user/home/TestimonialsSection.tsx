@@ -15,7 +15,7 @@ import { BsStarFill } from "react-icons/bs";
 import SectionLabel from "@/components/shared/SectionLabel";
 import { useGetApprovedTestimonialsQuery } from "@/redux/apis/testimonialApi";
 import type { ITestimonial, ITestimonialUser } from "@/types/common/testimonial.types";
-import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
+import { useSchoolInfo } from "@/hooks/useSchoolInfo";
 
 function getUser(t: ITestimonial): ITestimonialUser | null {
     if (!t.userId || typeof t.userId === "string") return null;
@@ -50,11 +50,7 @@ const TestimonialsSection = () => {
         return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
     }, [api, isPaused]);
 
-    const { data: websiteManagement } = useGetWebsiteManagementQuery();
-    const { schoolName } = websiteManagement?.data || {};
-
-    const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
-    const alumniName = `${schoolShortName}ian`;
+    const { shortName, alumniName } = useSchoolInfo();
 
     return (
         <section
@@ -120,8 +116,8 @@ const TestimonialsSection = () => {
                         What {alumniName}s Say
                     </h2>
                     <p
-                        className="mt-4 text-sm sm:text-base max-w-xl mx-auto leading-relaxed text-primary2-400 dark:text-gunmetal-300 ">
-                        Voices from across decades sharing the legacy that {schoolShortName} instilled in every student.
+                        className="mt-4 text-sm sm:text-base max-w-xl mx-auto leading-relaxed text-gunmetal-200 dark:text-gunmetal-300 ">
+                        Voices from across decades sharing the legacy that {shortName} instilled in every student.
                     </p>
                 </FadeUpWrapper>
 
@@ -149,7 +145,7 @@ const TestimonialsSection = () => {
                                 {testimonials.map((t, i) => {
                                     const user = getUser(t);
                                     const batchLabel = user?.batch ? `Batch of ${user.batch}` : "";
-                                    const roleLabel = [user?.position, user?.workplace].filter(Boolean).join(" @ ") || user?.country || "";
+                                    const roleLabel = [user?.position, user?.workplace].filter(Boolean).join(" at ") || user?.country || "";
                                     const displayName = user?.name ?? alumniName;
                                     return (
                                         <CarouselItem
@@ -196,7 +192,7 @@ const TestimonialsSection = () => {
                                                 </div>
 
                                                 {/* Quote */}
-                                                <p className="font-serif italic text-base sm:text-lg md:text-xl leading-relaxed text-center flex-1 text-primary2-100 dark:text-gunmetal-300">
+                                                <p className="font-serif italic text-base sm:text-lg md:text-xl leading-relaxed text-center flex-1 text-gunmetal-100 dark:text-gunmetal-300">
                                                     &ldquo;{t.quote}&rdquo;
                                                 </p>
 
@@ -222,10 +218,10 @@ const TestimonialsSection = () => {
                                                         </div>
                                                     )}
                                                     <div className="min-w-0">
-                                                        <p className="font-semibold text-sm sm:text-base leading-tight truncate text-primary2-100 dark:text-gunmetal-300">
+                                                        <p className="font-semibold text-sm sm:text-base leading-tight truncate text-gunmetal-100 dark:text-gunmetal-300">
                                                             {displayName}
                                                         </p>
-                                                        <p className="text-xs mt-0.5 truncate text-primary2-400 dark:text-gunmetal-300">
+                                                        <p className="text-xs mt-0.5 truncate text-gunmetal-200 dark:text-gunmetal-300">
                                                             {[batchLabel, roleLabel].filter(Boolean).join(" · ")}
                                                         </p>
                                                     </div>
@@ -248,11 +244,10 @@ const TestimonialsSection = () => {
                                             key={i}
                                             aria-label={`Go to testimonial ${i + 1}`}
                                             onClick={() => api?.scrollTo(i)}
-                                            className="rounded-full transition-all duration-300 focus-visible:outline-none"
+                                            className={`rounded-full transition-all duration-300 focus-visible:outline-none ${i === current ? "bg-primary2-300 dark:bg-gunmetal-200" : "bg-primary2-500 dark:bg-gunmetal-400"}`}
                                             style={{
                                                 width: i === current ? "28px" : "8px",
                                                 height: "8px",
-                                                background: i === current ? "rgba(77,180,114,1)" : "rgba(77,180,114,0.35)",
                                                 boxShadow: i === current ? "0 0 8px rgba(77,180,114,0.6)" : "none",
                                             }}
                                         />

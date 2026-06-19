@@ -9,7 +9,7 @@ import {
 } from "react-icons/ri";
 import { HiArrowUpRight } from "react-icons/hi2";
 import FooterHead from "./modules/user/footer/FooterHead";
-import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
+import { useSchoolInfo } from "@/hooks/useSchoolInfo";
 
 /* Data */
 const quickLinks = [
@@ -33,35 +33,27 @@ const FooterHeading = ({ children }: { children: React.ReactNode }) => (
   <h3
     className="text-white dark:text-gunmetal-200 font-semibold text-base mb-5 flex items-center gap-3">
     <span
-      className="w-5 h-[2px] rounded-full"
-      style={{ background: "linear-gradient(90deg, #4ade80, #f59e0b)" }}
-    />
+      className="w-5 h-[2px] rounded-full bg-primary2-400 dark:bg-gunmetal-300 shrink-0"/>
     {children}
   </h3>
 );
 
 const Footer = () => {
   const year = new Date().getFullYear();
-  const { data: websiteManagement } = useGetWebsiteManagementQuery();
-  const { schoolName, area, thana, district, division, postalCode, country, contactNumber, email } = websiteManagement?.data || {};
-
-  const schoolAddress = `${postalCode ?? "3582"} - ${area ?? "Battali"}, ${thana ?? "Nangalkot"}, ${district ?? "Cumilla"}, ${division ?? "Chattogram"}, ${country ?? "Bangladesh"}`;
-  const schoolContactNumber = contactNumber || "01700000000";
-  const schoolEmail = email || "info@bamhsian.org.bd";
-  const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
+  const { shortName, fullAddress, contactNumber, email } = useSchoolInfo();
 
   const contactInfo = [
     {
       icon: <RiMapPin2Line className="text-base shrink-0 mt-0.5" />,
-      text: schoolAddress,
+      text: fullAddress,
     },
     {
       icon: <RiPhoneLine className="text-base shrink-0" />,
-      text: schoolContactNumber,
+      text: contactNumber,
     },
     {
       icon: <RiMailLine className="text-base shrink-0" />,
-      text: schoolEmail,
+      text: email,
     },
   ];
 
@@ -96,21 +88,17 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.05 }}
           >
-            <FooterHeading>{`About ${schoolShortName} Alumni`}</FooterHeading>
+            <FooterHeading>{`About ${shortName} Alumni`}</FooterHeading>
             <p
-              className="text-sm leading-relaxed"
-              style={{ color: "rgba(167,243,208,0.65)" }}
-            >
-              Connected by shared memories, united by {schoolShortName}. Our alumni
+              className="text-sm leading-relaxed text-gunmetal-200 dark:text-gunmetal-300">
+              Connected by shared memories, united by {shortName}. Our alumni
               association keeps the bonds strong across all batches — celebrating
               our roots, supporting each other, and giving back to the
               institution that shaped us.
             </p>
             <Link
               href="/about"
-              className="inline-flex items-center gap-1.5 mt-5 text-xs font-semibold tracking-wide uppercase transition-all duration-200 hover:gap-2.5"
-              style={{ color: "rgba(74,222,128,0.80)" }}
-            >
+              className="inline-flex items-center gap-1.5 mt-5 text-xs font-semibold tracking-wide transition-all duration-200 hover:gap-2.5 text-primary2-300 hover:text-primary2-400 dark:text-primary">
               Learn our story <HiArrowUpRight className="text-sm" />
             </Link>
           </motion.div>
@@ -128,19 +116,9 @@ const Footer = () => {
                 <li key={label}>
                   <Link
                     href={href}
-                    className="group text-sm flex items-center gap-2.5 py-0.5 transition-all duration-200"
-                    style={{ color: "rgba(167,243,208,0.60)" }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.color = "#f0fdf4";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.color = "rgba(167,243,208,0.60)";
-                    }}
-                  >
+                    className="group text-sm flex items-center gap-2.5 py-0.5 transition-all duration-200 text-gunmetal-200 hover:text-primary2-300 dark:hover:text-primary w-fit">
                     <span
-                      className="w-1 h-1 rounded-full flex-shrink-0 transition-all duration-300 group-hover:w-3"
-                      style={{ background: "linear-gradient(90deg, #4ade80, #16a34a)" }}
-                    />
+                      className="w-1 h-1 rounded-full flex-shrink-0 transition-all duration-300 group-hover:w-3 bg-primary2-400 dark:bg-primary"/>
                     {label}
                   </Link>
                 </li>
@@ -161,19 +139,9 @@ const Footer = () => {
                 <li key={label}>
                   <Link
                     href={href}
-                    className="group text-sm flex items-center gap-2.5 py-0.5 transition-all duration-200"
-                    style={{ color: "rgba(167,243,208,0.60)" }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.color = "#fef3c7";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.color = "rgba(167,243,208,0.60)";
-                    }}
-                  >
+                    className="group text-sm flex items-center gap-2.5 py-0.5 transition-all duration-200 text-gunmetal-200 hover:text-primary2-300 dark:hover:text-primary w-fit">
                     <span
-                      className="w-1 h-1 rounded-full flex-shrink-0 transition-all duration-300 group-hover:w-3"
-                      style={{ background: "linear-gradient(90deg, #f59e0b, #d97706)" }}
-                    />
+                      className="w-1 h-1 rounded-full flex-shrink-0 transition-all duration-300 group-hover:w-3 bg-primary2-400 dark:bg-primary"/>
                     {label}
                   </Link>
                 </li>
@@ -191,21 +159,13 @@ const Footer = () => {
             <FooterHeading>Contact</FooterHeading>
             <ul className="flex flex-col gap-4">
               {contactInfo.map(({ icon, text }) => (
-                <li key={text} className="flex items-center gap-3 group">
+                <li key={text} className="flex items-center gap-1.5 group">
                   <span
-                    className="mt-0.5 p-1.5 rounded-lg flex-shrink-0"
-                    style={{
-                      color: "rgba(74,222,128,0.70)",
-                      background: "rgba(46,139,87,0.12)",
-                      border: "1px solid rgba(46,139,87,0.20)",
-                    }}
-                  >
+                    className="mt-0.5 p-1.5 rounded-full flex-shrink-0 text-gunmetal-200 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-primary" >
                     {icon}
                   </span>
                   <span
-                    className="text-sm leading-snug"
-                    style={{ color: "rgba(167,243,208,0.65)" }}
-                  >
+                    className="text-sm leading-snug text-gunmetal-200 group-hover:text-primary dark:group-hover:text-primary transition-colors duration-200">
                     {text}
                   </span>
                 </li>
@@ -221,7 +181,7 @@ const Footer = () => {
         style={{ borderColor: "rgba(46,139,87,0.15)" }}>
         <div className="three-xl-section-setup py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gunmetal-200 ">
           {/* Copyright */}
-          <p>© {year} {schoolShortName} Alumni Association. All rights reserved</p>
+          <p>© {year} {shortName} Alumni Association. All rights reserved</p>
 
           {/* Developer credit — inline, professional */}
           <Link

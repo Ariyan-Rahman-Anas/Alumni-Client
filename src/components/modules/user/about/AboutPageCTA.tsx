@@ -1,16 +1,12 @@
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import PrimaryButton from "@/components/shared/PrimaryButton"
 import SectionLabel from "@/components/shared/SectionLabel"
-import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi"
+import { useSchoolInfo } from "@/hooks/useSchoolInfo"
 import { HiArrowUpRight } from "react-icons/hi2"
 import { RiHeartLine } from "react-icons/ri"
 
 const AboutPageCTA = () => {
-    const { data: websiteManagement } = useGetWebsiteManagementQuery();
-    const { schoolName } = websiteManagement?.data || {};
-
-    const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
-
+    const { shortName } = useSchoolInfo();
 
     return (
         <section className="three-xl-section-setup">
@@ -36,7 +32,7 @@ const AboutPageCTA = () => {
 
                         {/* Badge */}
                         <FadeUpWrapper className="flex justify-center mb-5">
-                            <SectionLabel text={` ${schoolShortName} Alumni Community`}
+                            <SectionLabel text={` ${shortName} Alumni Community`}
                                 icon={<RiHeartLine />}
                                 className="border-primary2-600 text-primary2-200 bg-transparent dark:border-gunmetal-400 dark:text-gunmetal-200" />
                         </FadeUpWrapper>
@@ -68,7 +64,7 @@ const AboutPageCTA = () => {
                         <FadeUpWrapper delay={0.14} className="text-center mb-12">
                             <p
                                 className="text-base sm:text-lg leading-relaxed max-w-2xl mx-auto text-gunmetal-300">
-                                Do not let time create distance. Reconnect with your classmates, share your story, and become part of the living history of {schoolShortName}.
+                                Do not let time create distance. Reconnect with your classmates, share your story, and become part of the living history of {shortName}.
                             </p>
                         </FadeUpWrapper>
 
@@ -85,7 +81,7 @@ const AboutPageCTA = () => {
                         {/* Bottom trust note */}
                         <FadeUpWrapper delay={0.32} className="text-center mt-8">
                             <p className="text-gunmetal-300 ">
-                                Free forever for all {schoolShortName} alumni · No spam · Verified community
+                                Free forever for all {shortName} alumni · No spam · Verified community
                             </p>
                         </FadeUpWrapper>
                     </div>

@@ -53,7 +53,7 @@ const GalleryCard = ({
 
             {/* Arrow — hover only */}
             <span
-                className="w-7 h-7 shrink-0 rounded-lg flex items-center justify-center opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+                className="w-7 h-7 shrink-0 rounded-full flex items-center justify-center opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
                 style={{
                     background: "rgba(255,255,255,0.15)",
                     border: "1px solid rgba(255,255,255,0.22)",

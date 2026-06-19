@@ -14,7 +14,7 @@ import { RiArrowRightLine, RiGroupLine, RiFlaskLine, RiBarChartLine, RiMicroscop
 import { HiArrowUpRight } from "react-icons/hi2";
 import SectionLabel from "@/components/shared/SectionLabel";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
-import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
+import { useSchoolInfo } from "@/hooks/useSchoolInfo";
 
 /* ── Batch Card  */
 const BatchCard = ({
@@ -155,10 +155,7 @@ const BatchesSection = () => {
     const { data: statsData } = useGetHomeStatsQuery();
     const batches = statsData?.data.batchesSection ?? [];
 
-    const { data: websiteManagement } = useGetWebsiteManagementQuery();
-    const { schoolName } = websiteManagement?.data || {};
-    const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
-    const alumniName = `${schoolShortName}ian`;
+    const { shortName, alumniName } = useSchoolInfo();
 
     return (
         <section
@@ -195,7 +192,7 @@ const BatchesSection = () => {
                             <p
                                 className="mt-3 text-base max-w-lg leading-relaxed text-gunmetal-100 dark:text-gunmetal-300">
                                 Swipe through graduating classes — explore who studied what, and where
-                                your generation stands in the {schoolShortName} lineage.
+                                your generation stands in the {shortName} lineage.
                             </p>
                         </div>
 

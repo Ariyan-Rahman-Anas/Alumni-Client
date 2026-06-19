@@ -1,7 +1,7 @@
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 import PrimaryButton from "@/components/shared/PrimaryButton";
 import SectionLabel from "@/components/shared/SectionLabel";
-import { useGetWebsiteManagementQuery } from "@/redux/apis/websiteManagementApi";
+import { useSchoolInfo } from "@/hooks/useSchoolInfo";
 import { BiDonateBlood } from "react-icons/bi";
 import { RiHeartPulseLine, RiUserAddLine, RiSearchLine, RiDropLine, RiShieldCheckLine, RiTimeLine } from "react-icons/ri";
 
@@ -12,11 +12,7 @@ const stats = [
 ];
 
 const BloodSection = () => {
-    const { data: websiteManagement } = useGetWebsiteManagementQuery();
-    const { schoolName } = websiteManagement?.data || {};
-
-    const schoolShortName = schoolName?.split(" ")?.map((word: string) => word[0]).join("") || "BAMHS";
-    const alumniName = `${schoolShortName}ian`;
+    const { shortName, alumniName } = useSchoolInfo();
     return (
         <section className="three-xl-section-setup">
             <FadeUpWrapper>
@@ -134,7 +130,7 @@ const BloodSection = () => {
                             className="mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3"
                         >
                             <p className="text-sm text-center sm:text-left text-danger-light/70 dark:text-danger-light/50">
-                                All donors are verified {schoolShortName} alumni. Your information stays private and secure.
+                                All donors are verified {shortName} alumni. Your information stays private and secure. 
                             </p>
                             <span
                                 className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase px-3 bg-danger-light/10 text-danger-light dark:text-danger-light/80 py-1 rounded-full shrink-0 border border-danger-light/50"

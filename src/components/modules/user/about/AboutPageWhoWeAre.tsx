@@ -1,9 +1,12 @@
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import PrimaryButton from "@/components/shared/PrimaryButton"
 import SectionLabel from "@/components/shared/SectionLabel"
+import { useSchoolInfo } from "@/hooks/useSchoolInfo"
 import { RiArrowRightLine, RiGroupLine, RiHandHeartLine, RiHeartLine, RiShieldLine } from "react-icons/ri"
 
 const AboutPageWhoWeAre = () => {
+    const { name, alumniName } = useSchoolInfo();
+
     return (
         <div><section className="bg-surface dark:bg-transparent">
             <div className="three-xl-section-setup">
@@ -18,15 +21,14 @@ const AboutPageWhoWeAre = () => {
                         </h2>
 
                         <p className=" text-base leading-relaxed mb-4 text-gunmetal-400 dark:text-gunmetal-300">
-                            This platform was created by former students of Battali Abdul Matin High School
-                            who felt the need for a single, warm, digital home — a place to reconnect with
+                            This platform was created by former students of {name}
+                            who felt the need for a single, warm, digital home. A place to reconnect with
                             old friends, find classmates from across the world, and give back to the school
                             that gave us everything.
                         </p>
                         <p className=" text-base leading-relaxed mb-8 text-gunmetal-400 dark:text-gunmetal-300">
                             We are not a school management system. We are not affiliated with the school
-                            administration. We are simply BAMHSians — proud, grateful, and nostalgic —
-                            keeping the spirit of our alma mater alive.
+                            administration. We are simply {alumniName} proud, grateful, and nostalgic; keeping the spirit of our alma mater alive.
                         </p>
 
                         <div className="flex flex-wrap gap-2 mb-8">

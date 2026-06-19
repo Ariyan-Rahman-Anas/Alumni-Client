@@ -35,7 +35,7 @@ const AlumniCommitteeCard = ({ member, designation }: ICommitteeMember) => {
                 )}
             </div>
             <div className="p-4">
-                <p className="font-semibold text-lg">
+                <p className="font-semibold text-lg text-primary2-900 dark:text-gunmetal-200">
                     {name}
                 </p>
                 <p className="text-sm capitalize text-gunmetal-400 dark:text-gunmetal-300 mt-1">
