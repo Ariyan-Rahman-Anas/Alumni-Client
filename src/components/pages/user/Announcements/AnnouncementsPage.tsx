@@ -30,9 +30,9 @@ import { useDebounce } from "@/hooks/useDebounce";
 import AnnouncementsPageHead from "@/components/modules/user/announcements/AnnouncementsPageHead";
 import SectionLabel from "@/components/shared/SectionLabel";
 import { FadeUpWrapper } from "../Home/HomePage";
-import { IAnnouncement, TAnnouncementType } from "@/components/modules/user/announcements/announcement.types";
+import { IAnnouncement } from "@/components/modules/user/announcements/announcement.types";
 
-/* ─── FadeUp utility ────────────────────────────────────── */
+/* ─── FadeUp utility  */
 function FadeUp({
     children,
     delay = 0,
@@ -90,7 +90,7 @@ const TYPE: Record<string, { soft: string; icon: React.ReactNode; label: string 
 };
 
 /* ─── Type filter tabs ──────────────────────────────────── */
-const TYPE_FILTERS: { label: string; value: TAnnouncementType | "all"; icon?: React.ReactNode }[] = [
+const TYPE_FILTERS: { label: string; value: keyof typeof TYPE | "all"; icon?: React.ReactNode }[] = [
     { label: "All", value: "all" },
     { label: "General", value: "general", icon: <RiMegaphoneLine /> },
     { label: "Notice", value: "notice", icon: <RiInformationLine /> },
@@ -181,8 +181,8 @@ function FeaturedCard({ item }: { item: IAnnouncement }) {
 ═══════════════════════════════════════════════════════════ */
 function AnnouncementCard({ item, idx }: { item: IAnnouncement; idx: number }) {
     const router = useRouter();
-    const p = PRIORITY[item.priority];
-    const t = TYPE[item.type] ?? TYPE.general;
+    const p = PRIORITY[item.priority.toLowerCase() as keyof typeof PRIORITY] ?? PRIORITY.normal;
+    const t = TYPE[item.type.toLowerCase() as keyof typeof TYPE] ?? TYPE.general;
 
     return (
         <motion.div
@@ -288,7 +288,7 @@ function CardSkeleton() {
 ═══════════════════════════════════════════════════════════ */
 const AnnouncementsPage = () => {
     const router = useRouter();
-    const [typeFilter, setTypeFilter] = useState<TAnnouncementType | "all">("all");
+    const [typeFilter, setTypeFilter] = useState<keyof typeof TYPE | "all">("all");
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
     const debouncedSearch = useDebounce(search, 400);
@@ -307,7 +307,7 @@ const AnnouncementsPage = () => {
     const featuredItem = announcements.find((a) => a.isFeatured);
     const gridItems = announcements.filter((a) => !a.isFeatured || announcements.indexOf(a) !== 0);
 
-    const handleFilterChange = (val: TAnnouncementType | "all") => {
+    const handleFilterChange = (val: keyof typeof TYPE | "all") => {
         setTypeFilter(val);
         setPage(1);
     };

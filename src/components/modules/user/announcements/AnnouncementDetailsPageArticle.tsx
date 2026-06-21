@@ -6,8 +6,9 @@ import { formatBytes, LocalFileIcon, PRIORITY_CONFIG, TYPE_CONFIG } from "@/comp
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 
 const AnnouncementDetailsPageArticle = ({ announcement }: { announcement: IAnnouncement }) => {
-    const priority = announcement ? PRIORITY_CONFIG[announcement.priority] : null;
-    const typeConfig = announcement ? (TYPE_CONFIG[announcement.type] ?? TYPE_CONFIG.general) : null;
+    const priority = announcement ? PRIORITY_CONFIG[announcement.priority.toLowerCase() as keyof typeof PRIORITY_CONFIG] : null;
+    const typeConfig = announcement ? (TYPE_CONFIG[announcement.type.toLowerCase() as keyof typeof TYPE_CONFIG] ?? TYPE_CONFIG.general) : null;
+
     return (
         <article>
             {/* Priority accent bar */}
@@ -71,9 +72,6 @@ const AnnouncementDetailsPageArticle = ({ announcement }: { announcement: IAnnou
             {announcement.coverImage && (
                 // <motion.div
                 <FadeUpWrapper
-                    // initial={{ opacity: 0, scale: 0.98 }}
-                    // animate={{ opacity: 1, scale: 1 }}
-                    // transition={{ duration: 0.5, delay: 0.15 }}
                     className="mt-7 rounded-2xl overflow-hidden border border-surface-200 shadow-sm"
                 >
                     <Image

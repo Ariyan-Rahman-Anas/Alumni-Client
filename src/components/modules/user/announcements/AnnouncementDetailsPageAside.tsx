@@ -6,7 +6,7 @@ import { format} from "date-fns";
 
 const AnnouncementDetailsPageAside = ({ announcement }: { announcement: IAnnouncement }) => {
 
-const priority = announcement ? PRIORITY_CONFIG[announcement.priority] : null;
+const priority = announcement ? PRIORITY_CONFIG[announcement.priority.toLowerCase() as keyof typeof PRIORITY_CONFIG] : null;
 
   return (
      <aside className="lg:sticky lg:top-6 space-y-5">
