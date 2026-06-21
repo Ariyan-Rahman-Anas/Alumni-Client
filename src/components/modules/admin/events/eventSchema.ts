@@ -1,8 +1,5 @@
+import { constantsData } from "@/constants";
 import { z, object, string, boolean, enum as zEnum, literal, array, coerce } from "zod";
-
-export const EVENT_CATEGORIES = ["Reunion", "Career", "Community", "Cultural", "Sports", "Other"] as const;
-export const EVENT_STATUSES = ["UPCOMING", "ONGOING", "COMPLETED", "CANCELLED"] as const;
-export const LOCATION_TYPES = ["PHYSICAL", "ONLINE", "HYBRID"] as const;
 
 export const priceTierSchema = object({
     label: string().min(1, "Tier label is required"),
@@ -15,13 +12,13 @@ export const eventSchema = z
     .object({
         title: string().min(3, "Title must be at least 3 characters"),
         description: string().min(10, "Description must be at least 10 characters"),
-        category: zEnum(EVENT_CATEGORIES, { error: "Please select a category" }),
-        status: zEnum(EVENT_STATUSES).optional(),
+        category: zEnum(constantsData.event.eventCategory, { error: "Please select a category" }),
+        status: zEnum(constantsData.event.eventStatus).optional(),
 
         startDateTime: string().min(1, "Start date/time is required"),
         endDateTime: string().optional(),
 
-        locationType: zEnum(LOCATION_TYPES).default("PHYSICAL"),
+        locationType: zEnum(constantsData.event.locationType).default(constantsData.event.locationType.PHYSICAL),
         venue: string().min(2, "Venue is required"),
         meetingLink: string().optional(),
 

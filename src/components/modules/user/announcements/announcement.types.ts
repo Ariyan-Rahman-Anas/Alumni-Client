@@ -1,8 +1,5 @@
+import { TAnnouncementPriority, TAnnouncementStatus, TAnnouncementType } from "@/constants";
 import { IUserProfile } from "../profile/user-profile.types";
-
-export type TAnnouncementStatus = "draft" | "published" | "scheduled" | "archived";
-export type TAnnouncementPriority = "urgent" | "high" | "normal";
-export type TAnnouncementType = "general" | "notice" | "event" | "news" | "update" | "alert";
 
 export interface IAnnouncementAttachment {
   url: string;
@@ -81,4 +78,11 @@ export interface IGetAnnouncementsParams {
   priority?: TAnnouncementPriority;
   type?: TAnnouncementType;
   isPinned?: boolean;
+}
+
+/* ── Props  */
+export interface IAdminAnnouncementFormModalProps {
+    open: boolean;
+    onClose: () => void;
+    announcement?: IAnnouncement | null;
 }

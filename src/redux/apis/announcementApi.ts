@@ -3,10 +3,10 @@ import {
   IAnnouncementResponse,
   ICreateAnnouncementPayload,
   IGetAnnouncementsParams,
-  TAnnouncementStatus
 } from "@/components/modules/user/announcements/announcement.types";
 
 import { baseApi } from "./baseApi";
+import { TAnnouncementStatus } from "@/constants";
 
 export const announcementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

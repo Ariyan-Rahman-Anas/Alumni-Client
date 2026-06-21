@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { toast } from "sonner";
 import { useFormWithToast } from "@/hooks/useFormWithToast";
 
@@ -27,85 +26,47 @@ import {
     useCreateAnnouncementMutation,
     useUpdateAnnouncementMutation,
 } from "@/redux/apis/announcementApi";
-import { IAnnouncement, TAnnouncementPriority, TAnnouncementStatus, TAnnouncementType } from "../../user/announcements/announcement.types";
+import { IAdminAnnouncementFormModalProps } from "../../user/announcements/announcement.types";
+import { adminAnnouncementFormSchema, ANNOUNCEMENT_CREATE_FIELD_ORDER, TAdminAnnouncementFormValues } from "./adminAnnouncement.schema";
+import { constantsData, TAnnouncementPriority, TAnnouncementStatus, TAnnouncementType } from "@/constants";
+import CheckBox from "@/components/shared/CheckBox";
 
-/* ── Options ───────────────────────────────────────────────── */
-const STATUS_OPTIONS: { label: string; value: TAnnouncementStatus }[] = [
-    { label: "Draft", value: "draft" },
-    { label: "Published", value: "published" },
-    { label: "Scheduled", value: "scheduled" },
-    { label: "Archived", value: "archived" },
-];
-
-const PRIORITY_OPTIONS: { label: string; value: TAnnouncementPriority }[] = [
-    { label: "Normal", value: "normal" },
-    { label: "High", value: "high" },
-    { label: "Urgent", value: "urgent" },
-];
-
-const TYPE_OPTIONS: { label: string; value: TAnnouncementType }[] = [
-    { label: "General", value: "general" },
-    { label: "Notice", value: "notice" },
-    { label: "Event", value: "event" },
-    { label: "News", value: "news" },
-    { label: "Update", value: "update" },
-    { label: "Alert", value: "alert" },
-];
-
-/* ── Zod schema ─────────────────────────────────────────────── */
-const formSchema = z.object({
-    title: z.string().trim().min(3, "Title must be at least 3 characters").max(200),
-    description: z.string().trim().min(10, "Description must be at least 10 characters").max(500),
-    body: z.string().optional(),
-    status: z.enum(["draft", "published", "scheduled", "archived"]).optional(),
-    priority: z.enum(["urgent", "high", "normal"]).optional(),
-    type: z.enum(["general", "notice", "event", "news", "update", "alert"]).optional(),
-    scheduledAt: z.string().optional(),
-    expiresAt: z.string().optional(),
-    isPinned: z.boolean().optional(),
-    isFeatured: z.boolean().optional(),
-    tags: z.string().optional(), // comma-separated string → parsed to array on submit
-    ctaLink: z.string().optional(),
-    ctaLabel: z.string().max(50).optional(),
-    coverImage: z.instanceof(File).nullable().optional(),
-});
-
-type FormValues = z.infer<typeof formSchema>;
-
-/* ── Props ──────────────────────────────────────────────────── */
-interface AdminAnnouncementFormModalProps {
-    open: boolean;
-    onClose: () => void;
-    announcement?: IAnnouncement | null;
-}
-
-/* ── Component ──────────────────────────────────────────────── */
+/* ── Component  */
 const AdminAnnouncementFormModal = ({
     open,
     onClose,
     announcement,
-}: AdminAnnouncementFormModalProps) => {
+}: IAdminAnnouncementFormModalProps) => {
     const isEdit = !!announcement;
+
+    const statusOptions = Object.values(constantsData.announcement.status).map((status) => ({
+        label: status.charAt(0).toUpperCase() + status.slice(1).toLowerCase(),
+        value: status,
+    }));
+
+    const priorityOptions = Object.values(constantsData.announcement.priority).map((priority) => ({
+        label: priority.charAt(0).toUpperCase() + priority.slice(1).toLowerCase(),
+        value: priority,
+    }));
+
+    const typeOptions = Object.values(constantsData.announcement.type).map((type) => ({
+        label: type.charAt(0).toUpperCase() + type.slice(1).toLowerCase(),
+        value: type,
+    }));
 
     const {
         register,
         handleSubmit,
         control,
         reset,
+        setValue,
         watch,
         formState: { errors },
-    } = useFormWithToast<FormValues>(
+    } = useFormWithToast<TAdminAnnouncementFormValues>(
         {
-            resolver: zodResolver(formSchema),
-            defaultValues: {
-                status: "draft",
-                priority: "normal",
-                type: "general",
-                isPinned: false,
-                isFeatured: false,
-            },
+            resolver: zodResolver(adminAnnouncementFormSchema),
         },
-        { fieldOrder: ["title", "description", "body", "status", "priority", "type"] },
+        { fieldOrder: ANNOUNCEMENT_CREATE_FIELD_ORDER },
     );
 
     const [createAnnouncement, { isLoading: isCreating }] = useCreateAnnouncementMutation();
@@ -121,9 +82,9 @@ const AdminAnnouncementFormModal = ({
                 title: announcement.title,
                 description: announcement.description,
                 body: announcement.body ?? "",
-                status: announcement.status,
-                priority: announcement.priority,
-                type: announcement.type,
+                status: announcement.status as TAnnouncementStatus,
+                priority: announcement.priority as TAnnouncementPriority,
+                type: announcement.type as TAnnouncementType,
                 scheduledAt: announcement.scheduledAt
                     ? new Date(announcement.scheduledAt).toISOString().slice(0, 16)
                     : "",
@@ -139,18 +100,13 @@ const AdminAnnouncementFormModal = ({
             });
         } else {
             reset({
-                status: "draft",
-                priority: "normal",
-                type: "general",
-                isPinned: false,
-                isFeatured: false,
                 body: "",
                 tags: "",
             });
         }
     }, [announcement, reset, open]);
 
-    const onSubmit = async (values: FormValues) => {
+    const onSubmit = async (values: TAdminAnnouncementFormValues) => {
         const tags = values.tags
             ? values.tags.split(",").map((t) => t.trim()).filter(Boolean)
             : [];
@@ -173,25 +129,21 @@ const AdminAnnouncementFormModal = ({
 
         try {
             if (isEdit) {
-                await updateAnnouncement({
+                const updateRes = await updateAnnouncement({
                     id: announcement!._id,
                     payload,
                     coverImage: values.coverImage,
                 }).unwrap();
-                toast.success("Announcement updated!");
+                toast.success(updateRes.message || "Announcement updated!");
             } else {
-                await createAnnouncement({
+                const createRes = await createAnnouncement({
                     payload,
                     coverImage: values.coverImage,
                 }).unwrap();
-                toast.success("Announcement created!");
+                toast.success(createRes.message || "Announcement created!");
             }
             onClose();
-        } catch (err: unknown) {
-            toast.error(
-                (err as { data?: { message?: string } })?.data?.message ?? "Something went wrong",
-            );
-        }
+        } catch { }
     };
 
     return (
@@ -272,11 +224,9 @@ const AdminAnnouncementFormModal = ({
                                 render={({ field }) => (
                                     <SingleSelect
                                         label="Status"
-                                        required
-                                        options={STATUS_OPTIONS}
+                                        options={statusOptions}
                                         value={field.value}
                                         onValueChange={field.onChange}
-                                        error={errors.status?.message}
                                     />
                                 )}
                             />
@@ -286,10 +236,9 @@ const AdminAnnouncementFormModal = ({
                                 render={({ field }) => (
                                     <SingleSelect
                                         label="Priority"
-                                        options={PRIORITY_OPTIONS}
+                                        options={priorityOptions}
                                         value={field.value}
                                         onValueChange={field.onChange}
-                                        error={errors.priority?.message}
                                     />
                                 )}
                             />
@@ -299,17 +248,16 @@ const AdminAnnouncementFormModal = ({
                                 render={({ field }) => (
                                     <SingleSelect
                                         label="Type"
-                                        options={TYPE_OPTIONS}
+                                        options={typeOptions}
                                         value={field.value}
                                         onValueChange={field.onChange}
-                                        error={errors.type?.message}
                                     />
                                 )}
                             />
                         </div>
 
                         {/* Scheduling */}
-                        {statusValue === "scheduled" && (
+                        {statusValue === constantsData.announcement.status.SCHEDULED && (
                             <Controller
                                 name="scheduledAt"
                                 control={control}
@@ -345,13 +293,13 @@ const AdminAnnouncementFormModal = ({
                         {/* CTA */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <InputField
-                                label="CTA Link (optional)"
+                                label="CTA Link"
                                 placeholder="https://..."
                                 {...register("ctaLink")}
                                 error={errors.ctaLink?.message}
                             />
                             <InputField
-                                label="CTA Label (optional)"
+                                label="CTA Label"
                                 placeholder="e.g. Register Now"
                                 {...register("ctaLabel")}
                                 error={errors.ctaLabel?.message}
@@ -368,22 +316,20 @@ const AdminAnnouncementFormModal = ({
 
                         {/* Flags */}
                         <div className="flex items-center gap-6">
-                            <label className="flex items-center gap-2 cursor-pointer select-none">
-                                <input
-                                    type="checkbox"
-                                    className="rounded border-surface-300 text-primary2-600 focus:ring-primary2-500"
-                                    {...register("isPinned")}
-                                />
-                                <span className="text-sm font-medium">Pin to top</span>
-                            </label>
-                            <label className="flex items-center gap-2 cursor-pointer select-none">
-                                <input
-                                    type="checkbox"
-                                    className="rounded border-surface-300 text-primary2-600 focus:ring-primary2-500"
-                                    {...register("isFeatured")}
-                                />
-                                <span className="text-sm font-medium">Featured</span>
-                            </label>
+                            <CheckBox
+                                name="isPinned"
+                                label="Pin to top"
+                                register={register}
+                                checked={watch("isPinned")}
+                                checkedFunc={(val: boolean) => setValue("isPinned", val)}
+                            />
+                            <CheckBox
+                                name="isFeatured"
+                                label="Featured"
+                                register={register}
+                                checked={watch("isFeatured")}
+                                checkedFunc={(val: boolean) => setValue("isFeatured", val)}
+                            />
                         </div>
 
                         {/* Cover image */}

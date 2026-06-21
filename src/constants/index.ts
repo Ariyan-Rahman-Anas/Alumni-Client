@@ -5,6 +5,31 @@ const USER_ROLE = {
 }   
 export type TUserRole = typeof USER_ROLE[keyof typeof USER_ROLE]
 
+const announcementType = {
+    GENERAL: "GENERAL",
+    NOTICE: "NOTICE",
+    EVENT: "EVENT",
+    NEWS: "NEWS",
+    UPDATE: "UPDATE",
+    ALERT: "ALERT"
+}
+export type TAnnouncementType = typeof announcementType[keyof typeof announcementType]
+
+const announcementStatus = {
+    DRAFT: "DRAFT",
+    PUBLISHED: "PUBLISHED",
+    SCHEDULED: "SCHEDULED",
+    ARCHIVED: "ARCHIVED"
+}
+export type TAnnouncementStatus = typeof announcementStatus[keyof typeof announcementStatus]
+
+const announcementPriority = {
+    URGENT: "URGENT",
+    HIGH: "HIGH",
+    NORMAL: "NORMAL"
+}
+export type TAnnouncementPriority = typeof announcementPriority[keyof typeof announcementPriority]
+
 const APPROVAL_STATUS = {
     PENDING: "PENDING",
     REJECTED: "REJECTED",
@@ -163,6 +188,11 @@ const COUNTRY_CODES = [
 
 export const constantsData = {
     USER_ROLE,
+     announcement: {
+      type: announcementType,
+      status: announcementStatus,
+      priority: announcementPriority  
+    },
     APPROVAL_STATUS,
     BLOOD_GROUPS,
     SECTIONS,

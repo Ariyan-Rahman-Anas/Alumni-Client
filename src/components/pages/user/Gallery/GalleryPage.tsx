@@ -5,26 +5,29 @@ import {
     RiUploadCloud2Line,
     RiShieldCheckLine,
     RiImageLine,
-    RiArrowRightLine,
 } from "react-icons/ri";
-import { Button } from "@/components/ui/button";
 import GalleryPageHead from "@/components/modules/user/gallery/GalleryPageHead";
 import GalleryPageMasonryGrid from "@/components/modules/user/gallery/GalleryPageMasonryGrid";
 import GalleryPageImagesContributors from "@/components/modules/user/gallery/GalleryPageImagesContributors";
 import { FadeUpWrapper } from "../Home/HomePage";
 import UserContributeGallerySheet from "@/components/modules/user/gallery/UserContributeGallerySheet";
+import SectionLabel from "@/components/shared/SectionLabel";
+import { useSchoolInfo } from "@/hooks/useSchoolInfo";
+import PrimaryButton from "@/components/shared/PrimaryButton";
 
 /* ── Main Page  */
 const GalleryPage = () => {
     const [contributeOpen, setContributeOpen] = useState(false);
+    const { shortName} = useSchoolInfo();
+
     return (
         <>
             <div className="">
 
-                {/* ═══ 1. CINEMATIC HERO ═══════════════════════════════ */}
+                {/* ═══ 1. CINEMATIC HERO  */}
                 <GalleryPageHead />
 
-                {/* ═══ 2. FILTER + MASONRY GRID ════════════════════════ */}
+                {/* ═══ 2. FILTER + MASONRY GRID  */}
                 <GalleryPageMasonryGrid />
 
 
@@ -45,28 +48,26 @@ const GalleryPage = () => {
                                 backgroundSize: "48px 48px",
                             }}
                         />
-                        {/* Glow orbs */}
-                        <div className="absolute -top-16 -right-16 h-56 w-56 rounded-full blur-3xl opacity-20" style={{ background: "rgba(46,139,87,1)" }} />
-                        <div className="absolute -bottom-12 -left-12 h-44 w-44 rounded-full blur-3xl opacity-15" style={{ background: "rgba(245,158,11,1)" }} />
 
                         <div className="relative z-10 px-6 py-10 sm:px-10 sm:py-12">
                             <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
 
                                 {/* ── Left content ── */}
                                 <div className="flex-1">
-                                    <div className="inline-flex items-center gap-2 rounded-full border border-primary2-500/40 bg-primary2-900/50 px-3 py-1 text-xs font-medium text-primary2-300 mb-5">
-                                        <RiUploadCloud2Line className="text-sm" />
-                                        Open Submissions
-                                    </div>
+                                    <SectionLabel
+                                        align="left"
+                                        text="Contribute to the Gallery"
+                                        icon={<RiUploadCloud2Line />}
+                                        className="text-primary2-300 dark:text-gunmetal-300 border-primary2-600 dark:border-gunmetal-400" />
 
-                                    <h2 className="text-2xl sm:text-3xl font-bold text-white leading-snug max-w-lg">
+                                    <h2 className="mt-5 text-2xl sm:text-3xl font-bold text-white dark:text-gunmetal-200 leading-snug max-w-xl">
                                         Your memories deserve{" "}
-                                        <span className="text-primary2-300">a permanent place</span>{" "}
+                                        <span className="text-primary2-300 dark:text-primary">a Permanent Place</span>{" "}
                                         in the archive
                                     </h2>
-                                    <p className="mt-3 text-sm text-gunmetal-300 leading-relaxed max-w-md">
-                                        Submit your best BAMHS moments — sports days, graduations,
-                                        classroom memories — and let them live on for future alumni.
+                                    <p className="text-base sm:text-lg leading-relaxed max-w-4xl text-gunmetal-300 mt-5 mb-8">
+                                        Submit your best {shortName} moments with the alumni community — sports days, graduations,
+                                        classroom memories. Your photos will be reviewed by an admin before appearing in the public gallery.
                                     </p>
 
                                     {/* Feature bullets */}
@@ -93,17 +94,14 @@ const GalleryPage = () => {
                                             <RiUploadCloud2Line className="text-2xl text-primary2-300" />
                                         </div>
                                         <div>
-                                            <p className="font-semibold text-white text-sm">Ready to contribute?</p>
-                                            <p className="mt-1 text-xs text-gunmetal-300">Join the growing list of alumni keeping BAMHS memories alive.</p>
+                                            <p className="font-semibold text-white dark:text-gunmetal-200 ">Ready to contribute?</p>
+                                            <p className="mt-3 text-xs text-gunmetal-200 dark:text-gunmetal-300">Join the growing list of alumni keeping {shortName} memories alive.</p>
                                         </div>
-                                        <Button
-                                            className="w-full bg-primary2-500 hover:bg-primary2-400 text-white font-medium gap-2"
+                                        <PrimaryButton
+                                            title="Submit Photos"
                                             onClick={() => setContributeOpen(true)}
-                                        >
-                                            Submit Photos
-                                            <RiArrowRightLine className="text-base" />
-                                        </Button>
-                                        <p className="text-xs text-gunmetal-400">Free · No account required to browse</p>
+                                            icon={<RiUploadCloud2Line />}
+                                        />
                                     </div>
                                 </div>
                             </div>

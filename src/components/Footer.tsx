@@ -161,11 +161,11 @@ const Footer = () => {
               {contactInfo.map(({ icon, text }) => (
                 <li key={text} className="flex items-center gap-1.5 group">
                   <span
-                    className="mt-0.5 p-1.5 rounded-full flex-shrink-0 text-gunmetal-200 transition-colors duration-300 group-hover:text-primary dark:group-hover:text-primary" >
+                    className="mt-0.5 p-1.5 rounded-full flex-shrink-0 text-gunmetal-200 transition-colors duration-300 group-hover:text-primary2-400 dark:text-gunmetal-300 dark:group-hover:text-primary">
                     {icon}
                   </span>
                   <span
-                    className="text-sm leading-snug text-gunmetal-200 group-hover:text-primary dark:group-hover:text-primary transition-colors duration-200">
+                    className="text-sm leading-snug text-gunmetal-200">
                     {text}
                   </span>
                 </li>

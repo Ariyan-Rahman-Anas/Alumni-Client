@@ -170,6 +170,11 @@ const UserContributeGallerySheet = ({ open, onClose }: UserContributeGalleryShee
                                 Cancel
                             </Button>
                             <PrimaryButton
+                                title="Cancel"
+                                isDisabled={isLoading}
+                                onClick={handleClose}
+                            />
+                            <PrimaryButton
                                 type="submit"
                                 title={isLoading ? "Submitting..." : "Submit Photos"}
                                 isDisabled={isLoading}

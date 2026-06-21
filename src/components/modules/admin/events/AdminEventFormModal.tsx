@@ -26,13 +26,11 @@ import { useFormWithToast } from "@/hooks/useFormWithToast";
 import {
     eventSchema,
     buildEventFormData,
-    EVENT_CATEGORIES,
-    EVENT_STATUSES,
-    LOCATION_TYPES,
     type EventFormValues,
     eventFieldOrder,
 } from "./eventSchema";
 import { IEvent } from "@/types/common/events.types";
+import { constantsData } from "@/constants";
 
 interface AdminEventFormModalProps {
     open: boolean;
@@ -49,13 +47,11 @@ const toLocalDT = (iso?: string): string => {
 };
 
 /* ── Static option lists ── */
-const CATEGORY_OPTIONS = EVENT_CATEGORIES.map((c) => ({ label: c, value: c }));
-const STATUS_OPTIONS = EVENT_STATUSES.map((s) => ({ label: s, value: s }));
-const LOCATION_OPTIONS = LOCATION_TYPES.map((l) => ({ label: l, value: l }));
+const CATEGORY_OPTIONS = Object.values(constantsData.event.eventCategory).map((c) => ({ label: c.charAt(0).toUpperCase() + c.slice(1).toLowerCase(), value: c }));
+const STATUS_OPTIONS = Object.values(constantsData.event.eventStatus).map((s) => ({ label: s.charAt(0).toUpperCase() + s.slice(1).toLowerCase(), value: s }));
+const LOCATION_OPTIONS = Object.values(constantsData.event.locationType).map((l) => ({ label: l.charAt(0).toUpperCase() + l.slice(1).toLowerCase(), value: l }));
 
-/* ════════════════════════════════════════════════
-   Form Modal
-════════════════════════════════════════════════ */
+/* Form Modal*/
 const AdminEventFormModal = ({ open, onClose, event }: AdminEventFormModalProps) => {
     const isEdit = !!event;
 
