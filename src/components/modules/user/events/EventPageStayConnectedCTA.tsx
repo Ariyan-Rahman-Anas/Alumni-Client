@@ -31,7 +31,7 @@ const EventPageStayConnectedCTA = () => {
                         <div className="flex-1">
                             <h2 className="mt-5 text-2xl sm:text-3xl font-bold text-white dark:text-gunmetal-200 leading-snug max-w-xl">
                                 Events built on{" "}
-                                <span className="text-primary2-300 dark:text-primary">real alumni bonds</span>
+                                <span className="text-primary2-300 dark:text-primary">Real Alumni bonds</span>
                             </h2>
                             <p className="text-base sm:text-lg leading-relaxed max-w-2xl text-gunmetal-300 mt-5 mb-8">
                                 Every gathering here is an opportunity to mentor, to reconnect, and to give back to the school that shaped you.

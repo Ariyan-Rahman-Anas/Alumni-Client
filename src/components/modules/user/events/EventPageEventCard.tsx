@@ -7,8 +7,8 @@ import {
     RiTimeLine,
     RiGroupLine,
     RiGiftLine,
-    RiArrowRightLine,
 } from "react-icons/ri"
+import { HiArrowNarrowRight } from "react-icons/hi";
 import { MdOutlineVideocam } from "react-icons/md"
 import DateFormatter from "@/lib/DateFormatter"
 import PrimaryButton from "@/components/shared/PrimaryButton"
@@ -18,7 +18,7 @@ import { useAppSelector } from "@/redux/hooks"
 import { selectCurrentUser, selectIsInitialized } from "@/redux/slice/authSlice"
 import { RiCheckboxCircleLine } from "react-icons/ri"
 
-// ─── Constants ───────────────────────────────────────────────────────────────
+// ─── Constants 
 const TIER_COLORS = [
     "from-emerald-400 to-emerald-600",
     "from-amber-400 to-amber-600",
@@ -86,8 +86,6 @@ const LOCATION_CONFIG: Record<string, {
     },
 }
 
-// ─── Component ───────────────────────────────────────────────────────────────
-
 const EventPageEventCard = ({ event }: { event: IEvent }) => {
     const { _id, locationType, startDateTime, slug, status, coverImage, title, isFree, category, priceTiers, venue, maxAttendees,
         // allowGuests, collectsTShirtSize, createdAt, description, eventFlow, guestFee, isFeatured, isRegistrationRequired, maxGuestsPerAlumni, updatedAt, contactInfo, coverImagePublicId, endDateTime, meetingLink, organizer, registrationDeadline, registrationOpensAt 
@@ -123,7 +121,7 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                 }
             `}
         >
-            {/* ── Cover Image ─────────────────────────────────────── */}
+            {/* ── Cover Image  */}
             <div className="relative h-52 w-full overflow-hidden bg-primary2-950">
                 {coverImage && (
                     <Image
@@ -182,11 +180,10 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                 </div>
             </div>
 
-            {/* ── Body ────────────────────────────────────────────── */}
-            <div className="flex flex-1 flex-col p-6">
-
+            {/* ── Body  */}
+            <div className="flex flex-1 flex-col p-4">
                 {/* Title */}
-                <h2 className="mb-3 font-sanchez text-xl font-bold leading-snug text-neutral-900 transition-colors group-hover:text-primary2-800">
+                <h2 className="mb-3 font-sanchez text-xl font-bold leading-snug text-neutral-900 transition-colors group-hover:text-primary2-800 dark:text-gunmetal-200">
                     {title}
                 </h2>
 
@@ -214,11 +211,11 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                 {/* Pricing */}
                 <div className="mb-5 flex-1">
                     {isFree ? (
-                        <div className="flex items-center gap-2.5 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3">
-                            <RiGiftLine className="text-lg text-emerald-600 shrink-0" />
+                        <div className="flex items-center gap-2.5 rounded-xl text-primary2-600 dark:text-gunmetal-300 border border-primary2-100 dark:border-gunmetal-500 bg-primary2-50 dark:bg-gunmetal-600 px-4 py-3">
+                            <RiGiftLine className="text-lg shrink-0" />
                             <div>
-                                <p className="text-xs font-black uppercase tracking-wider text-emerald-700">Free Entry</p>
-                                <p className="text-[10px] text-emerald-600/70">Open to all — no registration fee</p>
+                                <p className="text-xs font-black uppercase tracking-wider">Free Entry</p>
+                                <p className="text-xs">Open to all — no registration fee</p>
                             </div>
                         </div>
                     ) : priceTiers?.length > 0 ? (
@@ -246,7 +243,7 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                 </div>
 
                 {/* Action row */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center mt-3 gap-3 w-fit mx-auto">
                     {alreadyRegistered ? (
                         <Link
                             href={`/events/${slug || _id}`}
@@ -260,9 +257,8 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                             isDisabled={isCancelled}
                             isFullWidth
                             title={isCancelled ? "Cancelled" : isFree ? "Attend for Free" : "Register Now"}
-                            icon={<RiArrowRightLine className="transition-transform group-hover:translate-x-0.5" />}
-                            iconSide2="right"
-                            className="py-[19px] rounded-xl"
+                                icon2={<HiArrowNarrowRight className="text-2xl" />}
+                            className="bg-transparent text-primary2-500 hover:text-white hover:bg-primary2-500 dark:text-gunmetal-100 dark:bg-transparent border-2 border-primary2-300 font-semibold hover:border-transparent dark:border-gunmetal-400 hover:dark:border-gunmetal-500 hover:dark:bg-gunmetal-500 duration-500"
                             href={`/events/${slug || _id}`}
                         />
                     )}

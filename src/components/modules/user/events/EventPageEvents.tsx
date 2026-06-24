@@ -8,24 +8,15 @@ import EventPageEventCard from "./EventPageEventCard"
 import { RiSearch2Line, RiCloseLine, RiCalendarEventLine } from "react-icons/ri"
 import { LuSlidersHorizontal } from "react-icons/lu"
 import SectionLabel from "@/components/shared/SectionLabel"
-
-// ─── Constants 
-
-const STATUS_OPTIONS = [
-    { value: "", label: "All" },
-    { value: "UPCOMING", label: "Upcoming" },
-    { value: "ONGOING", label: "Live" },
-    { value: "COMPLETED", label: "Completed" },
-    { value: "CANCELLED", label: "Cancelled" },
-]
+import { constantsData } from "@/constants"
 
 const CATEGORY_OPTIONS = [
-    { value: "Reunion", emoji: "🎓" },
-    { value: "Career", emoji: "💼" },
-    { value: "Community", emoji: "🤝" },
-    { value: "Cultural", emoji: "🎭" },
-    { value: "Sports", emoji: "⚡" },
-    { value: "Other", emoji: "✦" },
+    { value: "REUNION", emoji: "🎓" },
+    { value: "CAREER", emoji: "💼" },
+    { value: "COMMUNITY", emoji: "🤝" },
+    { value: "CULTURAL", emoji: "🎭" },
+    { value: "SPORTS", emoji: "⚡" },
+    { value: "OTHER", emoji: "✦" },
 ]
 
 const LOCATION_OPTIONS = [
@@ -33,8 +24,6 @@ const LOCATION_OPTIONS = [
     { value: "ONLINE", label: "Online", icon: "🖥" },
     { value: "HYBRID", label: "Hybrid", icon: "🌐" },
 ]
-
-// ─── Component 
 
 const EventPageEvents = () => {
     const [filters, setFilters] = useState({
@@ -54,6 +43,24 @@ const EventPageEvents = () => {
     const activeFilterCount = [filters.category, filters.locationType].filter(Boolean).length
 
     const clearFilters = () => setFilters({ status: "", category: "", locationType: "" })
+    
+    const eventStatusOptions = Object.values(constantsData.event.eventStatus).map((status) => ({
+        value: status,
+        label: status.charAt(0).toUpperCase() + status.slice(1).toLowerCase(),
+    }))
+    const eventStatusAllOptions = [{ value: "", label: "All" }, ...eventStatusOptions]
+    
+    const eventCategoryOptions = Object.values(constantsData.event.eventCategory).map((category) => ({
+        value: category,
+        label: category.charAt(0).toUpperCase() + category.slice(1).toLowerCase(),
+        emoji: CATEGORY_OPTIONS.find((opt) => opt.value === category)?.emoji || "✦",
+    }))
+
+    const eventLocationOptions = Object.values(constantsData.event.locationType).map((location) => ({
+        value: location,
+        label: location.charAt(0).toUpperCase() + location.slice(1).toLowerCase(),
+        icon: LOCATION_OPTIONS.find((opt) => opt.value === location)?.icon || "🌐",
+    }))
 
     return (
         <FadeUpWrapper className="space-y-6 three-xl-section-setup">
@@ -95,9 +102,9 @@ const EventPageEvents = () => {
                     </FadeUpWrapper>
 
                     <div className="flex items-center justify-center md:justify-end flex-wrap gap-2">
-                        {STATUS_OPTIONS.map(({ value, label }) => {
+                        {eventStatusAllOptions.map(({ value, label }) => {
                             const isActive = filters.status === value
-                            const isLive = value === "ONGOING"
+                            const isLive = value === constantsData.event.eventStatus.ONGOING
                             return (
                                 <button
                                     key={value || "all"}
@@ -105,8 +112,8 @@ const EventPageEvents = () => {
                                     className={`
                                             relative rounded-full px-4 py-1.5 text-xs font-bold transition-all duration-200
                                             ${isActive
-                                            ? "bg-white text-primary2-900 shadow-lg shadow-black/20"
-                                            : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white border border-white/10"
+                                            ? "bg-white dark:bg-gunmetal-400 text-primary2-900 shadow-lg shadow-black/20"
+                                            : "bg-white/10 dark:bg-transparent text-white/70 hover:bg-white/20 hover:text-white border border-white/10 dark:border-gunmetal-400 dark:text-gunmetal-300 dark:hover:bg-gunmetal-700 dark:hover:text-white"
                                         }
                                         `}
                                 >
@@ -127,7 +134,7 @@ const EventPageEvents = () => {
                 <div className="flex items-center justify-between px-5 py-3.5">
                     <button
                         onClick={() => setFiltersOpen(o => !o)}
-                        className="flex items-center gap-2.5 text-sm font-semibold text-neutral-600 hover:text-primary2-700 transition-colors"
+                        className="flex items-center gap-2.5 text-sm font-semibold dark:text-gunmetal-200 hover:text-primary2-700 transition-colors"
                     >
                         <LuSlidersHorizontal className="text-base" />
                         <span>Refine</span>
@@ -142,13 +149,13 @@ const EventPageEvents = () => {
                         {activeFilterCount > 0 && (
                             <button
                                 onClick={clearFilters}
-                                className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-semibold text-neutral-500 hover:bg-surface-100 hover:text-red-600 transition-all"
+                                className="flex items-center gap-1 border border-danger-dark/20 dark:border-danger-dark/40 rounded-lg px-3 py-1.5 text-xs font-semibold text-danger-dark hover:bg-danger-light hover:text-danger transition-all"
                             >
                                 <RiCloseLine className="text-sm" />
-                                Clear all
+                                Clear Filters
                             </button>
                         )}
-                        <span className="text-xs text-neutral-400">
+                        <span className="text-xs dark:text-gunmetal-300">
                             {data?.data?.length ?? "—"} results
                         </span>
                     </div>
@@ -167,9 +174,9 @@ const EventPageEvents = () => {
                             <div className="border-t border-surface-100 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-6">
                                 {/* Categories */}
                                 <div className="flex-1">
-                                    <p className="mb-2.5 text-[10px] font-black uppercase tracking-wider text-neutral-400">Category</p>
+                                    <p className="mb-2.5 text-[10px] font-black tracking-wider text-neutral-400">Category</p>
                                     <div className="flex flex-wrap gap-2">
-                                        {CATEGORY_OPTIONS.map(({ value, emoji }) => {
+                                        {eventCategoryOptions.map(({ value, label, emoji }) => {
                                             const isActive = filters.category === value
                                             return (
                                                 <button
@@ -178,13 +185,13 @@ const EventPageEvents = () => {
                                                     className={`
                                                             flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-bold transition-all duration-150
                                                             ${isActive
-                                                            ? "border-primary2-300 bg-primary2-50 text-primary2-800"
-                                                            : "border-surface-200 bg-surface-50 text-neutral-500 hover:border-neutral-300 hover:text-neutral-700"
+                                                            ? "border-primary2-300 bg-primary2-50 dark:bg-primary2-800 text-primary2-800 dark:text-primary2-50"
+                                                            : "border-surface-200 bg-surface-50 dark:bg-surface-800 text-neutral-500 hover:border-gunmetal-300 hover:text-neutral-700 dark:hover:border-gunmetal-400 dark:hover:text-neutral-300"
                                                         }
                                                         `}
                                                 >
+                                                    <span className="text-sm leading-none">{label}</span>
                                                     <span className="text-sm leading-none">{emoji}</span>
-                                                    {value}
                                                 </button>
                                             )
                                         })}
@@ -195,19 +202,19 @@ const EventPageEvents = () => {
 
                                 {/* Location */}
                                 <div>
-                                    <p className="mb-2.5 text-[10px] font-black uppercase tracking-wider text-neutral-400">Format</p>
+                                    <p className="mb-2.5 text-[10px] font-black tracking-wider text-neutral-400">Format</p>
                                     <div className="flex gap-2">
-                                        {LOCATION_OPTIONS.map(({ value, label, icon }) => {
+                                        {eventLocationOptions.map(({ value, label, icon }) => {
                                             const isActive = filters.locationType === value
                                             return (
                                                 <button
                                                     key={value}
                                                     onClick={() => setFilters(prev => ({ ...prev, locationType: prev.locationType === value ? "" : value }))}
                                                     className={`
-                                                            flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all duration-150
+                                                            flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs border font-bold transition-all duration-150
                                                             ${isActive
-                                                            ? "bg-primary2-900 text-white"
-                                                            : "bg-surface-100 text-neutral-600 hover:bg-surface-200"
+                                                            ? "bg-primary2-900 text-white dark:bg-gunmetal-400 hover:bg-primary2-800 "
+                                                            : "hover:bg-primary2-50 hover:border-primary2-100 text-neutral-600 dark:bg-gunmetal-800 dark:text-gunmetal-300 dark:hover:bg-gunmetal-700 dark:hover:text-gunmetal-100 dark:hover:border-gunmetal-400"
                                                         }
                                                         `}
                                                 >
