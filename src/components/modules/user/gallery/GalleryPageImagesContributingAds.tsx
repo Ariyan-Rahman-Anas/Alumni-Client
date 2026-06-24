@@ -65,7 +65,7 @@ const GalleryPageImagesContributingAds = ({ setContributeOpen }:{ setContributeO
                                 style={{ background: "rgba(255,255,255,0.06)", borderColor: "rgba(255,255,255,0.12)" }}
                             >
                                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center" style={{ background: "rgba(46,139,87,0.25)", border: "1px solid rgba(46,139,87,0.35)" }}>
-                                    <RiUploadCloud2Line className="text-2xl text-primary2-300" />
+                                    <RiUploadCloud2Line className="text-2xl text-primary2-300 dark:text-gunmetal-200" />
                                 </div>
                                 <div>
                                     <p className="font-semibold text-white dark:text-gunmetal-200 ">Ready to contribute?</p>

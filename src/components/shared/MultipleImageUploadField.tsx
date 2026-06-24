@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { ImagePlus, X, UploadCloud } from "lucide-react";
 import { cn } from "@/lib/utils";
+import PrimaryButton from "./PrimaryButton";
 
 const ACCEPTED_MIME = ["image/jpeg", "image/png", "image/webp"] as const;
 type AcceptedMime = (typeof ACCEPTED_MIME)[number];
@@ -157,12 +158,12 @@ const MultipleImageUploadField = ({
 
       <div
         className={cn(
-          "rounded-2xl border-2 border-dashed p-4 transition-colors",
+          "rounded-2xl border-2 border-dashed p-4 transition-colors duration-300",
           isDragging
-            ? "border-green-400 bg-green-50"
+            ? "border-primary2-500 bg-primary2-50"
             : hasError
               ? "border-red-400 bg-red-50/30"
-              : "border-gray-200 bg-white hover:border-green-300"
+              : "border-gunmetal-100 dark:border-gunmetal-400 bg-white dark:bg-gunmetal-500/30 hover:border-primary2-300 dark:hover:border-gunmetal-300"
         )}
         onDrop={handleDrop}
         onDragOver={(e) => {
@@ -175,26 +176,16 @@ const MultipleImageUploadField = ({
         {items.length === 0 && (
           <div className="flex flex-col items-center gap-2 py-6">
             <UploadCloud
-              className="size-10"
-              style={{ color: "var(--color-primary-400, #4DB472)", opacity: 0.5 }}
-            />
-            <p className="text-sm font-medium text-gray-500">
+              className="size-10 text-primary2-500 dark:text-gunmetal-200"/>
+            <p className="text-sm font-medium text-gunmetal-300">
               Drag &amp; drop images here, or
             </p>
-            <button
-              type="button"
+            <PrimaryButton
+              title="   Browse files"
+              icon={<ImagePlus className="size-4" />}
               onClick={() => inputRef.current?.click()}
-              className="rounded-lg border px-3 py-1.5 text-xs font-medium transition hover:opacity-80 focus:outline-none"
-              style={{
-                borderColor: "var(--color-primary-300, #72C48C)",
-                color: "var(--color-primary-700)",
-                background: "rgba(46,139,87,0.07)",
-              }}
-            >
-              <ImagePlus className="mr-1.5 inline size-3.5" />
-              Browse files
-            </button>
-            <p className="text-xs text-gray-400">{helperText}</p>
+            />
+            <p className="text-xs text-gunmetal-300">{helperText}</p>
           </div>
         )}
 

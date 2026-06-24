@@ -16,6 +16,7 @@ import { galleryValidation, type TGalleryCreateFormValues } from "@/components/m
 import { useGetAllPublishedImageCategoriesQuery } from "@/redux/apis/imageCategoryApi";
 import SingleSelect from "@/components/shared/SingleSelect";
 import { RiInformationLine } from "react-icons/ri";
+import { useSchoolInfo } from "@/hooks/useSchoolInfo";
 
 interface UserContributeGallerySheetProps {
     open: boolean;
@@ -77,21 +78,23 @@ const UserContributeGallerySheet = ({ open, onClose }: UserContributeGalleryShee
         } catch { }
     };
 
+    const { shortName } = useSchoolInfo();
+
     return (
         <Sheet open={open} onOpenChange={(o) => !o && handleClose()}>
             <SheetContent
                 side="right"
-                className="w-full sm:!max-w-md bg-white flex flex-col p-0 gap-0"
+                className="w-full sm:!max-w-md bg-white dark:bg-gunmetal-600 flex flex-col p-0 gap-0"
                 showCloseButton={false}
             >
                 <SheetHeader className="px-6 py-4 border-b border-surface-300 shrink-0">
                     <div className="flex items-center justify-between">
                         <div>
-                            <SheetTitle className="text-base font-semibold text-gray-900">
+                            <SheetTitle className="text-base font-semibold text-primary2-900 dark:text-gunmetal-200">
                                 Contribute Photos
                             </SheetTitle>
                             <p className="text-xs text-muted-foreground mt-0.5">
-                                Submit your BAMHS memories to the gallery archive.
+                                Submit your {shortName} memories to the gallery archive.
                             </p>
                         </div>
                         <Button
@@ -106,7 +109,7 @@ const UserContributeGallerySheet = ({ open, onClose }: UserContributeGalleryShee
                 </SheetHeader>
 
                 {/* Info banner */}
-                <div className="mx-6 mt-4 flex items-start gap-2.5 rounded-xl bg-amber-50 border border-amber-200 px-4 py-3 text-xs text-amber-800">
+                <div className="mx-6 mt-4 flex items-start gap-2.5 rounded-xl border px-4 text-warning-dark py-3 text-xs dark:text-gunmetal-200 bg-warning/10 dark:bg-gunmetal-300/10 border-warning/20 dark:border-gunmetal-300">
                     <RiInformationLine className="flex-shrink-0 mt-0.5 text-base" />
                     Your photos will be reviewed by an admin before appearing in the public gallery.
                 </div>
@@ -150,14 +153,14 @@ const UserContributeGallerySheet = ({ open, onClose }: UserContributeGalleryShee
                             />
 
                             <InputField
-                                label="Title (optional)"
+                                label="Title"
                                 {...register("title")}
                                 error={errors.title?.message}
                                 placeholder="Shared title for all uploaded photos"
                             />
 
                             <TextAreaBox
-                                label="Description (optional)"
+                                label="Description"
                                 {...register("description")}
                                 error={errors.description?.message}
                                 placeholder="Brief context about these photos"
@@ -165,14 +168,13 @@ const UserContributeGallerySheet = ({ open, onClose }: UserContributeGalleryShee
                             />
                         </div>
 
-                        <div className="px-6 py-4 border-t border-surface-300 flex justify-end gap-2 shrink-0">
-                            <Button type="button" variant="outline" onClick={handleClose} disabled={isLoading}>
-                                Cancel
-                            </Button>
+                        <div className="px-6 py-4 border-t border-surface-300 flex justify-between gap-2 shrink-0">
                             <PrimaryButton
                                 title="Cancel"
+                                variant="outline"
                                 isDisabled={isLoading}
                                 onClick={handleClose}
+                                className="border border-danger dark:border-gunmetal-400 text-danger font-semibold dark:text-gunmetal-300 dark:bg-transparent hover:bg-danger/5 dark:hover:bg-gunmetal-300/10"
                             />
                             <PrimaryButton
                                 type="submit"
@@ -187,5 +189,4 @@ const UserContributeGallerySheet = ({ open, onClose }: UserContributeGalleryShee
         </Sheet>
     );
 };
-
 export default UserContributeGallerySheet;
