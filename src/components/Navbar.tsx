@@ -121,8 +121,9 @@ const Navbar = () => {
                   >
                     <motion.span animate={{ scale: isHover || active ? 1.2 : 1 }}
                       transition={{ duration: 0.13 }} className="text-base leading-none ">
-                      {icon}
+                      {/* {icon}  */}
                     </motion.span>
+                    <span className=" text-xs font-medium tracking-wide overflow-hidden whitespace-nowrap">{ title }</span>
                     <AnimatePresence mode="wait">
                       {(isHover || active) && (
                         <motion.span key={title}
@@ -131,7 +132,8 @@ const Navbar = () => {
                           exit={{ opacity: 0, width: 0, x: -4 }}
                           transition={{ duration: 0.18, ease: "easeOut" }}
                           className=" text-xs font-medium tracking-wide overflow-hidden whitespace-nowrap">
-                          {title}
+                          {/* {title} */}
+                          {icon}
                         </motion.span>
                       )}
                     </AnimatePresence>
