@@ -25,8 +25,8 @@ const AnnouncementsPageHead = () => {
     const totalCount = statsData?.meta?.total ?? 0;
 
     return (
-        <FadeUpWrapper delay={0.1}>
-            <section
+        <section className="three-xl-section-setup">
+            <FadeUpWrapper delay={0.1}
                 className="relative overflow-hidden rounded-3xl"
                 style={{ background: "linear-gradient(145deg, #041a12 0%, #0c4a34 55%, #062319 100%)" }}
             >
@@ -35,7 +35,7 @@ const AnnouncementsPageHead = () => {
                     style={{
                         backgroundImage:
                             "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-                        backgroundSize: "48px 48px",
+                        backgroundSize: "60px 60px",
                     }}
                 />
                 <div
@@ -47,16 +47,17 @@ const AnnouncementsPageHead = () => {
                     style={{ background: "rgba(245,158,11,1)" }}
                 />
 
-                <div className="relative z-10 px-7 py-12 sm:px-12 sm:py-16">
+                <div className="relative z-10 three-xl-section-padding ">
                     <FadeUpWrapper
                         delay={0.15}
                     >
-                        <SectionLabel text="Announcements & Notices" align="left" icon={<RiMegaphoneLine />} className="text-primary2-200 mb-2 capitalize " />
-                        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight max-w-3xl">
+                        <SectionLabel text="Announcements & Notices" align="left" icon={<RiMegaphoneLine />}
+                            className="text-primary2-300 dark:text-gunmetal-300 border-primary2-600 dark:border-gunmetal-400 " />
+                        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold mt-5 text-white dark:text-gunmetal-200 leading-tight max-w-3xl">
                             Signal Center{" "}
-                            <span className="text-primary2-300">for Alumni Updates</span>
+                            <span className="text-primary2-300 dark:text-primary">for Alumni Updates</span>
                         </h1>
-                        <p className="mt-5 max-w-2xl text-sm sm:text-lg text-primary2-100/75 leading-relaxed">
+                        <p className="text-base sm:text-lg leading-relaxed max-w-4xl text-gunmetal-300 mb-12 mt-5">
                             Stay informed with official updates, event notices, and important communications from the alumni board.
                         </p>
                     </FadeUpWrapper>
@@ -74,8 +75,8 @@ const AnnouncementsPageHead = () => {
                         )}
                     </FadeUpWrapper>
                 </div>
-            </section>
-        </FadeUpWrapper>
+            </FadeUpWrapper>
+        </section>
     )
 }
 export default AnnouncementsPageHead
