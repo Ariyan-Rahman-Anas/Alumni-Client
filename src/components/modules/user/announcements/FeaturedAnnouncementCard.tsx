@@ -1,10 +1,11 @@
 import { useRouter } from "next/navigation";
 import { IAnnouncement } from "./announcement.types";
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
-import { RiArrowRightLine, RiCalendarLine, RiEyeLine, RiMegaphoneLine, RiPushpin2Line, RiSparkling2Line } from "react-icons/ri";
+import { RiCalendarLine, RiEyeLine, RiMegaphoneLine, RiPushpin2Line, RiSparkling2Line } from "react-icons/ri";
 import { format } from "date-fns";
 import { announcementTypeStyle } from "@/components/pages/user/Announcements/AnnouncementsPage";
 import Image from "next/image";
+import { HiArrowNarrowRight } from "react-icons/hi";
 
 const FeaturedAnnouncementCard = ({ item }: { item: IAnnouncement }) => {
     const router = useRouter();
@@ -13,7 +14,7 @@ const FeaturedAnnouncementCard = ({ item }: { item: IAnnouncement }) => {
     return (
         <FadeUpWrapper
             onClick={() => router.push(`/announcements/${item.slug}`)}
-            className="group cursor-pointer relative rounded-3xl border border-primary2-200/70 bg-gradient-to-br from-primary2-50 to-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+            className="group cursor-pointer relative rounded-3xl bg-gradient-to-br from-primary2-50 dark:from-gunmetal-600 to-white dark:to-gunmetal-900 overflow-hidden shadow hover:shadow-md transition-shadow"
         >
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px]">
                 {/* Content side */}
@@ -50,7 +51,7 @@ const FeaturedAnnouncementCard = ({ item }: { item: IAnnouncement }) => {
                             <RiEyeLine className="shrink-0" /> {item.viewCount.toLocaleString()} views
                         </span>
                         <span className="ml-auto inline-flex items-center gap-1.5 text-xs font-semibold text-primary2-700 group-hover:gap-2.5 transition-all">
-                            Read announcement <RiArrowRightLine />
+                            Read announcement <HiArrowNarrowRight />
                         </span>
                     </div>
                 </div>

@@ -1,17 +1,20 @@
+"use client"
+
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import SectionLabel from "@/components/shared/SectionLabel"
+import { constantsData } from "@/constants";
 import { useGetPublishedAnnouncementsQuery } from "@/redux/apis/announcementApi";
 import { RiErrorWarningLine, RiFileListLine, RiMegaphoneLine, RiPushpin2Line } from "react-icons/ri"
 
 //    STATS PILL
 function StatPill({ icon, label, value }: { icon: React.ReactNode; label: string; value: string | number }) {
     return (
-        <div className="flex items-center gap-2 rounded-xl bg-white border border-surface-200 px-4 py-2.5 shadow-sm">
-            <span className="text-primary2-600 text-base">{icon}</span>
-            <div>
-                <p className="text-xs text-muted-foreground leading-none">{label}</p>
-                <p className="text-sm font-bold text-primary2-900 leading-tight mt-0.5">{value}</p>
+        <div className="flex items-center justify-between gap-2 rounded-xl bg-white dark:bg-gunmetal-500 border border-surface-200 px-4 py-2.5 shadow-sm">
+            <div className="flex items-end gap-1">
+                <span className="text-primary2-600 text-base">{icon}</span>
+                <p className="text-sm font-semibold text-black dark:text-gunmetal-200 leading-none">{label}</p>
             </div>
+            <p className="text-sm font-bold text-primary2-900 dark:text-gunmetal-200 leading-tight mt-0.5">{value}</p>
         </div>
     );
 }
@@ -20,7 +23,7 @@ const AnnouncementsPageHead = () => {
     // Stats query — all published, no filter
     const { data: statsData } = useGetPublishedAnnouncementsQuery({ limit: 100 });
     const allItems = statsData?.data ?? [];
-    const urgentCount = allItems.filter((a) => a.priority === "urgent").length;
+    const urgentCount = allItems.filter((a) => a.priority === constantsData.announcement.priority.URGENT).length;
     const pinnedCount = allItems.filter((a) => a.isPinned).length;
     const totalCount = statsData?.meta?.total ?? 0;
 

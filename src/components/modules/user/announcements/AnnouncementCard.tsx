@@ -3,8 +3,9 @@ import { formatDistanceToNow } from "date-fns";
 import { IAnnouncement } from './announcement.types';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { RiArrowRightLine, RiEyeLine, RiPushpin2Line, RiTimeLine } from 'react-icons/ri';
+import { RiEyeLine, RiPushpin2Line, RiTimeLine } from 'react-icons/ri';
 import { announcementPriorityStyle, announcementTypeStyle } from '@/components/pages/user/Announcements/AnnouncementsPage';
+import { HiArrowNarrowRight } from "react-icons/hi";
 
 const AnnouncementCard = ({ item, idx }: { item: IAnnouncement; idx: number }) => {
     const router = useRouter();
@@ -15,7 +16,7 @@ const AnnouncementCard = ({ item, idx }: { item: IAnnouncement; idx: number }) =
         <FadeUpWrapper
             delay={0.1 + idx * 0.05}
             onClick={() => router.push(`/announcements/${item.slug}`)}
-            className="group cursor-pointer flex flex-col bg-white rounded-2xl border border-surface-200 hover:border-primary2-300 hover:shadow-md transition-all overflow-hidden"
+            className="group cursor-pointer flex flex-col bg-white dark:bg-gunmetal-700 rounded-2xl border border-surface-200 hover:border-primary2-300 hover:shadow-md transition-all overflow-hidden"
         >
             {/* Cover image */}
             {item.coverImage && (
@@ -73,7 +74,7 @@ const AnnouncementCard = ({ item, idx }: { item: IAnnouncement; idx: number }) =
                         </span>
                     </div>
                     <span className="text-[11px] font-semibold text-primary2-600 flex items-center gap-0.5 group-hover:gap-1.5 transition-all">
-                        Read <RiArrowRightLine />
+                        Read <HiArrowNarrowRight />
                     </span>
                 </div>
             </div>

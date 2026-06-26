@@ -1,6 +1,4 @@
-﻿"use client";
-
-import {
+﻿import {
     RiMegaphoneLine,
     RiAlertLine,
     RiInformationLine,
@@ -45,18 +43,8 @@ export const announcementTypeStyle: Record<string, { soft: string; icon: React.R
     alert: { soft: "bg-red-50 text-red-700", icon: <RiAlertLine />, label: "Alert" },
 };
 
-export const announcementTypeFilterStyle0: { label: string; value: keyof typeof announcementTypeStyle | "all"; icon?: React.ReactNode }[] = [
-    { label: "All", value: "all" },
-    { label: "General", value: "GEN", icon: <RiMegaphoneLine /> },
-    { label: "Notice", value: "NOTICE", icon: <RiInformationLine /> },
-    { label: "Event", value: "EVENT", icon: <RiCalendarEventLine /> },
-    { label: "News", value: "NEWS", icon: <RiNewspaperLine /> },
-    { label: "Update", value: "UPDATE", icon: <RiRefreshLine /> },
-    { label: "Alert", value: "ALERT", icon: <RiAlertLine /> },
-];
-
 export const announcementTypeFilterStyle = Object.values(constantsData.announcement.type).map((type) => ({
-    label: type.charAt(0).toUpperCase() + type.slice(1),
+    label: type.charAt(0).toUpperCase() + type.slice(1).toLowerCase(),
     value: type,
     icon: announcementTypeStyle[type.toLowerCase()]?.icon,
 }));
