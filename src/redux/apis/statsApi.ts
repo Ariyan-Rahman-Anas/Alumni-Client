@@ -28,12 +28,37 @@ export interface AdminStats {
         total: number;
         pending: number;
         approved: number;
+        rejected: number;
         verified: number;
     };
     batches: {
         total: number;
         active: number;
     };
+    jobs: {
+        total: number;
+        pending: number;
+        approved: number;
+        rejected: number;
+        closed: number;
+    };
+    testimonials: { pending: number };
+    requests: { pending: number };
+    events: {
+        total: number;
+        upcoming: Array<{
+            _id: string;
+            title: string;
+            startDateTime: string;
+            endDateTime?: string;
+            venue: string;
+            locationType: string;
+            coverImage?: string;
+        }>;
+    };
+    announcements: { total: number };
+    gallery: { total: number };
+    bloodDonors: { total: number };
     countries: Array<{ country: string; count: number }>;
     batchesSection: Array<{
         year: number;
@@ -42,6 +67,7 @@ export interface AdminStats {
         commerceCount: number;
         artsCount: number;
     }>;
+    monthlyRegistrations: Array<{ month: string; count: number }>;
 }
 
 interface AdminStatsResponse {
