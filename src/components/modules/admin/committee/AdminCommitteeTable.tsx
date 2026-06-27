@@ -1,146 +1,200 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { toast } from "sonner";
 import { format } from "date-fns";
-import { RiDeleteBinLine, RiEditLine, RiCheckLine } from "react-icons/ri";
+import { RiCheckLine, RiEditLine, RiDeleteBinLine } from "react-icons/ri";
+import { Badge } from "@/components/ui/badge";
+
+import DataTable from "@/components/shared/dataTable/DataTable";
+import DeleteAlertModal from "@/components/shared/DeleteAlertModal";
+import AdminCommitteeFormModal from "@/components/modules/admin/committee/AdminCommitteeFormModal";
+
+import type { TableColumn } from "@/types";
+import {
+    useGetAllCommitteesAdminQuery,
+    useDeleteCommitteeMutation,
+    useSetActiveCommitteeMutation,
+} from "@/redux/apis/committeeApi";
 import type { ICommittee, ICommitteeMemberUser } from "@/types/common/committee.types";
+import type { IServerErrorRes } from "@/types/common.components.types";
 
 interface AdminCommitteeTableProps {
-    data: ICommittee[];
-    isLoading: boolean;
-    isError: boolean;
-    onEdit: (item: ICommittee) => void;
-    onDelete: (id: string) => void;
-    onSetActive: (id: string) => void;
+    openNew: boolean;
+    onNewClose: () => void;
 }
 
-const Skeleton = () => (
-    <tr>
-        {Array.from({ length: 5 }).map((_, i) => (
-            <td key={i} className="px-4 py-3">
-                <div className="h-4 rounded bg-gray-100 animate-pulse w-full" />
-            </td>
-        ))}
-    </tr>
-);
+const AdminCommitteeTable = ({ openNew, onNewClose }: AdminCommitteeTableProps) => {
+    const [editItem, setEditItem] = useState<ICommittee | null>(null);
+    const [deleteId, setDeleteId] = useState<string | null>(null);
 
-const AdminCommitteeTable = ({
-    data,
-    isLoading,
-    isError,
-    onEdit,
-    onDelete,
-    onSetActive,
-}: AdminCommitteeTableProps) => {
-    return (
-        <div className="w-full rounded-xl overflow-hidden border">
-            <table className="w-full text-sm">
-                <thead className="bg-surface-50 border-b">
-                    <tr>
-                        <th className="px-4 py-3 text-left font-medium text-gray-500">#</th>
-                        <th className="px-4 py-3 text-left font-medium text-gray-500">Name</th>
-                        <th className="px-4 py-3 text-left font-medium text-gray-500">Period</th>
-                        <th className="px-4 py-3 text-left font-medium text-gray-500">Members</th>
-                        <th className="px-4 py-3 text-left font-medium text-gray-500">Status</th>
-                        <th className="px-4 py-3 text-left font-medium text-gray-500">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {isLoading ? (
-                        Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} />)
-                    ) : isError ? (
-                        <tr>
-                            <td colSpan={6} className="text-center py-12 text-destructive text-sm">
-                                Failed to load committees
-                            </td>
-                        </tr>
-                    ) : data.length === 0 ? (
-                        <tr>
-                            <td colSpan={6} className="text-center py-12 text-muted-foreground text-sm">
-                                No committees found
-                            </td>
-                        </tr>
-                    ) : (
-                        data.map((item, i) => {
-                            const from = format(new Date(item.functionalFrom), "MMM yyyy");
-                            const to = item.functionalTo
-                                ? format(new Date(item.functionalTo), "MMM yyyy")
-                                : "Present";
-                            return (
-                                <tr key={item._id} className="border-b last:border-0 hover:bg-surface-50/50 transition-colors">
-                                    <td className="px-4 py-3 text-muted-foreground">{i + 1}</td>
-                                    <td className="px-4 py-3">
-                                        <p className="font-medium text-gray-900">{item.name}</p>
-                                        {item.description && (
-                                            <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{item.description}</p>
-                                        )}
-                                    </td>
-                                    <td className="px-4 py-3 text-muted-foreground whitespace-nowrap">
-                                        {from} — {to}
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        <div className="flex flex-wrap gap-1">
-                                            {item.members.slice(0, 3).map((m, mi) => {
-                                                const user = typeof m.member === "object" ? (m.member as ICommitteeMemberUser) : null;
-                                                return (
-                                                    <span key={mi} className="text-xs bg-surface-100 text-gray-600 px-2 py-0.5 rounded-full border">
-                                                        {user ? user.name : "—"}
-                                                    </span>
-                                                );
-                                            })}
-                                            {item.members.length > 3 && (
-                                                <span className="text-xs text-muted-foreground px-1">
-                                                    +{item.members.length - 3} more
-                                                </span>
-                                            )}
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        <Badge
-                                            className={
-                                                item.isActive
-                                                    ? "bg-emerald-50 text-emerald-700 border-emerald-200 border"
-                                                    : "bg-gray-100 text-gray-500 border-gray-200 border"
-                                            }
-                                        >
-                                            {item.isActive ? "Active" : "Inactive"}
-                                        </Badge>
-                                    </td>
-                                    <td className="px-4 py-3">
-                                        <div className="flex items-center gap-2">
-                                            {!item.isActive && (
-                                                <button
-                                                    title="Set as Active"
-                                                    onClick={() => onSetActive(item._id)}
-                                                    className="p-1.5 rounded hover:bg-emerald-50 text-emerald-600 transition-colors"
-                                                >
-                                                    <RiCheckLine size={16} />
-                                                </button>
-                                            )}
-                                            <button
-                                                title="Edit"
-                                                onClick={() => onEdit(item)}
-                                                className="p-1.5 rounded hover:bg-blue-50 text-blue-600 transition-colors"
-                                            >
-                                                <RiEditLine size={16} />
-                                            </button>
-                                            <button
-                                                title="Delete"
-                                                onClick={() => onDelete(item._id)}
-                                                className="p-1.5 rounded hover:bg-red-50 text-red-600 transition-colors"
-                                            >
-                                                <RiDeleteBinLine size={16} />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            );
-                        })
+    const { data, isLoading, isError } = useGetAllCommitteesAdminQuery();
+    const [deleteCommittee, { isLoading: isDeleting }] = useDeleteCommitteeMutation();
+    const [setActive] = useSetActiveCommitteeMutation();
+
+    const committees = data?.data ?? [];
+
+    const handleSetActive = async (id: string) => {
+        try {
+            await setActive(id).unwrap();
+            toast.success("Committee set as active");
+        } catch (err) {
+            const error = err as IServerErrorRes;
+            toast.error(error?.data?.message ?? "Failed to activate committee");
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!deleteId) return;
+        try {
+            await deleteCommittee(deleteId).unwrap();
+            toast.success("Committee deleted");
+            setDeleteId(null);
+        } catch (err) {
+            const error = err as IServerErrorRes;
+            toast.error(error?.data?.message ?? "Failed to delete committee");
+        }
+    };
+
+    const columns: TableColumn<ICommittee>[] = [
+        {
+            key: "index",
+            label: "#",
+            width: "w-12",
+            render: () => null,
+        },
+        {
+            key: "name",
+            label: "Name",
+            render: (item) => (
+                <div>
+                    <p className="font-medium text-gray-900 dark:text-white">{item.name}</p>
+                    {item.description && (
+                        <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                            {item.description}
+                        </p>
                     )}
-                </tbody>
-            </table>
-        </div>
+                </div>
+            ),
+        },
+        {
+            key: "functionalFrom",
+            label: "Period",
+            render: (item) => {
+                const from = format(new Date(item.functionalFrom), "MMM yyyy");
+                const to = item.functionalTo
+                    ? format(new Date(item.functionalTo), "MMM yyyy")
+                    : "Present";
+                return (
+                    <span className="text-muted-foreground whitespace-nowrap">
+                        {from} to {to}
+                    </span>
+                );
+            },
+        },
+        {
+            key: "members",
+            label: "Members",
+            render: (item) => (
+                <div className="flex items-center justify-center flex-wrap gap-1">
+                    {item.members.slice(0, 3).map((m, i) => {
+                        const user =
+                            typeof m.member === "object"
+                                ? (m.member as ICommitteeMemberUser)
+                                : null;
+                        return (
+                            <span
+                                key={i}
+                                className="text-xs bg-surface-100 dark:bg-gunmetal-700 text-gray-600 dark:text-gunmetal-100 px-2 py-0.5 rounded-full border dark:border-gunmetal-600"
+                            >
+                                {user ? user.name : "�"}
+                            </span>
+                        );
+                    })}
+                    {item.members.length > 3 && (
+                        <span className="text-xs text-muted-foreground px-1">
+                            +{item.members.length - 3} more
+                        </span>
+                    )}
+                </div>
+            ),
+        },
+        {
+            key: "isActive",
+            label: "Status",
+            render: (item) => (
+                <Badge
+                    className={
+                        item.isActive
+                            ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                            : "bg-gray-100 text-gray-500 border border-gray-200"
+                    }
+                >
+                    {item.isActive ? "Active" : "Inactive"}
+                </Badge>
+            ),
+        },
+        {
+            key: "actions",
+            label: "Actions",
+            render: (item) => (
+                <div className="flex items-center justify-center gap-2">
+                    {!item.isActive && (
+                        <button
+                            title="Set as Active"
+                            onClick={() => handleSetActive(item._id)}
+                            className="p-1.5 rounded hover:bg-emerald-50 dark:hover:bg-emerald-900/20 text-emerald-600 transition-colors"
+                        >
+                            <RiCheckLine size={16} />
+                        </button>
+                    )}
+                    <button
+                        title="Edit"
+                        onClick={() => setEditItem(item)}
+                        className="p-1.5 rounded hover:bg-blue-50 dark:hover:bg-blue-900/20 text-blue-600 transition-colors"
+                    >
+                        <RiEditLine size={16} />
+                    </button>
+                    <button
+                        title="Delete"
+                        onClick={() => setDeleteId(item._id)}
+                        className="p-1.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500 transition-colors"
+                    >
+                        <RiDeleteBinLine size={16} />
+                    </button>
+                </div>
+            ),
+        },
+    ];
+
+    return (
+        <>
+            <DataTable<ICommittee>
+                data={committees}
+                columns={columns}
+                isLoading={isLoading}
+                isError={isError}
+                isPaginate={false}
+                emptyMessage="No committees found"
+                errorMessage="Failed to load committees"
+            />
+
+            <AdminCommitteeFormModal
+                open={openNew || !!editItem}
+                onClose={() => {
+                    onNewClose();
+                    setEditItem(null);
+                }}
+                committee={editItem}
+            />
+
+            <DeleteAlertModal
+                open={!!deleteId}
+                onClose={() => setDeleteId(null)}
+                onConfirm={handleDelete}
+                isDeleting={isDeleting}
+            />
+        </>
     );
 };
-
 export default AdminCommitteeTable;

@@ -69,21 +69,21 @@ function SidebarContent({ onNav }: { onNav?: () => void }) {
 
     return (
         <div className="flex flex-col h-full">
-            <div className="px-5 py-4 border-b border-white/10 shrink-0 flex items-center justify-between">
+            <div className="px-5 py-4 border-b border-gray-200 dark:border-white/10 shrink-0 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary2-600 shrink-0">
                         <RiShieldCheckLine className="text-white text-lg" />
                     </span>
                     <div>
-                        <p className="text-sm font-semibold text-white leading-none">BAMHS Admin</p>
-                        <p className="text-[11px] text-white/40 mt-0.5">Control Panel</p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white leading-none">BAMHS Admin</p>
+                        <p className="text-[11px] text-gray-500 dark:text-white/40 mt-0.5">Control Panel</p>
                     </div>
                 </div>
                 <ThemeSwitch />
             </div>
 
             <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-                <p className="px-3 mb-2 text-[10px] uppercase tracking-widest text-white/30 font-medium">
+                <p className="px-3 mb-2 text-[10px] uppercase tracking-widest text-gray-400 dark:text-white/30 font-medium">
                     Management
                 </p>
                 {NAV_ITEMS.map(({ label, href, icon: Icon }) => {
@@ -96,42 +96,42 @@ function SidebarContent({ onNav }: { onNav?: () => void }) {
                             className={cn(
                                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
                                 isActive
-                                    ? "bg-primary2-700/60 text-white"
-                                    : "text-white/60 hover:bg-white/5 hover:text-white"
+                                    ? "bg-primary2-100 text-primary2-800 dark:bg-primary2-700/60 dark:text-white"
+                                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-white/60 dark:hover:bg-white/5 dark:hover:text-white"
                             )}
                         >
-                            <Icon className={cn("text-lg shrink-0", isActive ? "text-primary2-300" : "text-white/40")} />
+                            <Icon className={cn("text-lg shrink-0", isActive ? "text-primary2-600 dark:text-primary2-300" : "text-gray-400 dark:text-white/40")} />
                             {label}
-                            {isActive && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-primary2-400" />}
+                            {isActive && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-primary2-500 dark:bg-primary2-400" />}
                         </Link>
                     );
                 })}
             </nav>
 
-            <div className="px-3 py-4 border-t border-white/10 space-y-2 shrink-0">
+            <div className="px-3 py-4 border-t border-gray-200 dark:border-white/10 space-y-2 shrink-0">
                 {/* Back to website */}
                 <div className="space-y-0.5">
-                    <p className="px-3 mb-1.5 text-[10px] uppercase tracking-widest text-white/30 font-medium">Navigate</p>
+                    <p className="px-3 mb-1.5 text-[10px] uppercase tracking-widest text-gray-400 dark:text-white/30 font-medium">Navigate</p>
                     <Link
                         href="/"
                         onClick={onNav}
-                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/60 hover:bg-white/5 hover:text-white transition-all group"
+                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-white/60 dark:hover:bg-white/5 dark:hover:text-white transition-all group"
                     >
-                        <RiArrowLeftLine className="text-lg shrink-0 text-white/40 group-hover:text-white/70" />
+                        <RiArrowLeftLine className="text-lg shrink-0 text-gray-400 group-hover:text-gray-600 dark:text-white/40 dark:group-hover:text-white/70" />
                         Back to Website
                     </Link>
                     <Link
                         href="/profile"
                         onClick={onNav}
-                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/60 hover:bg-white/5 hover:text-white transition-all group"
+                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-white/60 dark:hover:bg-white/5 dark:hover:text-white transition-all group"
                     >
-                        <RiExternalLinkLine className="text-lg shrink-0 text-white/40 group-hover:text-white/70" />
+                        <RiExternalLinkLine className="text-lg shrink-0 text-gray-400 group-hover:text-gray-600 dark:text-white/40 dark:group-hover:text-white/70" />
                         My Profile
                     </Link>
                 </div>
 
-                <div className="border-t border-white/10 pt-2">
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/5">
+                <div className="border-t border-gray-200 dark:border-white/10 pt-2">
+                    <div className="flex items-center gap-3 px-3 py-2 rounded-lg bg-gray-100 dark:bg-white/5">
                         <Avatar className="size-8 shrink-0">
                             {user?.imageUrl && <AvatarImage src={user.imageUrl} alt={user.name} />}
                             <AvatarFallback className="bg-primary2-700 text-white text-xs font-semibold">
@@ -139,15 +139,15 @@ function SidebarContent({ onNav }: { onNav?: () => void }) {
                             </AvatarFallback>
                         </Avatar>
                         <div className="min-w-0">
-                            <p className="text-sm font-medium text-white truncate">{user?.name ?? "Admin"}</p>
-                            <p className="text-[11px] text-white/40 truncate">{user?.email}</p>
+                            <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{user?.name ?? "Admin"}</p>
+                            <p className="text-[11px] text-gray-500 dark:text-white/40 truncate">{user?.email}</p>
                         </div>
                     </div>
                     <button
                         type="button"
                         onClick={handleLogout}
                         disabled={isLoggingOut}
-                        className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-400 hover:bg-red-500/10 transition-all disabled:opacity-50"
+                        className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-500 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10 transition-all disabled:opacity-50"
                     >
                         <RiLogoutBoxLine className="text-lg shrink-0" />
                         {isLoggingOut ? "Logging out..." : "Logout"}
@@ -164,23 +164,23 @@ const AdminSidebar = () => {
     return (
         <>
             {/* Desktop sidebar */}
-            <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-0 h-screen bg-[#041a12] border-r border-white/5 overflow-y-auto">
+            <aside className="hidden lg:flex flex-col w-64 shrink-0 sticky top-0 h-screen bg-white dark:bg-[#041a12] border-r border-gray-200 dark:border-white/5 overflow-y-auto" data-lenis-prevent>
                 <SidebarContent />
             </aside>
 
             {/* Mobile top bar */}
-            <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center gap-3 bg-[#041a12] border-b border-white/10 px-4 h-14">
+            <div className="lg:hidden fixed top-0 left-0 right-0 z-40 flex items-center gap-3 bg-white dark:bg-[#041a12] border-b border-gray-200 dark:border-white/10 px-4 h-14">
                 <button
                     type="button"
                     onClick={() => setMobileOpen(true)}
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-white/70 hover:bg-white/10 transition-colors"
+                    className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-600 hover:bg-gray-100 dark:text-white/70 dark:hover:bg-white/10 transition-colors"
                     aria-label="Open menu"
                 >
                     <RiMenuLine className="text-xl" />
                 </button>
                 <div className="flex items-center gap-2">
-                    <RiShieldCheckLine className="text-primary2-400 text-base shrink-0" />
-                    <span className="text-sm font-semibold text-white">BAMHS Admin</span>
+                    <RiShieldCheckLine className="text-primary2-500 dark:text-primary2-400 text-base shrink-0" />
+                    <span className="text-sm font-semibold text-gray-900 dark:text-white">BAMHS Admin</span>
                 </div>
             </div>
 
@@ -195,7 +195,7 @@ const AdminSidebar = () => {
             {/* Mobile drawer */}
             <aside
                 className={cn(
-                    "lg:hidden fixed top-0 left-0 z-50 h-full w-72 bg-[#041a12] transition-transform duration-300 ease-in-out",
+                    "lg:hidden fixed top-0 left-0 z-50 h-full w-72 bg-white dark:bg-[#041a12] transition-transform duration-300 ease-in-out",
                     mobileOpen ? "translate-x-0" : "-translate-x-full"
                 )}
             >
@@ -203,7 +203,7 @@ const AdminSidebar = () => {
                     <button
                         type="button"
                         onClick={() => setMobileOpen(false)}
-                        className="flex h-8 w-8 items-center justify-center rounded-lg text-white/60 hover:bg-white/10"
+                        className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 dark:text-white/60 dark:hover:bg-white/10"
                     >
                         <RiCloseLine className="text-xl" />
                     </button>

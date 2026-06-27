@@ -35,10 +35,10 @@ interface ProfileSidebarProps {
 
 const ProfileSidebar = ({ activeSection, onSectionChange }: ProfileSidebarProps) => {
     return (
-        <aside className="rounded-3xl shadow md:sticky md:top-24 h-fit">
+        <aside className="rounded-3xl shadow md:sticky md:top-24 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto md:flex md:flex-col bg-white dark:bg-gunmetal-800" data-lenis-prevent>
             {/* ── Desktop header (hidden on mobile) ─────────── */}
             <div
-                className="hidden md:block rounded-t-3xl px-4 py-3"
+                className="hidden md:block rounded-t-3xl px-4 py-3 shrink-0"
                 style={{ background: "linear-gradient(135deg, rgba(4,26,18,0.95) 0%, rgba(10,61,43,0.92) 55%, rgba(5,31,21,0.95) 100%)" }}
             >
                 <p className="text-xs uppercase tracking-[0.2em] text-white/60">Account Console</p>
@@ -46,7 +46,7 @@ const ProfileSidebar = ({ activeSection, onSectionChange }: ProfileSidebarProps)
             </div>
 
             {/* ── Mobile: icon grid ──────────────────────────── */}
-            <nav className="md:hidden p-3 grid grid-cols-7 gap-1" aria-label="Profile sections">
+            <nav className="md:hidden p-3 grid grid-cols-7 gap-1 bg-surface-50 dark:bg-gunmetal-900/50 rounded-b-3xl" aria-label="Profile sections">
                 {sidebarItems.map((item) => {
                     const isActive = item.id === activeSection;
                     return (
@@ -61,7 +61,7 @@ const ProfileSidebar = ({ activeSection, onSectionChange }: ProfileSidebarProps)
                                         "flex items-center justify-center rounded-xl p-2.5 text-xl transition-colors",
                                         isActive
                                             ? "bg-primary2-700 text-white shadow-sm"
-                                            : "bg-primary2-50 text-primary2-700 hover:bg-primary2-100",
+                                            : "bg-primary2-50 text-primary2-700 hover:bg-primary2-100 dark:bg-gunmetal-700 dark:text-gunmetal-200 dark:hover:bg-gunmetal-600",
                                     )}
                                 >
                                     {item.icon}
@@ -76,7 +76,7 @@ const ProfileSidebar = ({ activeSection, onSectionChange }: ProfileSidebarProps)
             </nav>
 
             {/* ── Desktop: full sidebar list ─────────────────── */}
-            <nav className="hidden md:flex flex-col gap-1.5 p-3" aria-label="Profile sections">
+            <nav className="hidden md:flex flex-col gap-1.5 p-3 flex-1" aria-label="Profile sections">
                 {sidebarItems.map((item, index) => {
                     const isActive = item.id === activeSection;
                     return (
@@ -89,21 +89,21 @@ const ProfileSidebar = ({ activeSection, onSectionChange }: ProfileSidebarProps)
                             onClick={() => onSectionChange(item.id)}
                             className={cn(
                                 "group flex w-full items-start gap-3 rounded-2xl px-3 py-3 text-left transition",
-                                isActive ? "bg-primary2-100 ring-1 ring-primary2-300" : "hover:bg-primary2-50",
+                                isActive ? "bg-primary2-100 ring-1 ring-primary2-300 dark:bg-primary2-900/40 dark:ring-primary2-700" : "hover:bg-primary2-50 dark:hover:bg-gunmetal-700/60",
                             )}
                             aria-current={isActive ? "page" : undefined}
                         >
                             <span className={cn(
                                 "mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-lg",
-                                isActive ? "bg-primary2-700 text-white" : "bg-primary2-100 text-primary2-700",
+                                isActive ? "bg-primary2-700 text-white" : "bg-primary2-100 text-primary2-700 dark:bg-gunmetal-700 dark:text-gunmetal-200",
                             )}>
                                 {item.icon}
                             </span>
                             <span className="min-w-0 flex-1">
-                                <span className="block text-sm font-semibold text-primary2-900">{item.label}</span>
+                                <span className="block text-sm font-semibold text-primary2-900 dark:text-gunmetal-100">{item.label}</span>
                                 <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">{item.description}</span>
                             </span>
-                            <RiArrowRightSLine className={cn("mt-1 text-lg transition", isActive ? "text-primary2-700" : "text-primary2-400 group-hover:text-primary2-600")} />
+                            <RiArrowRightSLine className={cn("mt-1 text-lg transition", isActive ? "text-primary2-700 dark:text-primary2-400" : "text-primary2-400 group-hover:text-primary2-600")} />
                         </motion.button>
                     );
                 })}

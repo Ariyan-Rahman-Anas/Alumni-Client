@@ -47,6 +47,7 @@ const SECTIONS = {
 export type TSection = keyof typeof SECTIONS
 
 const TABLE_PAGE_SIZE = 10
+const PAGE_SECTION_SIZE = 9
 const GALLERY_PAGE_SIZE = 10
 const TABLE_SKELETON_ROWS = 5
 
@@ -197,6 +198,7 @@ export const constantsData = {
     BLOOD_GROUPS,
     SECTIONS,
     TABLE_PAGE_SIZE,
+    PAGE_SECTION_SIZE,
     GALLERY_PAGE_SIZE,
     COUNTRY_CODES,
     TABLE_SKELETON_ROWS,

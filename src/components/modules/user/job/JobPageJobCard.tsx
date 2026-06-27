@@ -33,7 +33,7 @@ const JobPageJobCard = ({ job, index }: { job: IJobPost; index: number }) => {
         <FadeUpWrapper
             delay={index * 0.04}
             onClick={() => router.push(`/jobs/${job._id}`)}
-            className="group relative bg-white rounded-2xl border border-surface-200 p-5 hover:shadow-md hover:border-primary2-300 cursor-pointer transition-all duration-300 flex flex-col"
+            className="group relative bg-white dark:bg-gunmetal-800 rounded-2xl border border-surface-200 dark:border-gunmetal-700 p-5 hover:shadow-md hover:border-primary2-300 cursor-pointer transition-all duration-300 flex flex-col"
         >
             {/* Type badge */}
             <div className="flex items-start justify-between gap-3 mb-3">
@@ -43,7 +43,7 @@ const JobPageJobCard = ({ job, index }: { job: IJobPost; index: number }) => {
                 <span className="text-xs text-muted-foreground whitespace-nowrap shrink-0">{postedAgo}</span>
             </div>
 
-            <h3 className="font-bold text-primary2-900 text-base leading-snug mb-1 group-hover:text-primary2-700 transition-colors line-clamp-2">
+            <h3 className="font-bold text-primary2-900 dark:text-gunmetal-100 text-base leading-snug mb-1 group-hover:text-primary2-700 transition-colors line-clamp-2">
                 {job.title}
             </h3>
 
@@ -78,12 +78,12 @@ const JobPageJobCard = ({ job, index }: { job: IJobPost; index: number }) => {
             <p className="mt-2 text-sm text-muted-foreground line-clamp-2 flex-1">{job.description}</p>
 
             {/* Footer */}
-            <div className="flex items-center justify-between mt-4 pt-3 border-t border-surface-100">
+            <div className="flex items-center justify-between mt-4 pt-3 border-t border-surface-100 dark:border-gunmetal-700">
                 <div className="flex items-center gap-2">
                     {job.postedBy.imageUrl ? (
                         <Image src={job.postedBy.imageUrl} alt={job.postedBy.name} width={24} height={24} className="rounded-full object-cover" />
                     ) : (
-                        <div className="w-6 h-6 rounded-full bg-primary2-100 flex items-center justify-center text-xs font-bold text-primary2-700">
+                        <div className="w-6 h-6 rounded-full bg-primary2-100 dark:bg-primary2-900/40 flex items-center justify-center text-xs font-bold text-primary2-700 dark:text-primary2-300">
                             {job.postedBy.name[0]}
                         </div>
                     )}

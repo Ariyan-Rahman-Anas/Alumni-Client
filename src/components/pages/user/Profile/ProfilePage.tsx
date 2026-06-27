@@ -20,13 +20,28 @@ import MyContributionsPanel from "@/components/modules/user/profile/MyContributi
 import MyTestimonialPanel from "@/components/modules/user/profile/MyTestimonialPanel";
 
 const ProfileSkeleton = () => (
-    <div className="flex flex-col gap-5 animate-pulse">
-        {/* Hero skeleton */}
-        <div className="rounded-3xl h-48 bg-surface-200" />
-        {/* Cards skeleton */}
-        {[0, 1, 2, 3].map((i) => (
-            <div key={i} className="rounded-2xl border border-surface-300/40 bg-surface h-44" />
-        ))}
+    <div className="animate-pulse">
+        {/* Mirror actual grid: sidebar (290px) + main column */}
+        <div className="grid grid-cols-1 lg:grid-cols-[290px_minmax(0,1fr)] gap-6">
+            {/* Sidebar skeleton */}
+            <div className="rounded-3xl overflow-hidden hidden lg:block">
+                <div className="h-20 bg-gunmetal-700/60" />
+                <div className="p-3 space-y-2 bg-surface-100 dark:bg-gunmetal-800">
+                    {Array.from({ length: 7 }).map((_, i) => (
+                        <div key={i} className="h-14 rounded-2xl bg-surface-200 dark:bg-gunmetal-700" />
+                    ))}
+                </div>
+            </div>
+            {/* Main column skeleton */}
+            <div className="space-y-5">
+                {/* Hero banner */}
+                <div className="rounded-3xl h-48 bg-surface-200 dark:bg-gunmetal-700" />
+                {/* Content cards */}
+                {[0, 1, 2].map((i) => (
+                    <div key={i} className="rounded-2xl border border-surface-300/40 dark:border-gunmetal-600 bg-surface-100 dark:bg-gunmetal-800 h-44" />
+                ))}
+            </div>
+        </div>
     </div>
 );
 
