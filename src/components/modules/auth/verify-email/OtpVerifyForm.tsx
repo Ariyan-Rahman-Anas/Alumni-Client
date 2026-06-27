@@ -83,14 +83,9 @@ const OtpVerifyForm = ({ email }: OtpVerifyFormProps) => {
             }
             try {
                 const verifyRes = await verifyOtp({ email, otp: code }).unwrap();
-                // toast.success("Email verified! You can now log in once your account is approved.");
                 toast.success(verifyRes.message);
                 router.push("/login");
-            } catch (err: unknown) {
-                const message =
-                    (err as { data?: { message?: string } })?.data?.message ||
-                    "Verification failed. Please try again.";
-                toast.error(message);
+            } catch {
                 // clear otp boxes on failure
                 setOtp(Array(OTP_LENGTH).fill(""));
                 focusInput(0);

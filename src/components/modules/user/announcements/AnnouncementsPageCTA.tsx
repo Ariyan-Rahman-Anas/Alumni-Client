@@ -1,6 +1,7 @@
 "use client";
 
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
+import PrimaryButton from "@/components/shared/PrimaryButton";
 import { useSchoolInfo } from "@/hooks/useSchoolInfo";
 import {
     RiMailLine,
@@ -34,9 +35,9 @@ const AnnouncementsPageCTA = () => {
 
                         {/* ── Left content ── */}
                         <div className="flex-1">
-                            <h2 className="mt-5 text-2xl sm:text-3xl font-bold text-white leading-snug max-w-xl">
+                            <h2 className="mt-5 text-2xl sm:text-3xl font-bold text-white dark:text-gunmetal-200 leading-snug max-w-xl">
                                 Never miss an Update,{" "}
-                                <span className="text-primary2-300">to Stay Informed</span>
+                                <span className="text-primary2-300 dark:text-primary">to Stay Informed</span>
                             </h2>
                             <p className="text-base sm:text-lg leading-relaxed max-w-2xl text-gunmetal-300 mt-5 mb-8">
                                 Important notices and time-sensitive alerts are posted here first.
@@ -47,22 +48,22 @@ const AnnouncementsPageCTA = () => {
                         {/* ── Right — Contact card ── */}
                         <div className="lg:shrink-0 lg:w-72">
                             <div className="rounded-2xl bg-white/10 border border-white/15 p-5 space-y-4 backdrop-blur-sm">
-                                <p className="text-xs font-bold text-white dark:text-gunmetal-300 uppercase tracking-widest">
+                                <p className="text-sm font-semibold text-white dark:text-gunmetal-200 tracking-widest">
                                     Contact Alumni Office
                                 </p>
                                 <div className="space-y-3">
                                     <a
                                         href={`mailto:${email}`}
-                                        className="flex items-center gap-3 text-sm text-white/75 hover:text-white transition-colors group"
+                                        className="flex items-center gap-3 text-sm text-white/75 dark:text-gunmetal-200 hover:text-white dark:hover:text-gunmetal-100 transition-colors group"
                                     >
-                                        <RiMailLine className="text-primary2-300 group-hover:text-white text-base shrink-0" />
+                                        <RiMailLine />
                                         <span className="truncate">{email}</span>
                                     </a>
                                     <a
                                         href={`tel:${contactNumber}`}
-                                        className="flex items-center gap-3 text-sm text-white/75 hover:text-white transition-colors group"
+                                        className="flex items-center gap-3 text-sm text-white/75 dark:text-gunmetal-200 hover:text-white dark:hover:text-gunmetal-100 transition-colors group"
                                     >
-                                        <RiPhoneLine className="text-primary2-300 group-hover:text-white text-base shrink-0" />
+                                        <RiPhoneLine />
                                         {contactNumber}
                                     </a>
                                     {facebook && (
@@ -70,9 +71,9 @@ const AnnouncementsPageCTA = () => {
                                             href={facebook}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center gap-3 text-sm text-white/75 hover:text-white transition-colors group"
+                                            className="flex items-center gap-3 text-sm text-white/75 dark:text-gunmetal-200 hover:text-white dark:hover:text-gunmetal-100 transition-colors group"
                                         >
-                                            <RiFacebookBoxLine className="text-primary2-300 group-hover:text-white text-base shrink-0" />
+                                            <RiFacebookBoxLine />
                                             Follow on Facebook
                                         </a>
                                     )}
@@ -81,22 +82,22 @@ const AnnouncementsPageCTA = () => {
                                             href={youtube}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center gap-3 text-sm text-white/75 hover:text-white transition-colors group"
+                                            className="flex items-center gap-3 text-sm text-white/75 dark:text-gunmetal-200 hover:text-white dark:hover:text-gunmetal-100 transition-colors group"
                                         >
-                                            <RiYoutubeLine className="text-primary2-300  group-hover:text-white text-base shrink-0" />
+                                            <RiYoutubeLine />
                                             Subscribe on YouTube
                                         </a>
                                     )}
                                 </div>
-                                <a
+
+                                <PrimaryButton
+                                    title="Message on WhatsApp"
+                                    icon={<RiWhatsappLine />}
                                     href={`https://wa.me/${whatsappNumber.replace(/\D/g, "")}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center justify-center gap-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-semibold py-2.5 transition-all group"
-                                >
-                                    <RiWhatsappLine className="text-green-400 group-hover:text-white text-base" />
-                                    Message on WhatsApp
-                                </a>
+                                    isNewTab={true}
+                                    isFullWidth={true}
+                                    className="mt-2 bg-transparent dark:bg-transparent border border-white/20 hover:border-white/45 text-white/75 hover:text-white dark:text-gunmetal-200 dark:hover:text-gunmetal-100 transition-colors"
+                                />
                             </div>
                         </div>
 

@@ -24,8 +24,6 @@ import {
 } from "./registrationSchema";
 import { constantsData } from "@/constants";
 import { IRegisterPayload } from "@/app/(auth)/auth.types";
-import { IServerErrorRes } from "@/types/common.components.types";
-
 
 const RegistrationForm = () => {
     const router = useRouter();
@@ -128,11 +126,7 @@ const RegistrationForm = () => {
             setAlumniProofFile(null);
             setAlumniProofError(undefined);
             router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
-        } catch (error: unknown) {
-            const err = error as IServerErrorRes
-            toast.error(err.data.message ||
-                "Registration failed. Please try again!");
-        }
+        } catch {}
     };
 
     return (
