@@ -34,7 +34,7 @@ const HeroSection = () => {
                 className="absolute inset-0"
             >
                 <Image
-                    src={bannerUrl || staticImages.bamhsBackground}
+                    src={bannerUrl || staticImages.alumniImg}
                     alt="BAMHS School Ground"
                     fill
                     priority

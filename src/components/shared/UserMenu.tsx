@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
-import { RiUser3Line, RiUserLine, RiLogoutBoxLine} from "react-icons/ri";
+import { RiUser3Line, RiUserLine } from "react-icons/ri";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -21,6 +21,8 @@ import type { UserMenuProps } from "@/types/common.components.types";
 import { clearUser, selectCurrentUser } from "@/redux/slice/authSlice";
 import { MdDashboard } from "react-icons/md";
 import { constantsData } from "@/constants";
+import PrimaryButton from "./PrimaryButton";
+import { CiLogout } from "react-icons/ci";
 
 const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
     const router = useRouter();
@@ -73,7 +75,7 @@ const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
                 </button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent align={align} sideOffset={8} className="w-56">
+            <DropdownMenuContent align={align} sideOffset={8} className="w-56 p-0">
                 {/* User info header */}
                 <DropdownMenuLabel className="px-3 py-2.5">
                     <p className="text-sm font-semibold truncate text-primary2-700 dark:text-gunmetal-200 ">{user?.name}</p>
@@ -82,36 +84,36 @@ const UserMenu = ({ size = "md", align = "end" }: UserMenuProps) => {
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem asChild>
-                    <Link href="/profile" className="flex items-center gap-2">
-                        <RiUser3Line className="size-4 text-primary2-500" />
-                        Profile
-                    </Link>
-                </DropdownMenuItem>
+                <div className="px-1">
+                    <DropdownMenuItem asChild>
+                        <Link href="/profile" className="flex items-center gap-2">
+                            <RiUser3Line className="size-4 text-primary2-500" />
+                            Profile
+                        </Link>
+                    </DropdownMenuItem>
 
-                {(user?.role === constantsData.USER_ROLE.ADMIN || user?.role === constantsData.USER_ROLE.SUPER_ADMIN) && (
-                    <>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild>
-                            <Link href="/admin/overview" className="flex items-center gap-2">
-                                <MdDashboard className="size-4 text-primary2-500" />
-                                Admin Dashboard
-                            </Link>
-                        </DropdownMenuItem>
-                    </>
-                )}
+                    {(user?.role === constantsData.USER_ROLE.ADMIN || user?.role === constantsData.USER_ROLE.SUPER_ADMIN) && (
+                        <>
+                            {/* <DropdownMenuSeparator /> */}
+                            <DropdownMenuItem asChild>
+                                <Link href="/admin/overview" className="flex items-center gap-2">
+                                    <MdDashboard className="size-4 text-primary2-500" />
+                                    Admin Dashboard
+                                </Link>
+                            </DropdownMenuItem>
+                        </>
+                    )}
+                </div>
 
-                <DropdownMenuSeparator />
-
-                <DropdownMenuItem
+                <PrimaryButton
                     variant="destructive"
+                    title={isLoggingOut ? "Logging out..." : "Logout"}
                     onClick={handleLogout}
-                    disabled={isLoggingOut}
-                    className="flex items-center gap-2"
-                >
-                    <RiLogoutBoxLine className="size-4" />
-                    {isLoggingOut ? "Logging out..." : "Logout"}
-                </DropdownMenuItem>
+                    isDisabled={isLoggingOut}
+                    isFullWidth={true}
+                    className="mt-1 rounded-b-lg rounded-t-none border-none dark:bg-danger/10 dark:text-danger dark:hover:bg-danger/20"
+                    icon2={<CiLogout className="rotate-180" />}
+                />
             </DropdownMenuContent>
         </DropdownMenu>
     );
