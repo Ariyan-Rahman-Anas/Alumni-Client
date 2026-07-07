@@ -653,7 +653,7 @@ const RegistrationForm = () => {
 
             <form className="mt-2" onSubmit={handleSubmit(onSubmit)} onKeyDown={handleFormKeyDown} noValidate>
                 <div className="mb-5">
-                    <h3 className="text-lg font-bold text-primary2-900 dark:text-gunmetal-100">
+                    <h3 className="text-lg font-bold text-primary2-950 dark:text-gunmetal-100">
                         {STEPS[currentStep].title}
                     </h3>
                     <p className="text-sm text-gunmetal-300">{STEPS[currentStep].subtitle}</p>

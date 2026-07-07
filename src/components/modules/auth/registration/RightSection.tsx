@@ -14,11 +14,11 @@ const RightSection = () => {
                 transition={{ duration: 0.7, delay: 0.12, ease: [0.19, 1, 0.22, 1] }}
                 className="rounded-3xl rounded-t-none lg:rounded-tl-none lg:rounded-tr-3xl bg-white dark:bg-gunmetal-600 p-7 sm:p-9"
             >
-                <div className="">
+                <div className="mb-4">
                     <h2 className="text-2xl font-bold leading-tight text-primary2-900 dark:text-gunmetal-100 sm:text-[1.7rem]">
                         Register as BAMHS Alumni
                     </h2>
-                    <p className="mt-2 text-sm leading-relaxed text-gunmetal-300">
+                    <p className="mt-1 text-sm leading-relaxed text-gunmetal-300">
                         Submit your details once, your profile goes live after email
                         verification and admin approval.
                     </p>
