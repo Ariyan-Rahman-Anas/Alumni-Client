@@ -59,7 +59,7 @@ const Footer = () => {
 
   return (
     <footer
-      className="relative overflow-hidden rounded-t-pillmd:rounded-t-circle"
+      className="relative overflow-hidden rounded-2xl shadow m-2"
       style={{
         background: "linear-gradient(180deg, #0A3D2B 0%, #051F15 100%)",
       }}

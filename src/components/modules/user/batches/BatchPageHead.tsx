@@ -1,37 +1,74 @@
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import SectionLabel from "@/components/shared/SectionLabel"
+import { ReactNode } from "react"
 import { RiGroupLine } from "react-icons/ri"
 
-const BatchPageHead = () => {
-    return (
-        <FadeUpWrapper><section className="relative overflow-hidden rounded-3xl"
-            style={{ background: "linear-gradient(145deg, #041a12 0%, #0a3d2b 55%, #062319 100%)" }}>
-            <div className="absolute inset-0 pointer-events-none opacity-25"
-                style={{
-                    backgroundImage:
-                        "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-                    backgroundSize: "60px 60px",
-                }}
-            />
-            <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full blur-3xl opacity-25"
-                style={{ background: "rgba(46,139,87,1)" }} />
-            <div className="absolute -bottom-12 left-1/3 h-48 w-48 rounded-full blur-3xl opacity-15"
-                style={{ background: "rgba(245,158,11,1)" }} />
+interface IStat {
+    icon: ReactNode
+    value: string
+    label: string
+    color: string
+}
 
-            <div className="relative z-10 px-7 py-12 sm:px-12 sm:py-16">
-                <FadeUpWrapper>
-                    <SectionLabel text="Batch Universe" align="left" icon={<RiGroupLine />}
-                        className="text-primary2-300 dark:text-gunmetal-300 border-primary2-600 dark:border-gunmetal-400 " />
-                    <h1 className="text-3xl sm:text-5xl lg:text-6xl mt-5 font-bold text-white leading-tight max-w-3xl">
-                        Every batch,{" "}
-                        <span className="text-primary2-300">one Connected Ecosystem</span>
-                    </h1>
-                    <p className="text-base sm:text-lg leading-relaxed max-w-4xl text-gunmetal-300 mb-12 mt-5">
-                        Map alumni by era, enable batch-led initiatives, and unlock collaboration patterns spanning six decades of graduating classes.
-                    </p>
-                </FadeUpWrapper>
+const BatchPageHead = ({ stats }: { stats: IStat[] }) => {
+    return (
+        <section className="three-xl-section-setup space-y-8 ">
+            <FadeUpWrapper delay={0.1}
+                className="relative overflow-hidden rounded-3xl"
+                style={{ background: "linear-gradient(145deg, #041a12 0%, #0c4a34 55%, #062319 100%)" }}
+            >
+                <div
+                    className="absolute inset-0 pointer-events-none opacity-30"
+                    style={{
+                        backgroundImage:
+                            "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+                        backgroundSize: "60px 60px",
+                    }}
+                />
+                <div
+                    className="absolute -top-24 -left-24 h-72 w-72 rounded-full blur-3xl opacity-25"
+                    style={{ background: "rgba(46,139,87,1)" }}
+                />
+                <div
+                    className="absolute -bottom-16 -right-16 h-56 w-56 rounded-full blur-3xl opacity-20"
+                    style={{ background: "rgba(245,158,11,1)" }}
+                />
+
+                <div className="relative z-10 three-xl-section-padding ">
+                    <FadeUpWrapper
+                        delay={0.15}
+                    >
+                        <SectionLabel text="Batch Universe" align="left" icon={<RiGroupLine />}
+                            className="text-primary2-300 dark:text-gunmetal-300 border-primary2-600 dark:border-gunmetal-400 " />
+                        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold mt-5 text-white dark:text-gunmetal-200 leading-tight max-w-3xl">
+                            Every batch,{" "}
+                            <span className="text-primary2-300 dark:text-primary">One Connected Ecosystem</span>
+                        </h1>
+                        <p className="text-base sm:text-lg leading-relaxed max-w-4xl text-gunmetal-300 mb-12 mt-5">
+                            Map alumni by era, enable batch-led initiatives, and unlock collaboration patterns spanning six decades of graduating classes.
+                        </p>
+                    </FadeUpWrapper>
+                </div>
+            </FadeUpWrapper>
+
+            {/* ═══ LIVE STATS STRIP */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {stats.map(({ icon, value, label, color }) => (
+                    <div
+                        key={label}
+                        className="rounded-2xl border border-surface-300/60 dark:border-gunmetal-500/50 bg-white dark:bg-gunmetal-800 px-5 py-5 flex items-center gap-4"
+                    >
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${color}`}>
+                            {icon}
+                        </div>
+                        <div className="min-w-0">
+                            <p className="text-xl font-bold text-primary2-900 dark:text-gunmetal-100 leading-none">{value}</p>
+                            <p className="mt-1 text-xs text-muted-foreground truncate">{label}</p>
+                        </div>
+                    </div>
+                ))}
             </div>
-        </section></FadeUpWrapper>
+        </section>
     )
 }
 export default BatchPageHead

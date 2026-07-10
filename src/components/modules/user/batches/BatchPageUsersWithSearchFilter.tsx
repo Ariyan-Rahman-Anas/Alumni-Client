@@ -41,8 +41,8 @@ const BatchPageUsersWithSearchFilter = () => {
     const bloodGroupOptions = [{ label: "All blood groups", value: "" }, ...bloodGroups];
 
     return (
-        <FadeUpWrapper><div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900 mb-5">Batch Directory</h2>
+        <FadeUpWrapper className="three-xl-section-setup ">
+            <h2 className="text-2xl sm:text-3xl font-bold text-primary2-900 mb-1">Batch Directory</h2>
             <p className="mb-5 text-sm text-muted-foreground">Comprehensive alumni directory with batch, contact, and professional details.</p>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
                 <div className="flex-1 w-full max-w-2xl">
@@ -128,7 +128,7 @@ const BatchPageUsersWithSearchFilter = () => {
                 section={filters.section}
                 batch={filters.batch}
             />
-        </div></FadeUpWrapper>
+        </FadeUpWrapper>
     )
 }
 export default BatchPageUsersWithSearchFilter
