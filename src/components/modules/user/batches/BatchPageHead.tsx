@@ -1,18 +1,10 @@
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage"
 import SectionLabel from "@/components/shared/SectionLabel"
-import { ReactNode } from "react"
 import { RiGroupLine } from "react-icons/ri"
 
-interface IStat {
-    icon: ReactNode
-    value: string
-    label: string
-    color: string
-}
-
-const BatchPageHead = ({ stats }: { stats: IStat[] }) => {
+const BatchPageHead = () => {
     return (
-        <section className="three-xl-section-setup space-y-8 ">
+        <section className="three-xl-section-setup">
             <FadeUpWrapper delay={0.1}
                 className="relative overflow-hidden rounded-3xl"
                 style={{ background: "linear-gradient(145deg, #041a12 0%, #0c4a34 55%, #062319 100%)" }}
@@ -50,24 +42,6 @@ const BatchPageHead = ({ stats }: { stats: IStat[] }) => {
                     </FadeUpWrapper>
                 </div>
             </FadeUpWrapper>
-
-            {/* ═══ LIVE STATS STRIP */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                {stats.map(({ icon, value, label, color }) => (
-                    <div
-                        key={label}
-                        className="rounded-2xl border border-surface-300/60 dark:border-gunmetal-500/50 bg-white dark:bg-gunmetal-800 px-5 py-5 flex items-center gap-4"
-                    >
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0 ${color}`}>
-                            {icon}
-                        </div>
-                        <div className="min-w-0">
-                            <p className="text-xl font-bold text-primary2-900 dark:text-gunmetal-100 leading-none">{value}</p>
-                            <p className="mt-1 text-xs text-muted-foreground truncate">{label}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
         </section>
     )
 }

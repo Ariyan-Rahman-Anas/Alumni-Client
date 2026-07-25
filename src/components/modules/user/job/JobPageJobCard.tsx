@@ -43,7 +43,7 @@ const JobPageJobCard = ({ job, index }: { job: IJobPost; index: number }) => {
                 <span className="text-xs text-muted-foreground whitespace-nowrap shrink-0">{postedAgo}</span>
             </div>
 
-            <h3 className="font-bold text-primary2-900 dark:text-gunmetal-100 text-base leading-snug mb-1 group-hover:text-primary2-700 transition-colors line-clamp-2">
+            <h3 className="font-bold text-primary2-950 dark:text-gunmetal-100 text-base leading-snug mb-1 group-hover:text-primary2-700 transition-colors line-clamp-2">
                 {job.title}
             </h3>
 

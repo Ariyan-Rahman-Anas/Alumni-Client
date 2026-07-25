@@ -170,11 +170,10 @@ const AboutSection = () => {
                             {/* Card header */}
                             <div className="flex items-center justify-between mb-8">
                                 <div>
-                                    <p className="text-xs tracking-[0.15em] text-primary2-300 dark:text-gunmetal-300 mb-1"
-                                    >
+                                    <p className="text-xs tracking-[0.15em] text-gunmetal-200 mb-1">
                                         Alumni Community Portal
                                     </p>
-                                    <p className="font-display font-bold text-xl text-primary2-100 dark:text-gunmetal-200 "
+                                    <p className="font-display font-bold text-xl text-gunmetal-100 dark:text-gunmetal-200 "
                                     >
                                         {shortName} Alumni
                                     </p>
@@ -186,15 +185,12 @@ const AboutSection = () => {
                             </div>
 
                             {/* Community pillars — timeline style, no nested cards */}
-                            <div className="relative pl-6 space-y-6 mb-8">
-                                {/* Vertical accent line */}
-                                <div
-                                    className="absolute left-0 top-1 bottom-1 w-[2px] rounded-full bg-gradient-to-b from-primary2-500 to-primary2-500/10 dark:from-gunmetal-200 dark:to-gunmetal-200/10 " />
+                            <div className="relative space-y-6 mb-8">
                                 {[
                                     {
                                         icon: <RiGroupLine />,
                                         title: "Reconnect",
-                                        desc: "Find batchmates from any year, from any corner of the world.",
+                                        desc: "Find batch mates from any year, from any corner of the world.",
                                     },
                                     {
                                         icon: <RiHeartLine />,
@@ -208,18 +204,15 @@ const AboutSection = () => {
                                     },
                                 ].map(({ icon, title, desc }) => (
                                     <div key={title} className="flex items-start gap-3">
-                                        {/* Dot on the line */}
-                                        <div
-                                            className="absolute -left-[5px] w-3 h-3 rounded-full border-2 mt-0.5 bg-primary2-800 dark:bg-gunmetal-800 border-primary2-400 dark:border-gunmetal-200 " />
                                         <span
-                                            className="text-base shrink-0 mt-0.5 text-primary2-400 dark:text-gunmetal-300">
+                                            className="text-base shrink-0 mt-0.5 text-gunmetal-200 dark:text-gunmetal-300">
                                             {icon}
                                         </span>
                                         <div>
-                                            <p className="font-semibold text-sm mb-0.5 text-primary2-100 dark:text-gunmetal-200">
+                                            <p className="font-semibold text-sm mb-0.5 text-gunmetal-100 dark:text-gunmetal-200">
                                                 {title}
                                             </p>
-                                            <p className="text-[12px] leading-relaxed text-primary2-300 dark:text-gunmetal-300 ">
+                                            <p className="text-[12px] leading-relaxed text-gunmetal-200 dark:text-gunmetal-300">
                                                 {desc}
                                             </p>
                                         </div>
@@ -232,7 +225,7 @@ const AboutSection = () => {
                                 style={{ background: "rgba(46,139,87,0.16)" }} />
 
                             {/* Community quote */}
-                            <div className="flex items-start gap-3 text-primary2-400 dark:text-gunmetal-300">
+                            <div className="flex items-start gap-3 text-gunmetal-300">
                                 <RiHeartLine className="text-lg shrink-0 mt-0.5 " />
                                 <p className="text-sm leading-relaxed italic ">
                                     &ldquo;More than graduates — we are a lifelong family,
@@ -241,7 +234,7 @@ const AboutSection = () => {
                             </div>
 
                             {/* Card footer */}
-                            <div className="flex items-center justify-between mt-6 pt-5 text-xs font-semibold text-primary2-400 dark:text-gunmetal-300">
+                            <div className="flex items-center justify-between mt-6 pt-5 text-xs font-semibold text-primary2-300 dark:text-gunmetal-300">
                                 <p className="tracking-widest uppercase"
                                 >
                                     Est. 1966 · {addresses.area}.

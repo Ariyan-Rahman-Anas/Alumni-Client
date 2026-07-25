@@ -12,7 +12,7 @@ import HomePageCTA from "@/components/modules/user/home/HomePageCTA";
 import HeroSection from "@/components/modules/user/home/HeroSection";
 import BloodSection from "@/components/modules/user/home/BloodSection";
 
-/* ── Fade-up wrapper ──────────────────────────────────────── */
+/* ── Fade-up wrapper  */
 export const FadeUpWrapper = ({
     children,
     delay = 0,
@@ -55,37 +55,37 @@ export const FadeUpWrapper = ({
 const HomePage = () => {
     return (
         <div className="overflow-x-hidden space-y-10">
-            {/* ══ 1. HERO ══════════════════════════════════════════ */}
+            {/* ══ 1. HERO  */}
             <HeroSection />
 
-            {/* ══ 2. STATS ══════════════════════════════════════════ */}
+            {/* ══ 2. STATS  */}
             <StatsSection />
 
 
-            {/* ══ 3. ABOUT / MISSION ════════════════════════════════ */}
+            {/* ══ 3. ABOUT / MISSION  */}
             <AboutSection />
 
-            {/* ══ 4. BATCHES ════════════════════════════════════════ */}
+            {/* ══ 4. BATCHES  */}
             <BatchesSection />
 
 
-            {/* ══ 5. EVENTS ═════════════════════════════════════════ */}
+            {/* ══ 5. EVENTS  */}
             <EventsSection />
 
 
-            {/* ══ 6. TESTIMONIAL SLIDER ════════════════════════════ */}
+            {/* ══ 6. TESTIMONIAL SLIDER  */}
             <TestimonialsSection />
 
 
-            {/* ══ 7. GALLERY PREVIEW ════════════════════════════════ */}
+            {/* ══ 7. GALLERY PREVIEW  */}
             <GallerySection />
 
             
-            {/* ══ 8. BLOOD BANK CTA ═════════════════════════════════ */}
+            {/* ══ 8. BLOOD BANK CTA  */}
             <BloodSection />
 
             
-            {/* ══ 9. FINAL CTA ══════════════════════════════════════ */}
+            {/* ══ 9. FINAL CTA  */}
             <HomePageCTA />
         </div>
     )

@@ -1,5 +1,3 @@
-"use client"
-
 import Link from "next/link"
 import { RiUserAddLine } from "react-icons/ri"
 import LoginForm from "./LoginForm"

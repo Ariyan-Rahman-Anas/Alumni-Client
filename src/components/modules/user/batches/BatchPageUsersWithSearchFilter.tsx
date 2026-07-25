@@ -1,3 +1,5 @@
+"use client";
+
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 import InputField from "@/components/shared/InputField";
 import SingleSelect from "@/components/shared/SingleSelect";
