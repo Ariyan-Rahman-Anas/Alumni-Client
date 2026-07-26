@@ -121,7 +121,7 @@ const HeroSection = () => {
                         variant="outline"
                         title="Find Your Batch"
                         href="/batches"
-                        className="px-8 py-6 bg-white/5 text-white backdrop-blur border-white/50 duration-300"
+                        className="px-8 py-6 bg-white/5 text-white backdrop-blur border-white/50 duration-300 dark:bg-transparent dark:border-gunmetal-300"
                     />
                 </motion.div>
             </motion.div>
