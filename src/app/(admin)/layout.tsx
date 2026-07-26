@@ -14,8 +14,8 @@ const sanchez = Sanchez({
 
 export const metadata: Metadata = {
     title: {
-        default: "Admin Dashboard | BAMHS",
-        template: "%s | Admin — BAMHS",
+        default: "Admin Dashboard",
+        template: "%s | Admin",
     },
 };
 

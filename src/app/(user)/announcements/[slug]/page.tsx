@@ -6,7 +6,7 @@ export async function generateMetadata(): Promise<Metadata> {
     const wm = await getWebsiteData();
     const shortName = wm?.schoolName ? toShortName(wm.schoolName) : "BAMHS";
     return {
-        title: "Announcement",
+        title: "Announcement's details",
         description: `Read the full announcement from ${shortName} Alumni Association.`,
     };
 }

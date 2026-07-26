@@ -7,8 +7,8 @@ import { Toaster } from "sonner";
 import { Sanchez, Splash } from "next/font/google";
 import { cn } from "@/lib/utils";
 import SmoothScroller from "@/lib/SmoothScroller";
+import { getWebsiteData, toShortName } from "@/lib/getWebsiteData";
 
-/* ── Fonts ─────────────────────────────────────────────────── */
 const sanchez = Sanchez({
   subsets: ["latin", "latin-ext"],
   variable: "--font-sanchez",
@@ -25,59 +25,47 @@ const splash = Splash({
   style: ["normal"],
 });
 
+export async function generateMetadata(): Promise<Metadata> {
+  const wm = await getWebsiteData();
 
-/* ── Metadata ──────────────────────────────────────────────── */
-export const metadata: Metadata = {
-  title: {
-    default: "Alumni Association of Battali Abdul Matin High School - BAMHS, Nangalkot, Cumilla, Chattogram, Bangladesh",
-    template: "%s | BAMHS",
-  },
-  description:
-    "The Official Website of Battali Abdul Matin High School's Alumni Association. Located in Battali Bazar, Nangalkot, Cumilla, Chattogram, Bangladesh.",
-  keywords: [
-    "BAMHS",
-    "Battali Abdul Matin High School",
-    "BAMHSIAN",
-    "Alumni of BAMHS",
-    "Battali",
-    "Nangalkot",
-    "Cumilla",
-    "Chattogram",
-    "Bangladesh",
-  ],
-  authors: [{ name: "BAMHS" }],
-  openGraph: {
-    title: "Alumni Association of Battali Abdul Matin High School - BAMHS, Nangalkot, Cumilla, Chattogram, Bangladesh",
-    description:
-      "The Official Website of Battali Abdul Matin High School's Alumni Association. Located in Battali Bazar, Nangalkot, Cumilla, Chattogram, Bangladesh.",
-    type: "website",
-    locale: "en_US",
-  },
-};
+  const schoolName = wm?.schoolName ?? "Battali Abdul Matin High School";
+  const shortName = wm?.schoolName ? toShortName(wm.schoolName)+"ian" : "BAMHSian";
+  const location = `${wm?.thana ?? "Nangalkot"}, ${wm?.district ?? "Cumilla"}, ${wm?.division ?? "Chattogram"}, ${wm?.country ?? "Bangladesh"}`;
+  const description =
+    wm?.motto ||
+    `The Official Website of ${schoolName}'s Alumni Association. Located in ${wm?.area ?? "Battali"}, ${location}.`;
+  const fullTitle = `Alumni Association of ${schoolName} - ${shortName}, ${location}`;
 
-/* ── Root Layout ───────────────────────────────────────────── */
+  return {
+    title: {
+      default: fullTitle,
+      template: `%s | ${shortName}`,
+    },
+    description,
+    keywords: [shortName, schoolName, `${shortName}ian`, wm?.thana, wm?.district, wm?.division, wm?.country].filter(Boolean) as string[],
+    authors: [{ name: shortName }],
+    openGraph: {
+      title: fullTitle,
+      description,
+      type: "website",
+      locale: "en_US",
+      images: wm?.bannerUrl ? [wm.bannerUrl] : undefined,
+    },
+  };
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={cn(sanchez.variable, splash.variable)}
-      suppressHydrationWarning
-    >
-      <body
-        className="
-          antialiased
-          bg-white dark:bg-gunmetal-900
-          max-w-full
-          min-h-screen h-full
-        ">
+    <html lang="en" className={cn(sanchez.variable, splash.variable)} suppressHydrationWarning>
+      <body className="antialiased bg-white dark:bg-gunmetal-900 max-w-full min-h-screen h-full">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <StoreProvider>
-              <TooltipProvider>
-                <SmoothScroller>{children}</SmoothScroller>
-                <Toaster richColors position="top-right" />
-              </TooltipProvider>
+            <TooltipProvider>
+              <SmoothScroller>{children}</SmoothScroller>
+              <Toaster richColors position="top-right" />
+            </TooltipProvider>
           </StoreProvider>
         </ThemeProvider>
       </body>

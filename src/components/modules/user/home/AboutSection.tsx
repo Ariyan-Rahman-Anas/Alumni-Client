@@ -17,7 +17,6 @@ import {
 import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 import { useSchoolInfo } from "@/hooks/useSchoolInfo";
 
-
 /* ── AboutSection  */
 const AboutSection = () => {
     const { data: statsData } = useGetHomeStatsQuery();
@@ -136,7 +135,7 @@ const AboutSection = () => {
                 </div>
             </FadeUpWrapper>
 
-            {/* ── Right: Visual ────────────────────────────────── */}
+            {/* ── Right: Visual  */}
             <FadeUpWrapper delay={0.18}>
                 <div className="relative flex flex-col gap-5">
 

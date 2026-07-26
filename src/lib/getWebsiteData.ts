@@ -14,7 +14,7 @@ export const getWebsiteData = cache(async (): Promise<WebsiteData | null> => {
   if (!apiBase) return null;
   try {
     const res = await fetch(`${apiBase}/api/v1/website-management`, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 3600, tags: ["website-management"] },
     });
     if (!res.ok) return null;
     const json = await res.json();
