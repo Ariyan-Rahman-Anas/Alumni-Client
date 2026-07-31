@@ -38,48 +38,50 @@ const AdminRequestsPage = () => {
     };
 
     return (
-        <div className="admin-page-setup">
+        <div>
+            {/* Header */}
             <AdminPageHead
                 title="Alumni Requests"
                 description="Manage and respond to requests submitted by alumni."
             />
+            <div className="admin-page-setup">
+                <div className="flex items-center justify-between gap-4 mt-4">
+                    <div className="w-full max-w-lg">
+                        <InputField
+                            label=""
+                            placeholder="Search by subject or description…"
+                            onChange={handleSearchChange}
+                        />
+                    </div>
 
-            <div className="flex items-center justify-between gap-4 mt-4">
-                <div className="w-full max-w-lg">
-                    <InputField
-                        label=""
-                        placeholder="Search by subject or description…"
-                        onChange={handleSearchChange}
-                    />
+                    <div className="flex items-center gap-4">
+                        <SingleSelect
+                            value={status}
+                            onValueChange={(v) => { setStatus(v as TRequestStatus | ""); setPage(1); }}
+                            options={STATUSES.map(s => ({ value: s.value, label: s.label }))}
+                            placeholder="Status"
+                            searchable={false}
+                        />
+
+                        <SingleSelect
+                            value={category}
+                            onValueChange={(v) => { setCategory(v as TRequestCategory | ""); setPage(1); }}
+                            options={CATEGORIES.map(c => ({ value: c.value, label: c.label }))}
+                            placeholder="Category"
+                            searchable={false}
+                        />
+                    </div>
                 </div>
 
-                <div className="flex items-center gap-4">
-                    <SingleSelect
-                        value={status}
-                        onValueChange={(v) => { setStatus(v as TRequestStatus | ""); setPage(1); }}
-                        options={STATUSES.map(s => ({ value: s.value, label: s.label }))}
-                        placeholder="Status"
-                        searchable={false}
-                    />
-
-                    <SingleSelect
-                        value={category}
-                        onValueChange={(v) => { setCategory(v as TRequestCategory | ""); setPage(1); }}
-                        options={CATEGORIES.map(c => ({ value: c.value, label: c.label }))}
-                        placeholder="Category"
-                        searchable={false}
-                    />
-                </div>
+                <AdminRequestsTable
+                    page={page}
+                    limit={limit}
+                    onPageChange={setPage}
+                    search={search || undefined}
+                    status={status || undefined}
+                    category={category || undefined}
+                />
             </div>
-
-            <AdminRequestsTable
-                page={page}
-                limit={limit}
-                onPageChange={setPage}
-                search={search || undefined}
-                status={status || undefined}
-                category={category || undefined}
-            />
         </div>
     );
 };
