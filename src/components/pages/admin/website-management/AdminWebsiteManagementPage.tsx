@@ -91,7 +91,7 @@ const SectionCard = ({
     </motion.div>
 );
 
-/* ”” Main Page ”””””””””””””””””””””””””””””””””””””””””””””””” */
+/* ”” Main Page  */
 const AdminWebsiteManagementPage = () => {
     const currentUser = useAppSelector(selectCurrentUser);
     const [bannerFile, setBannerFile] = useState<File | null>(null);
@@ -210,15 +210,14 @@ const AdminWebsiteManagementPage = () => {
     }
 
     return (
-        <div className="admin-page-setup">
+        <div>
             {/* Header */}
-            <div className="flex items-start justify-between mb-6 gap-4 flex-wrap">
-                <div className="flex items-start gap-3">
-                    <AdminPageHead
-                        title="Website Management"
-                        description="Control global website settings - contact info, social links, banner, and branding."
-                    />
-                </div>
+            <AdminPageHead
+                title="Website Management"
+                description="Control global website settings - contact info, social links, banner, and branding."
+            />
+            <section className="admin-page-setup">
+                {/* Header */}
                 <div className="flex items-center gap-2">
                     {/* Status badge */}
                     {isNew ? (
@@ -241,185 +240,184 @@ const AdminWebsiteManagementPage = () => {
                         onClick={handleSubmit(onSubmit)}
                     />
                 </div>
-            </div>
 
-            {/* Edit mode indicator */}
-            {!isNew && (
-                <div className="flex items-center gap-2 mb-5 px-4 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-900/15 border border-blue-200 dark:border-blue-700/40">
-                    <RiEditLine className="text-blue-600 dark:text-blue-400 text-base flex-shrink-0" />
-                    <p className="text-sm text-blue-700 dark:text-blue-300">
-                        Editing existing configuration. Changes will overwrite current settings.
-                    </p>
-                </div>
-            )}
-
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-
-                {/* ”” Row 1: Branding + Location ””””””””””””””””””””” */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-
-                    {/* Branding */}
-                    <SectionCard title="Branding" icon={<RiGlobalLine />} index={0}>
-                        <div className="space-y-4">
-                            <InputField
-                                label="School Name"
-                                placeholder="Battli Abdul Matin High School"
-                                error={errors.schoolName?.message}
-                                {...register("schoolName")}
-                            />
-                            <InputField
-                                label="Motto"
-                                placeholder="e.g. Illuminating Minds Since 1963"
-                                error={errors.motto?.message}
-                                {...register("motto")}
-                            />
-                        </div>
-                    </SectionCard>
-
-                    {/* Contact */}
-                    <SectionCard title="Contact Information" icon={<RiPhoneLine />} index={1}>
-                        <div className="space-y-4">
-                            <InputField
-                                label="Contact Number"
-                                placeholder="+8801XXXXXXXXX"
-                                icon={<RiPhoneLine />}
-                                error={errors.contactNumber?.message}
-                                {...register("contactNumber")}
-                            />
-                            <InputField
-                                label="Email Address"
-                                type="email"
-                                placeholder="info@bamhs.edu.bd"
-                                icon={<RiMailLine />}
-                                error={errors.email?.message}
-                                {...register("email")}
-                            />
-                            <InputField
-                                label="WhatsApp Number"
-                                placeholder="+8801XXXXXXXXX (optional)"
-                                icon={<RiWhatsappLine />}
-                                error={errors.whatsappNumber?.message}
-                                {...register("whatsappNumber")}
-                            />
-                        </div>
-                    </SectionCard>
-                </div>
-
-                {/* ”” Row 2: Address (full width) ”””””””””””””””””””” */}
-                <SectionCard title="Address & Location" icon={<RiMapPin2Line />} index={2}>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <div className="sm:col-span-2 lg:col-span-3">
-                            <InputField
-                                label="Full Address"
-                                placeholder="Battali Bazar, Nangalkot, Cumilla (optional)"
-                                error={errors.fullAddress?.message}
-                                {...register("fullAddress")}
-                            />
-                        </div>
-                        <InputField
-                            label="Area / Village"
-                            placeholder="Battali Bazar"
-                            error={errors.area?.message}
-                            {...register("area")}
-                        />
-                        <InputField
-                            label="Thana / Upazila"
-                            placeholder="Nangalkot"
-                            error={errors.thana?.message}
-                            {...register("thana")}
-                        />
-                        <InputField
-                            label="District"
-                            placeholder="Cumilla"
-                            error={errors.district?.message}
-                            {...register("district")}
-                        />
-                        <InputField
-                            label="Division"
-                            placeholder="Chattogram"
-                            error={errors.division?.message}
-                            {...register("division")}
-                        />
-                        <InputField
-                            label="Country"
-                            placeholder="Bangladesh"
-                            error={errors.country?.message}
-                            {...register("country")}
-                        />
-                        <InputField
-                            label="Postal Code"
-                            placeholder="3582"
-                            type="number"
-                            error={errors.postalCode?.message}
-                            {...register("postalCode")}
-                        />
+                {/* Edit mode indicator */}
+                {!isNew && (
+                    <div className="flex items-center gap-2 mb-5 px-4 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-900/15 border border-blue-200 dark:border-blue-700/40">
+                        <RiEditLine className="text-blue-600 dark:text-blue-400 text-base flex-shrink-0" />
+                        <p className="text-sm text-blue-700 dark:text-blue-300">
+                            Editing existing configuration. Changes will overwrite current settings.
+                        </p>
                     </div>
-                </SectionCard>
+                )}
 
-                {/* ”” Row 3: Social + Banner ””””””””””””””””””””””””” */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 
-                    {/* Social Media */}
-                    <SectionCard title="Social Media" icon={<RiShareLine />} index={3}>
-                        <div className="space-y-4">
+                    {/* ”” Row 1: Branding + Location ””””””””””””””””””””” */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+
+                        {/* Branding */}
+                        <SectionCard title="Branding" icon={<RiGlobalLine />} index={0}>
+                            <div className="space-y-4">
+                                <InputField
+                                    label="School Name"
+                                    placeholder="Battli Abdul Matin High School"
+                                    error={errors.schoolName?.message}
+                                    {...register("schoolName")}
+                                />
+                                <InputField
+                                    label="Motto"
+                                    placeholder="e.g. Illuminating Minds Since 1963"
+                                    error={errors.motto?.message}
+                                    {...register("motto")}
+                                />
+                            </div>
+                        </SectionCard>
+
+                        {/* Contact */}
+                        <SectionCard title="Contact Information" icon={<RiPhoneLine />} index={1}>
+                            <div className="space-y-4">
+                                <InputField
+                                    label="Contact Number"
+                                    placeholder="+8801XXXXXXXXX"
+                                    icon={<RiPhoneLine />}
+                                    error={errors.contactNumber?.message}
+                                    {...register("contactNumber")}
+                                />
+                                <InputField
+                                    label="Email Address"
+                                    type="email"
+                                    placeholder="info@bamhs.edu.bd"
+                                    icon={<RiMailLine />}
+                                    error={errors.email?.message}
+                                    {...register("email")}
+                                />
+                                <InputField
+                                    label="WhatsApp Number"
+                                    placeholder="+8801XXXXXXXXX (optional)"
+                                    icon={<RiWhatsappLine />}
+                                    error={errors.whatsappNumber?.message}
+                                    {...register("whatsappNumber")}
+                                />
+                            </div>
+                        </SectionCard>
+                    </div>
+
+                    {/* ”” Row 2: Address (full width) ”””””””””””””””””””” */}
+                    <SectionCard title="Address & Location" icon={<RiMapPin2Line />} index={2}>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div className="sm:col-span-2 lg:col-span-3">
+                                <InputField
+                                    label="Full Address"
+                                    placeholder="Battali Bazar, Nangalkot, Cumilla (optional)"
+                                    error={errors.fullAddress?.message}
+                                    {...register("fullAddress")}
+                                />
+                            </div>
                             <InputField
-                                label="Facebook Page URL"
-                                placeholder="https://facebook.com/bamhs"
-                                icon={<RiFacebookLine />}
-                                error={errors.facebook?.message}
-                                {...register("facebook")}
+                                label="Area / Village"
+                                placeholder="Battali Bazar"
+                                error={errors.area?.message}
+                                {...register("area")}
                             />
                             <InputField
-                                label="YouTube Channel URL"
-                                placeholder="https://youtube.com/@bamhs"
-                                icon={<RiYoutubeLine />}
-                                error={errors.youtube?.message}
-                                {...register("youtube")}
+                                label="Thana / Upazila"
+                                placeholder="Nangalkot"
+                                error={errors.thana?.message}
+                                {...register("thana")}
+                            />
+                            <InputField
+                                label="District"
+                                placeholder="Cumilla"
+                                error={errors.district?.message}
+                                {...register("district")}
+                            />
+                            <InputField
+                                label="Division"
+                                placeholder="Chattogram"
+                                error={errors.division?.message}
+                                {...register("division")}
+                            />
+                            <InputField
+                                label="Country"
+                                placeholder="Bangladesh"
+                                error={errors.country?.message}
+                                {...register("country")}
+                            />
+                            <InputField
+                                label="Postal Code"
+                                placeholder="3582"
+                                type="number"
+                                error={errors.postalCode?.message}
+                                {...register("postalCode")}
                             />
                         </div>
                     </SectionCard>
 
-                    {/* Banner Image */}
-                    <SectionCard title="Banner / Hero Image" icon={<RiImageLine />} index={4}>
-                        <Controller
-                            name={"motto" as never}
-                            control={control}
-                            render={() => (
-                                <ImageUploadField
-                                    label="Banner Image"
-                                    helperText="Recommended: 1920Ã—600px, JPG or PNG. This appears as the homepage hero banner."
-                                    previewUrl={existing?.bannerUrl}
-                                    value={bannerFile}
-                                    onChange={(file) => setBannerFile(file)}
-                                    maxSizeMB={8}
+                    {/* ”” Row 3: Social + Banner ””””””””””””””””””””””””” */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+
+                        {/* Social Media */}
+                        <SectionCard title="Social Media" icon={<RiShareLine />} index={3}>
+                            <div className="space-y-4">
+                                <InputField
+                                    label="Facebook Page URL"
+                                    placeholder="https://facebook.com/bamhs"
+                                    icon={<RiFacebookLine />}
+                                    error={errors.facebook?.message}
+                                    {...register("facebook")}
                                 />
-                            )}
+                                <InputField
+                                    label="YouTube Channel URL"
+                                    placeholder="https://youtube.com/@bamhs"
+                                    icon={<RiYoutubeLine />}
+                                    error={errors.youtube?.message}
+                                    {...register("youtube")}
+                                />
+                            </div>
+                        </SectionCard>
+
+                        {/* Banner Image */}
+                        <SectionCard title="Banner / Hero Image" icon={<RiImageLine />} index={4}>
+                            <Controller
+                                name={"motto" as never}
+                                control={control}
+                                render={() => (
+                                    <ImageUploadField
+                                        label="Banner Image"
+                                        helperText="Recommended: 1920Ã—600px, JPG or PNG. This appears as the homepage hero banner."
+                                        previewUrl={existing?.bannerUrl}
+                                        value={bannerFile}
+                                        onChange={(file) => setBannerFile(file)}
+                                        maxSizeMB={8}
+                                    />
+                                )}
+                            />
+                        </SectionCard>
+                    </div>
+
+
+                    {/* Save Button */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.35 }}
+                        className="flex justify-end pt-2"
+                    >
+                        <PrimaryButton
+                            type="submit"
+                            title={isNew ? "Create Settings" : "Save Changes"}
+                            loadingTitle={isNew ? "Creating..." : "Saving..."}
+                            icon={isNew ? <RiAddLine /> : <RiSaveLine />}
+                            iconSide="left"
+                            isLoading={isSaving}
+                            isDisabled={isSaving}
+                            className="min-w-44"
                         />
-                    </SectionCard>
-                </div>
-
-
-                {/* Save Button */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.35 }}
-                    className="flex justify-end pt-2"
-                >
-                    <PrimaryButton
-                        type="submit"
-                        title={isNew ? "Create Settings" : "Save Changes"}
-                        loadingTitle={isNew ? "Creating..." : "Saving..."}
-                        icon={isNew ? <RiAddLine /> : <RiSaveLine />}
-                        iconSide="left"
-                        isLoading={isSaving}
-                        isDisabled={isSaving}
-                        className="min-w-44"
-                    />
-                </motion.div>
-            </form>
+                    </motion.div>
+                </form>
+            </section>
         </div>
     );
 };
-
 export default AdminWebsiteManagementPage;
