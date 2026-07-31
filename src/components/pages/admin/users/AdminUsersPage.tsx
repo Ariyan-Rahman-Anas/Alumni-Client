@@ -30,31 +30,33 @@ const AdminUsersPage = () => {
                 : "No users found";
 
     return (
-        <div className="admin-page-setup">
+        <div>
+            {/* Header */}
             <AdminPageHead
                 title="Users"
                 description="Review registrations and manage user accounts."
             />
+            <div className="admin-page-setup">
+                <AdminUsersSearchFilter
+                    onChange={setFilters}
+                    onPageReset={() => setPage(1)}
+                />
 
-            <AdminUsersSearchFilter
-                onChange={setFilters}
-                onPageReset={() => setPage(1)}
-            />
-
-            <AdminUsersTable
-                page={page}
-                limit={limit}
-                onPageChange={setPage}
-                approvalStatus={filters.approvalStatus}
-                search={filters.search}
-                bloodGroup={filters.bloodGroup}
-                section={filters.section}
-                dobYear={filters.dobYear}
-                dobMonth={filters.dobMonth}
-                dobDay={filters.dobDay}
-                isVerified={filters.isVerified}
-                emptyMessage={emptyMessage}
-            />
+                <AdminUsersTable
+                    page={page}
+                    limit={limit}
+                    onPageChange={setPage}
+                    approvalStatus={filters.approvalStatus}
+                    search={filters.search}
+                    bloodGroup={filters.bloodGroup}
+                    section={filters.section}
+                    dobYear={filters.dobYear}
+                    dobMonth={filters.dobMonth}
+                    dobDay={filters.dobDay}
+                    isVerified={filters.isVerified}
+                    emptyMessage={emptyMessage}
+                />
+            </div>
         </div>
     );
 };

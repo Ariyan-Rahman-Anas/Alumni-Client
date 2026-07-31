@@ -41,8 +41,7 @@ export default function AdminJobsPage() {
             />
             <div className="admin-page-setup">
                 {/* Tab switcher */}
-
-                <div className="mt-6 mb-5 flex flex-col md:flex-row items-end justify-between">
+                <div className="mb-5 flex flex-col md:flex-row items-end justify-between">
                     <div className="flex items-center gap-1 p-1 bg-surface-100 dark:bg-gunmetal-800 rounded-xl w-fit border border-surface-200 dark:border-gunmetal-700">
                         {(
                             [
@@ -77,7 +76,6 @@ export default function AdminJobsPage() {
                         />
                     </div>}
                 </div>
-
 
                 {/* Jobs * providers tab */}
                 {tab === "posts"
