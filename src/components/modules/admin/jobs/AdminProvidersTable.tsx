@@ -269,9 +269,8 @@ const AdminProvidersTable = ({ page, limit, onPageChange }: AdminProvidersTableP
         {
             key: "actions",
             label: "Actions",
-            align: "right",
             render: (p) => (
-                <div className="flex items-center justify-end gap-2">
+                <div className="flex items-center justify-center gap-2">
                     <button onClick={() => setSheetProvider(p)} title="View Details" className="p-2 text-muted-foreground hover:text-primary2-700 hover:bg-primary2-50 rounded-xl transition-colors">
                         <RiEyeLine />
                     </button>
