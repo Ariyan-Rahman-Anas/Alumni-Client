@@ -11,12 +11,13 @@ const AdminCommitteePage = () => {
     const [formOpen, setFormOpen] = useState(false);
 
     return (
-        <div className="admin-page-setup">
-            <div className="flex items-start justify-between mb-6">
-                <AdminPageHead
-                    title="Committee"
-                    description="Manage alumni committee members and designations shown on the About page."
-                />
+        <div>
+            {/* Header */}
+            <AdminPageHead
+                title="Committee"
+                description="Manage alumni committee members and designations shown on the About page."
+            />
+            <div className="admin-page-setup">
                 <PrimaryButton
                     type="button"
                     title="New Committee"
@@ -24,12 +25,12 @@ const AdminCommitteePage = () => {
                     iconSide="left"
                     onClick={() => setFormOpen(true)}
                 />
-            </div>
 
-            <AdminCommitteeTable
-                openNew={formOpen}
-                onNewClose={() => setFormOpen(false)}
-            />
+                <AdminCommitteeTable
+                    openNew={formOpen}
+                    onNewClose={() => setFormOpen(false)}
+                />
+            </div>
         </div>
     );
 };
