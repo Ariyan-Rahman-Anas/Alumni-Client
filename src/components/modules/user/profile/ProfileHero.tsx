@@ -1,9 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { RiMailLine } from "react-icons/ri";
 import UserProfileAvatar from "./UserProfileAvatar";
 import { IUserProfile } from "./user-profile.types";
+import { FadeUpWrapper } from "@/components/pages/user/Home/HomePage";
 
 interface ProfileHeroProps {
     user: IUserProfile;
@@ -57,26 +57,23 @@ const ProfileHero = ({ user, pendingImage, onImageChange }: ProfileHeroProps) =>
                 </motion.div>
 
                 {/* Info */}
-                <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.55, delay: 0.12, ease: [0.19, 1, 0.22, 1] }}
+                <FadeUpWrapper
+                    delay={0.12}
                     className="flex flex-col items-center sm:items-start gap-2 pb-1"
                 >
-                    <h1 className="text-2xl sm:text-3xl font-bold text-white leading-tight">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-white dark:text-gunmetal-200 leading-tight">
                         {user.name}
                     </h1>
 
-                    <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2">
-                        {/* Email */}
-                        <span className="flex items-center gap-1.5 text-sm text-white/60">
-                            <RiMailLine className="shrink-0" />
-                            {user.email}
-                        </span>
+                    {/* Email */}
+                    <span className="text-white/60">
+                        {user.email}
+                    </span>
 
+                    <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2">
                         {/* Batch */}
-                        {user.batch && (
-                            <span className="rounded-full bg-primary2-700/50 border border-primary2-600/40 px-3 py-0.5 text-xs font-medium text-primary2-200">
+                        {user.section && (
+                            <span className="rounded-full bg-sky-500/20 border border-sky-500/30 px-3 py-0.5 text-xs font-medium text-sky-200">
                                 Batch - {user.batch}
                             </span>
                         )}
@@ -88,11 +85,7 @@ const ProfileHero = ({ user, pendingImage, onImageChange }: ProfileHeroProps) =>
                             </span>
                         )}
                     </div>
-
-                    <p className="text-xs text-white/40 mt-0.5">
-                        Click avatar to change photo
-                    </p>
-                </motion.div>
+                </FadeUpWrapper>
             </div>
         </div>
     );

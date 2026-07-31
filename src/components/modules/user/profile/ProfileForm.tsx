@@ -7,11 +7,11 @@ import { motion } from "framer-motion";
 import {
     RiUser3Line,
     RiPhoneLine,
-    RiDropLine,
     RiBriefcaseLine,
     RiAwardLine,
 } from "react-icons/ri";
 import { toast } from "sonner";
+import { IoLocationOutline } from "react-icons/io5";
 
 import InputField from "@/components/shared/InputField";
 import TextAreaBox from "@/components/shared/TextAreaBox";
@@ -32,7 +32,6 @@ import { ISectionCardProps, IUpdateUserPayload, IUserProfile, TProfileFormValues
 import { constantsData } from "@/constants";
 
 const bloodGroupOptions = Object.values(constantsData.BLOOD_GROUPS).map((bg) => ({ label: bg, value: bg }));
-
 
 const SectionCard = ({ title, icon, index, children }: ISectionCardProps) => (
     <motion.div
@@ -215,7 +214,7 @@ const ProfileForm = ({ user, pendingImage, onImageSaved }: IProfileFormProps) =>
                 </SectionCard>
 
                 {/* Section 2 — Address */}
-                <SectionCard title="Address" icon={<RiDropLine />} index={1}>
+                <SectionCard title="Address" icon={<IoLocationOutline />} index={1}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <Controller
                             name="currentAddress"

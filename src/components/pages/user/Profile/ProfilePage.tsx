@@ -20,7 +20,7 @@ import MyContributionsPanel from "@/components/modules/user/profile/MyContributi
 import MyTestimonialPanel from "@/components/modules/user/profile/MyTestimonialPanel";
 
 const ProfileSkeleton = () => (
-    <div className="animate-pulse">
+    <div className="animate-pulse three-xl-section-setup">
         {/* Mirror actual grid: sidebar (290px) + main column */}
         <div className="grid grid-cols-1 lg:grid-cols-[290px_minmax(0,1fr)] gap-6">
             {/* Sidebar skeleton */}

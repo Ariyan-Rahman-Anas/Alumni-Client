@@ -1,6 +1,6 @@
-# BAMHS Client
+# Alumni MS Client
 
-Frontend for the **Battli Abdul Matin High School (BAMHS)** alumni management platform. Built with Next.js 14 App Router, TypeScript, Redux Toolkit, and a component-driven UI system powered by ShadCN and Tailwind CSS.
+Frontend of alumni management platform. Built with Next.js 14 App Router, TypeScript, Redux Toolkit, and a component-driven UI system powered by ShadCN and Tailwind CSS.
 
 ---
 
@@ -254,40 +254,4 @@ Key design decisions:
 - **Website Management** — edit all public-facing site content (name, tagline, contact, social links, etc.)
 
 ---
-
-## Environment Variables
-
-Create a `.env.local` file at the root of the `client/` folder:
-
-```env
-NEXT_PUBLIC_API_URL=http://localhost:5000/api/v1
 ```
-
-In production, point this to your deployed backend URL.
-
----
-
-## Getting Started
-
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
-
-The app expects the backend server to be running and accessible at the URL defined in `NEXT_PUBLIC_API_URL`.
-
----
-
-## Scripts
-
-| Command | Description |
-|---|---|
-| `npm run dev` | Start Next.js development server |
-| `npm run build` | Build production bundle |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
