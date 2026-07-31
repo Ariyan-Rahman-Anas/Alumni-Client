@@ -15,35 +15,35 @@ const AdminTestimonialsPage = () => {
     const [activeTab, setActiveTab] = useState<TTestimonialStatus>("PENDING");
 
     return (
-        <div className="admin-page-setup">
-            <div className="mb-6">
-                <AdminPageHead
-                    title="Testimonials"
-                    description="Review alumni testimonials. Approve to publish on the home page, or reject with feedback."
-                />
-            </div>
-
-            {/* Tabs */}
-            <div className="flex items-center gap-1 mb-5 border-b border-surface-300">
-                {TABS.map(({ label, value, color }) => {
-                    const isActive = activeTab === value;
-                    return (
-                        <button
-                            key={value}
-                            type="button"
-                            onClick={() => setActiveTab(value)}
-                            className={`px-4 py-2.5 text-sm font-medium transition-all relative ${isActive
+        <div>
+            {/* Header */}
+            <AdminPageHead
+                title="Testimonials"
+                description="Review alumni testimonials. Approve to publish on the home page, or reject with feedback."
+            />
+            <div className="admin-page-setup">
+                {/* Tabs */}
+                <div className="flex items-center gap-1 mb-5 border-b border-surface-300">
+                    {TABS.map(({ label, value, color }) => {
+                        const isActive = activeTab === value;
+                        return (
+                            <button
+                                key={value}
+                                type="button"
+                                onClick={() => setActiveTab(value)}
+                                className={`px-4 py-2.5 text-sm font-medium transition-all relative ${isActive
                                     ? `${color} border-b-2 border-current`
                                     : "text-muted-foreground hover:text-gray-700"
-                                }`}
-                        >
-                            {label}
-                        </button>
-                    );
-                })}
-            </div>
+                                    }`}
+                            >
+                                {label}
+                            </button>
+                        );
+                    })}
+                </div>
 
-            <AdminTestimonialsTable status={activeTab} />
+                <AdminTestimonialsTable status={activeTab} />
+            </div>
         </div>
     );
 };
