@@ -67,85 +67,91 @@ const AdminEventsPage = () => {
         : undefined;
 
     return (
-        <div className="admin-page-setup">
+        <div>
             {/* Header */}
-            <div className="flex items-start justify-between mb-6">
-                <AdminPageHead title="Events" description="Create and manage alumni events, reunions, and programs." />
-                <PrimaryButton
-                    type="button"
-                    title="Add Event"
-                    icon={<RiAddLine />}
-                    iconSide="left"
-                    onClick={() => {
-                        setEditEvent(null);
+            <AdminPageHead
+                title="Events"
+                description="Create and manage alumni events, reunions, and programs."
+            />
+
+            <div className="admin-page-setup">
+                <div className="flex flex-col md:flex-row items-end justify-between">
+                    {/* Status Tabs */}
+                    <div className="flex items-center flex-wrap gap-1 border-b border-surface-300">
+                        {STATUS_TABS.map(({ label, value }) => (
+                            <button
+                                key={value}
+                                onClick={() => handleStatusTab(value)}
+                                className={`relative px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors ${statusFilter === value
+                                    ? "text-primary2-700"
+                                    : "text-muted-foreground hover:text-gray-700"
+                                    }`}
+                            >
+                                {label}
+                                {statusFilter === value && (
+                                    <span className="absolute inset-x-0 -bottom-px h-0.5 bg-primary2-500 rounded-full" />
+                                )}
+                            </button>
+                        ))}
+                    </div>
+
+                    <PrimaryButton
+                        type="button"
+                        title="Add Event"
+                        icon={<RiAddLine />}
+                        iconSide="left"
+                        onClick={() => {
+                            setEditEvent(null);
+                            setFormOpen(true);
+                        }}
+                    />
+                </div>
+
+                {/* Table */}
+                <AdminEventsTable
+                    data={data?.data ?? []}
+                    isLoading={isLoading}
+                    isError={isError}
+                    paginationOptions={paginationOptions}
+                    pageSize={constantsData.TABLE_PAGE_SIZE}
+                    onPageChange={setPage}
+                    onEdit={(ev) => {
+                        setEditEvent(ev);
                         setFormOpen(true);
                     }}
+                    onDelete={setDeleteEventId}
+                    onViewRegistrations={setViewRegsEvent}
                 />
-            </div>
 
-            {/* Status Tabs */}
-            <div className="flex items-center flex-wrap gap-1 mb-5 border-b border-surface-300">
-                {STATUS_TABS.map(({ label, value }) => (
-                    <button
-                        key={value}
-                        onClick={() => handleStatusTab(value)}
-                        className={`relative px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors ${statusFilter === value
-                            ? "text-primary2-700"
-                            : "text-muted-foreground hover:text-gray-700"
-                            }`}
-                    >
-                        {label}
-                        {statusFilter === value && (
-                            <span className="absolute inset-x-0 -bottom-px h-0.5 bg-primary2-500 rounded-full" />
-                        )}
-                    </button>
-                ))}
-            </div>
-
-            {/* Table */}
-            <AdminEventsTable
-                data={data?.data ?? []}
-                isLoading={isLoading}
-                isError={isError}
-                paginationOptions={paginationOptions}
-                pageSize={constantsData.TABLE_PAGE_SIZE}
-                onPageChange={setPage}
-                onEdit={(ev) => {
-                    setEditEvent(ev);
-                    setFormOpen(true);
-                }}
-                onDelete={setDeleteEventId}
-                onViewRegistrations={setViewRegsEvent}
-            />
-
-            {/* Form Sheet */}
-            <AdminEventFormModal
-                open={formOpen}
-                onClose={() => {
-                    setFormOpen(false);
-                    setEditEvent(null);
-                }}
-                event={editEvent}
-            />
-
-            {/* Delete Confirmation */}
-            <DeleteAlertModal
-                open={!!deleteEventId}
-                onClose={() => setDeleteEventId(null)}
-                onConfirm={handleDelete}
-                isDeleting={isDeleting}
-                title="Delete Event"
-                description="This will permanently delete the event and all associated data. This action cannot be undone."
-            />
-
-            {/* Registrations Panel */}
-            {viewRegsEvent && (
-                <AdminEventRegistrationsPanel
-                    eventId={viewRegsEvent._id}
-                    eventTitle={viewRegsEvent.title}
-                    onClose={() => setViewRegsEvent(null)}
+                {/* Form Sheet */}
+                <AdminEventFormModal
+                    open={formOpen}
+                    onClose={() => {
+                        setFormOpen(false);
+                        setEditEvent(null);
+                    }}
+                    event={editEvent}
                 />
-            )}
+
+                {/* Delete Confirmation */}
+                <DeleteAlertModal
+                    open={!!deleteEventId}
+                    onClose={() => setDeleteEventId(null)}
+                    onConfirm={handleDelete}
+                    isDeleting={isDeleting}
+                    title="Delete Event"
+                    description="This will permanently delete the event and all associated data. This action cannot be undone."
+                />
+
+                {/* Registrations Panel */}
+                {viewRegsEvent && (
+                    <AdminEventRegistrationsPanel
+                        eventId={viewRegsEvent._id}
+                        eventTitle={viewRegsEvent.title}
+                        onClose={() => setViewRegsEvent(null)}
+                    />
+                )}
+            </div>
         </div>
     );
 };
