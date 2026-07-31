@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { RiAddLine } from "react-icons/ri";
 
-import PrimaryButton from "@/components/shared/PrimaryButton";
 import DeleteAlertModal from "@/components/shared/DeleteAlertModal";
 import {
     useGetAllBatchesQuery,
@@ -16,6 +14,8 @@ import AdminBatchFormModal from "@/components/modules/admin/batches/AdminBatchFo
 import AdminBatchesTable from "@/components/modules/admin/batches/AdminBatchesTable";
 import AdminPageHead from "@/components/shared/admin/AdminPageHead";
 import { constantsData } from "@/constants";
+import { RiAddLine } from "react-icons/ri";
+import PrimaryButton from "@/components/shared/PrimaryButton";
 
 const AdminBatchesPage = () => {
     const [page, setPage] = useState(1);
@@ -55,9 +55,14 @@ const AdminBatchesPage = () => {
         : undefined;
 
     return (
-        <div className="admin-page-setup">
-            <div className="flex items-center justify-between mb-6">
-                <AdminPageHead title="Batches" description="Manage graduation batches. Active batches appear in the registration form" />
+        <div>
+            {/* Header */}
+            <AdminPageHead
+                title="Batches"
+                description="Manage graduation batches. Active batches appear in the registration form."
+            />
+
+            <div className="admin-page-setup">
                 <PrimaryButton
                     type="button"
                     title="Add Batch"
@@ -65,35 +70,35 @@ const AdminBatchesPage = () => {
                     iconSide="left"
                     onClick={() => { setEditBatch(null); setFormOpen(true); }}
                 />
+
+                <AdminBatchesTable
+                    data={data?.data ?? []}
+                    isLoading={isLoading}
+                    isError={isError}
+                    paginationOptions={paginationOptions}
+                    pageSize={limit}
+                    onPageChange={setPage}
+                    onEdit={(b) => { setEditBatch(b); setFormOpen(true); }}
+                    onDelete={setDeleteBatchId}
+                    onToggle={handleToggle}
+                    isToggling={isToggling}
+                />
+
+                <AdminBatchFormModal
+                    open={formOpen}
+                    onClose={() => { setFormOpen(false); setEditBatch(null); }}
+                    batch={editBatch}
+                />
+
+                <DeleteAlertModal
+                    open={!!deleteBatchId}
+                    onClose={() => setDeleteBatchId(null)}
+                    onConfirm={handleDelete}
+                    isDeleting={isDeleting}
+                    title="Delete Batch"
+                    description="This will permanently delete the batch. This action cannot be undone."
+                />
             </div>
-
-            <AdminBatchesTable
-                data={data?.data ?? []}
-                isLoading={isLoading}
-                isError={isError}
-                paginationOptions={paginationOptions}
-                pageSize={limit}
-                onPageChange={setPage}
-                onEdit={(b) => { setEditBatch(b); setFormOpen(true); }}
-                onDelete={setDeleteBatchId}
-                onToggle={handleToggle}
-                isToggling={isToggling}
-            />
-
-            <AdminBatchFormModal
-                open={formOpen}
-                onClose={() => { setFormOpen(false); setEditBatch(null); }}
-                batch={editBatch}
-            />
-
-            <DeleteAlertModal
-                open={!!deleteBatchId}
-                onClose={() => setDeleteBatchId(null)}
-                onConfirm={handleDelete}
-                isDeleting={isDeleting}
-                title="Delete Batch"
-                description="This will permanently delete the batch. This action cannot be undone."
-            />
         </div>
     );
 };

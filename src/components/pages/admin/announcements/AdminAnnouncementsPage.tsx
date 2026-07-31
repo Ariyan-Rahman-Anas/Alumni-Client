@@ -30,13 +30,10 @@ const AdminAnnouncementsPage = () => {
     return (
         <div>
             {/* Header */}
-            {/* <div className="flex items-start justify-between mb6 bg-red-500"> */}
             <AdminPageHead
                 title="Announcements"
                 description="Create and manage alumni announcements, notices, and updates."
             />
-
-            {/* </div> */}
 
             <div className="admin-page-setup">
                 <div className="flex items-center flex-wrap justify-end md:justify-between">
