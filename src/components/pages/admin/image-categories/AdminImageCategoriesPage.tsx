@@ -11,12 +11,16 @@ import { RiAddLine } from "react-icons/ri";
 const AdminImageCategoriesPage = () => {
   const [formOpen, setFormOpen] = useState(false);
 
-  const { data, isLoading} = useGetAllImageCategoriesQuery();
+  const { data, isLoading } = useGetAllImageCategoriesQuery();
 
   return (
-    <div className="admin-page-setup">
-      <div className="flex items-center justify-between" >
-        <AdminPageHead title="Image Categories" description="Manage image categories" />
+    <div>
+      {/* Header */}
+      <AdminPageHead
+        title="Image Categories"
+        description="Manage image categories."
+      />
+      <div className="admin-page-setup">
         <PrimaryButton
           type="button"
           title="Add Image Category"
@@ -26,19 +30,19 @@ const AdminImageCategoriesPage = () => {
             setFormOpen(true);
           }}
         />
+
+        <AdminImageCategoryFormSheet
+          open={formOpen}
+          onClose={() => {
+            setFormOpen(false);
+          }}
+        />
+
+        <AdminImageCategoriesTable
+          categories={data?.data || []}
+          isLoading={isLoading}
+        />
       </div>
-
-      <AdminImageCategoryFormSheet
-        open={formOpen}
-        onClose={() => {
-          setFormOpen(false);
-        }}
-      />
-
-      <AdminImageCategoriesTable
-        categories={data?.data || []}
-        isLoading={isLoading}
-      />
     </div>
   )
 }
