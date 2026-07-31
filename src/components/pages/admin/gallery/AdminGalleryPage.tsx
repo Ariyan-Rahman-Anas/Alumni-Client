@@ -19,9 +19,14 @@ const AdminGalleryPage = () => {
         : undefined;
 
     return (
-        <div className="admin-page-setup">
-            <div className="flex items-center justify-between">
-                <AdminPageHead title="Gallery" description="Manage BAMHSian gallery images" />
+        <div>
+            {/* Header */}
+            <AdminPageHead
+                title="Gallery"
+                description="Manage gallery images."
+            />
+
+            <div className="admin-page-setup">
                 <PrimaryButton
                     type="button"
                     title="Add Image to Gallery"
@@ -29,22 +34,22 @@ const AdminGalleryPage = () => {
                     iconSide="left"
                     onClick={() => setFormOpen(true)}
                 />
+
+                <AdminGalleryImageFormSheet
+                    open={formOpen}
+                    onClose={() => setFormOpen(false)}
+                />
+
+                <AdminGalleryImagesTable
+                    galleries={data?.data ?? []}
+                    isLoading={isLoading}
+                    isError={isError}
+                    errorMessage="Failed to load gallery images"
+                    paginationOptions={paginationOptions}
+                    pageSize={constantsData.TABLE_PAGE_SIZE}
+                    onPageChange={setPage}
+                />
             </div>
-
-            <AdminGalleryImageFormSheet
-                open={formOpen}
-                onClose={() => setFormOpen(false)}
-            />
-
-            <AdminGalleryImagesTable
-                galleries={data?.data ?? []}
-                isLoading={isLoading}
-                isError={isError}
-                errorMessage="Failed to load gallery images"
-                paginationOptions={paginationOptions}
-                pageSize={constantsData.TABLE_PAGE_SIZE}
-                onPageChange={setPage}
-            />
         </div>
     );
 };
