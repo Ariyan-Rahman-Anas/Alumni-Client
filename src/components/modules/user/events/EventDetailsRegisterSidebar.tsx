@@ -8,7 +8,7 @@ const EventDetailsRegisterSidebar = ({ event, alreadyRegistered }: { event: IEve
     const status = getStatusConfig(event);
     const countdown = getCountdown(event.startDateTime);
     const regCountdown = event.registrationDeadline ? getCountdown(event.registrationDeadline) : null;
-    const isDisabled = event.status === "CANCELLED" || event.status === "COMPLETED";
+    const isDisabled = event.status === "CANCELLED" || event.status === "COMPLETED" || event.registrationDeadline ? isPast(new Date(event.registrationDeadline as string)) : false;
     const lowestFee = event.priceTiers?.length
         ? Math.min(...event.priceTiers.map((t) => t.fee))
         : null;

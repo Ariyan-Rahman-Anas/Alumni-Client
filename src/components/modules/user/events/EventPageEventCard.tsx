@@ -9,7 +9,6 @@ import {
     RiGiftLine,
 } from "react-icons/ri"
 import { HiArrowNarrowRight } from "react-icons/hi";
-import { MdOutlineVideocam } from "react-icons/md"
 import DateFormatter from "@/lib/DateFormatter"
 import PrimaryButton from "@/components/shared/PrimaryButton"
 import { IEvent, PriceTier } from "@/types/common/events.types"
@@ -17,6 +16,7 @@ import { useGetMyRegistrationsQuery } from "@/redux/apis/eventApi"
 import { useAppSelector } from "@/redux/hooks"
 import { selectCurrentUser, selectIsInitialized } from "@/redux/slice/authSlice"
 import { RiCheckboxCircleLine } from "react-icons/ri"
+import { constantsData } from "@/constants";
 
 // ─── Constants 
 const TIER_COLORS = [
@@ -27,67 +27,8 @@ const TIER_COLORS = [
     "from-sky-400 to-sky-600",
 ]
 
-const STATUS_CONFIG: Record<string, {
-    bg: string
-    text: string
-    dot: string
-    border: string
-    label: string
-}> = {
-    UPCOMING: {
-        bg: "bg-white/15",
-        text: "text-white",
-        dot: "bg-white/90",
-        border: "border-white/25",
-        label: "Upcoming",
-    },
-    ONGOING: {
-        bg: "bg-emerald-500/90",
-        text: "text-white",
-        dot: "bg-white animate-pulse",
-        border: "border-emerald-400/40",
-        label: "Live Now",
-    },
-    COMPLETED: {
-        bg: "bg-neutral-800/70",
-        text: "text-neutral-300",
-        dot: "bg-neutral-500",
-        border: "border-neutral-600/40",
-        label: "Completed",
-    },
-    CANCELLED: {
-        bg: "bg-red-600/80",
-        text: "text-white",
-        dot: "bg-white/80",
-        border: "border-red-400/40",
-        label: "Cancelled",
-    },
-}
-
-const LOCATION_CONFIG: Record<string, {
-    style: string
-    icon: React.ReactNode
-    label: string
-}> = {
-    PHYSICAL: {
-        style: "bg-amber-50 text-amber-800 border-amber-200/80",
-        icon: <RiMapPin2Line className="shrink-0" />,
-        label: "In-Person",
-    },
-    ONLINE: {
-        style: "bg-indigo-50 text-indigo-800 border-indigo-200/80",
-        icon: <MdOutlineVideocam className="shrink-0" />,
-        label: "Online",
-    },
-    HYBRID: {
-        style: "bg-teal-50 text-teal-800 border-teal-200/80",
-        icon: <span className="text-[11px] shrink-0">🌐</span>,
-        label: "Hybrid",
-    },
-}
-
 const EventPageEventCard = ({ event }: { event: IEvent }) => {
-    const { _id, locationType, startDateTime, slug, status, coverImage, title, isFree, category, priceTiers, venue, maxAttendees,
+    const { _id, locationType, startDateTime, slug, status, coverImage, title, isFree, category, priceTiers, venue, maxAttendees, registrationDeadline 
         // allowGuests, collectsTShirtSize, createdAt, description, eventFlow, guestFee, isFeatured, isRegistrationRequired, maxGuestsPerAlumni, updatedAt, contactInfo, coverImagePublicId, endDateTime, meetingLink, organizer, registrationDeadline, registrationOpensAt 
 
     } = event || {}
@@ -99,15 +40,15 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
     });
     const alreadyRegistered = myRegsData?.data?.some((r) => {
         const evId = typeof r.eventId === "object" ? String(r.eventId._id) : String(r.eventId);
-        return evId === String(_id) && r.status !== "CANCELLED";
+        return evId === String(_id) && r.status !== constantsData.event.eventStatus.CANCELLED;
     }) ?? false;
 
-    const isCancelled = status === "CANCELLED"
-    const statusConfig = STATUS_CONFIG[status] ?? STATUS_CONFIG.UPCOMING
-    const locInfo = LOCATION_CONFIG[locationType ?? "PHYSICAL"]
+    const isCancelled = status === constantsData.event.eventStatus.CANCELLED
+
+    const isRegistrationDatePassed = new Date(registrationDeadline as string) < new Date()
 
     const eventDate = new Date(event.startDateTime)
-    const month = eventDate.toLocaleString("default", { month: "short" }).toUpperCase()
+    const month = eventDate.toLocaleString("default", { month: "short" })
     const day = eventDate.getDate()
     const weekday = eventDate.toLocaleString("default", { weekday: "short" })
 
@@ -136,46 +77,41 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-primary2-950/80 via-primary2-950/10 to-transparent" />
 
-                {/* Category chip — top left */}
-                <div className="absolute left-4 top-4">
-                    <span className="rounded-lg border border-white/25 bg-white/15 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md">
-                        {category}
-                    </span>
-                </div>
+
 
                 {/* Date badge — top right */}
-                <div className="absolute right-4 top-4 rounded-xl border border-white/20 bg-primary2-950/60 px-3 py-2 text-center backdrop-blur-md">
-                    <span className="block text-[9px] font-bold uppercase tracking-wider text-primary2-300">
+                <div className="absolute right-3 bottom-2 rounded-lg bg-black primary2-950 px-3 py-2 text-center backdrop-blur-md">
+                    <span className="block text-[9px] font-bold tracking-wider text-primary2-200 dark:text-primary mb-1">
                         {weekday}
                     </span>
-                    <span className="block text-xl font-extrabold leading-none text-white font-sanchez">
+                    <span className="block text-xl font-extrabold leading-none text-white dark:text-gunmetal-100 font-sanchez">
                         {day}
                     </span>
-                    <span className="block text-[9px] font-bold uppercase tracking-wider text-primary2-300">
+                    <span className="block text-[9px] font-bold tracking-wider text-white dark:text-gunmetal-100 primary2-300">
                         {month}
                     </span>
                 </div>
 
-                {/* Status badge — bottom left */}
-                <div className="absolute bottom-4 left-4">
-                    <div className={`
-                        inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 backdrop-blur-md
-                        ${statusConfig.bg} ${statusConfig.text} ${statusConfig.border}
-                    `}>
-                        <span className={`h-1.5 w-1.5 rounded-full ${statusConfig.dot}`} />
-                        <span className="text-[10px] font-bold tracking-widest uppercase">{statusConfig.label}</span>
+                <div className="absolute top-2 left-3 flex items-center justify-between gap-4">
+                    {/* Status badge  */}
+                    <div className="">
+                        <span className="rounded-full bg-black px-3 py-1 text-[10px] font-bold tracking-widest text-white capitalize  dark:text-gunmetal-100 ">
+                            {status.slice(0, 1) + status.toLowerCase().slice(1)}
+                        </span>
                     </div>
-                </div>
 
-                {/* Location type badge — bottom right */}
-                <div className="absolute bottom-4 right-4">
-                    <div className={`
-                        flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-bold
-                        backdrop-blur-md bg-white/90 shadow-sm
-                        ${locInfo.style}
-                    `}>
-                        {locInfo.icon}
-                        <span>{locInfo.label}</span>
+                    {/* Category chip  */}
+                    <div className="">
+                        <span className="rounded-full bg-black px-3 py-1 text-[10px] font-bold tracking-widest capitalize text-white dark:text-gunmetal-100 ">
+                            {category.toLowerCase()}
+                        </span>
+                    </div>
+
+                    {/* Location type badge  */}
+                    <div className="">
+                        <span className="rounded-full bg-black px-3 py-1 text-[10px] font-bold tracking-widest text-white capitalize  dark:text-gunmetal-100 ">
+                            {locationType.slice(0, 1) + locationType.toLowerCase().slice(1)}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -254,10 +190,10 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                         </Link>
                     ) : (
                         <PrimaryButton
-                            isDisabled={isCancelled}
+                                isDisabled={isCancelled || isRegistrationDatePassed}
                             isFullWidth
-                            title={isCancelled ? "Cancelled" : isFree ? "Attend for Free" : "Register Now"}
-                                icon2={<HiArrowNarrowRight className="text-2xl" />}
+                                title={isCancelled ? "Cancelled" : isRegistrationDatePassed ? "Registration Date Passed" : isFree ? "Attend for Free" : "Register Now"}
+                                icon2={!isCancelled && !isRegistrationDatePassed ? <HiArrowNarrowRight className="text-2xl" /> : null}
                             className="bg-transparent text-primary2-500 hover:text-white hover:bg-primary2-500 dark:text-gunmetal-100 dark:bg-transparent border-2 border-primary2-300 font-semibold hover:border-transparent dark:border-gunmetal-400 hover:dark:border-gunmetal-500 hover:dark:bg-gunmetal-500 duration-500"
                             href={`/events/${slug || _id}`}
                         />

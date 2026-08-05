@@ -6,7 +6,6 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { isPast } from "date-fns";
 import {
-    RiArrowLeftLine,
     RiCalendarEventLine,
     RiCheckboxCircleLine,
     RiGroupLine,
@@ -303,14 +302,6 @@ export default function EventRegisterPage() {
 
     return (
         <div className="three-xl-section-setup py-8 sm:py-12">
-            {/* Back link */}
-            <Link
-                href={`/events/${slug}`}
-                className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary2-700 transition-colors mb-6"
-            >
-                <RiArrowLeftLine /> Back to Event
-            </Link>
-
             <h1 className="text-2xl sm:text-3xl font-bold text-primary2-900 mb-8">Register for Event</h1>
 
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 items-start">
