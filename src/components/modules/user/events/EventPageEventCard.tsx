@@ -2,10 +2,10 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import { LuShieldPlus } from "react-icons/lu";
 import {
     RiMapPin2Line,
     RiTimeLine,
-    RiGroupLine,
     RiGiftLine,
 } from "react-icons/ri"
 import { HiArrowNarrowRight } from "react-icons/hi";
@@ -28,8 +28,8 @@ const TIER_COLORS = [
 ]
 
 const EventPageEventCard = ({ event }: { event: IEvent }) => {
-    const { _id, locationType, startDateTime, slug, status, coverImage, title, isFree, category, priceTiers, venue, maxAttendees, registrationDeadline 
-        // allowGuests, collectsTShirtSize, createdAt, description, eventFlow, guestFee, isFeatured, isRegistrationRequired, maxGuestsPerAlumni, updatedAt, contactInfo, coverImagePublicId, endDateTime, meetingLink, organizer, registrationDeadline, registrationOpensAt 
+    const { _id, locationType, startDateTime, slug, status, coverImage, title, isFree, category, priceTiers, venue, registrationOpensAt, registrationDeadline
+        // allowGuests, collectsTShirtSize, createdAt, description, eventFlow, guestFee, isFeatured, isRegistrationRequired, maxGuestsPerAlumni, updatedAt, contactInfo, coverImagePublicId, endDateTime, meetingLink, organizer, registrationDeadline, registrationOpensAt, maxAttendees
 
     } = event || {}
 
@@ -48,6 +48,7 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
     const isRegistrationDatePassed = new Date(registrationDeadline as string) < new Date()
 
     const eventDate = new Date(event.startDateTime)
+    const year = eventDate.toLocaleString("default", { year: "numeric" })
     const month = eventDate.toLocaleString("default", { month: "short" })
     const day = eventDate.getDate()
     const weekday = eventDate.toLocaleString("default", { weekday: "short" })
@@ -77,8 +78,6 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-primary2-950/80 via-primary2-950/10 to-transparent" />
 
-
-
                 {/* Date badge — top right */}
                 <div className="absolute right-3 bottom-2 rounded-lg bg-black primary2-950 px-3 py-2 text-center backdrop-blur-md">
                     <span className="block text-[9px] font-bold tracking-wider text-primary2-200 dark:text-primary mb-1">
@@ -89,6 +88,9 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                     </span>
                     <span className="block text-[9px] font-bold tracking-wider text-white dark:text-gunmetal-100 primary2-300">
                         {month}
+                    </span>
+                    <span className="block text-[9px] font-bold tracking-wider text-white dark:text-gunmetal-100 primary2-300">
+                        {year}
                     </span>
                 </div>
 
@@ -124,21 +126,26 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                 </h2>
 
                 {/* Meta row */}
-                <div className="mb-5 grid grid-cols-2 gap-2">
+                <div className="mb-5 space-y-1.5">
+                    <div className="flex items-center gap-2 text-sm text-neutral-500">
+                        <RiMapPin2Line className="shrink-0 text-primary2-500" />
+                        <span className="truncate"><strong>Venue: </strong>  {venue || "TBA"}</span>
+                    </div>
                     <div className="flex items-center gap-2 text-sm text-neutral-500">
                         <RiTimeLine className="shrink-0 text-primary2-500" />
-                        <DateFormatter date={startDateTime} isShowTime={true} />
+                        <span>
+                            <strong>Scheduled At: </strong>
+                            <DateFormatter date={startDateTime} isShowTime={true} />
+                        </span>
                     </div>
-                    <div className="flex items-center justify-end gap-2 text-sm text-neutral-500">
-                        <RiMapPin2Line className="shrink-0 text-primary2-500" />
-                        <span className="truncate">{venue || "TBA"}</span>
-                    </div>
-                    {maxAttendees && (
-                        <div className="flex items-center gap-2 text-sm text-neutral-500">
-                            <RiGroupLine className="shrink-0 text-primary2-500" />
-                            <span>{maxAttendees.toLocaleString()} seats available</span>
-                        </div>
-                    )}
+                    {registrationOpensAt && registrationDeadline && <div className="flex items-center gap-2">
+                        <LuShieldPlus className="shrink-0 text-primary2-500" />
+                        <span className="text-sm text-neutral-500">
+                            {registrationDeadline && (
+                                <span><strong>Register Period:</strong>  <DateFormatter date={registrationOpensAt} /> - <DateFormatter date={registrationDeadline} /> </span>
+                            )}
+                        </span>
+                    </div>}
                 </div>
 
                 {/* Separator */}
@@ -190,10 +197,10 @@ const EventPageEventCard = ({ event }: { event: IEvent }) => {
                         </Link>
                     ) : (
                         <PrimaryButton
-                                isDisabled={isCancelled || isRegistrationDatePassed}
+                            isDisabled={isCancelled || isRegistrationDatePassed}
                             isFullWidth
-                                title={isCancelled ? "Cancelled" : isRegistrationDatePassed ? "Registration Date Passed" : isFree ? "Attend for Free" : "Register Now"}
-                                icon2={!isCancelled && !isRegistrationDatePassed ? <HiArrowNarrowRight className="text-2xl" /> : null}
+                            title={isCancelled ? "Cancelled" : isRegistrationDatePassed ? "Registration Date Passed" : isFree ? "Attend for Free" : `Register Before`}
+                            icon2={!isCancelled && !isRegistrationDatePassed ? <HiArrowNarrowRight className="text-2xl" /> : null}
                             className="bg-transparent text-primary2-500 hover:text-white hover:bg-primary2-500 dark:text-gunmetal-100 dark:bg-transparent border-2 border-primary2-300 font-semibold hover:border-transparent dark:border-gunmetal-400 hover:dark:border-gunmetal-500 hover:dark:bg-gunmetal-500 duration-500"
                             href={`/events/${slug || _id}`}
                         />
